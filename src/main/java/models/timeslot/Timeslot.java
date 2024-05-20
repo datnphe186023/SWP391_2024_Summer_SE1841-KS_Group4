@@ -1,4 +1,4 @@
-package models;
+package models.timeslot;
 
 public class Timeslot {
     private String id;
