@@ -1,4 +1,4 @@
-package models;
+package models.schoolYear;
 import java.util.Date;
 
 public class SchoolYear {
@@ -7,14 +7,16 @@ public class SchoolYear {
     private Date startDate;
     private Date endDate;
     private String description;
+    private String createdBy;
 
     public SchoolYear(String id, String name, Date startDate, Date endDate,
-                      String description) {
+                      String description, String createdBy) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
+        this.createdBy = createdBy;
     }
 
     public SchoolYear() {
@@ -58,5 +60,13 @@ public class SchoolYear {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }

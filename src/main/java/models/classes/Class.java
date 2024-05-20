@@ -1,4 +1,4 @@
-package models;
+package models.classes;
 
 public class Class {
     private String id;

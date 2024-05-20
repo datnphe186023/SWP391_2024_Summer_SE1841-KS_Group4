@@ -1,4 +1,4 @@
-package models;
+package models.timetable;
 
 public class Timetable {
     private String id;
@@ -9,12 +9,14 @@ public class Timetable {
     private String createdBy;
     private String status;
     private String note;
+    private String teacherId;
 
     public Timetable() {
     }
 
     public Timetable(String id, String classId, String timeslotId, String dateId,
-                     String subjectId, String createdBy, String status, String note) {
+                     String subjectId, String createdBy, String status, String note,
+                     String teacherId) {
         this.id = id;
         this.classId = classId;
         this.timeslotId = timeslotId;
@@ -23,6 +25,7 @@ public class Timetable {
         this.createdBy = createdBy;
         this.status = status;
         this.note = note;
+        this.teacherId = teacherId;
     }
 
     public String getId() {
@@ -87,5 +90,13 @@ public class Timetable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
     }
 }
