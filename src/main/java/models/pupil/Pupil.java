@@ -100,7 +100,7 @@ public class Pupil {
         this.birthday = birthday;
     }
 
-    public boolean getGender() {
+    public String getGender() {
         return gender;
     }
 
