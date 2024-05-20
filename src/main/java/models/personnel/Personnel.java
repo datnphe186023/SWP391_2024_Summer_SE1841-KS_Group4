@@ -6,7 +6,7 @@ public class Personnel {
     private String id;
     private String firstName;
     private String lastName;
-    private String gender;
+    private boolean gender;
     private Date birthday;
     private String email;
     private String phoneNumber;
@@ -14,7 +14,7 @@ public class Personnel {
     private String avatar;
     private String userId;
 
-    public Personnel(String id, String firstName, String lastName, String gender,
+    public Personnel(String id, String firstName, String lastName, boolean gender,
                      Date birthday, String email, String phoneNumber, String status,
                      String avatar, String userId) {
         this.id = id;
@@ -60,7 +60,7 @@ public class Personnel {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(boolean gender) {
         this.gender = gender;
     }
 
