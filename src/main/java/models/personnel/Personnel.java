@@ -3,6 +3,7 @@ package models.personnel;
 import java.util.Date;
 
 public class Personnel {
+
     private String id;
     private String firstName;
     private String lastName;
@@ -15,8 +16,8 @@ public class Personnel {
     private String userId;
 
     public Personnel(String id, String firstName, String lastName, boolean gender,
-                     Date birthday, String email, String phoneNumber, String status,
-                     String avatar, String userId) {
+            Date birthday, String email, String phoneNumber, String status,
+            String avatar, String userId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,7 +57,7 @@ public class Personnel {
         this.lastName = lastName;
     }
 
-    public String getGender() {
+    public boolean getGender() {
         return gender;
     }
 
