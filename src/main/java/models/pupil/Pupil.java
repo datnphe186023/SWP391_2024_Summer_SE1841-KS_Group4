@@ -10,7 +10,7 @@ public class Pupil {
     private String address;
     private String status;
     private Date birthday;
-    private String gender;
+    private boolean gender;
     private String motherName;
     private String motherPhoneNumber;
     private String avatar;
@@ -20,7 +20,7 @@ public class Pupil {
     private String parentSpecialNote;
 
     public Pupil(String id, String userId, String firstName, String lastName,
-                 String address, String status, Date birthday, String gender,
+                 String address, String status, Date birthday, boolean gender,
                  String motherName, String motherPhoneNumber, String avatar,
                  String fatherName, String fatherPhoneNumber, String createdBy,
                  String parentSpecialNote) {
@@ -104,7 +104,7 @@ public class Pupil {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(boolean gender) {
         this.gender = gender;
     }
 
