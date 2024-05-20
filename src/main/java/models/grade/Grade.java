@@ -1,4 +1,4 @@
-package models;
+package models.grade;
 
 public class Grade {
     private String id;

@@ -1,4 +1,4 @@
-package models;
+package models.week;
 
 import java.util.Date;
 

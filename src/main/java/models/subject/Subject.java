@@ -1,4 +1,4 @@
-package models;
+package models.subject;
 
 public class Subject {
     private String id;
