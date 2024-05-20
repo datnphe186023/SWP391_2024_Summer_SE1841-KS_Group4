@@ -1,6 +1,6 @@
 package controller;
 
-import models.user.UserDAO;
+
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.user.User;
+import models.user.UserDAO;
 
 public class LoginServlet extends HttpServlet {
 
@@ -32,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             // Login success
-            switch (user.getRole_id()) {
+            switch (user.getRoleId()) {
                 // role id = 1 : admin
                 case 1:
                     response.sendRedirect("dashboard/dashboard_admin.jsp");
