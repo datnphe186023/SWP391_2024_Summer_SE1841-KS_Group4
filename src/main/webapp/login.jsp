@@ -3,7 +3,7 @@
     Created on : Mar 5, 2024, 3:37:45 PM
     Author     : Admin
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,10 +28,12 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+
         </style>
     </head>
 
     <body class="app sidebar-mini rtl">
+
         <div class="logo">
             <a href="#">
                 <img src="image/logo.png" alt="" />
@@ -53,7 +55,7 @@
                     </div>
                     <button type="submit" class="btn">Đăng nhập</button>
                     <span style="color:red">${error}</span>
-                    <p class="forgot-password"><a href="#" id="forgotPassword">Quên mật khẩu?</a></p>
+                    <p class="forgot-password"><a href="forgotPassword">Quên mật khẩu?</a></p>
                 </form>
             </div>
         </div>
@@ -68,48 +70,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
         <script>
-            $(document).ready(function () {
-                $('#forgotPassword').on('click', function (e) {
-                    e.preventDefault();
-                    swal({
-                        title: "Forgot Password?",
-                        text: "Enter your email address:",
-                        content: {
-                            element: "input",
-                            attributes: {
-                                placeholder: "Email",
-                                type: "email",
-                            },
-                        },
-                        button: {
-                            text: "Submit",
-                            closeModal: false,
-                        },
-                    })
-                            .then(email => {
-                                if (!email)
-                                    throw null;
-
-                                return $.ajax({
-                                    url: '/reset-password',
-                                    method: 'POST',
-                                    data: {email: email},
-                                    dataType: 'json'
-                                });
-                            })
-                            .then(response => {
-                                swal("Success!", "Password reset link has been sent to your email.", "success");
-                            })
-                            .catch(err => {
-                                if (err) {
-                                    swal("Error", "An error occurred. Please try again.", "error");
-                                } else {
-                                    swal.stopLoading();
-                                    swal.close();
-                                }
-                            });
-                });
+            <c:if test="${not empty status}">
+            swal({
+                title: "Notification",
+                text: "${status}",
+                icon: "${status eq 'Đã đổi mật khẩu thành công !' ? 'success' : 'error'}",
+                button: "OK"
             });
+            </c:if>
         </script>
+
     </body>
 </html>

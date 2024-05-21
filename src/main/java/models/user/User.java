@@ -9,7 +9,7 @@ public class User {
     private byte isDisabled;
 
     public User(String id, String username, String password, String email,
-                int roleId, byte isDisabled) {
+            int roleId, byte isDisabled) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -17,7 +17,7 @@ public class User {
         this.roleId = roleId;
         this.isDisabled = isDisabled;
     }
-
+    
     public User() {
     }
 

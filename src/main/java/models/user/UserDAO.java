@@ -36,5 +36,21 @@ public class UserDAO extends DBContext {
         }
         return null;  // Return null if no record is found or an exception occurs
     }
+    
+    public boolean updatePassword(String email, String newPassword) {
+        try (Connection con = connection) {
+            String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ?";
+            try (PreparedStatement pst = con.prepareStatement(sql)) {
+                pst.setString(1, newPassword);
+                pst.setString(2, email);
+                int rowCount = pst.executeUpdate();
+                return rowCount > 0;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
 
 }
