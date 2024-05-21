@@ -56,7 +56,7 @@ public class Personnel {
         this.lastName = lastName;
     }
 
-    public boolean getGender() {
+    public Boolean getGender() {
         return gender;
     }
 
