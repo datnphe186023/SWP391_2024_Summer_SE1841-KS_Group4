@@ -31,7 +31,7 @@ public class DashboardAccountantServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("dashboard_accountant.jsp").forward(request, response);
+        request.getRequestDispatcher("accountant/dashboard_accountant.jsp").forward(request, response);
     } 
 
     /** 

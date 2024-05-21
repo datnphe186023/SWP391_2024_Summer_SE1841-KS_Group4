@@ -6,7 +6,6 @@
 package controller.Dashboard;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +30,7 @@ public class DashboardAcademicStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("dashboard_staff.jsp").forward(request, response);
+        request.getRequestDispatcher("staff/dashboard_staff.jsp").forward(request, response);
     } 
 
     /** 
