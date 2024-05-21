@@ -4,8 +4,56 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controller.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DashboardAdminServlet</servlet-name>
+        <servlet-class>controller.Dashboard.DashboardAdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardAcademicStaffServlet</servlet-name>
+        <servlet-class>controller.Dashboard.DashboardAcademicStaffServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardHeadTeacherServlet</servlet-name>
+        <servlet-class>controller.Dashboard.DashboardHeadTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardTeacherServlet</servlet-name>
+        <servlet-class>controller.Dashboard.DashboardTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardAccountantServlet</servlet-name>
+        <servlet-class>controller.Dashboard.DashboardAccountantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardParentServlet</servlet-name>
+        <servlet-class>controller.Dashboard.DashboardParentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardAdminServlet</servlet-name>
+        <url-pattern>/dashboard/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardAcademicStaffServlet</servlet-name>
+        <url-pattern>/dashboard/academicstaff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardHeadTeacherServlet</servlet-name>
+        <url-pattern>/dashboard/headteacher</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardTeacherServlet</servlet-name>
+        <url-pattern>/dashboard/teacher</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardAccountantServlet</servlet-name>
+        <url-pattern>/dashboard/accountant</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardParentServlet</servlet-name>
+        <url-pattern>/dashboard/parent</url-pattern>
     </servlet-mapping>
 </web-app>

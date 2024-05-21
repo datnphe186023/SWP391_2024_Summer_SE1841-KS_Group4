@@ -35,30 +35,29 @@ public class LoginServlet extends HttpServlet {
             switch (user.getRoleId()) {
                 // role id = 1 : admin
                 case 1:
-                    response.sendRedirect("dashboard/dashboard_admin.jsp");
+                    response.sendRedirect("dashboard/admin");
                     break;
                 case 2:
                     // role id = 2 : academic staff
-                    response.sendRedirect("dashboard/dashboard_staff.jsp");
+                    response.sendRedirect("dashboard/academicstaff");
                     break;
                 case 3:
                     // role id = 3 : Head Teacher
-                    response.sendRedirect("dashboard/dashboard_headteacher.jsp");
+                    response.sendRedirect("dashboard/headteacher");
                     break;
                 case 4:
                     // role id = 4 : Teacher 
-                    response.sendRedirect("dashboard/dashboard_teacher.jsp");
+                    response.sendRedirect("dashboard/teacher");
                     break;
                 case 5:
                     // role id = 5: Accountant
-                    response.sendRedirect("dashboard/dashboard_accountant.jsp");
+                    response.sendRedirect("dashboard/accountant");
                     break;
                 case 6:
                     // role id = 6 : Parent
-                    response.sendRedirect("dashboard/dashboard_parent.jsp");
+                    response.sendRedirect("dashboard/parent");
                     break;
                 default:
-                    // Nếu thông tin đăng nhập không chính xác, hiển thị thông báo lỗi trên trang đăng nhập
                     request.setAttribute("error", "Invalid username or password");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     break;
