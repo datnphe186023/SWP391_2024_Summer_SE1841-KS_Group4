@@ -8,6 +8,7 @@ public class Pupil {
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
     private String status;
     private Date birthday;
     private boolean gender;
@@ -20,7 +21,7 @@ public class Pupil {
     private String parentSpecialNote;
 
     public Pupil(String id, String userId, String firstName, String lastName,
-                 String address, String status, Date birthday, boolean gender,
+                 String address, String email, String status, Date birthday, boolean gender,
                  String motherName, String motherPhoneNumber, String avatar,
                  String fatherName, String fatherPhoneNumber, String createdBy,
                  String parentSpecialNote) {
@@ -29,6 +30,7 @@ public class Pupil {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.email = email;
         this.status = status;
         this.birthday = birthday;
         this.gender = gender;
@@ -162,5 +164,13 @@ public class Pupil {
 
     public void setParentSpecialNote(String parentSpecialNote) {
         this.parentSpecialNote = parentSpecialNote;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
