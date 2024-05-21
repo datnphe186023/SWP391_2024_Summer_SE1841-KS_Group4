@@ -33,28 +33,28 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", user);
             // Login success
             switch (user.getRoleId()) {
-                // role id = 1 : admin
-                case 1:
+                // role id = 0 : admin
+                case 0:
                     response.sendRedirect("dashboard/admin");
+                    break;
+                case 1:
+                    // role id = 1 : Head Teacher
+                    response.sendRedirect("dashboard/headteacher");
                     break;
                 case 2:
                     // role id = 2 : academic staff
                     response.sendRedirect("dashboard/academicstaff");
                     break;
                 case 3:
-                    // role id = 3 : Head Teacher
-                    response.sendRedirect("dashboard/headteacher");
+                    // role id = 3 : Accountant
+                    response.sendRedirect("dashboard/accountant");
                     break;
                 case 4:
-                    // role id = 4 : Teacher 
+                    // role id = 4: Teacher 
                     response.sendRedirect("dashboard/teacher");
                     break;
                 case 5:
-                    // role id = 5: Accountant
-                    response.sendRedirect("dashboard/accountant");
-                    break;
-                case 6:
-                    // role id = 6 : Parent
+                    // role id = 5 : Parent
                     response.sendRedirect("dashboard/parent");
                     break;
                 default:
