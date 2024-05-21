@@ -31,7 +31,7 @@ public class DashboardTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("teacher/dashboard_teacher.jsp").forward(request, response);
+        request.getRequestDispatcher("dashboard_teacher.jsp").forward(request, response);
     } 
 
     /** 
