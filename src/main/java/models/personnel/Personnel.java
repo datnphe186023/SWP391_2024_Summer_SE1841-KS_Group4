@@ -8,6 +8,7 @@ public class Personnel {
     private String lastName;
     private boolean gender;
     private Date birthday;
+    private String address;
     private String email;
     private String phoneNumber;
     private int roleId;
@@ -16,13 +17,14 @@ public class Personnel {
     private String userId;
 
     public Personnel(String id, String firstName, String lastName, boolean gender,
-                     Date birthday, String email, String phoneNumber, int roleId,
-                     String status, String avatar, String userId) {
+                     Date birthday, String address, String email, String phoneNumber,
+                     int roleId, String status, String avatar, String userId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.birthday = birthday;
+        this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.roleId = roleId;
@@ -120,5 +122,13 @@ public class Personnel {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
