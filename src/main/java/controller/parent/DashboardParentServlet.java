@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.Dashboard;
+package controller.parent;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,9 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class DashboardHeadTeacherServlet extends HttpServlet {
+public class DashboardParentServlet extends HttpServlet {
    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -31,7 +30,7 @@ public class DashboardHeadTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("dashboard_headteacher.jsp").forward(request, response);
+        request.getRequestDispatcher("dashboard_parent.jsp").forward(request, response);
     } 
 
     /** 

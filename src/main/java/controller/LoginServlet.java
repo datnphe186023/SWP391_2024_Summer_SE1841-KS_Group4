@@ -35,27 +35,27 @@ public class LoginServlet extends HttpServlet {
             switch (user.getRoleId()) {
                 // role id = 0 : admin
                 case 0:
-                    response.sendRedirect("dashboard/admin");
+                    response.sendRedirect("admin/dashboard");
                     break;
                 case 1:
                     // role id = 1 : Head Teacher
-                    response.sendRedirect("dashboard/headteacher");
+                    response.sendRedirect("headteacher/dashboard");
                     break;
                 case 2:
                     // role id = 2 : academic staff
-                    response.sendRedirect("dashboard/academicstaff");
+                    response.sendRedirect("academicstaff/dashboard");
                     break;
                 case 3:
                     // role id = 3 : Accountant
-                    response.sendRedirect("dashboard/accountant");
+                    response.sendRedirect("accountant/dashboard");
                     break;
                 case 4:
                     // role id = 4: Teacher 
-                    response.sendRedirect("dashboard/teacher");
+                    response.sendRedirect("teacher/dashboard");
                     break;
                 case 5:
                     // role id = 5 : Parent
-                    response.sendRedirect("dashboard/parent");
+                    response.sendRedirect("parent/dashboard");
                     break;
                 default:
                     request.setAttribute("error", "Invalid username or password");
