@@ -205,32 +205,6 @@ public class PersonnelDAO extends DBContext {
         return personnel;
     }
 
-    public Personnel getPersonnelByEmail(String email) {
-        String sql = "SELECT * FROM Personnels WHERE email = ?";
-        Personnel personnel = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                personnel = new Personnel();
-                personnel.setId(resultSet.getString("id"));
-                personnel.setFirstName(resultSet.getString("first_name"));
-                personnel.setLastName(resultSet.getString("last_name"));
-                personnel.setGender(resultSet.getBoolean("gender"));
-                personnel.setBirthday(resultSet.getDate("birthday"));
-                personnel.setEmail(resultSet.getString("email"));
-                personnel.setAddress(resultSet.getString("address"));
-                personnel.setPhoneNumber(resultSet.getString("phone_number"));
-                personnel.setRoleId(resultSet.getInt("role_id"));
-                personnel.setStatus(resultSet.getString("status"));
-                personnel.setAvatar(resultSet.getString("avatar"));
-                personnel.setUserId(resultSet.getString("user_id"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return personnel;
-    }
+   
 
 }
