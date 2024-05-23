@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 <%--
   Created by IntelliJ IDEA.
   User: Anh Quan
