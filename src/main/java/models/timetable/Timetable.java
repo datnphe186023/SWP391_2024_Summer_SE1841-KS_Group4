@@ -1,31 +1,35 @@
 package models.timetable;
 
+import models.day.Day;
+import models.personnel.Personnel;
+import models.subject.Subject;
+import models.timeslot.Timeslot;
+
 public class Timetable {
     private String id;
-    private String classId;
-    private String timeslotId;
-    private String dateId;
-    private String subjectId;
-    private String createdBy;
+    private Class aClass;
+    private Timeslot timeslot;
+    private Day day;
+    private Subject subject;
+    private Personnel createdBy;
     private String status;
     private String note;
-    private String teacherId;
+    private Personnel teacher;
 
     public Timetable() {
     }
 
-    public Timetable(String id, String classId, String timeslotId, String dateId,
-                     String subjectId, String createdBy, String status, String note,
-                     String teacherId) {
+    public Timetable(String id, Class aClass, Timeslot timeslot, Day day, Subject subject, Personnel createdBy,
+                     String status, String note, Personnel teacher) {
         this.id = id;
-        this.classId = classId;
-        this.timeslotId = timeslotId;
-        this.dateId = dateId;
-        this.subjectId = subjectId;
+        this.aClass = aClass;
+        this.timeslot = timeslot;
+        this.day = day;
+        this.subject = subject;
         this.createdBy = createdBy;
         this.status = status;
         this.note = note;
-        this.teacherId = teacherId;
+        this.teacher = teacher;
     }
 
     public String getId() {
@@ -36,43 +40,43 @@ public class Timetable {
         this.id = id;
     }
 
-    public String getClassId() {
-        return classId;
+    public Class getaClass() {
+        return aClass;
     }
 
-    public void setClassId(String classId) {
-        this.classId = classId;
+    public void setaClass(Class aClass) {
+        this.aClass = aClass;
     }
 
-    public String getTimeslotId() {
-        return timeslotId;
+    public Timeslot getTimeslot() {
+        return timeslot;
     }
 
-    public void setTimeslotId(String timeslotId) {
-        this.timeslotId = timeslotId;
+    public void setTimeslot(Timeslot timeslot) {
+        this.timeslot = timeslot;
     }
 
-    public String getDateId() {
-        return dateId;
+    public Day getDay() {
+        return day;
     }
 
-    public void setDateId(String dateId) {
-        this.dateId = dateId;
+    public void setDay(Day day) {
+        this.day = day;
     }
 
-    public String getSubjectId() {
-        return subjectId;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public String getCreatedBy() {
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -92,11 +96,11 @@ public class Timetable {
         this.note = note;
     }
 
-    public String getTeacherId() {
-        return teacherId;
+    public Personnel getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacher(Personnel teacher) {
+        this.teacher = teacher;
     }
 }

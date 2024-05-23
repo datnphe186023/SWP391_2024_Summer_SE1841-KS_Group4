@@ -1,17 +1,19 @@
 package models.evaluation;
 
+import models.day.Day;
+import models.pupil.Pupil;
+
 public class Evaluation {
     private String id;
-    private String pupilId;
-    private String dateId;
+    private Pupil pupil;
+    private Day date;
     private String evaluation;
     private String notes;
 
-    public Evaluation(String id, String pupilId, String dateId, String evaluation,
-                      String notes) {
+    public Evaluation(String id, Pupil pupil, Day date, String evaluation, String notes) {
         this.id = id;
-        this.pupilId = pupilId;
-        this.dateId = dateId;
+        this.pupil = pupil;
+        this.date = date;
         this.evaluation = evaluation;
         this.notes = notes;
     }
@@ -27,20 +29,20 @@ public class Evaluation {
         this.id = id;
     }
 
-    public String getPupilId() {
-        return pupilId;
+    public Pupil getPupil() {
+        return pupil;
     }
 
-    public void setPupilId(String pupilId) {
-        this.pupilId = pupilId;
+    public void setPupil(Pupil pupil) {
+        this.pupil = pupil;
     }
 
-    public String getDateId() {
-        return dateId;
+    public Day getDate() {
+        return date;
     }
 
-    public void setDateId(String dateId) {
-        this.dateId = dateId;
+    public void setDate(Day date) {
+        this.date = date;
     }
 
     public String getEvaluation() {

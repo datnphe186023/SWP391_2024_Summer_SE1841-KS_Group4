@@ -1,17 +1,16 @@
 package models.day;
 
+import java.util.Date;
+
 public class TimeInDay {
     private String id;
-    private String dateId;
+    private Day date;
     private String name;
 
-    public TimeInDay(String id, String dateId, String name) {
+    public TimeInDay(String id, Day date, String name) {
         this.id = id;
-        this.dateId = dateId;
+        this.date = date;
         this.name = name;
-    }
-
-    public TimeInDay() {
     }
 
     public String getId() {
@@ -22,12 +21,12 @@ public class TimeInDay {
         this.id = id;
     }
 
-    public String getDateId() {
-        return dateId;
+    public Day getDate() {
+        return date;
     }
 
-    public void setDateId(String dateId) {
-        this.dateId = dateId;
+    public void setDate(Day date) {
+        this.date = date;
     }
 
     public String getName() {
@@ -36,5 +35,8 @@ public class TimeInDay {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public TimeInDay() {
     }
 }

@@ -1,12 +1,14 @@
 package models.event;
 
+import models.personnel.Personnel;
+
 public class Event {
     private String id;
-    private String createdBy;
+    private Personnel createdBy;
     private String heading;
     private String details;
 
-    public Event(String id, String createdBy, String heading, String details) {
+    public Event(String id, Personnel createdBy, String heading, String details) {
         this.id = id;
         this.createdBy = createdBy;
         this.heading = heading;
@@ -24,11 +26,11 @@ public class Event {
         this.id = id;
     }
 
-    public String getCreatedBy() {
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 

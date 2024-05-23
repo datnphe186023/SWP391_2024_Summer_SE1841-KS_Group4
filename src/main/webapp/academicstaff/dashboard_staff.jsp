@@ -49,7 +49,7 @@
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon fa fa-bell'></i><span
                             class="app-menu__label">Thông báo</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
+                <li><a class="app-menu__item" href="../academicstaff/listpupil"><i class='app-menu__icon bx bx-user-voice'></i><span
                             class="app-menu__label">Quản lý học sinh</span></a></li>
 
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bxs-user-detail'></i><span

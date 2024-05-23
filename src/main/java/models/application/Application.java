@@ -1,24 +1,25 @@
 package models.application;
 
+import models.personnel.Personnel;
+
 import java.util.Date;
 
 public class Application {
     private String id;
     private Date date;
     private String status;
-    private String createdBy;
+    private Personnel createdBy;
     private Date created_at;
-    private String processed_by;
+    private Personnel processed_by;
 
     public Application() {
     }
 
-    public Application(String id, Date date, String createdBy, String status,
-                       Date created_at, String processed_by) {
+    public Application(String id, Date date, String status, Personnel createdBy, Date created_at, Personnel processed_by) {
         this.id = id;
         this.date = date;
-        this.createdBy = createdBy;
         this.status = status;
+        this.createdBy = createdBy;
         this.created_at = created_at;
         this.processed_by = processed_by;
     }
@@ -47,11 +48,11 @@ public class Application {
         this.status = status;
     }
 
-    public String getCreatedBy() {
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -63,11 +64,11 @@ public class Application {
         this.created_at = created_at;
     }
 
-    public String getProcessed_by() {
+    public Personnel getProcessed_by() {
         return processed_by;
     }
 
-    public void setProcessed_by(String processed_by) {
+    public void setProcessed_by(Personnel processed_by) {
         this.processed_by = processed_by;
     }
 }
