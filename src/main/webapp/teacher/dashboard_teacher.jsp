@@ -66,7 +66,7 @@
                             class="app-menu__label">Thực đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-check-square'></i><span
                             class="app-menu__label">Điểm danh</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user'></i><span
+                <li><a class="app-menu__item" href="../teacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
                             class="app-menu__label">Quản lý học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-bell'></i><span
                             class="app-menu__label">Thông báo</span></a></li>
