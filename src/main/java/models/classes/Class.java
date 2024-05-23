@@ -8,18 +8,18 @@ public class Class {
     private String id;
     private String name;
     private Grade gradeId;
-    private SchoolYear schoolYearId;
+    private SchoolYear schoolYear;
     private String status;
     private Personnel createdBy;
 
     public Class() {
     }
 
-    public Class(String id, String name, Grade gradeId, SchoolYear schoolYearId, String status, Personnel createdBy) {
+    public Class(String id, String name, Grade gradeId, SchoolYear schoolYear, String status, Personnel createdBy) {
         this.id = id;
         this.name = name;
         this.gradeId = gradeId;
-        this.schoolYearId = schoolYearId;
+        this.schoolYear = schoolYear;
         this.status = status;
         this.createdBy = createdBy;
     }
@@ -48,12 +48,12 @@ public class Class {
         this.gradeId = gradeId;
     }
 
-    public SchoolYear getSchoolYearId() {
-        return schoolYearId;
+    public SchoolYear getSchoolYear() {
+        return schoolYear;
     }
 
-    public void setSchoolYearId(SchoolYear schoolYearId) {
-        this.schoolYearId = schoolYearId;
+    public void setSchoolYear(SchoolYear schoolYear) {
+        this.schoolYear = schoolYear;
     }
 
     public String getStatus() {
