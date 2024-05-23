@@ -19,6 +19,18 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <style>
+            .app-sidebar__user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+            }
+            .avatar-input {
+                display: none;
+            }
+        </style>
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
@@ -28,21 +40,19 @@
                                             aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
-
-
                 <!-- User Menu-->
                 <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
                 </li>
             </ul>
         </header>
         <!-- Sidebar menu-->
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
+            <div class="app-sidebar__user">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.user.username}</b></p>
+                    <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
                     <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
                 </div>
             </div>
@@ -71,23 +81,30 @@
 
         </aside>
 
-
+                    
 
 
 
 
         <script src="../js/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
         <script src="../js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <!--===============================================================================================-->
         <script src="../js/bootstrap.min.js"></script>
-        <!--===============================================================================================-->
         <script src="../js/main.js"></script>
-        <!--===============================================================================================-->
         <script src="../js/plugins/pace.min.js"></script>
-        <!--===============================================================================================-->
-        <!--===============================================================================================-->
-    </body>
+        <script>
+                            function previewAvatar(event) {
+                                const reader = new FileReader();
+                                reader.onload = function () {
+                                    const output = document.getElementById('avatarDisplay');
+                                    output.src = reader.result;
+                                }
+                                reader.readAsDataURL(event.target.files[0]);
+                            }
 
-</html>acc
+                            function redirectToInfoPage() {
+                                window.location.href = '${pageContext.request.contextPath}/accountant/information';
+                            }
+        </script>
+    </body>
+</html>

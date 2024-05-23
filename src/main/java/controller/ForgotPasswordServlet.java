@@ -73,11 +73,9 @@ public class ForgotPasswordServlet extends HttpServlet {
             }
             dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
             request.setAttribute("message", "Mat khau moi da duoc gui den ban , vui long kiem tra email");
-            //request.setAttribute("connection", con);
             mySession.setAttribute("passGen", passGen);
             mySession.setAttribute("email", email);
             dispatcher.forward(request, response);
-            //request.setAttribute("status", "success");
         }
 
     }

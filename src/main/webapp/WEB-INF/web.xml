@@ -36,6 +36,30 @@
         <servlet-name>ValidatePassword</servlet-name>
         <servlet-class>controller.ValidatePassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InformationHeadTeacherServlet</servlet-name>
+        <servlet-class>controller.headteacher.InformationHeadTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationTeacherServlet</servlet-name>
+        <servlet-class>controller.teacher.InformationTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationAdminServlet</servlet-name>
+        <servlet-class>controller.admin.InformationAdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationAccountantServlet</servlet-name>
+        <servlet-class>controller.accountant.InformationAccountantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationStaffServlet</servlet-name>
+        <servlet-class>controller.academicstaff.InformationStaffServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationParentServlet</servlet-name>
+        <servlet-class>controller.parent.InformationParentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -71,5 +95,29 @@
     <servlet-mapping>
         <servlet-name>ValidatePassword</servlet-name>
         <url-pattern>/ValidatePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationHeadTeacherServlet</servlet-name>
+        <url-pattern>/headteacher/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationTeacherServlet</servlet-name>
+        <url-pattern>/teacher/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationAdminServlet</servlet-name>
+        <url-pattern>/admin/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationAccountantServlet</servlet-name>
+        <url-pattern>/accountant/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationStaffServlet</servlet-name>
+        <url-pattern>/academicstaff/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationParentServlet</servlet-name>
+        <url-pattern>/parent/information</url-pattern>
     </servlet-mapping>
 </web-app>

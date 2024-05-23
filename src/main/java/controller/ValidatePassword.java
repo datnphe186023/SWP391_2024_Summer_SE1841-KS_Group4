@@ -26,7 +26,7 @@ public class ValidatePassword extends HttpServlet {
 
         RequestDispatcher dispatcher = null;
         
-        // Check if user enter otp correct
+        // Check if user enter new password correct
         if (value.equals(newPass) ) {
 
             request.setAttribute("email", request.getParameter("email"));
