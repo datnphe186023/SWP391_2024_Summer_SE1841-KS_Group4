@@ -1,18 +1,20 @@
 package models.week;
 
+import models.schoolYear.SchoolYear;
+
 import java.util.Date;
 
 public class Week {
     private String id;
     private Date startDate;
     private Date endDate;
-    private String schoolYearId;
+    private SchoolYear schoolYear;
 
-    public Week(Date startDate, String id, Date endDate, String schoolYearId) {
+    public Week(Date startDate, String id, Date endDate, SchoolYear schoolYear) {
         this.startDate = startDate;
         this.id = id;
         this.endDate = endDate;
-        this.schoolYearId = schoolYearId;
+        this.schoolYear = schoolYear;
     }
 
     public Week() {
@@ -42,11 +44,11 @@ public class Week {
         this.endDate = endDate;
     }
 
-    public String getSchoolYearId() {
-        return schoolYearId;
+    public SchoolYear getSchoolYear() {
+        return schoolYear;
     }
 
-    public void setSchoolYearId(String schoolYearId) {
-        this.schoolYearId = schoolYearId;
+    public void setSchoolYear(SchoolYear schoolYear) {
+        this.schoolYear = schoolYear;
     }
 }

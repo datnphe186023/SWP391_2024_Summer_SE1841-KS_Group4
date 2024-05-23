@@ -1,10 +1,12 @@
 package models.evaluation;
 
+import models.pupil.Pupil;
+
 import java.util.Date;
 
 public class HealthCheckUp {
     private String id;
-    private String pupilId;
+    private Pupil pupil;
     private Date checkUpDate;
     private float height;
     private float weight;
@@ -14,11 +16,10 @@ public class HealthCheckUp {
     private String eyes;
     private String notes;
 
-    public HealthCheckUp(String id, String pupilId, Date checkUpDate, float height,
-                         float weight, String averageDevelopmentStage, String bloodPressure,
-                         String teeth, String eyes, String notes) {
+    public HealthCheckUp(String id, Pupil pupil, Date checkUpDate, float height, float weight,
+                         String averageDevelopmentStage, String bloodPressure, String teeth, String eyes, String notes) {
         this.id = id;
-        this.pupilId = pupilId;
+        this.pupil = pupil;
         this.checkUpDate = checkUpDate;
         this.height = height;
         this.weight = weight;
@@ -40,12 +41,12 @@ public class HealthCheckUp {
         this.id = id;
     }
 
-    public String getPupilId() {
-        return pupilId;
+    public Pupil getPupil() {
+        return pupil;
     }
 
-    public void setPupilId(String pupilId) {
-        this.pupilId = pupilId;
+    public void setPupil(Pupil pupil) {
+        this.pupil = pupil;
     }
 
     public Date getCheckUpDate() {

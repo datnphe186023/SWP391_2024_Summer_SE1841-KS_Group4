@@ -1,5 +1,7 @@
 package models.pupil;
 
+import models.personnel.Personnel;
+
 import java.util.Date;
 
 public class Pupil {
@@ -17,13 +19,13 @@ public class Pupil {
     private String avatar;
     private String fatherName;
     private String fatherPhoneNumber;
-    private String createdBy;
+    private Personnel createdBy;
     private String parentSpecialNote;
 
     public Pupil(String id, String userId, String firstName, String lastName,
                  String address, String email, String status, Date birthday, boolean gender,
                  String motherName, String motherPhoneNumber, String avatar,
-                 String fatherName, String fatherPhoneNumber, String createdBy,
+                 String fatherName, String fatherPhoneNumber, Personnel createdBy,
                  String parentSpecialNote) {
         this.id = id;
         this.userId = userId;
@@ -150,11 +152,11 @@ public class Pupil {
         this.fatherPhoneNumber = fatherPhoneNumber;
     }
 
-    public String getCreatedBy() {
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 

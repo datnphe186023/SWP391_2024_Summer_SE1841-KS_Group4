@@ -1,15 +1,17 @@
 package models.subject;
 
+import models.grade.Grade;
+
 public class Subject {
     private String id;
     private String name;
-    private String gradeId;
+    private Grade grade;
     private String description;
 
-    public Subject(String name, String id, String gradeId, String description) {
-        this.name = name;
+    public Subject(String id, String name, Grade grade, String description) {
         this.id = id;
-        this.gradeId = gradeId;
+        this.name = name;
+        this.grade = grade;
         this.description = description;
     }
 
@@ -32,12 +34,12 @@ public class Subject {
         this.name = name;
     }
 
-    public String getGradeId() {
-        return gradeId;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setGradeId(String gradeId) {
-        this.gradeId = gradeId;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     public String getDescription() {

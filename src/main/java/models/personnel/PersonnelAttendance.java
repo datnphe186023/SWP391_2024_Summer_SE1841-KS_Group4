@@ -1,17 +1,18 @@
 package models.personnel;
 
+import models.day.Day;
+
 public class PersonnelAttendance {
     private String id;
-    private String dayId;
-    private String personnelId;
+    private Day day;
+    private Personnel personnel;
     private String status;
     private String note;
 
-    public PersonnelAttendance(String id, String dayId, String personnelId,
-                               String status, String note) {
+    public PersonnelAttendance(String id, Day day, Personnel personnel, String status, String note) {
         this.id = id;
-        this.dayId = dayId;
-        this.personnelId = personnelId;
+        this.day = day;
+        this.personnel = personnel;
         this.status = status;
         this.note = note;
     }
@@ -27,20 +28,20 @@ public class PersonnelAttendance {
         this.id = id;
     }
 
-    public String getDayId() {
-        return dayId;
+    public Day getDay() {
+        return day;
     }
 
-    public void setDayId(String dayId) {
-        this.dayId = dayId;
+    public void setDay(Day day) {
+        this.day = day;
     }
 
-    public String getPersonnelId() {
-        return personnelId;
+    public Personnel getPersonnel() {
+        return personnel;
     }
 
-    public void setPersonnelId(String personnelId) {
-        this.personnelId = personnelId;
+    public void setPersonnel(Personnel personnel) {
+        this.personnel = personnel;
     }
 
     public String getStatus() {

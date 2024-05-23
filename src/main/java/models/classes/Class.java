@@ -1,22 +1,27 @@
 package models.classes;
 
+import models.grade.Grade;
+import models.personnel.Personnel;
+import models.schoolYear.SchoolYear;
+
 public class Class {
     private String id;
     private String name;
-    private String gradeId;
-    private String schoolYearId;
-    private String createdBy;
+    private Grade gradeId;
+    private SchoolYear schoolYearId;
+    private String status;
+    private Personnel createdBy;
 
-    public Class(String id, String name, String gradeId, String schoolYearId,
-                 String createdBy) {
+    public Class() {
+    }
+
+    public Class(String id, String name, Grade gradeId, SchoolYear schoolYearId, String status, Personnel createdBy) {
         this.id = id;
         this.name = name;
         this.gradeId = gradeId;
         this.schoolYearId = schoolYearId;
+        this.status = status;
         this.createdBy = createdBy;
-    }
-
-    public Class() {
     }
 
     public String getId() {
@@ -35,27 +40,35 @@ public class Class {
         this.name = name;
     }
 
-    public String getGradeId() {
+    public Grade getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(String gradeId) {
+    public void setGradeId(Grade gradeId) {
         this.gradeId = gradeId;
     }
 
-    public String getSchoolYearId() {
+    public SchoolYear getSchoolYearId() {
         return schoolYearId;
     }
 
-    public void setSchoolYearId(String schoolYearId) {
+    public void setSchoolYearId(SchoolYear schoolYearId) {
         this.schoolYearId = schoolYearId;
     }
 
-    public String getCreatedBy() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 }
