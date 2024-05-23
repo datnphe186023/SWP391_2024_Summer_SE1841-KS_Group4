@@ -35,7 +35,27 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null) {
 
+            // Lấy thông tin personnel tương ứng với user id
+            PersonnelDAO personnelDAO = new PersonnelDAO();
+            Personnel personnel = personnelDAO.getPersonnelByUserId(user.getId());
+
+            if (personnel != null) {
+                // Lưu thông tin personnel vào session
+                HttpSession session = request.getSession();
+                session.setAttribute("personnel", personnel);
+            }
             
+            
+            // Lấy thông tin parent 
+            PupilDAO pupilDAO = new PupilDAO();
+            Pupil pupil = pupilDAO.getPupilByUserId(user.getId());
+            
+            if(pupil != null) {
+                // Lưu thông tin pupil vào session
+                HttpSession session = request.getSession();
+                session.setAttribute("pupil", pupil);
+
+            }
             
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
