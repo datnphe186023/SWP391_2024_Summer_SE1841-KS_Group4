@@ -53,7 +53,7 @@
         <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
                 class="app-menu__label">Quản lý học sinh</span></a></li>
 
-        <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bxs-user-detail'></i><span
+        <li><a class="app-menu__item" href="class"><i class='app-menu__icon bx bxs-user-detail'></i><span
                 class="app-menu__label">Quản lý lớp học</span></a></li>
         <li><a class="app-menu__item"
                href="schoolyear"
@@ -92,14 +92,14 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="schoolYear" items="${schoolYears}" varStatus="status">
+            <c:forEach var="schoolYear" items="${requestScope.schoolYears}" varStatus="status">
                 <tr>
                     <th scope="row">${status.index + 1}</th>
                     <td>${schoolYear.name}</td>
                     <td>${schoolYear.id}</td>
                     <td>${schoolYear.startDate}</td>
                     <td>${schoolYear.endDate}</td>
-                    <td>${schoolYear.createdBy}</td>
+                    <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
                 </tr>
             </c:forEach>
             </tbody>

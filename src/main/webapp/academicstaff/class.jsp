@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-    <title>Danh Sách Năm Học</title>
+    <title>Danh Sách Lớp Học</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,7 +53,7 @@
         <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
                 class="app-menu__label">Quản lý học sinh</span></a></li>
 
-        <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bxs-user-detail'></i><span
+        <li><a class="app-menu__item" href="class"><i class='app-menu__icon bx bxs-user-detail'></i><span
                 class="app-menu__label">Quản lý lớp học</span></a></li>
         <li><a class="app-menu__item"
                href="schoolyear"
@@ -68,7 +68,7 @@
 <main>
     <div class="container my-4">
         <div class="text-center mb-3">
-            <h2>Danh Sách Năm Học</h2>
+            <h2>Danh Sách Lớp Học</h2>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -79,7 +79,15 @@
                 </div>
             </div>
         </div>
+        <div class="input-group w-25">
+            <select class="form-control" id="schoolYearSelect">
+                <c:forEach var="year" items="${requestScope.schoolYears}">
+                    <option value="${year.id}" <c:if test="${year.id.equals(schoolYearId)}">selected</c:if>>${year.name}</option>
+                </c:forEach>
+            </select>
+        </div>
 
+        <div>
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
@@ -87,7 +95,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">Tên Lớp</th>
                 <th scope="col">Khối</th>
-                <th scope="col">Phân công giáo viên</th>
+                <th scope="col">Giáo viên</th>
                 <th scope="col">Điểm Danh</th>
                 <th scope="col">Báo Cáo Học Tập</th>
                 <th scope="col">Thời Khoá Biểu</th>
@@ -96,18 +104,23 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="class" items="${classes}" varStatus="status">
+            <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
                 <tr>
                     <th scope="row">${status.index + 1}</th>
-                    <td>${class.id}</td>
-                    <td>${class.name}</td>
-                    <td>${class.gradeId}</td>
-                    <td>${class.schoolYearId}</td>
-                    <td>${class.status}</td>
+                    <td>${classes.id}</td>
+                    <td>${classes.name}</td>
+                    <td>${classes.gradeId.name}</td>
+                    <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
+                    <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
+                    <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
+                    <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
+                    <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
+                    <td><button type="button" class="btn btn-primary"><a href="#">Chi Tiết</a></button></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+        </div>
 
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newSchoolYearModal">
@@ -126,7 +139,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                             <span class="thong-tin-thanh-toan">
-                                <h5>Tạo Năm Học Mới</h5>
+                                <h5>Tạo Lớp Mới</h5>
                             </span>
                             </div>
                         </div>

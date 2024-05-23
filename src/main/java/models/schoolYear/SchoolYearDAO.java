@@ -1,13 +1,29 @@
 package models.schoolYear;
 
+import models.personnel.Personnel;
+import models.personnel.PersonnelDAO;
 import utils.DBContext;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SchoolYearDAO extends DBContext {
+    private SchoolYear createSchoolYear(ResultSet rs) throws SQLException {
+        SchoolYear schoolYear = new SchoolYear();
+        schoolYear.setId(rs.getString("id"));
+        schoolYear.setName(rs.getString("name"));
+        schoolYear.setStartDate(rs.getDate("start_date"));
+        schoolYear.setEndDate(rs.getDate("end_date"));
+        schoolYear.setDescription(rs.getString("description"));
+        PersonnelDAO personnelDAO = new PersonnelDAO();
+        Personnel personnel = personnelDAO.getPersonnel(rs.getString("created_by"));
+        schoolYear.setCreatedBy(personnel);
+        return schoolYear;
+    }
+
     public List<SchoolYear> getAll() {
         List<SchoolYear> schoolYears = new ArrayList<SchoolYear>();
         String sql = "select * from schoolYears";
@@ -15,19 +31,27 @@ public class SchoolYearDAO extends DBContext {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                SchoolYear schoolYear = new SchoolYear();
-                schoolYear.setId(rs.getString("id"));
-                schoolYear.setName(rs.getString("name"));
-                schoolYear.setStartDate(rs.getDate("start_date"));
-                schoolYear.setEndDate(rs.getDate("end_date"));
-                schoolYear.setDescription(rs.getString("description"));
-//                schoolYear.setCreatedBy(rs.getString("created_by"));
+                SchoolYear schoolYear = createSchoolYear(rs);
                 schoolYears.add(schoolYear);
             }
         }catch (Exception e) {
             e.printStackTrace();
         }
         return schoolYears;
+    }
+
+    public SchoolYear getLatest() {
+        String sql = "SELECT TOP 1 * FROM SchoolYears ORDER BY ID DESC";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return createSchoolYear(rs);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void createSchoolYear(SchoolYear schoolYear) {
@@ -46,11 +70,27 @@ public class SchoolYearDAO extends DBContext {
             statement.setString(3, schoolYear.getStartDate().toString());
             statement.setString(4, schoolYear.getEndDate().toString());
             statement.setString(5, schoolYear.getDescription());
-//            statement.setString(6, schoolYear.getCreatedBy());
+            statement.setString(6, schoolYear.getCreatedBy().getId());
             statement.execute();
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public SchoolYear getSchoolYear(String id) {
+        String sql = "select * from schoolYears where id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                SchoolYear schoolYear = createSchoolYear(rs);
+                return schoolYear;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void createWeeksForSchoolYear(SchoolYear schoolYear) {

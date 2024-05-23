@@ -3,6 +3,8 @@ package controller.academicstaff;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import models.personnel.Personnel;
+import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
@@ -48,7 +50,9 @@ public class SchoolYearServlet extends HttpServlet {
                 schoolYear.setEndDate(endDate);
                 schoolYear.setDescription(description);
                 //therefore created id is also their id
-//                schoolYear.setCreatedBy(username);
+                PersonnelDAO personnelDAO = new PersonnelDAO();
+                Personnel personnel = personnelDAO.getPersonnel(username);
+                schoolYear.setCreatedBy(personnel);
                 schoolYearDAO.createSchoolYear(schoolYear);
             }
         }catch(Exception e){
