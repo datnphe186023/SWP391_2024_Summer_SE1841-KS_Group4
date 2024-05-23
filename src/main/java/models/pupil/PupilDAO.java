@@ -228,43 +228,11 @@ public class PupilDAO extends DBContext {
         return listPupil;
     }
 
-    public Pupil getPupilByUserId(String userId) {
-        String sql = "SELECT * FROM Pupils WHERE user_id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString("id"));
-                pupil.setUserId(resultSet.getString("user_id"));
-                pupil.setFirstName(resultSet.getString("first_name"));
-                pupil.setLastName(resultSet.getString("last_name"));
-                pupil.setAddress(resultSet.getString("address"));
-                pupil.setEmail(resultSet.getString("email"));
-                pupil.setStatus(resultSet.getString("status"));
-                pupil.setBirthday(resultSet.getDate("birthday"));
-                pupil.setGender(resultSet.getBoolean("gender"));
-                pupil.setMotherName(resultSet.getString("mother_name"));
-                pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
-                pupil.setAvatar(resultSet.getString("avatar"));
-                pupil.setFatherName(resultSet.getString("father_name"));
-                pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
-                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
-                pupil.setCreatedBy(personnel);
-                pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
-                return pupil;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
+    
 
     public static void main(String[] args) {
         PupilDAO p = new PupilDAO();
         PersonnelDAO per = new PersonnelDAO();
-        System.out.println(p.getPupilByUserId("U000025").getEmail());
         System.out.println(per.getPersonnel("AS000010").getFirstName());
         System.out.println(p.getListPupilsByClass("C000001").get(0).getFirstName());
 
