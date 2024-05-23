@@ -1,19 +1,15 @@
 package models.day;
 
+import models.week.Week;
+
 import java.util.Date;
 
 public class Day {
     private String id;
-    private String weekId;
+    private Week week;
     private Date date;
 
     public Day() {
-    }
-
-    public Day(String id, String weekId, Date date) {
-        this.id = id;
-        this.weekId = weekId;
-        this.date = date;
     }
 
     public String getId() {
@@ -24,12 +20,12 @@ public class Day {
         this.id = id;
     }
 
-    public String getWeekId() {
-        return weekId;
+    public Week getWeek() {
+        return week;
     }
 
-    public void setWeekId(String weekId) {
-        this.weekId = weekId;
+    public void setWeek(Week week) {
+        this.week = week;
     }
 
     public Date getDate() {
@@ -37,6 +33,12 @@ public class Day {
     }
 
     public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Day(String id, Week week, Date date) {
+        this.id = id;
+        this.week = week;
         this.date = date;
     }
 }

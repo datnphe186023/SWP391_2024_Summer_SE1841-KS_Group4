@@ -1,18 +1,19 @@
 package models.foodmenu;
 
+import models.day.TimeInDay;
+
 public class FoodMenu {
     private String id;
     private String foodDetails;
-    private String timeInDayId;
-    private String classId;
+    private TimeInDay timeInDay;
+    private Class aClass;
     private String status;
 
-    public FoodMenu(String id, String foodDetails, String timeInDayId,
-                    String classId, String status) {
+    public FoodMenu(String id, String foodDetails, TimeInDay timeInDay, Class aClass, String status) {
         this.id = id;
         this.foodDetails = foodDetails;
-        this.timeInDayId = timeInDayId;
-        this.classId = classId;
+        this.timeInDay = timeInDay;
+        this.aClass = aClass;
         this.status = status;
     }
 
@@ -35,20 +36,20 @@ public class FoodMenu {
         this.foodDetails = foodDetails;
     }
 
-    public String getTimeInDayId() {
-        return timeInDayId;
+    public TimeInDay getTimeInDay() {
+        return timeInDay;
     }
 
-    public void setTimeInDayId(String timeInDayId) {
-        this.timeInDayId = timeInDayId;
+    public void setTimeInDay(TimeInDay timeInDay) {
+        this.timeInDay = timeInDay;
     }
 
-    public String getClassId() {
-        return classId;
+    public Class getaClass() {
+        return aClass;
     }
 
-    public void setClassId(String classId) {
-        this.classId = classId;
+    public void setaClass(Class aClass) {
+        this.aClass = aClass;
     }
 
     public String getStatus() {

@@ -1,16 +1,17 @@
 package models.notification;
 
+import models.personnel.Personnel;
+
 import java.util.Date;
 
 public class Notification {
     private String id;
     private String heading;
     private String details;
-    private String createdBy;
+    private Personnel createdBy;
     private Date createdAt;
 
-    public Notification(String id, String heading, String details, String createdBy,
-                        Date createdAt) {
+    public Notification(String id, String heading, String details, Personnel createdBy, Date createdAt) {
         this.id = id;
         this.heading = heading;
         this.details = details;
@@ -45,11 +46,11 @@ public class Notification {
         this.details = details;
     }
 
-    public String getCreatedBy() {
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 

@@ -1,4 +1,7 @@
 package models.schoolYear;
+import models.personnel.Personnel;
+import models.personnel.PersonnelAttendance;
+
 import java.util.Date;
 
 public class SchoolYear {
@@ -7,10 +10,10 @@ public class SchoolYear {
     private Date startDate;
     private Date endDate;
     private String description;
-    private String createdBy;
+    private Personnel createdBy;
 
     public SchoolYear(String id, String name, Date startDate, Date endDate,
-                      String description, String createdBy) {
+                      String description, Personnel createdBy) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -62,11 +65,11 @@ public class SchoolYear {
         this.description = description;
     }
 
-    public String getCreatedBy() {
+    public Personnel getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
     }
 }
