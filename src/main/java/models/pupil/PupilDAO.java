@@ -15,6 +15,28 @@ public class PupilDAO extends DBContext {
 
     PersonnelDAO personnelDAO = new PersonnelDAO();
 
+    public Pupil createPupil(ResultSet resultSet) throws SQLException{
+        Pupil pupil = new Pupil();
+        pupil.setId(resultSet.getString("id"));
+        pupil.setUserId(resultSet.getString("user_id"));
+        pupil.setFirstName(resultSet.getString("first_name"));
+        pupil.setLastName(resultSet.getString("last_name"));
+        pupil.setAddress(resultSet.getString("address"));
+        pupil.setEmail(resultSet.getString("email"));
+        pupil.setStatus(resultSet.getString("status"));
+        pupil.setBirthday(resultSet.getDate("birthday"));
+        pupil.setGender(resultSet.getBoolean("gender"));
+        pupil.setMotherName(resultSet.getString("mother_name"));
+        pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
+        pupil.setAvatar(resultSet.getString("avatar"));
+        pupil.setFatherName(resultSet.getString("father_name"));
+        pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
+        Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
+        pupil.setCreatedBy(personnel);
+        pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
+        return pupil;
+    }
+
     public void createPupil(Pupil pupil) {
         String sql = "INSERT INTO [dbo].[Pupils]\n"
                 + "           ([id]\n"
@@ -70,23 +92,7 @@ public class PupilDAO extends DBContext {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString(1));
-                pupil.setUserId(resultSet.getString(2));
-                pupil.setFirstName(resultSet.getString(3));
-                pupil.setLastName(resultSet.getString(4));
-                pupil.setAddress(resultSet.getString(5));
-                pupil.setEmail(resultSet.getString(6));
-                pupil.setStatus(resultSet.getString(7));
-                pupil.setBirthday(resultSet.getDate(8));
-                pupil.setGender(resultSet.getBoolean(9));
-                pupil.setMotherName(resultSet.getString(10));
-                pupil.setMotherPhoneNumber(resultSet.getString(11));
-                pupil.setAvatar(resultSet.getString(12));
-                pupil.setFatherName(resultSet.getString(13));
-                pupil.setFatherPhoneNumber(resultSet.getString(14));
-                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString(15));
-                pupil.setCreatedBy(personnel);
-                pupil.setParentSpecialNote(resultSet.getString(16));
+                pupil = createPupil(resultSet);
                 listPupil.add(pupil);
             }
         } catch (SQLException e) {
@@ -104,23 +110,7 @@ public class PupilDAO extends DBContext {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString("id"));
-                pupil.setUserId(resultSet.getString("user_id"));
-                pupil.setFirstName(resultSet.getString("first_name"));
-                pupil.setLastName(resultSet.getString("last_name"));
-                pupil.setAddress(resultSet.getString("address"));
-                pupil.setEmail(resultSet.getString("email"));
-                pupil.setStatus(resultSet.getString("status"));
-                pupil.setBirthday(resultSet.getDate("birthday"));
-                pupil.setGender(resultSet.getBoolean("gender"));
-                pupil.setMotherName(resultSet.getString("mother_name"));
-                pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
-                pupil.setAvatar(resultSet.getString("avatar"));
-                pupil.setFatherName(resultSet.getString("father_name"));
-                pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
-                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
-                pupil.setCreatedBy(personnel);
-                pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
+                pupil = createPupil(resultSet);
                 listPupils.add(pupil);
             }
         } catch (SQLException e) {
@@ -139,23 +129,7 @@ public class PupilDAO extends DBContext {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString("id"));
-                pupil.setUserId(resultSet.getString("user_id"));
-                pupil.setFirstName(resultSet.getString("first_name"));
-                pupil.setLastName(resultSet.getString("last_name"));
-                pupil.setAddress(resultSet.getString("address"));
-                pupil.setEmail(resultSet.getString("email"));
-                pupil.setStatus(resultSet.getString("status"));
-                pupil.setBirthday(resultSet.getDate("birthday"));
-                pupil.setGender(resultSet.getBoolean("gender"));
-                pupil.setMotherName(resultSet.getString("mother_name"));
-                pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
-                pupil.setAvatar(resultSet.getString("avatar"));
-                pupil.setFatherName(resultSet.getString("father_name"));
-                pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
-                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
-                pupil.setCreatedBy(personnel);
-                pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
+                pupil = createPupil(resultSet);
                 listPupils.add(pupil);
             }
         } catch (SQLException e) {
@@ -171,23 +145,7 @@ public class PupilDAO extends DBContext {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString(1));
-                pupil.setUserId(resultSet.getString(2));
-                pupil.setFirstName(resultSet.getString(3));
-                pupil.setLastName(resultSet.getString(4));
-                pupil.setAddress(resultSet.getString(5));
-                pupil.setEmail(resultSet.getString(6));
-                pupil.setStatus(resultSet.getString(7));
-                pupil.setBirthday(resultSet.getDate(8));
-                pupil.setGender(resultSet.getBoolean(9));
-                pupil.setMotherName(resultSet.getString(10));
-                pupil.setMotherPhoneNumber(resultSet.getString(11));
-                pupil.setAvatar(resultSet.getString(12));
-                pupil.setFatherName(resultSet.getString(13));
-                pupil.setFatherPhoneNumber(resultSet.getString(14));
-                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString(15));
-                pupil.setCreatedBy(personnel);
-                pupil.setParentSpecialNote(resultSet.getString(16));
+                pupil = createPupil(resultSet);
                 return pupil;
             }
         } catch (SQLException e) {
@@ -238,23 +196,7 @@ public class PupilDAO extends DBContext {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString(1));
-                pupil.setUserId(resultSet.getString(2));
-                pupil.setFirstName(resultSet.getString(3));
-                pupil.setLastName(resultSet.getString(4));
-                pupil.setAddress(resultSet.getString(5));
-                pupil.setEmail(resultSet.getString(6));
-                pupil.setStatus(resultSet.getString(7));
-                pupil.setBirthday(resultSet.getDate(8));
-                pupil.setGender(resultSet.getBoolean(9));
-                pupil.setMotherName(resultSet.getString(10));
-                pupil.setMotherPhoneNumber(resultSet.getString(11));
-                pupil.setAvatar(resultSet.getString(12));
-                pupil.setFatherName(resultSet.getString(13));
-                pupil.setFatherPhoneNumber(resultSet.getString(14));
-                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString(15));
-                pupil.setCreatedBy(personnel);
-                pupil.setParentSpecialNote(resultSet.getString(16));
+                pupil = createPupil(resultSet);
                 listPupil.add(pupil);
             }
         } catch (SQLException e) {
@@ -303,24 +245,22 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
 
-    public static void main(String[] args) {
-        PupilDAO p = new PupilDAO();
-        PersonnelDAO per = new PersonnelDAO();
-        System.out.println(per.getPersonnelByUserId("U000002").getFirstName());
-        System.out.println(p.getListPupilByTeacherId("TEA000010").size());
-        System.out.println(p.getListPupilOfTeacherBySchoolYear("SY000001", "TEA000010").get(0).getId());
-
-    }
-
-    public Pupil getPupilByUserId(String userId) {
-        String sql = "SELECT * FROM Pupils WHERE user_id = ?";
+    public List<Pupil> getPupilByClassAndSchoolYear(String classId, String schoolYearId) {
+        String sql = "SELECT *\n"
+                + "FROM     Class INNER JOIN\n"
+                + "                  classDetails ON Class.id = classDetails.class_id INNER JOIN\n"
+                + "                  Pupils ON classDetails.pupil_id = Pupils.id INNER JOIN\n"
+                + "                  SchoolYears ON Class.school_year_id = SchoolYears.id\n"
+                + "\t\t\t\t  where class_id= ? and school_year_id= ?";
+        List<Pupil> listPupils = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, userId);
+            preparedStatement.setString(1, classId);
+            preparedStatement.setString(2, schoolYearId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 Pupil pupil = new Pupil();
-                pupil.setId(resultSet.getString("id"));
+                pupil.setId(resultSet.getString("pupil_id"));
                 pupil.setUserId(resultSet.getString("user_id"));
                 pupil.setFirstName(resultSet.getString("first_name"));
                 pupil.setLastName(resultSet.getString("last_name"));
@@ -337,6 +277,40 @@ public class PupilDAO extends DBContext {
                 Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
                 pupil.setCreatedBy(personnel);
                 pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
+                listPupils.add(pupil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupils;
+    }
+
+    public List<Pupil> getPupilByStatus(String status) {
+        String sql = " Select * from Pupils where [status] = N'" + status + "'";
+        List<Pupil> listPupils = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Pupil pupil = new Pupil();
+                pupil = createPupil(resultSet);
+                listPupils.add(pupil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupils;
+    }
+
+    public Pupil getPupilByUserId(String userId) {
+        String sql = "SELECT * FROM Pupils WHERE user_id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Pupil pupil = new Pupil();
+                pupil = createPupil(resultSet);
                 return pupil;
             }
         } catch (SQLException e) {
@@ -344,5 +318,4 @@ public class PupilDAO extends DBContext {
         }
         return null;
     }
-
 }

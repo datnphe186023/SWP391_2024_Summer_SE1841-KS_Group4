@@ -1,11 +1,11 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: Anh Quan
   Date: 5/23/2024
-  Time: 3:17 PM
+  Time: 8:47 PM
   To change this template use File | Settings | File Templates.
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -15,30 +15,46 @@
     <style >
         #style-span{
             padding: 11px 150px;
-            margin-top: 30px;
+            margin-top: 10px;
             border-radius: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
         table.table-bordered, table.table-bordered th, table.table-bordered td {
             border: 2px solid black;
             text-align: center;
         }
-        .detail-button {
+        .accept-button , decltine-button{
             color: #001C41;
-            background-color: #FFD43A;
+            background-color: #4CB5FB;
             cursor: pointer;
             border-radius: 20px;
-            padding: 5px 10px;
+            padding: 5px 0px;
+            display: block;
         }
-        .detail-button:hover {
-            background-color: white;
+        .decline-button{
             color: #001C41;
+            background-color: red;
+            cursor: pointer;
+            border-radius: 20px;
+            padding: 5px 0px;
+            display: block;
+        }
+        .accept-button:hover{
+            background-color: white;
+            border: 1px grey solid;
+        }
+        .decline-button:hover{
+            background-color: white;
             border: 1px grey solid;
         }
 
-        .form-select{
-            padding: 5px 53px;
+        #myForm{
+            display: flex;
+            justify-content: space-evenly;
+            font-weight: bold;
         }
+
+
     </style>
     <script>
         function submitForm() {
@@ -47,34 +63,24 @@
     </script>
 </head>
 <body>
-<jsp:include page="dashboard_teacher.jsp"/>
+<jsp:include page="dashboard_headteacher.jsp"/>
 <%--Begin : title    --%>
 <main class="app-content">
     <div class="row justify-content-center">
-        <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh</span>
+        <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh đang chờ phê duyệt</span>
     </div>
     <%--End : title    --%>
-    <div class="row">
-        <%--  Begin : Search item      --%>
-        <c:set var="yearChecked" value="${requestScope.checkYear}"/>
-        <div class="col-lg-6">
-            <form action="listpupil"  id="myForm">
-                <select class="form-select" aria-label="Default select example" onchange="submitForm()" name="schoolYear" >
-                    <c:forEach items="${requestScope.listSchoolYear}" var="year" >
-                        <option ${yearChecked eq year.id ? "selected" : ""} value="${year.id}"  >${year.name}</option>
-                    </c:forEach>
-                </select>
-            </form>
+    <c:set value="${requestScope.message}" var="message"/>
+    <c:if test="${message eq 'Đã duyệt thành công' }">
+        <div class="row justify-content-center" style="margin: 30px;">
+            <span class="bg-success font-weight-bold rounded-lg" style="padding: 8px;border-radius: 30px;">${message}</span>
         </div>
-            <c:set value="${requestScope.classes}" var="classes"/>
-            <c:set value="${requestScope.grade}" var="grade"/>
-            <div class="col-lg-6">
-                <p style="font-weight: bold">Khối : ${grade.name}</p>
-                <p style="font-weight: bold">Lớp : ${classes.name}</p>
-            </div>
-
-        <%--End : Search item    --%>
-    </div>
+    </c:if>
+    <c:if test="${message eq 'Đã từ chối' }">
+        <div class="row justify-content-center" style="margin: 30px;">
+            <span class="bg-warning font-weight-bold rounded-lg"style="padding: 8px;border-radius: 30px;">${message}</span>
+        </div>
+    </c:if>
 
     <div class="row">
         <table  class="table table-bordered">
@@ -93,13 +99,15 @@
                 <tr >
                     <td>${index}</td>
                     <td>${pupil.id}</td>
-                    <td style="width: 20%;"><img src="../images/${pupil.avatar}"
-                             class="mx-auto d-block"
-                             style="width:50%"></td>
+                    <td style="width: 30%;"><img src="../images/${pupil.avatar}"
+                                                 class="mx-auto d-block"
+                                                 style="width:50%;"></td>
                     <td>${pupil.lastName} ${pupil.firstName}</td>
                     <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
                     <td>${pupil.address}</td>
-                    <td style=" vertical-align: middle" ><a class="detail-button" href="pupilprofile?id=${pupil.id}">Chi tiết</a></td>
+                    <td style=" vertical-align: middle; padding-left: 10px"  ><a class="accept-button" href="reviewpupil?action=accept&id=${pupil.id}">Chấp nhận</a><br>
+                        <a class="decline-button" href="reviewpupil?action=decline&id=${pupil.id}">Từ chối</a>
+                    </td>
                 </tr>
                 <c:set var="index" value="${index+1}"/>
             </c:forEach>
@@ -109,6 +117,11 @@
 
 </body>
 </html>
+
+
+
+
+
 
 
 

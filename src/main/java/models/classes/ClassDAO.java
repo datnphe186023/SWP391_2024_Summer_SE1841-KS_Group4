@@ -59,4 +59,41 @@ public class ClassDAO extends DBContext {
         }
         return classes;
     }
+
+    public Class getClassById(String id){
+        String sql="select * from Class where id = ?";
+        GradeDAO gradeDAO = new GradeDAO();
+        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        PersonnelDAO personnelDAO = new PersonnelDAO();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Class c = createClass(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  null;
+    }
+
+    public Class getTeacherClassByYear(String year, String teacherId){
+        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where teacher_id= ?  and school_year_id= ?";
+        ClassDAO classDAO = new ClassDAO();
+        String classId="" ;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,teacherId);
+            preparedStatement.setString(2,year);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                 classId = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Class classes =  classDAO.getClassById(classId);
+        return classes;
+    }
 }

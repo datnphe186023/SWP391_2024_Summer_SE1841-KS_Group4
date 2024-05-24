@@ -123,16 +123,16 @@
         </div>
 
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newSchoolYearModal">
-                TẠO NĂM HỌC MỚI
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
+                TẠO LỚP MỚI
             </button>
         </div>
 
     </div>
 
     <!-- New School Year Modal -->
-    <div class="modal fade" id="newSchoolYearModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <form action="schoolyear?action=create" method="POST">
+    <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <form action="class?action=create" method="POST">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -145,20 +145,35 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label class="control-label">Năm học</label>
+                                <label class="control-label">Tên Lớp</label>
                                 <input class="form-control" type="text" name="name" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="control-label">Ngày bắt đầu</label>
-                                <input class="form-control" type="date" name="startDate" required>
+                                <label for="teacherSelect">Giáo viên</label>
+                                <select class="form-control" id="teacherSelect" name="teacher">
+                                    <option value="">-- Chọn Giáo Viên --</option>
+                                    <c:forEach var="teacher" items="${requestScope.teachers}">
+                                        <option value="${teacher.id}">${teacher.lastName} ${teacher.firstName}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="control-label">Ngày kết thúc</label>
-                                <input class="form-control" type="date" name="endDate" required>
+                                <label for="gradeSelect">Khối</label>
+                                <select class="form-control" id="gradeSelect" name="grade" required>
+                                    <option value="">-- Chọn Khối --</option>
+                                    <c:forEach var="grade" items="${requestScope.grades}">
+                                        <option value="${grade.id}">${grade.name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="control-label">Mô Tả</label>
-                                <input class="form-control" type="text" name="description" required>
+                                <label for="schoolYear">Khối</label>
+                                <select class="form-control" id="schoolYear" name="schoolYear" required>
+                                    <option value="">-- Chọn Năm Học --</option>
+                                    <c:forEach var="schoolYear" items="${requestScope.schoolYears}">
+                                        <option value="${schoolYear.id}">${schoolYear.name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </div>
                         <br>
