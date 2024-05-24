@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.user.UserDAO;
 
 /**
  * Servlet implementation class ForgotPassword
@@ -33,13 +34,13 @@ public class ForgotPasswordServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         RequestDispatcher dispatcher = null;
-        int otpvalue = 0;
         HttpSession mySession = request.getSession();
-
+        UserDAO userDAO = new UserDAO();
         if (email != null || !email.equals("")) {
-            // sending otp
-            Random rand = new Random();
-            otpvalue = rand.nextInt(999999);
+            // sending new password
+            String passGen = generateRandomPassword(8);
+            // update password generate random
+            userDAO.updatePassword(email, passGen);
 
             String to = email;// change accordingly
             // Get the session object
@@ -63,22 +64,30 @@ public class ForgotPasswordServlet extends HttpServlet {
                 message.setFrom(new InternetAddress(email));// change accordingly
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
                 message.setSubject("Xin chao!");
-                message.setText("Ma OTP cua ban la: " + otpvalue);
+                message.setText("Mat khau moi cua ban la: " + passGen);
                 // send message
                 Transport.send(message);
                 System.out.println("Message sent successfully");
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
-            dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
-            request.setAttribute("message", "Ma OTP da duoc gui den ban , vui long kiem tra email");
-            //request.setAttribute("connection", con);
-            mySession.setAttribute("otp", otpvalue);
+            dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
+            request.setAttribute("message", "Mat khau moi da duoc gui den ban , vui long kiem tra email");
+            mySession.setAttribute("passGen", passGen);
             mySession.setAttribute("email", email);
             dispatcher.forward(request, response);
-            //request.setAttribute("status", "success");
         }
 
+    }
+
+    private String generateRandomPassword(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random rand = new Random();
+        StringBuilder password = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            password.append(characters.charAt(rand.nextInt(characters.length())));
+        }
+        return password.toString();
     }
 
 }
