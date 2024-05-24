@@ -81,7 +81,7 @@ public class SchoolYearDAO extends DBContext {
         String id ;
         int newid ;
         PersonnelDAO personnelDAO = new PersonnelDAO();
-        newid= pdao.getNumberOfPersonByRole(role)+1;
+        newid= personnelDAO.getNumberOfPersonByRole(role)+1;
         DecimalFormat decimalFormat = new DecimalFormat("000000");
         id= decimalFormat.format(newid);
         if (role == 0) {
