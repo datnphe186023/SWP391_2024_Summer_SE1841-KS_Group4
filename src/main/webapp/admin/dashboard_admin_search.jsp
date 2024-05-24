@@ -108,6 +108,79 @@
 
         </aside>
 
+
+        <div>
+            <h1 style="text-align: center; margin-top:  50px">Danh sách người dùng chưa có tài khoản</h1>
+            <div class="search-container">
+                <select name="role" id="roleSelect" onchange="redirectToServlet()">
+                    <option value="">All (Role)</option>
+                    <option value="0">Admin</option>
+                    <option value="1">Headteacher</option>
+                    <option value="2">Academic Staff</option>
+                    <option value="3">Accountant</option>
+                    <option value="4">Teacher</option>
+                    <option value="5">Parent</option>
+                </select>
+                <form action="searchPersonnel" method="Post">
+                    <input type="text" name="search" placeholder="Search By ID">
+                    <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
+                </form>
+            </div>
+
+            <h4 style="color: red;text-align: center">${mess}</h4>
+            <table style="width: 70%; margin-left: 300px">
+                <thead>
+                <th>STT</th>
+                <th>Họ Và Tên</th>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Vai Trò</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>${p.getLastName()} ${p.getFirstName()}</td>
+                        <td>${p.getId()}</td>
+                        <td>${p.getEmail()}</td>
+                        <td>${roleMap[p.getRoleId()]}</td>
+                        <td>${p.getStatus()}</td>
+                        <td>
+                            <form action="createNewUser" method="POST">
+                                <button type="submit">Tạo Tài Khoản</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="createUser">
+                <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
+            </form>
+        </div>
+
+
+        <script>
+            function redirectToServlet() {
+                var selectedRole = document.getElementById("roleSelect").value;
+                if (selectedRole !== "") {
+                    window.location.href = "categoryRole?role=" + selectedRole;
+                }
+            }
+            // Function to get query parameter value
+            function getQueryParam(param) {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Set the selected value on page load
+            document.addEventListener('DOMContentLoaded', (event) => {
+                var selectedRole = getQueryParam('role');
+                if (selectedRole) {
+                    document.getElementById('roleSelect').value = selectedRole;
+                }
+            });
+        </script>
         <script src="js/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
         <script src="js/popper.min.js"></script>

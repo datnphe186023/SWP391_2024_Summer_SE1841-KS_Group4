@@ -4,7 +4,6 @@
  */
 package models.personnel;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,16 +15,17 @@ import utils.DBContext;
  *
  * @author asus
  */
-public class PersonnelDAO extends DBContext{
+public class PersonnelDAO extends DBContext {
+
     // Get all personnel infomation
-    public List<Personnel> getAllPersonnels(){
+    public List<Personnel> getAllPersonnels() {
         String sql = "select * from [Personnels] ";
-        List<Personnel> persons =new ArrayList<>();
-        try{
+        List<Personnel> persons = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Personnel person = new Personnel();
                 person.setId(resultSet.getString("id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -41,20 +41,20 @@ public class PersonnelDAO extends DBContext{
                 person.setUserId(resultSet.getString("user_id"));
                 persons.add(person);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return persons;
     }
 
-    public List<Personnel> getPersonnelByRole(int role){
+    public List<Personnel> getPersonnelByRole(int role) {
         String sql = "select * from [Personnels] where role_id like ?";
-        List<Personnel> persons =new ArrayList<>();
-        try{
+        List<Personnel> persons = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + role + "%");
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Personnel person = new Personnel();
                 person.setId(resultSet.getString("id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -70,22 +70,22 @@ public class PersonnelDAO extends DBContext{
                 person.setUserId(resultSet.getString("user_id"));
                 persons.add(person);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return persons;
     }
 
-    public List<Personnel> getPersonnelByNameOrId(String data){
+    public List<Personnel> getPersonnelByNameOrId(String data) {
         String sql = "select * from [Personnels] where id like ? or first_name like ? or last_name like ? ";
-        List<Personnel> persons =new ArrayList<>();
-        try{
+        List<Personnel> persons = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + data + "%");
             statement.setString(2, "%" + data + "%");
             statement.setString(3, "%" + data + "%");
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Personnel person = new Personnel();
                 person.setId(resultSet.getString("id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -101,21 +101,21 @@ public class PersonnelDAO extends DBContext{
                 person.setUserId(resultSet.getString("user_id"));
                 persons.add(person);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error in function");
         }
         return persons;
     }
 
-    public Personnel getPersonnel(String id){
+    public Personnel getPersonnel(String id) {
         String sql = "select * from [Personnels] where id like ? ";
-       Personnel person = new Personnel();
-        try{
+        Personnel person = new Personnel();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + id + "%");
 
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
 
                 person.setId(resultSet.getString("id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -131,32 +131,32 @@ public class PersonnelDAO extends DBContext{
                 person.setUserId(resultSet.getString("user_id"));
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error in function");
         }
         return person;
     }
 
-    public int getNumberOfPersonByRole(int id){
-        String sql = "select count(id) as numberofpersonbyrole\n" +
-              "from Personnels where role_id = ? ";
-            int number = 0;
-        try{
+    public int getNumberOfPersonByRole(int id) {
+        String sql = "select count(id) as numberofpersonbyrole\n"
+                + "from Personnels where role_id = ? ";
+        int number = 0;
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
-                number =resultSet.getInt("numberofpersonbyrole");
+            while (resultSet.next()) {
+                number = resultSet.getInt("numberofpersonbyrole");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error in function");
         }
         return number;
     }
 
-    public void insertPersonnel(String id,String firstname,String lastname,int gender,String birthday,String address,String email,String phone, int role,String avatar){
-        String sql="insert into Personnels values (?,?,?,?,?,?,?,?,?,?,?,?)";
-        try{
+    public void insertPersonnel(String id, String firstname, String lastname, int gender, String birthday, String address, String email, String phone, int role, String avatar) {
+        String sql = "insert into Personnels values (?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
             st.setString(2, firstname);
@@ -172,19 +172,20 @@ public class PersonnelDAO extends DBContext{
             st.setString(12, null);
 
             st.executeUpdate();
-            }catch(Exception e){
-                System.out.println(e);
-            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
-    public Personnel getPersonnelByUserId(String userId){
-        String sql="select * from [User] u join Personnels p on u.id=p.user_id \n" +
-                "where u.id = ?";
+
+    public Personnel getPersonnelByUserId(String userId) {
+        String sql = "select * from [User] u join Personnels p on u.id=p.user_id \n"
+                + "where u.id = ?";
         Personnel personnel = new Personnel();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,userId);
+            preparedStatement.setString(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 personnel.setId(resultSet.getString(7)); /// 7 is position of personnel Id on join of two table
                 personnel.setFirstName(resultSet.getString("first_name"));
                 personnel.setLastName(resultSet.getString("last_name"));
@@ -202,5 +203,93 @@ public class PersonnelDAO extends DBContext{
             throw new RuntimeException(e);
         }
         return personnel;
+    }
+
+    public List<Personnel> getPersonelUserIdNull() {
+        List<Personnel> list = new ArrayList<>();
+        String sql = "SELECT * FROM Personnels where user_id IS NULL";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Personnel p = new Personnel();
+                p.setId(rs.getString(1));
+                p.setFirstName(rs.getString(2));
+                p.setLastName(rs.getString(3));
+                p.setGender(rs.getBoolean(4));
+                p.setBirthday(rs.getDate(5));
+                p.setAddress(rs.getString(6));
+                p.setEmail(rs.getString(7));
+                p.setPhoneNumber(rs.getString(8));
+                p.setRoleId(rs.getInt(9));
+                p.setStatus(rs.getString(10));
+                p.setAvatar(rs.getString(11));
+                p.setUserId(rs.getString(12));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Personnel searchById(String id) {
+        Personnel p = null;
+        String sql = "SELECT * FROM Personnels where id like ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                p = new Personnel();
+                p.setId(rs.getString(1));
+                p.setFirstName(rs.getString(2));
+                p.setLastName(rs.getString(3));
+                p.setGender(rs.getBoolean(4));
+                p.setBirthday(rs.getDate(5));
+                p.setAddress(rs.getString(6));
+                p.setEmail(rs.getString(7));
+                p.setPhoneNumber(rs.getString(8));
+                p.setRoleId(rs.getInt(9));
+                p.setStatus(rs.getString(10));
+                p.setAvatar(rs.getString(11));
+                p.setUserId(rs.getString(12));
+                return p;
+            } else {
+                p = null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return p;
+    }
+
+    public List<Personnel> getPersonelByRole(int id) {
+        List<Personnel> list = new ArrayList<>();
+        String sql = "SELECT * FROM Personnels where role_id=? and user_id is null";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Personnel p = new Personnel();
+                p.setId(rs.getString(1));
+                p.setFirstName(rs.getString(2));
+                p.setLastName(rs.getString(3));
+                p.setGender(rs.getBoolean(4));
+                p.setBirthday(rs.getDate(5));
+                p.setAddress(rs.getString(6));
+                p.setEmail(rs.getString(7));
+                p.setPhoneNumber(rs.getString(8));
+                p.setRoleId(rs.getInt(9));
+                p.setStatus(rs.getString(10));
+                p.setAvatar(rs.getString(11));
+                p.setUserId(rs.getString(12));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

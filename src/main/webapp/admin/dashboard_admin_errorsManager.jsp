@@ -108,6 +108,33 @@
 
         </aside>
 
+
+        <div>
+            <h1 style="text-align: center; margin-top:  50px">Danh sách tài khoản</h1>
+            <div class="search-container">
+                <select name="role">
+                    <option value="">All (Role)</option>
+                    <option value="0">Admin</option>
+                    <option value="1">Headteacher</option>
+                    <option value="2">Academic Staff</option>
+                    <option value="3">Accountant</option>
+                    <option value="4">Teacher</option>
+                    <option value="5">Parent</option>
+                </select>
+                <form action="searchPersonnel" method="Post">
+                    <input type="text" name="search" placeholder="Search By ID">
+                    <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
+                </form>
+            </div>
+
+           <h4 style="color: red;text-align: center">${mess}</h4>
+            <form action="managerUser">
+                <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
+            </form>
+        </div>
+
+
+
         <script src="js/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
         <script src="js/popper.min.js"></script>
