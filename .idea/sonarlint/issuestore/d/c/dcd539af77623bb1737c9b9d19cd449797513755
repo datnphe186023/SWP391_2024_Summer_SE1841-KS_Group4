@@ -1,0 +1,52 @@
+
+Œ
+java:S1192!"IDefine a constant instead of duplicating this literal "birthday" 4 times.(ÀÓŠê8§ÑåÁú1J$d3ec09e0-cd72-47a7-9a44-dedea38b4dc4
+
+java:S1192#"HDefine a constant instead of duplicating this literal "address" 4 times.(ĞÊ×’ÿÿÿÿÿ8§ÑåÁú1J$25a3c7dc-ba89-4f5e-b591-4215f4893e53
+š
+java:S1192h"RDefine a constant instead of duplicating this literal "error in function" 3 times.(†“Õ¢ùÿÿÿÿ8§ÑåÁú1J$3a005067-7e17-4049-8f33-3bde4357c0b4
+Š
+java:S1192 "GDefine a constant instead of duplicating this literal "gender" 4 times.(£é«å8§ÑåÁú1J$0f2a803d-d87f-4352-8b0f-a0aa744ebcfb
+’
+java:S1192"JDefine a constant instead of duplicating this literal "last_name" 4 times.(‹Ô‡‰ûÿÿÿÿ8§ÑåÁú1J$52034faf-b318-4118-a44d-8d8124ca770b
+Š
+java:S1192'"GDefine a constant instead of duplicating this literal "avatar" 4 times.(¼ƒ¿8§ÑåÁú1J$46cc0333-3c03-49d1-9911-9770be4323ff
+
+java:S1192("HDefine a constant instead of duplicating this literal "user_id" 4 times.(ä ´¦şÿÿÿÿ8¨ÑåÁú1J$63c7c93f-3598-4810-9289-87c533aa7569
+‹
+java:S1192%"HDefine a constant instead of duplicating this literal "role_id" 4 times.(Ùİé€8¨ÑåÁú1J$be3193d2-b91f-4bf5-8db6-9f68a3102642
+•
+java:S1192$"MDefine a constant instead of duplicating this literal "phone_number" 4 times.(æïËÎşÿÿÿÿ8¨ÑåÁú1J$b237d493-a256-4210-9f21-8dc00f58b0fc
+“
+java:S1192"KDefine a constant instead of duplicating this literal "first_name" 4 times.(şªÿòüÿÿÿÿ8¨ÑåÁú1J$206d5a72-6563-41c7-b61f-1e2f19292823
+
+java:S1192""FDefine a constant instead of duplicating this literal "email" 4 times.(Ğ“Éçûÿÿÿÿ8¨ÑåÁú1J$4d06a6db-6ae4-4b41-afa3-dca444f5a8d6
+Š
+java:S1192&"GDefine a constant instead of duplicating this literal "status" 4 times.(ëÅ±š8¨ÑåÁú1J$f6126d50-adbc-4440-af41-e9744861e697
+˜
+java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ƒ»ÊŞûÿÿÿÿ8õÒåÁú1J$248c3f1b-8df6-4985-94f8-17d4b1326d4b
+—
+java:S2095q"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ƒ»ÊŞûÿÿÿÿ8õÒåÁú1J$c2935af2-a05f-4288-8ecc-53c14901485d
+—
+java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ƒ»ÊŞûÿÿÿÿ8õÒåÁú1J$382fc3fc-49fc-4228-bda7-b3c7ebb4cdfa
+—
+java:S20955"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ƒ»ÊŞûÿÿÿÿ8õÒåÁú1J$4764b5c1-299f-4ad4-97a0-3197ed27e32d
+˜
+java:S2095Ÿ"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(À×‹®ûÿÿÿÿ8õÒåÁú1J$a5cbc13e-857b-4399-99a5-6acc1ba59a12
+q
+java:S2095R"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ƒ»ÊŞûÿÿÿÿ8Ì²úÁú1
+€	java:S107œ"=Method has 10 parameters, which is greater than 7 authorized.(ø®È 8øÒåÁú1J$8eda6e1f-b6a3-47c7-bf16-333c81cb7ad8
+b
+java:S6905"Don't use the query "SELECT *".(¦ÁÖ²8üÒåÁú1J$3dc9ecb3-0bc5-44f4-b19a-cb82d500c425
+r	java:S106,"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8şÒåÁú1J$14f7fc8c-78d2-41a3-b7e6-091517446aed
+b
+java:S69052"Don't use the query "SELECT *".(£¶¢Œ8ÓåÁú1J$7268dba6-92c0-4e13-a9c5-a1a1276e5b1a
+r	java:S106I"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8ƒÓåÁú1J$51eab26a-8574-400f-9117-3104dbd83385
+b
+java:S6905O"Don't use the query "SELECT *".(ìó³8„ÓåÁú1J$f9f7d089-ee74-48bb-a2ab-4de08c65cfa0
+r	java:S106h"+Replace this use of System.out by a logger.(†“Õ¢ùÿÿÿÿ8†ÓåÁú1J$6f864fde-835f-47c9-82ce-578810b62532
+b
+java:S6905n"Don't use the query "SELECT *".(áï¢£8‡ÓåÁú1J$a5b51a92-d0b2-46c7-9686-ca68a1f6cd5d
+s	java:S106†"+Replace this use of System.out by a logger.(†“Õ¢ùÿÿÿÿ8‰ÓåÁú1J$45ec08da-ea38-44a6-9f32-a86471a8c80c
+s	java:S106—"+Replace this use of System.out by a logger.(†“Õ¢ùÿÿÿÿ8ŠÓåÁú1J$f7eaedcf-c59d-4deb-81a9-d2eb8ad58d33
+s	java:S106¯"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8ŒÓåÁú1J$16f0641a-4106-4b62-8cda-6d1663207c72

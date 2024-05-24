@@ -60,6 +60,30 @@
         <servlet-name>InformationParentServlet</servlet-name>
         <servlet-class>controller.parent.InformationParentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
+        <servlet-class>controller.accountant.ACCCreatePersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ACCListPersonnelServlet</servlet-name>
+        <servlet-class>controller.accountant.ACCListPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ACCViewPersonnelServlet</servlet-name>
+        <servlet-class>controller.accountant.ACCViewPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTListPersonnelServlet</servlet-name>
+        <servlet-class>controller.headteacher.HTListPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTViewPersonnelServlet</servlet-name>
+        <servlet-class>controller.headteacher.HTViewPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTCreatePersonnelServlet</servlet-name>
+        <servlet-class>controller.headteacher.HTCreatePersonnelServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -119,5 +143,41 @@
     <servlet-mapping>
         <servlet-name>InformationParentServlet</servlet-name>
         <url-pattern>/parent/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
+        <url-pattern>/acreatepersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCListPersonnelServlet</servlet-name>
+        <url-pattern>/alistpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCViewPersonnelServlet</servlet-name>
+        <url-pattern>/aviewpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
+        <url-pattern>/acccreatepersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCListPersonnelServlet</servlet-name>
+        <url-pattern>/acclistpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCViewPersonnelServlet</servlet-name>
+        <url-pattern>/accviewpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTListPersonnelServlet</servlet-name>
+        <url-pattern>/htlistpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTViewPersonnelServlet</servlet-name>
+        <url-pattern>/htviewpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTCreatePersonnelServlet</servlet-name>
+        <url-pattern>/htcreatepersonnel</url-pattern>
     </servlet-mapping>
 </web-app>

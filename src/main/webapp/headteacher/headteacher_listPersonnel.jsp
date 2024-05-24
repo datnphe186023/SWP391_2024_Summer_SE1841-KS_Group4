@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Main CSS-->
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -72,32 +72,32 @@
 
             </div>
             <style>
-                /* Hide the placeholder in the dropdown options */
-                option[hidden] {
-                    display: none;
-                }
-            </style>
+        /* Hide the placeholder in the dropdown options */
+        option[hidden] {
+            display: none;
+        }
+    </style>
             <div>
                 <div style="display: flex ;justify-content: space-between">
                     <div>
                         <button type="button" onclick="redirect()">Thêm nhân viên</button>
                     </div>
                     <div style="display: flex ;justify-content: space-between">
-                        <form action="acclistpersonnel" method="post">    
-                            <select name="role" onchange="this.form.submit()" id="role">
-                                <option value="" hidden selected>Chức vụ</option>
-                                <option value="0">Admin</option>
-                                <option value="1">Hiệu trưởng</option>
-                                <option value="2">Academic staff</option>
-                                <option value="3">Nhân viên kế toán</option>
-                                <option value="4">Giáo viên</option>
-                            </select>
-                        </form>  
-                        <form action="acclistpersonnel" method="post" >    
-                            <input  type="text" name="search" placeholder="Nhập Tên hoặc ID ">    
-
-                        </form>
-                    </div>
+                    <form action="htlistpersonnel" method="post">    
+                        <select name="role" onchange="this.form.submit()" id="role">
+                             <option value="" hidden selected>Chức vụ</option>
+                            <option value="0">Admin</option>
+                            <option value="1">Hiệu trưởng</option>
+                            <option value="2">Academic staff</option>
+                            <option value="3">Nhân viên kế toán</option>
+                            <option value="4">Giáo viên</option>
+                        </select>
+                    </form>  
+                    <form action="htlistpersonnel" method="post" >    
+                        <input  type="text" name="search" placeholder="Nhập Tên hoặc ID ">    
+                        
+                    </form>
+</div>
                 </div>
 
             </div>
@@ -156,11 +156,11 @@
 
                             <td>${p.getStatus()} </td>
                             <td>
-                                <form action="accviewpersonnel" method="post">
-                                    <input type="hidden" value="${p.getId()}" name="id">
-                                    <input type="submit" value="Xem thông tin chi tiết" name="viewdetail" />     
+                                <form action="htviewpersonnel" method="post">
+                                 <input type="hidden" value="${p.getId()}" name="id">
+                                <input type="submit" value="Xem thông tin chi tiết" name="viewdetail" />     
                                 </form>
-
+                                
                             </td>
                         </tr>
                     </c:forEach>
@@ -169,9 +169,6 @@
             </table>
 
         </main>
-
-
-
 
 
 
@@ -191,22 +188,21 @@
         <!--===============================================================================================-->
         <!--===============================================================================================-->
         <script>
-                                document.getElementById('role').addEventListener('change', function () {
-                                    this.querySelector('option[hidden]').disabled = true;
-                                });
-        </script>
-        <script>
-            // JavaScript Function to Redirect to Product Details Page
-            function redirect() {
-                // Assuming x is your result set containing product details
-                // Replace this line with the correct way to retrieve product ID from your data
-
-                // Redirect to the product details page with the product ID
-                window.location.href = "acccreatepersonnel";
-            }
-        </script> 
+        document.getElementById('role').addEventListener('change', function() {
+            this.querySelector('option[hidden]').disabled = true;
+        });
+    </script>
+      <script>
+                                                                                                        // JavaScript Function to Redirect to Product Details Page
+                                                                                                        function redirect() {
+                                                                                                          // Assuming x is your result set containing product details
+                                                                                                          // Replace this line with the correct way to retrieve product ID from your data
+                                                                                                          
+                                                                                                          // Redirect to the product details page with the product ID
+                                                                                                          window.location.href = "htcreatepersonnel";
+                                                                                                                         }
+                                                                                                        </script> 
     </body>
-
-
+    </body>
 
 </html>
