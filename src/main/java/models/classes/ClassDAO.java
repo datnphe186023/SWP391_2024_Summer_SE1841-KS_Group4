@@ -70,14 +70,7 @@ public class ClassDAO extends DBContext {
             preparedStatement.setString(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                Class c = new Class();
-                c.setId(resultSet.getString(1));
-                c.setName(resultSet.getString(2));
-                c.setGradeId(gradeDAO.getGrade(resultSet.getString(3)));
-                c.setSchoolYear(schoolYearDAO.getSchoolYear(resultSet.getString(4)));
-                c.setStatus(resultSet.getString(5));
-                c.setCreatedBy(personnelDAO.getPersonnel(resultSet.getString(6)));
-                return c;
+                Class c = createClass(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -102,9 +95,5 @@ public class ClassDAO extends DBContext {
         }
         Class classes =  classDAO.getClassById(classId);
         return classes;
-    }
-
-    public static void main(String[] args) {
-        ClassDAO classDAO = new ClassDAO();
     }
 }

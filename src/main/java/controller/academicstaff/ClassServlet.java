@@ -5,6 +5,9 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.grade.Grade;
+import models.grade.GradeDAO;
+import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 
@@ -28,6 +31,10 @@ public class ClassServlet extends HttpServlet {
             List<SchoolYear> schoolYears = schoolYearDAO.getAll();
             request.setAttribute("schoolYears", schoolYears);
             request.setAttribute("schoolYearId", schoolYearId);
+            GradeDAO gradeDAO = new GradeDAO();
+            request.setAttribute("grades", gradeDAO.getAll());
+            PersonnelDAO personnelDAO = new PersonnelDAO();
+            request.setAttribute("teachers", personnelDAO.getPersonnelByRole(4));
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();
@@ -36,6 +43,16 @@ public class ClassServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String action = request.getParameter("action");
+        if (action != null){
+            if (action.equals("create")) {
+                String name = request.getParameter("name");
+                String gradeId = request.getParameter("grade");
+                String schoolYearId = request.getParameter("schoolYear");
+                String teacherId = request.getParameter("teacher");
+                Class c = new Class();
+                c.setName(name);
+            }
+        }
     }
 }

@@ -371,16 +371,4 @@ import java.util.List;
             }
             return listPupils;
         }
-
-        public static void main(String[] args) {
-            PupilDAO p = new PupilDAO();
-            PersonnelDAO per = new PersonnelDAO();
-            System.out.println(per.getPersonnelByUserId("U000002").getFirstName());
-            System.out.println(p.getListPupilByTeacherId("TEA000010").size());
-            System.out.println(p.getListPupilOfTeacherBySchoolYear("SY000001", "TEA000010").get(0).getId());
-
-        }
-
-
-
     }
