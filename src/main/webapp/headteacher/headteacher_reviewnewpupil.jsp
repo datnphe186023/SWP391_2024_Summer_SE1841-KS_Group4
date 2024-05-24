@@ -23,7 +23,7 @@
             border: 2px solid black;
             text-align: center;
         }
-        .accept-button , decltine-button{
+        .accept-button , .decline-button{
             color: #001C41;
             background-color: #4CB5FB;
             cursor: pointer;

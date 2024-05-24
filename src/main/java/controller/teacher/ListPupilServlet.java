@@ -58,7 +58,7 @@ public class ListPupilServlet extends HttpServlet {
             /////  Get Class and grade of class of this teacher in one school year
              classes = classDAO.getTeacherClassByYear(schoolYear,teacher.getId());
              if(classes!=null){
-                 grade = gradeDAO.getGrade(classes.getGradeId().getId());
+                 grade = gradeDAO.getGrade(classes.getGrade().getId());
              }
 
         }
