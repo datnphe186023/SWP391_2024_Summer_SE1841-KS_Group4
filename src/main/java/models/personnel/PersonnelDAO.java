@@ -109,7 +109,7 @@ public class PersonnelDAO extends DBContext{
 
     public Personnel getPersonnel(String id){
         String sql = "select * from [Personnels] where id like ? ";
-       Personnel person = new Personnel();
+        Personnel person = new Personnel();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + id + "%");
@@ -140,7 +140,7 @@ public class PersonnelDAO extends DBContext{
     public int getNumberOfPersonByRole(int id){
         String sql = "select count(id) as numberofpersonbyrole\n" +
               "from Personnels where role_id = ? ";
-            int number = 0;
+        int number = 0;
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
@@ -173,8 +173,8 @@ public class PersonnelDAO extends DBContext{
 
             st.executeUpdate();
             }catch(Exception e){
-                System.out.println(e);
-            }
+            System.out.println(e);
+        }
     }
     public Personnel getPersonnelByUserId(String userId){
         String sql="select * from [User] u join Personnels p on u.id=p.user_id \n" +
@@ -203,4 +203,4 @@ public class PersonnelDAO extends DBContext{
         }
         return personnel;
     }
-}
+    }

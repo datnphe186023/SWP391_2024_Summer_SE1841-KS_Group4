@@ -60,13 +60,13 @@
 
             <!-- Admin homepage start-->
             <ul class="app-menu">
-                        <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-plus'></i><span
-                                    class="app-menu__label">Tạo tài khoản</span></a></li>
-                        <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
-                                    class="app-menu__label">Quản lý tài khoản</span></a></li>
+                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-plus'></i><span
+                            class="app-menu__label">Tạo tài khoản</span></a></li>
+                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
-                    <!-- Admin homepage end-->
+            <!-- Admin homepage end-->
         </aside>
 
         <!-- Head Teacher Information Section -->
@@ -151,14 +151,14 @@
         <script src="../js/main.js"></script>
         <script src="../js/plugins/pace.min.js"></script>
         <script>
-                            function previewAvatar(event) {
-                                const reader = new FileReader();
-                                reader.onload = function () {
-                                    const output = document.getElementById('avatarDisplay');
-                                    output.src = reader.result;
+                                function previewAvatar(event) {
+                                    const reader = new FileReader();
+                                    reader.onload = function () {
+                                        const output = document.getElementById('avatarDisplay');
+                                        output.src = reader.result;
+                                    }
+                                    reader.readAsDataURL(event.target.files[0]);
                                 }
-                                reader.readAsDataURL(event.target.files[0]);
-                            }
 
                             function redirectToInfoPage() {
                                 window.location.href = '${pageContext.request.contextPath}/admin/information';
