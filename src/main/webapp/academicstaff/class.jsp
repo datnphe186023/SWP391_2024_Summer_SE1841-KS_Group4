@@ -68,7 +68,7 @@
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
-                    <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
+                    <td><button type="button" class="btn btn-primary"><a href="pupilclass?classId=${classes.id}">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chi Tiết</a></button></td>
                 </tr>
             </c:forEach>
