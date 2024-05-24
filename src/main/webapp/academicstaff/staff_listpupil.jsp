@@ -40,10 +40,13 @@
             cursor: pointer;
         }
         .add-button:hover{
-                background-color: #5EA7EA;
+                background-color: white;
+                border: 1px grey solid;
         }
         .detail-button:hover {
-            background-color: #FFC300;
+            background-color: white;
+            border: 1px grey solid;
+            color: #001C41;
         }
         .search-field {
             width: 60%;
