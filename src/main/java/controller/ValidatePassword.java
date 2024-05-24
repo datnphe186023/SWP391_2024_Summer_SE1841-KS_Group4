@@ -11,23 +11,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ValidateOtp
+ * Servlet implementation class ValidatePassword
  */
-public class ValidateOtp extends HttpServlet {
+public class ValidatePassword extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int value = Integer.parseInt(request.getParameter("otp"));
+        String value = request.getParameter("passValue");
         
         // Get the current session
         HttpSession session = request.getSession();
-        int otp = (int) session.getAttribute("otp");
+        String newPass = (String) session.getAttribute("passGen");
 
         RequestDispatcher dispatcher = null;
         
-        // Check if user enter otp correct
-        if (value == otp) {
+        // Check if user enter new password correct
+        if (value.equals(newPass) ) {
 
             request.setAttribute("email", request.getParameter("email"));
             request.setAttribute("status", "success");
@@ -35,9 +35,9 @@ public class ValidateOtp extends HttpServlet {
             dispatcher.forward(request, response);
 
         } else {
-            request.setAttribute("message", "wrong otp");
+            request.setAttribute("message", "wrong password");
 
-            dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
+            dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
             dispatcher.forward(request, response);
 
         }
