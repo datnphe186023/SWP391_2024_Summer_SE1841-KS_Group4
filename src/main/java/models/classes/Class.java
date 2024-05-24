@@ -7,7 +7,8 @@ import models.schoolYear.SchoolYear;
 public class Class {
     private String id;
     private String name;
-    private Grade gradeId;
+    private Grade grade;
+    private Personnel teacher;
     private SchoolYear schoolYear;
     private String status;
     private Personnel createdBy;
@@ -15,10 +16,11 @@ public class Class {
     public Class() {
     }
 
-    public Class(String id, String name, Grade gradeId, SchoolYear schoolYear, String status, Personnel createdBy) {
+    public Class(String id, String name, Grade grade, Personnel teacher, SchoolYear schoolYear, String status, Personnel createdBy) {
         this.id = id;
         this.name = name;
-        this.gradeId = gradeId;
+        this.grade = grade;
+        this.teacher = teacher;
         this.schoolYear = schoolYear;
         this.status = status;
         this.createdBy = createdBy;
@@ -40,12 +42,12 @@ public class Class {
         this.name = name;
     }
 
-    public Grade getGradeId() {
-        return gradeId;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setGradeId(Grade gradeId) {
-        this.gradeId = gradeId;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     public SchoolYear getSchoolYear() {
@@ -70,5 +72,13 @@ public class Class {
 
     public void setCreatedBy(Personnel createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Personnel getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Personnel teacher) {
+        this.teacher = teacher;
     }
 }
