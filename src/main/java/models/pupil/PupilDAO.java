@@ -125,6 +125,41 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
 
+    public List<Pupil> searchPupilInClass(String search, String classId){
+        String sql="select * from Pupils p join classDetails c on p.id = c.pupil_id where \n" +
+                " (last_name+' '+ first_name like N'%"+search+"%' or pupil_id like '%"+search+"%' )and class_id= '"+classId+"'";
+        List<Pupil> listPupils = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Pupil pupil = new Pupil();
+                pupil = createPupil(resultSet);
+                listPupils.add(pupil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupils;
+    }
+
+    public List<Pupil> searchPupilByStatus(String search, String status){
+        String sql = "select * from Pupils where (last_name+' '+ first_name like N'%" + search + "%' or id like '%"+search+"%' ) and status = N'" + status+ "'";
+        List<Pupil> listPupils = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Pupil pupil = new Pupil();
+                pupil = createPupil(resultSet);
+                listPupils.add(pupil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupils;
+    }
+
 
     public Pupil getPupilsById(String id) {
         String sql = "select * from Pupils where id='" + id + "'";

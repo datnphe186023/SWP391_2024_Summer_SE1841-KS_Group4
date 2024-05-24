@@ -20,7 +20,7 @@ public class ReviewPupilServlet extends HttpServlet {
         String message ="";
         if(action!=null){
             if(action.equals("accept")){
-                pupilDAO.updatePupilStatus(pupilId,"đã duyệt - chưa có tài khoản");
+                pupilDAO.updatePupilStatus(pupilId,"đã duyệt - chưa có lớp");
                 message="Đã duyệt thành công";
             }else if(action.equals("decline")){
                 pupilDAO.updatePupilStatus(pupilId,"không được duyệt");

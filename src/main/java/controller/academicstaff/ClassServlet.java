@@ -16,7 +16,7 @@ import models.user.User;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "academicstaff/ClassServlet", value = "/academicstaff/class")
+    @WebServlet(name = "academicstaff/ClassServlet", value = "/academicstaff/class")
 public class ClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
