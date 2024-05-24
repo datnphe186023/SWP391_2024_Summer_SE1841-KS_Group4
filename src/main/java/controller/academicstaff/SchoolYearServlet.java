@@ -53,7 +53,7 @@ public class SchoolYearServlet extends HttpServlet {
                 PersonnelDAO personnelDAO = new PersonnelDAO();
                 Personnel personnel = personnelDAO.getPersonnel(username);
                 schoolYear.setCreatedBy(personnel);
-                schoolYearDAO.createSchoolYear(schoolYear);
+                schoolYearDAO.createNewSchoolYear(schoolYear);
             }
         }catch(Exception e){
             e.printStackTrace();

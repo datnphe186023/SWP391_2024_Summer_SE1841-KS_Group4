@@ -7,11 +7,12 @@ import utils.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SchoolYearDAO extends DBContext {
-    private SchoolYear createSchoolYear(ResultSet rs) throws SQLException {
+    private SchoolYear createNewSchoolYear(ResultSet rs) throws SQLException {
         SchoolYear schoolYear = new SchoolYear();
         schoolYear.setId(rs.getString("id"));
         schoolYear.setName(rs.getString("name"));
@@ -31,7 +32,7 @@ public class SchoolYearDAO extends DBContext {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                SchoolYear schoolYear = createSchoolYear(rs);
+                SchoolYear schoolYear = createNewSchoolYear(rs);
                 schoolYears.add(schoolYear);
             }
         }catch (Exception e) {
@@ -46,7 +47,7 @@ public class SchoolYearDAO extends DBContext {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                return createSchoolYear(rs);
+                return createNewSchoolYear(rs);
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +55,7 @@ public class SchoolYearDAO extends DBContext {
         return null;
     }
 
-    public void createSchoolYear(SchoolYear schoolYear) {
+    public void createNewSchoolYear(SchoolYear schoolYear) {
         String sql = "insert into schoolYear values(?,?,?,?,?,?)";
         try{
             //get the latest id
@@ -76,6 +77,27 @@ public class SchoolYearDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    private String generateId(int role){
+        String id ;
+        int newid ;
+        PersonnelDAO personnelDAO = new PersonnelDAO();
+        newid= pdao.getNumberOfPersonByRole(role)+1;
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        id= decimalFormat.format(newid);
+        if (role == 0) {
+            id = "AD" + id;
+        } else if (role == 1) {
+            id = "HT" + id;
+        } else if (role == 2) {
+            id = "AS" + id;
+        } else if (role==3){
+            id = "ACC"+ id;
+        }else if (role == 4){
+            id = "TEA"+ id;
+        }
+
+        return id;
+    }
 
     public SchoolYear getSchoolYear(String id) {
         String sql = "select * from schoolYears where id = ?";
@@ -84,7 +106,7 @@ public class SchoolYearDAO extends DBContext {
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                SchoolYear schoolYear = createSchoolYear(rs);
+                SchoolYear schoolYear = createNewSchoolYear(rs);
                 return schoolYear;
             }
         }catch (Exception e){
