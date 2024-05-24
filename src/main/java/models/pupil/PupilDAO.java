@@ -6,10 +6,13 @@ import utils.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PupilDAO extends DBContext {
 
@@ -37,7 +40,8 @@ public class PupilDAO extends DBContext {
         return pupil;
     }
 
-    public void createPupil(Pupil pupil) {
+    public boolean createPupil(Pupil pupil) {
+        PupilDAO pupilDAO = new PupilDAO();
         String sql = "INSERT INTO [dbo].[Pupils]\n"
                 + "           ([id]\n"
                 + "           ,[user_id]\n"
@@ -59,7 +63,7 @@ public class PupilDAO extends DBContext {
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, pupil.getId());
+            preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
             preparedStatement.setString(2, pupil.getUserId());
             preparedStatement.setString(3, pupil.getFirstName());
             preparedStatement.setString(4, pupil.getLastName());
@@ -79,9 +83,11 @@ public class PupilDAO extends DBContext {
             preparedStatement.setString(15, pupil.getCreatedBy().getId());
             preparedStatement.setString(16, pupil.getParentSpecialNote());
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
+        return false;
     }
 
     public List<Pupil> getAllPupils() {
@@ -119,31 +125,13 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
 
-    public List<Pupil> getListPupilByTeacherId(String teacherId) {
-        String sql = "select * from Pupils p join classDetails c on p.id = c.pupil_id\n"
-                + "where teacher_id= ?";
-        List<Pupil> listPupils = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, teacherId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Pupil pupil = new Pupil();
-                pupil = createPupil(resultSet);
-                listPupils.add(pupil);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return listPupils;
-    }
 
     public Pupil getPupilsById(String id) {
         String sql = "select * from Pupils where id='" + id + "'";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Pupil pupil = new Pupil();
                 pupil = createPupil(resultSet);
                 return pupil;
@@ -317,5 +305,31 @@ public class PupilDAO extends DBContext {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public Pupil getLatest(){
+        String sql = "select TOP 1 * from Pupils order by id desc";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return  createPupil(resultSet);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String generateId(String latestId){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "HS" + result;
     }
 }

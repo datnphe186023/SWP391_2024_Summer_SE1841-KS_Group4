@@ -66,13 +66,6 @@
                 </select>
             </form>
         </div>
-            <c:set value="${requestScope.classes}" var="classes"/>
-            <c:set value="${requestScope.grade}" var="grade"/>
-            <div class="col-lg-6">
-                <p style="font-weight: bold">Khối : ${grade.name}</p>
-                <p style="font-weight: bold">Lớp : ${classes.name}</p>
-            </div>
-
         <%--End : Search item    --%>
     </div>
 
