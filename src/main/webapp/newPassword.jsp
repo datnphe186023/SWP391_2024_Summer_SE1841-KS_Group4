@@ -34,7 +34,7 @@
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6 mt-5">
                         <!-- White Container -->
                         <div class="container bg-white rounded mt-2 mb-2 px-0">
-                            <!-- Main Heading -->
+                            <!-- Test Heading -->
                             <div class="row justify-content-center align-items-center pt-3">
                                 <h1>
                                     <strong>Đổi mật khẩu</strong>

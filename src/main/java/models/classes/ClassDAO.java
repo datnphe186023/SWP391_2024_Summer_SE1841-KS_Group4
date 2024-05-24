@@ -9,8 +9,11 @@ import utils.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClassDAO extends DBContext {
     private Class createClass(ResultSet resultSet) throws SQLException {
@@ -18,11 +21,12 @@ public class ClassDAO extends DBContext {
         c.setId(resultSet.getString("id"));
         c.setName(resultSet.getString("name"));
         GradeDAO gradeDAO = new GradeDAO();
-        c.setGradeId(gradeDAO.getGrade(resultSet.getString("grade_id")));
+        c.setGrade(gradeDAO.getGrade(resultSet.getString("grade_id")));
+        PersonnelDAO personnelDAO = new PersonnelDAO();
+        c.setTeacher(personnelDAO.getPersonnel(resultSet.getString("teacher_id")));
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         c.setSchoolYear(schoolYearDAO.getSchoolYear(resultSet.getString("school_year_id")));
         c.setStatus(resultSet.getString("status"));
-        PersonnelDAO personnelDAO = new PersonnelDAO();
         c.setCreatedBy(personnelDAO.getPersonnel(resultSet.getString("created_by")));
         return c;
     }
@@ -62,9 +66,6 @@ public class ClassDAO extends DBContext {
 
     public Class getClassById(String id){
         String sql="select * from Class where id = ?";
-        GradeDAO gradeDAO = new GradeDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        PersonnelDAO personnelDAO = new PersonnelDAO();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,id);
@@ -95,5 +96,65 @@ public class ClassDAO extends DBContext {
         }
         Class classes =  classDAO.getClassById(classId);
         return classes;
+    }
+
+    public void createNewClass(Class c){
+        String sql = "insert into [Class] values (?,?,?,?,?,?,?)";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, generateId(getLatest().getId()));
+            preparedStatement.setString(2,c.getName());
+            preparedStatement.setString(3, c.getGrade().getId());
+            preparedStatement.setString(4, c.getTeacher().getId());
+            preparedStatement.setString(5, c.getSchoolYear().getId());
+            preparedStatement.setString(6, "đang chờ duyệt");
+            preparedStatement.setString(7, c.getCreatedBy().getId());
+            preparedStatement.executeUpdate();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Class getLatest(){
+        String sql = "select TOP 1 * from Class order by id desc";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return createClass(resultSet);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String generateId(String latestId){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "C" + result;
+    }
+
+    public List<Class> getByStatus(String status){
+        String sql = " Select * from Class where [status] = N'" + status + "'";
+        try{
+            List<Class> classes = new ArrayList<>();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Class c = createClass(resultSet);
+                classes.add(c);
+            }
+            return classes;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
