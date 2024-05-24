@@ -54,7 +54,7 @@
                             class="app-menu__label">Quản lý lớp học</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-calendar-event'></i><span
                             class="app-menu__label">Quản lý thời khóa biểu</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user'></i><span
+                <li><a class="app-menu__item" href="../headteacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
                             class="app-menu__label">Quản lý học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-check'></i><span
                             class="app-menu__label">Quản lý nhân sự</span></a></li>
