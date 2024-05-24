@@ -7,6 +7,7 @@ package models.personnel;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DBContext;
@@ -174,5 +175,32 @@ public class PersonnelDAO extends DBContext{
             }catch(Exception e){
                 System.out.println(e);
             }
+    }
+    public Personnel getPersonnelByUserId(String userId){
+        String sql="select * from [User] u join Personnels p on u.id=p.user_id \n" +
+                "where u.id = ?";
+        Personnel personnel = new Personnel();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                personnel.setId(resultSet.getString(7)); /// 7 is position of personnel Id on join of two table
+                personnel.setFirstName(resultSet.getString("first_name"));
+                personnel.setLastName(resultSet.getString("last_name"));
+                personnel.setGender(resultSet.getBoolean("gender"));
+                personnel.setBirthday(resultSet.getDate("birthday"));
+                personnel.setEmail(resultSet.getString("email"));
+                personnel.setAddress(resultSet.getString("address"));
+                personnel.setPhoneNumber(resultSet.getString("phone_number"));
+                personnel.setRoleId(resultSet.getInt("role_id"));
+                personnel.setStatus(resultSet.getString("status"));
+                personnel.setAvatar(resultSet.getString("avatar"));
+                personnel.setUserId(resultSet.getString("user_id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return personnel;
     }
 }
