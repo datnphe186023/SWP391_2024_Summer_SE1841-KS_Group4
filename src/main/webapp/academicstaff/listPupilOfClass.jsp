@@ -1,9 +1,8 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: Anh Quan
-  Date: 5/23/2024
-  Time: 8:47 PM
+  Date: 5/24/2024
+  Time: 10:10 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,6 +11,7 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
+
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();
@@ -19,24 +19,31 @@
     </script>
 </head>
 <body>
-<jsp:include page="dashboard_headteacher.jsp"/>
+<jsp:include page="dashboard_staff.jsp"/>
 <%--Begin : title    --%>
 <main class="app-content">
     <div class="row justify-content-center">
-        <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh đang chờ phê duyệt</span>
+        <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh</span>
     </div>
     <%--End : title    --%>
-    <c:set value="${requestScope.message}" var="message"/>
-    <c:if test="${message eq 'Đã duyệt thành công' }">
-        <div class="row justify-content-center" style="margin: 30px;">
-            <span class="bg-success font-weight-bold rounded-lg" style="padding: 8px;border-radius: 30px;">${message}</span>
+    <div class="row">
+        <%--  Begin : Search item      --%>
+            <div class="col-lg-6">
+                <form action="pupilclass">
+                    <input type="hidden" value="${sessionScope.classId}" name="id">
+                    <div class="search-field">
+                        <div class="form-group has-search">
+                            <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
+                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Search" name="information">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        <div class="col-lg-6">
+            <a class="add-button" href="addpupiltoclass?classId=${sessionScope.classId}">ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPupilsPending})</a>
         </div>
-    </c:if>
-    <c:if test="${message eq 'Đã từ chối' }">
-        <div class="row justify-content-center" style="margin: 30px;">
-            <span class="bg-warning font-weight-bold rounded-lg"style="padding: 8px;border-radius: 30px;">${message}</span>
-        </div>
-    </c:if>
+        <%--End : Search item    --%>
+    </div>
 
     <div class="row">
         <table  class="table table-bordered">
@@ -55,15 +62,13 @@
                 <tr >
                     <td>${index}</td>
                     <td>${pupil.id}</td>
-                    <td style="width: 30%;"><img src="../images/${pupil.avatar}"
+                    <td style="width: 20%;"><img src="../images/${pupil.avatar}"
                                                  class="mx-auto d-block"
-                                                 style="width:50%;"></td>
+                                                 style="width:50%"></td>
                     <td>${pupil.lastName} ${pupil.firstName}</td>
                     <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
                     <td>${pupil.address}</td>
-                    <td style=" vertical-align: middle; padding-left: 10px"  ><a class="accept-button" href="reviewpupil?action=accept&id=${pupil.id}">Chấp nhận</a><br>
-                        <a class="decline-button" href="reviewpupil?action=decline&id=${pupil.id}">Từ chối</a>
-                    </td>
+                    <td style=" vertical-align: middle" ><a class="detail-button" href="pupilprofile?id=${pupil.id}">Chi tiết</a></td>
                 </tr>
                 <c:set var="index" value="${index+1}"/>
             </c:forEach>
@@ -73,11 +78,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-

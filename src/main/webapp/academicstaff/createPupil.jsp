@@ -9,10 +9,6 @@
 <html>
 <head>
     <title>Title</title>
-
-    <style>
-
-    </style>
 </head>
 <body>
 <jsp:include page="dashboard_staff.jsp"/>
