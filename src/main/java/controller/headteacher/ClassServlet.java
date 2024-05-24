@@ -18,6 +18,7 @@ public class ClassServlet extends HttpServlet {
         try{
             SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
             ClassDAO classDAO = new ClassDAO();
+            //send list of all schoolYear to jsp
             request.setAttribute("schoolYears", schoolYearDAO.getAll());
             String schoolYearId = request.getParameter("schoolYearId");
             if (schoolYearId == null) {
@@ -27,7 +28,7 @@ public class ClassServlet extends HttpServlet {
             List<Class> classes = classDAO.getBySchoolYear(schoolYearId);
             request.setAttribute("selectedSchoolYearId", schoolYearId);
             request.setAttribute("classes", classes);
-            request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ xử lý").size());
+            request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ duyệt").size());
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();

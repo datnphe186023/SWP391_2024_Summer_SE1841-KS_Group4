@@ -5,36 +5,47 @@
 
 <head>
     <title>Danh Sách Lớp Học</title>
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+    </script>
 </head>
 
 <body>
 <jsp:include page="dashboard_staff.jsp"/>
 <main class="app-content">
     <div class="container my-4">
-        <div class="text-center mb-3">
-            <h2>Danh Sách Lớp Học</h2>
+        <div class="row justify-content-center">
+            <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách lớp học</span>
         </div>
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="input-group w-50">
-                <input type="text" class="form-control" placeholder="Search by keyword" aria-label="Search">
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form action="#">
+                    <div class="search-field">
+                        <div class="form-group has-search">
+                            <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
+                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Tìm kiếm theo tên" name="information">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <form action="class"  id="myForm">
+                    <div class="year-form">
+                        <label >Chọn năm học</label>
+                        <select class="form-select"  aria-label="Default select example" onchange="submitForm()" name="schoolYearId">
+                            <c:forEach items="${requestScope.schoolYears}" var="year">
+                                <option ${requestScope.selectedSchoolYearId eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="input-group w-25">
-            <select class="form-control" id="schoolYearSelect" name="schoolYearId">
-                <c:forEach var="year" items="${requestScope.schoolYears}">
-                    <option value="${year.id}" <c:if test="${year.id.equals(requestScope.selectedSchoolYearId)}">selected</c:if>>${year.name}</option>
-                </c:forEach>
-            </select>
-        </div>
-
         <div>
         <table class="table table-bordered">
-            <thead class="thead-light">
-            <tr>
+            <tr class="table">
                 <th scope="col">STT</th>
                 <th scope="col">ID</th>
                 <th scope="col">Tên Lớp</th>
@@ -46,14 +57,13 @@
                 <th scope="col">Danh Sách Học Sinh</th>
                 <th scope="col">Thông Tin Lớp</th>
             </tr>
-            </thead>
             <tbody>
             <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
                 <tr>
                     <th scope="row">${status.index + 1}</th>
                     <td>${classes.id}</td>
                     <td>${classes.name}</td>
-                    <td>${classes.gradeId.name}</td>
+                    <td>${classes.grade.name}</td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>

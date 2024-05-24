@@ -157,4 +157,21 @@ public class ClassDAO extends DBContext {
         }
         return null;
     }
+
+    public void reviewClass(String newStatus, String id){
+        String sql = "update [Class] set [status]= ? where [id] = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            if (newStatus.equals("accept")) {
+                newStatus = "đã được duyệt";
+            } else {
+                newStatus = "đã từ chối";
+            }
+            preparedStatement.setString(1,newStatus);
+            preparedStatement.setString(2,id);
+            preparedStatement.executeUpdate();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

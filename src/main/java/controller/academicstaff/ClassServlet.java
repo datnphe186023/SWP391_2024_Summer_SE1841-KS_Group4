@@ -23,7 +23,7 @@ public class ClassServlet extends HttpServlet {
         ClassDAO classDAO = new ClassDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         try{
-            String schoolYearId = request.getParameter("schoolYear");
+            String schoolYearId = request.getParameter("schoolYearId");
             if (schoolYearId == null) {
                 SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
                 schoolYearId = latestSchoolYear.getId();
