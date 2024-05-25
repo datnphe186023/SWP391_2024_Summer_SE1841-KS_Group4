@@ -8,8 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SchoolYearDAO extends DBContext {
     private SchoolYear createNewSchoolYear(ResultSet rs) throws SQLException {
@@ -55,48 +58,43 @@ public class SchoolYearDAO extends DBContext {
         return null;
     }
 
-    public void createNewSchoolYear(SchoolYear schoolYear) {
-        String sql = "insert into schoolYear values(?,?,?,?,?,?)";
+    public String createNewSchoolYear(SchoolYear schoolYear) {
+        String sql = "insert into SchoolYears values(?,?,?,?,?,?)";
         try{
-            //get the latest id
-            String sql1 = "SELECT TOP 1 * FROM SchoolYears ORDER BY ID DESC";
-            PreparedStatement statement1 = connection.prepareStatement(sql1);
-            ResultSet rs1 = statement1.executeQuery();
-            if (rs1.next()) {
-                schoolYear.setId(rs1.getString("id"));
+            if (schoolYear.getEndDate().before(schoolYear.getStartDate())) {
+                throw new Exception("Tạo mới thất bại. Ngày kết thúc không thể trước ngày bắt đầu");
             }
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, schoolYear.getId());
+            statement.setString(1, generateId(getLatest().getId()));
             statement.setString(2, schoolYear.getName());
-            statement.setString(3, schoolYear.getStartDate().toString());
-            statement.setString(4, schoolYear.getEndDate().toString());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String sqlStartDate = dateFormat.format(schoolYear.getStartDate());
+            statement.setString(3, sqlStartDate);
+            String sqlEndDate = dateFormat.format(schoolYear.getEndDate());
+            statement.setString(4, sqlEndDate);
             statement.setString(5, schoolYear.getDescription());
             statement.setString(6, schoolYear.getCreatedBy().getId());
             statement.execute();
-        }catch (Exception e) {
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return "Tạo mới thất bại. Năm học đã tồn tại";
+        } catch (Exception e) {
             e.printStackTrace();
+            return e.getMessage();
         }
+        return "success";
     }
-    private String generateId(int role){
-        String id ;
-        int newid ;
-        PersonnelDAO personnelDAO = new PersonnelDAO();
-        newid= personnelDAO.getNumberOfPersonByRole(role)+1;
-        DecimalFormat decimalFormat = new DecimalFormat("000000");
-        id= decimalFormat.format(newid);
-        if (role == 0) {
-            id = "AD" + id;
-        } else if (role == 1) {
-            id = "HT" + id;
-        } else if (role == 2) {
-            id = "AS" + id;
-        } else if (role==3){
-            id = "ACC"+ id;
-        }else if (role == 4){
-            id = "TEA"+ id;
-        }
 
-        return id;
+    private String generateId(String latestId){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "SY" + result;
     }
 
     public SchoolYear getSchoolYear(String id) {

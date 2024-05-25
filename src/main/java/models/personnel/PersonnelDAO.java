@@ -18,6 +18,23 @@ import utils.DBContext;
  * @author asus
  */
 public class PersonnelDAO extends DBContext{
+    private Personnel createPersonnel(ResultSet resultSet) throws SQLException {
+        Personnel person = new Personnel();
+        person.setId(resultSet.getString("id"));
+        person.setFirstName(resultSet.getString("first_name"));
+        person.setLastName(resultSet.getString("last_name"));
+        person.setGender(resultSet.getBoolean("gender"));
+        person.setBirthday(resultSet.getDate("birthday"));
+        person.setEmail(resultSet.getString("email"));
+        person.setAddress(resultSet.getString("address"));
+        person.setPhoneNumber(resultSet.getString("phone_number"));
+        person.setRoleId(resultSet.getInt("role_id"));
+        person.setStatus(resultSet.getString("status"));
+        person.setAvatar(resultSet.getString("avatar"));
+        person.setUserId(resultSet.getString("user_id"));
+        return person;
+    }
+
     // Get all personnel infomation
     public List<Personnel> getAllPersonnels(){
         String sql = "select * from [Personnels] ";
@@ -284,5 +301,24 @@ public class PersonnelDAO extends DBContext{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Personnel> getAvailableTeachers(){
+        String sql = "SELECT *\n" +
+                "FROM Personnels t\n" +
+                "         LEFT JOIN class c ON t.id = c.teacher_id AND c.school_year_id = 'SY000002'\n" +
+                "WHERE c.teacher_id IS NULL and t.id like 'TEA%' and t.status like N'đang làm việc%';";
+        List<Personnel> teachers =new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Personnel teacher = createPersonnel(resultSet);
+                teachers.add(teacher);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return teachers;
     }
 }

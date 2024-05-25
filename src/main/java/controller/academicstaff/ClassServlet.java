@@ -23,6 +23,16 @@ public class ClassServlet extends HttpServlet {
         ClassDAO classDAO = new ClassDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         try{
+            HttpSession session = request.getSession();
+            String toastType = "", toastMessage = "";
+            if (session.getAttribute("toastType") != null) {
+                toastType = session.getAttribute("toastType").toString();
+                toastMessage = session.getAttribute("toastMessage").toString();
+            }
+            session.removeAttribute("toastType");
+            session.removeAttribute("toastMessage");
+            request.setAttribute("toastType", toastType);
+            request.setAttribute("toastMessage", toastMessage);
             String schoolYearId = request.getParameter("schoolYearId");
             if (schoolYearId == null) {
                 SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
@@ -32,11 +42,11 @@ public class ClassServlet extends HttpServlet {
             request.setAttribute("classes", classes);
             List<SchoolYear> schoolYears = schoolYearDAO.getAll();
             request.setAttribute("schoolYears", schoolYears);
-            request.setAttribute("selectedSchoolYearId", schoolYearId);
+            request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
             GradeDAO gradeDAO = new GradeDAO();
             request.setAttribute("grades", gradeDAO.getAll());
             PersonnelDAO personnelDAO = new PersonnelDAO();
-            request.setAttribute("teachers", personnelDAO.getPersonnelByRole(4));
+            request.setAttribute("teachers", personnelDAO.getAvailableTeachers());
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();
@@ -65,7 +75,14 @@ public class ClassServlet extends HttpServlet {
                 User user = (User) session.getAttribute("user");
                 c.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
                 ClassDAO classDAO = new ClassDAO();
-                classDAO.createNewClass(c);
+                String result = classDAO.createNewClass(c);
+                if (result.equals("success")) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Tạo mới thành công");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", result);
+                }
                 response.sendRedirect("class");
             }
         }
