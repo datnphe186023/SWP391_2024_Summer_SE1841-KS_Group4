@@ -8,6 +8,7 @@ package controller.accountant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.role.Role;
 
 /**
  *
  * @author asus
  */
-public class ACCViewPersonnelServlet extends HttpServlet {
+@WebServlet(name="ListPersonnelServlet", urlPatterns={"/accountant/listpersonnel"})
+public class ListPersonnelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +40,10 @@ public class ACCViewPersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewPersonnelServlet</title>");  
+            out.println("<title>Servlet ListPersonnelServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewPersonnelServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListPersonnelServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,10 +57,20 @@ public class ACCViewPersonnelServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+ @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
+        List<Personnel> persons = new ArrayList<Personnel>();
+        List<Role> roles = new ArrayList<>();   
+        PersonnelDAO pdao = new PersonnelDAO();
+        persons = pdao.getAllPersonnels();
+        roles = pdao.getAllPersonnelRole();
+        
+        request.setAttribute("persons", persons);
+        request.setAttribute("roles", roles);
+        
+        request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
     } 
 
     /** 
@@ -70,13 +83,25 @@ public class ACCViewPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String xid = request.getParameter("id");
-        
-        Personnel person = new Personnel();
-        PersonnelDAO pdao = new PersonnelDAO();   
-       person = pdao.getPersonnel(xid);
-       request.setAttribute("person", person);
-        request.getRequestDispatcher("accountant/accountant_viewPersonnelInfomation.jsp").forward(request, response);
+         String role = request.getParameter("role");
+
+       String search = request.getParameter("search");
+       List<Personnel> persons = new ArrayList<Personnel>();
+       List<Role> roles = new ArrayList<>();
+        PersonnelDAO pdao = new PersonnelDAO();  
+        roles = pdao.getAllPersonnelRole();
+       if(role==null){
+        persons = pdao.getPersonnelByNameOrId(search);
+        request.setAttribute("searchdata", search);
+       }else{
+          int roleid = Integer.parseInt(role);
+          persons = pdao.getPersonnelByRole(roleid);
+          request.setAttribute("selectedrole", role);
+       }
+       
+       request.setAttribute("roles", roles);
+       request.setAttribute("persons", persons);
+        request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
     }
 
     /** 
