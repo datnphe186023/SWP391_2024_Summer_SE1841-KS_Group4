@@ -8,6 +8,7 @@ package controller.headteacher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.role.Role;
 
 /**
  *
  * @author asus
  */
-public class HTListPersonnelServlet extends HttpServlet {
+@WebServlet(name = "headteacher/ListPersonnelServlet", value = "/headteacher/listpersonnel")
+public class ListPersonnelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +40,10 @@ public class HTListPersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HTListPersonnelServlet</title>");  
+            out.println("<title>Servlet ListPersonnelServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HTListPersonnelServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListPersonnelServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,14 +57,19 @@ public class HTListPersonnelServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
         List<Personnel> persons = new ArrayList<Personnel>();
+        List<Role> roles = new ArrayList<>();
+        List<Personnel> waitlist= new ArrayList<>();
         PersonnelDAO pdao = new PersonnelDAO();
         persons = pdao.getAllPersonnels();
+        roles = pdao.getAllPersonnelRole();
+        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
         request.setAttribute("persons", persons);
+        request.setAttribute("roles", roles);
+        request.setAttribute("waitlist", waitlist);
         request.getRequestDispatcher("headteacher_listPersonnel.jsp").forward(request, response);
     } 
 
@@ -79,13 +87,21 @@ public class HTListPersonnelServlet extends HttpServlet {
 
        String search = request.getParameter("search");
        List<Personnel> persons = new ArrayList<Personnel>();
-        PersonnelDAO pdao = new PersonnelDAO();   
+       List<Role> roles = new ArrayList<>();
+        PersonnelDAO pdao = new PersonnelDAO();  
+        roles = pdao.getAllPersonnelRole();
        if(role==null){
         persons = pdao.getPersonnelByNameOrId(search);
+        request.setAttribute("searchdata", search);
        }else{
           int roleid = Integer.parseInt(role);
           persons = pdao.getPersonnelByRole(roleid);
+          request.setAttribute("selectedrole", role);
        }
+       List<Personnel> waitlist= new ArrayList<>();
+        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        request.setAttribute("waitlist", waitlist);
+       request.setAttribute("roles", roles);
        request.setAttribute("persons", persons);
         request.getRequestDispatcher("headteacher_listPersonnel.jsp").forward(request, response);
     }

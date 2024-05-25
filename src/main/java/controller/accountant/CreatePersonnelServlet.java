@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.headteacher;
+package controller.accountant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +19,8 @@ import models.personnel.PersonnelDAO;
  *
  * @author asus
  */
-public class HTCreatePersonnelServlet extends HttpServlet {
+@WebServlet(name="CreatePersonnelServlet", urlPatterns={"/accountant/createpersonnel"})
+public class CreatePersonnelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +37,10 @@ public class HTCreatePersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HTCreatePersonnelServlet</title>");  
+            out.println("<title>Servlet CreatePersonnelServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HTCreatePersonnelServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CreatePersonnelServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +57,7 @@ public class HTCreatePersonnelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       request.getRequestDispatcher("headteacher_createNewPersonnel.jsp").forward(request, response);
+         
     } 
 
     /** 
@@ -66,8 +68,10 @@ public class HTCreatePersonnelServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+      String action = request.getParameter("action");
+       if(action.equalsIgnoreCase("create")){
        String xfirstname = request.getParameter("firstname");
        String xlastname = request.getParameter("lastname");
        String xbirthday = request.getParameter("birthday");
@@ -83,11 +87,11 @@ public class HTCreatePersonnelServlet extends HttpServlet {
        String id =generateId(role);
        
        pdao.insertPersonnel(id, xfirstname, xlastname, gender, xbirthday, xaddress, xemail, xphone, role, xavatar);
-       request.getRequestDispatcher("headteacher_createNewPersonnel.jsp").forward(request, response);
-       
+       }
+       response.sendRedirect("listpersonnel");
         
     }
-private String generateId(int role){
+    private String generateId(int role){
         String id ;
         int newid ;
         PersonnelDAO pdao = new PersonnelDAO();
