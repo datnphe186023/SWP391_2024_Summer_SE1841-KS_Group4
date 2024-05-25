@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.headteacher;
+package controller.accountant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +19,8 @@ import models.personnel.PersonnelDAO;
  *
  * @author asus
  */
-public class HTViewPersonnelServlet extends HttpServlet {
+@WebServlet(name="ViewPersonnelServlet", urlPatterns={"/accountant/viewpersonnel"})
+public class ViewPersonnelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +37,10 @@ public class HTViewPersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HTViewPersonnelServlet</title>");  
+            out.println("<title>Servlet ViewPersonnelServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HTViewPersonnelServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewPersonnelServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,9 +55,14 @@ public class HTViewPersonnelServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+           String xid = request.getParameter("id");
+        Personnel person ;
+        PersonnelDAO pdao = new PersonnelDAO();  
+        person = pdao.getPersonnel(xid);
+       request.setAttribute("person", person);
+        request.getRequestDispatcher("accountant_viewPersonnelInfomation.jsp").forward(request, response);  
     } 
 
     /** 
@@ -68,13 +75,13 @@ public class HTViewPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String xid = request.getParameter("id");
-        
-        Personnel person = new Personnel();
-        PersonnelDAO pdao = new PersonnelDAO();   
-       person = pdao.getPersonnel(xid);
-       request.setAttribute("person", person);
-        request.getRequestDispatcher("headteacher_viewPersonnelInfomation.jsp").forward(request, response);
+//        String xid = request.getParameter("id");
+//        
+//        Personnel person = new Personnel();
+//        PersonnelDAO pdao = new PersonnelDAO();   
+//       person = pdao.getPersonnel(xid);
+//       request.setAttribute("person", person);
+//        request.getRequestDispatcher("accountant_viewPersonnelInfomation.jsp").forward(request, response);
     }
 
     /** 

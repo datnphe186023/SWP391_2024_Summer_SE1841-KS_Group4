@@ -1,177 +1,301 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
     <head>
-        <title>Title</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Test CSS-->
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-        <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css"
-              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <title>Quản lý Nhân sự</title>
+        <style >
+            #style-span{
+                padding: 11px 150px;
+                margin-top: 10px;
+                border-radius: 20px;
+                margin-bottom: 40px;
+            }
+            table.table-bordered, table.table-bordered th, table.table-bordered td {
+                border: 2px solid black;
+                text-align: center;
+            }
+            .detail-button {
+                color: #001C41;
+                background-color: #FFD43A;
+                cursor: pointer;
+                border-radius: 20px;
+                padding: 5px -2px;
+                display: block;
+            }
+
+            .detail-button:hover {
+                background-color: white;
+                color: #001C41;
+                border: 1px grey solid;
+            }
+
+            .form-select{
+                padding: 5px 53px;
+            }
+            .role{
+                border-radius: 15px;
+                border: 1px #000 solid;
+            }
+            .round {
+                border-radius: 15px;
+                border: 1px #000 solid;
+            }
+            .addnew-button{
+                color: white;
+                background-color: #169D53;
+                padding: 10px 10px;
+                border-radius: 30px;
+                float: right;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .addnew-button:hover{
+                background-color: white;
+                color: #169D53;
+                border: 1px grey solid;
+            }
+            .view-button{
+                color: white;
+                background-color: #007bff;
+                padding: 10px 10px;
+                border-radius: 30px;
+                float: right;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .view-button:hover{
+                background-color: white;
+                color: #007bff;
+                border: 1px grey solid;
+            }
+
+        </style>
+        <script>
+            function submitForm() {
+                document.getElementById("myForm").submit();
+            }
+        </script>
     </head>
+    <body>
+        <jsp:include page="dashboard_accountant.jsp"/>
 
-    <body onload="time()" class="app sidebar-mini rtl">
-        <!-- Navbar-->
-        <header class="app-header">
-            <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-                                            aria-label="Hide Sidebar"></a>
-            <!-- Navbar Right Menu-->
-            <ul class="app-nav">
-
-
-                <!-- User Menu-->
-                <li><a class="app-nav__item" href="login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
-                </li>
-            </ul>
-        </header>
-        <!-- Sidebar menu-->
-        <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
-                <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.account.fullName}</b></p>
-                    <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
-                </div>
-            </div>
-            <hr>
-            <ul class="app-menu">
-                <li><a class="app-menu__item" href="admin"><i class='app-menu__icon fa fa-money'></i><span
-                            class="app-menu__label">HỌC PHÍ</span></a></li>
-                <li><a class="app-menu__item" href="customermanager"><i class='app-menu__icon fa fa-user'></i><span
-                            class="app-menu__label">ĐIỂM DANH</span></a></li>
-                <li><a class="app-menu__item" href="productmanager"><i
-                            class='app-menu__icon fa fa-users'></i><span class="app-menu__label">QUẢN LÝ NHÂN SỰ</span></a>
-                </li>
-                <li><a class="app-menu__item" href="ordermanager"><i class='app-menu__icon fa fa-notes-medical'></i><span
-                            class="app-menu__label" style="text-wrap: pretty;">BÁO CÁO SỨC KHỎE CỦA HỌC SINH </span></a></li>
-                <li><a class="app-menu__item" href="admin"><i class='app-menu__icon fa fa-utensils'></i><span
-                            class="app-menu__label">THỰC ĐƠN</span></a></li>
-                <li><a class="app-menu__item" href="admin"><i class='app-menu__icon fa fa-bell'></i><span
-                            class="app-menu__label">THÔNG BÁO</span></a></li>
-            </ul>
-        </aside>
         <main class="app-content">
-            <div style="display: flex; justify-content: center">
-                <div style="display: block; border: 2px solid black;
-                     border-radius: 5px; ">
-                    <header style="text-decoration: #007bff; background-color:#000; color: #ffffff; padding-left:200px; padding-right: 200px   " >DANH SÁCH NHÂN VIÊN</header>  
-                </div>
-
+            <div class="row justify-content-center">
+                <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách Nhân viên </span>
             </div>
+
+            <div class="row">
+                <%--  Begin : Select item      --%>
+                <c:set var="sltedrole" value="${requestScope.selectedrole}"/>
+
+                <div class="col-lg-5" style="display: flex; justify-content: space-between">
+
+                    <div class="class-form">
+                        <form action="listpersonnel" method="post" >    
+                            <label >Chọn chức vụ </label>
+                            <select name="role" onchange="this.form.submit()" class="role">
+                                <option value="" hidden selected>Chức vụ</option>
+                                <c:forEach items="${requestScope.roles}" var="r">
+                                    <option ${sltedrole eq r.getId() ? "selected" : ""} value="${r.getId()}">${r.getVNeseDescription()}</option> 
+                                </c:forEach>
+
+                            </select>
+                        </form>        
+                    </div>
+
+                    <div class="search">
+                        <form action="listpersonnel" method="post" >   
+                            <label >Tìm kiếm </label>
+
+                            <input  type="text" name="search" placeholder="Nhập Tên hoặc ID " class="round" >    
+
+                        </form>
+                    </div>
+
+                </div>
+                <%--End : Select item    --%>
+                <div class="col-lg-7" style="display: flex; justify-content: end">
+                    <div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPersonnelModal">
+                            TẠO NHÂN VIÊN MỚI
+                        </button>
+
+                    </div>
+                    
+
+
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-lg-6"  style="display: flex">
+                    <div>
+                        <button type="button" onclick="redirect()">Hiện toàn bộ</button>
+                    </div>
+
+                </div>
+            </div>
+
             <style>
                 /* Hide the placeholder in the dropdown options */
                 option[hidden] {
                     display: none;
                 }
             </style>
-            <div>
-                <div style="display: flex ;justify-content: space-between">
-                    <div>
-                        <button type="button" onclick="redirect()">Thêm nhân viên</button>
-                    </div>
-                    <div style="display: flex ;justify-content: space-between">
-                        <form action="acclistpersonnel" method="post">    
-                            <select name="role" onchange="this.form.submit()" id="role">
-                                <option value="" hidden selected>Chức vụ</option>
-                                <option value="0">Admin</option>
-                                <option value="1">Hiệu trưởng</option>
-                                <option value="2">Academic staff</option>
-                                <option value="3">Nhân viên kế toán</option>
-                                <option value="4">Giáo viên</option>
-                            </select>
-                        </form>  
-                        <form action="acclistpersonnel" method="post" >    
-                            <input  type="text" name="search" placeholder="Nhập Tên hoặc ID ">    
 
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-
-            <table border="10" cellspacing="2">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã Nhân Viên</th>
-                        <th>Tên</th>
-                        <th>Giới Tính</th>
-                        <th>Ngày sinh</th>
-                        <th>Chức vụ</th>
-                        <th>Trạng thái</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:set var="count" value="0" />
-
-
-
-                    <c:forEach items="${persons}" var="p">
-                        <c:set var="count" value="${count + 1}" />      
+            <div class="row">
+                <table border="10" cellspacing="2">
+                    <thead>
                         <tr>
-                            <td>${count}</td>
-                            <td>${p.getId()}</td>
-                            <td>${p.getLastName()} ${p.getFirstName()}</td>
-                            <td>
-                                <c:if test="${p.getGender()==true}">     
-                                    Nam
-                                </c:if>
-                                <c:if test="${p.getGender()==false}">     
-                                    Nữ
-                                </c:if>
-                            </td>
-                            <td>${p.getBirthday()} </td>
-                            <td>
-                                <c:if test="${p.getRoleId()== 0}">     
-                                    Admin
-                                </c:if>
-                                <c:if test="${p.getRoleId()==1}">     
-                                    Hiệu trưởng
-                                </c:if>
-                                <c:if test="${p.getRoleId()==2}">     
-                                    Accademic Staff
-                                </c:if>
-                                <c:if test="${p.getRoleId()==3}">     
-                                    Nhân viên kế toán
-                                </c:if>
-                                <c:if test="${p.getRoleId()==4}">     
-                                    Giáo viên
-                                </c:if>
-                            </td>
-
-
-                            <td>${p.getStatus()} </td>
-                            <td>
-                                <form action="accviewpersonnel" method="post">
-                                    <input type="hidden" value="${p.getId()}" name="id">
-                                    <input type="submit" value="Xem thông tin chi tiết" name="viewdetail" />     
-                                </form>
-
-                            </td>
+                            <th>STT</th>
+                            <th>Ảnh</th>
+                            <th>Mã Nhân Viên</th>
+                            <th>Tên</th>
+                            <th>Giới Tính</th>
+                            <th>Ngày sinh</th>
+                            <th>Chức vụ</th>
+                            <th>Trạng thái</th>
+                            <th>Chi tiết</th>
                         </tr>
-                    </c:forEach>
+                    </thead>
+                    <tbody>
+                        <c:set var="count" value="0" />
 
-                </tbody>
-            </table>
+
+
+                        <c:forEach items="${persons}" var="p">
+                            <c:set var="count" value="${count + 1}" />      
+                            <tr>
+                                <td>${count}</td>
+                                <td><img class="profile_img" src="../images/${p.getAvatar()}" alt="ảnh nhân viên" width="191px" height="263px" object-fit: cover></td>
+                                <td>${p.getId()}</td>
+                                <td>${p.getLastName()} ${p.getFirstName()}</td>
+                                <td>
+                                    <c:if test="${p.getGender()==true}">     
+                                        Nam
+                                    </c:if>
+                                    <c:if test="${p.getGender()==false}">     
+                                        Nữ
+                                    </c:if>
+                                </td>
+                                <td>${p.getBirthday()} </td>
+                                <td>
+                                    <c:if test="${p.getRoleId()== 0}">     
+                                        Admin
+                                    </c:if>
+                                    <c:if test="${p.getRoleId()==1}">     
+                                        Hiệu trưởng
+                                    </c:if>
+                                    <c:if test="${p.getRoleId()==2}">     
+                                        Accademic Staff
+                                    </c:if>
+                                    <c:if test="${p.getRoleId()==3}">     
+                                        Nhân viên kế toán
+                                    </c:if>
+                                    <c:if test="${p.getRoleId()==4}">     
+                                        Giáo viên
+                                    </c:if>
+                                </td>
+
+
+                                <td>${p.getStatus()} </td>
+                                <td>
+                                    <form action="viewpersonnel" method="get">
+                                        <input type="hidden" value="${p.getId()}" name="id">  
+                                        <button type="submit">Xem thông tin chi tiết</button>   
+                                    </form>
+                                       
+                                </td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+                </table>
+            </div>
+            <!--modal for new personnel-->
+            <div class="modal fade" id="newPersonnelModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <form action="createpersonnel?action=create" method="POST">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <span class="thong-tin-thanh-toan">
+                                            <h5>Tạo Nhân Viên Mới</h5>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Chức vụ </label>
+                                        <select class="form-control" name="role"  id="role" required>
+                                            <option value="" hidden selected>Chọn chức vụ</option>
+                                            <option value="0">Admin</option>
+                                            <option value="1">Hiệu trưởng</option>
+                                            <option value="2">Academic staff</option>
+                                            <option value="3">Nhân viên kế toán</option>
+                                            <option value="4">Giáo viên</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Tên </label>
+                                        <input class="form-control" type="text" name="firstname" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Họ</label>
+                                        <input class="form-control" type="text" name="lastname" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Giới tính </label>
+                                        <select class="form-control" name="gender" id="gender" required>
+                                            <option value="" hidden selected>Chọn giới tính</option>
+                                            <option value="0">Nữ</option>
+                                            <option value="1">Nam</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Ngày sinh</label>
+                                        <input class="form-control" type="date" name="birthday" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Địa chỉ</label>
+                                        <input class="form-control" type="text" name="address" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Email</label>
+                                        <input class="form-control" type="text" name="email" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Số điện thoại</label>
+                                        <input class="form-control" type="text" name="phone" required>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">Ảnh :</label>
+                                        <div class="form-group col-md-12">
+
+                                            <div id="myfileupload">
+                                                <input type="file" id="uploadfile" name="avatar" onchange="readURL(this);" required/>
+                                            </div>
+                                            <div id="thumbbox">
+                                                <img height="200" width="200" alt="Thumb image" id="thumbimage" style="display: none" />
+                                                <a class="removeimg" href="javascript:"></a>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <button class="btn btn-save" type="submit">Lưu lại</button>
+                                <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>          
 
         </main>
-
-
-
 
 
 
@@ -196,17 +320,82 @@
                                 });
         </script>
         <script>
-            // JavaScript Function to Redirect to Product Details Page
-            function redirect() {
-                // Assuming x is your result set containing product details
-                // Replace this line with the correct way to retrieve product ID from your data
 
-                // Redirect to the product details page with the product ID
-                window.location.href = "acccreatepersonnel";
+            function redirect() {
+                window.location.href = "listpersonnel";
             }
         </script> 
+        <script>
+                                document.getElementById('role').addEventListener('change', function () {
+                                    this.querySelector('option[hidden]').disabled = true;
+                                });
+                                document.getElementById('id').addEventListener('change', function () {
+                                    this.querySelector('option[hidden]').disabled = true;
+                                });
+        </script>
+        <script>
+
+            function readURL(input, thumbimage) {
+                if (input.files && input.files[0]) { //Sử dụng  cho Firefox - chrome
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#thumbimage").attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                } else { // Sử dụng cho IE
+                    $("#thumbimage").attr('src', input.value);
+
+                }
+                $("#thumbimage").show();
+                $('.filename').text($("#uploadfile").val());
+                $('.Choicefile').css('background', '#14142B');
+                $('.Choicefile').css('cursor', 'default');
+                $(".removeimg").show();
+                $(".Choicefile").unbind('click');
+
+            }
+            $(document).ready(function () {
+                $(".Choicefile").bind('click', function () {
+                    $("#uploadfile").click();
+
+                });
+                $(".removeimg").click(function () {
+                    $("#thumbimage").attr('src', '').hide();
+                    $("#myfileupload").html('<input type="file" id="uploadfile"  onchange="readURL(this);" />');
+                    $(".removeimg").hide();
+                    $(".Choicefile").bind('click', function () {
+                        $("#uploadfile").click();
+                    });
+                    $('.Choicefile').css('background', '#14142B');
+                    $('.Choicefile').css('cursor', 'pointer');
+                    $(".filename").text("");
+                });
+            });
+        </script>
+        <script>
+            const inpFile = document.getElementById("inpFile");
+            const loadFile = document.getElementById("loadFile");
+            const previewContainer = document.getElementById("imagePreview");
+            const previewContainer = document.getElementById("imagePreview");
+            const previewImage = previewContainer.querySelector(".image-preview__image");
+            const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+            const object = new ActiveXObject("Scripting.FileSystemObject");
+            inpFile.addEventListener("change", function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    previewDefaultText.style.display = "none";
+                    previewImage.style.display = "block";
+                    reader.addEventListener("load", function () {
+                        previewImage.setAttribute("src", this.result);
+                    });
+                    reader.readAsDataURL(file);
+                }
+            });
+
+
+        </script>
     </body>
-
-
+</body>
 
 </html>

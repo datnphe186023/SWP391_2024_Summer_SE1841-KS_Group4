@@ -27,4 +27,23 @@ public class Role {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public String getVNeseDescription(){
+        switch(this.id){
+            case "0":
+                return "Admin";
+            case "1":
+                return "Hiệu trưởng";
+            case "2":
+                return "Academic staff";
+            case "3":
+                return "Kế toán";
+            case "4":
+                return "Giáo viên";
+            case "5":
+                return "Phụ huynh";
+          
+        }
+        return "";
+    }
 }

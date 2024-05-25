@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import models.role.Role;
 import utils.DBContext;
 
 /**
@@ -202,5 +203,71 @@ public class PersonnelDAO extends DBContext{
             throw new RuntimeException(e);
         }
         return personnel;
+    }
+    
+    public List<Personnel> getPersonnelByStatus(String status){
+        String sql = " Select * from Personnels where [status] = N'" + status + "'";
+        List<Personnel> persons =new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            
+            
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Personnel person = new Personnel();
+                person.setId(resultSet.getString("id"));
+                person.setFirstName(resultSet.getString("first_name"));
+                person.setLastName(resultSet.getString("last_name"));
+                person.setGender(resultSet.getBoolean("gender"));
+                person.setBirthday(resultSet.getDate("birthday"));
+                person.setEmail(resultSet.getString("email"));
+                person.setAddress(resultSet.getString("address"));
+                person.setPhoneNumber(resultSet.getString("phone_number"));
+                person.setRoleId(resultSet.getInt("role_id"));
+                person.setStatus(resultSet.getString("status"));
+                person.setAvatar(resultSet.getString("avatar"));
+                person.setUserId(resultSet.getString("user_id"));
+                persons.add(person);
+            }
+        }catch (Exception e){
+            System.out.println("error in function");
+        }
+        return persons;
+    }
+    
+    public boolean updatePersonnelStatus(String pId, String status) {
+        String sql = "UPDATE [dbo].[Personnels]\n"
+                + "   SET [status] = ? \n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status);
+            preparedStatement.setString(2, pId);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public List<Role> getAllPersonnelRole(){
+        String sql = "select DISTINCT r.id,r.description from Roles r join Personnels p on r.id= p.role_id";
+        List<Role> roles =new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            
+            
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Role role = new Role();
+                role.setId(resultSet.getString("id"));
+                role.setDescription(resultSet.getString("description"));
+                roles.add(role);
+            }
+        }catch (Exception e){
+            System.out.println("error in function");
+        }
+        return roles; 
     }
 }
