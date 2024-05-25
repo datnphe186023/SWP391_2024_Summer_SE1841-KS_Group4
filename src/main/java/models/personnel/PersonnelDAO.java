@@ -270,4 +270,19 @@ public class PersonnelDAO extends DBContext{
         }
         return roles; 
     }
+
+    public void updatePerson(Personnel person) {
+        String sql = "UPDATE Personnels SET first_name = ?, last_name = ?, address = ?, email = ?, phone_number = ? WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, person.getFirstName());
+            stmt.setString(2, person.getLastName());
+            stmt.setString(3, person.getAddress());
+            stmt.setString(4, person.getEmail());
+            stmt.setString(5, person.getPhoneNumber());
+            stmt.setString(6, person.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
