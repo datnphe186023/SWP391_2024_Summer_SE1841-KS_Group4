@@ -45,10 +45,6 @@
         <servlet-class>controller.teacher.InformationTeacherServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InformationAdminServlet</servlet-name>
-        <servlet-class>controller.admin.InformationAdminServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>InformationAccountantServlet</servlet-name>
         <servlet-class>controller.accountant.InformationAccountantServlet</servlet-class>
     </servlet>
@@ -59,6 +55,54 @@
     <servlet>
         <servlet-name>InformationParentServlet</servlet-name>
         <servlet-class>controller.parent.InformationParentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
+        <servlet-class>controller.accountant.ACCCreatePersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ACCListPersonnelServlet</servlet-name>
+        <servlet-class>controller.accountant.ACCListPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ACCViewPersonnelServlet</servlet-name>
+        <servlet-class>controller.accountant.ACCViewPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTListPersonnelServlet</servlet-name>
+        <servlet-class>controller.headteacher.HTListPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTViewPersonnelServlet</servlet-name>
+        <servlet-class>controller.headteacher.HTViewPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTCreatePersonnelServlet</servlet-name>
+        <servlet-class>controller.headteacher.HTCreatePersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAdmin</servlet-name>
+        <servlet-class>controller.admin.UpdateAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminInformation</servlet-name>
+        <servlet-class>controller.admin.AdminInformation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHeadteacher</servlet-name>
+        <servlet-class>controller.headteacher.UpdateHeadteacher</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAccountantServlet</servlet-name>
+        <servlet-class>controller.accountant.UpdateAccountantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateStaffServlet</servlet-name>
+        <servlet-class>controller.academicstaff.UpdateStaffServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTeacherServlet</servlet-name>
+        <servlet-class>controller.teacher.UpdateTeacherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -105,10 +149,6 @@
         <url-pattern>/teacher/information</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InformationAdminServlet</servlet-name>
-        <url-pattern>/admin/information</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>InformationAccountantServlet</servlet-name>
         <url-pattern>/accountant/information</url-pattern>
     </servlet-mapping>
@@ -119,5 +159,65 @@
     <servlet-mapping>
         <servlet-name>InformationParentServlet</servlet-name>
         <url-pattern>/parent/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
+        <url-pattern>/acreatepersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCListPersonnelServlet</servlet-name>
+        <url-pattern>/alistpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCViewPersonnelServlet</servlet-name>
+        <url-pattern>/aviewpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
+        <url-pattern>/acccreatepersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCListPersonnelServlet</servlet-name>
+        <url-pattern>/acclistpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACCViewPersonnelServlet</servlet-name>
+        <url-pattern>/accviewpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTListPersonnelServlet</servlet-name>
+        <url-pattern>/htlistpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTViewPersonnelServlet</servlet-name>
+        <url-pattern>/htviewpersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTCreatePersonnelServlet</servlet-name>
+        <url-pattern>/htcreatepersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAdmin</servlet-name>
+        <url-pattern>/admin/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminInformation</servlet-name>
+        <url-pattern>/admin/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHeadteacher</servlet-name>
+        <url-pattern>/headteacher/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAccountantServlet</servlet-name>
+        <url-pattern>/accountant/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateStaffServlet</servlet-name>
+        <url-pattern>/academicstaff/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTeacherServlet</servlet-name>
+        <url-pattern>/teacher/update</url-pattern>
     </servlet-mapping>
 </web-app>

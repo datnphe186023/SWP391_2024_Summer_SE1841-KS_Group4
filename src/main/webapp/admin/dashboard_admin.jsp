@@ -97,7 +97,7 @@
                                 }
                                 reader.readAsDataURL(event.target.files[0]);
                             }
-
+        
                             function redirectToInfoPage() {
                                 window.location.href = '${pageContext.request.contextPath}/admin/information';
                             }
