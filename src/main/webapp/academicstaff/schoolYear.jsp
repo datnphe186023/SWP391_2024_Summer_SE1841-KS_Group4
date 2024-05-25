@@ -5,27 +5,43 @@
 
 <head>
     <title>Danh Sách Năm Học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
 </head>
-
 <body>
 <jsp:include page="dashboard_staff.jsp"/>
 <main class="app-content">
     <div class="container my-4">
-        <div class="text-center mb-3">
-            <h2>Danh Sách Năm Học</h2>
+        <div class="row justify-content-center">
+            <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách năm học</span>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="input-group w-50">
-                <input type="text" class="form-control" placeholder="Search by keyword" aria-label="Search">
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+        <div class="col-lg-6">
+            <form action="#">
+                <div class="search-field">
+                    <div class="form-group has-search">
+                        <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
+                        <input style="border-radius: 30px" type="text" class="form-control" placeholder="Tìm kiếm theo năm học" name="information">
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <table class="table table-bordered">
-            <thead class="thead-light">
             <tr>
                 <th scope="col">STT</th>
                 <th scope="col">Năm học</th>
@@ -34,7 +50,6 @@
                 <th scope="col">Ngày kết thúc</th>
                 <th scope="col">Người tạo</th>
             </tr>
-            </thead>
             <tbody>
             <c:forEach var="schoolYear" items="${requestScope.schoolYears}" varStatus="status">
                 <tr>

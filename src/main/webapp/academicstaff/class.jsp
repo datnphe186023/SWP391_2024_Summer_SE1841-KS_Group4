@@ -5,6 +5,22 @@
 
 <head>
     <title>Danh Sách Lớp Học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();
@@ -36,7 +52,7 @@
                         <label >Chọn năm học</label>
                         <select class="form-select"  aria-label="Default select example" onchange="submitForm()" name="schoolYearId">
                             <c:forEach items="${requestScope.schoolYears}" var="year">
-                                <option ${requestScope.selectedSchoolYearId eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
+                                <option ${requestScope.selectedSchoolYear.id eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -121,13 +137,9 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="schoolYear">Khối</label>
-                                <select class="form-control" id="schoolYear" name="schoolYear" required>
-                                    <option value="">-- Chọn Năm Học --</option>
-                                    <c:forEach var="schoolYear" items="${requestScope.schoolYears}">
-                                        <option value="${schoolYear.id}">${schoolYear.name}</option>
-                                    </c:forEach>
-                                </select>
+                                <label class="control-label">Năm học</label>
+                                <input class="form-control" type="text" value="${requestScope.selectedSchoolYear.name}" readonly>
+                                <input name="schoolYear" value="${requestScope.selectedSchoolYear.id}" hidden>
                             </div>
                         </div>
                         <br>
@@ -141,5 +153,4 @@
     </div>
 </main>
 </body>
-
 </html>

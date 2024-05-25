@@ -21,6 +21,16 @@ public class SchoolYearServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         List<SchoolYear> schoolYears = schoolYearDAO.getAll();
+        HttpSession session = request.getSession();
+        String toastType = "", toastMessage = "";
+        if (session.getAttribute("toastType") != null) {
+            toastType = session.getAttribute("toastType").toString();
+            toastMessage = session.getAttribute("toastMessage").toString();
+        }
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        request.setAttribute("toastType", toastType);
+        request.setAttribute("toastMessage", toastMessage);
         request.setAttribute("schoolYears", schoolYears);
         request.getRequestDispatcher("schoolYear.jsp").forward(request, response);
     }
@@ -53,7 +63,15 @@ public class SchoolYearServlet extends HttpServlet {
                 PersonnelDAO personnelDAO = new PersonnelDAO();
                 Personnel personnel = personnelDAO.getPersonnel(username);
                 schoolYear.setCreatedBy(personnel);
-                schoolYearDAO.createNewSchoolYear(schoolYear);
+                String result = schoolYearDAO.createNewSchoolYear(schoolYear);
+                if (result.equals("success")) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Tạo mới thành công");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", result);
+                }
+                response.sendRedirect("schoolyear");
             }
         }catch(Exception e){
             e.printStackTrace();
