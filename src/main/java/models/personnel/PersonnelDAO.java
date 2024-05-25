@@ -5,6 +5,7 @@
 package models.personnel;
 
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -177,8 +178,8 @@ public class PersonnelDAO extends DBContext{
         }
     }
     public Personnel getPersonnelByUserId(String userId){
-        String sql="select * from [User] u join Personnels p on u.id=p.user_id \n" +
-                "where u.id = ?";
+        String sql="select * from [Personnels]" +
+                "where user_id = ?";
         Personnel personnel = new Personnel();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -202,5 +203,20 @@ public class PersonnelDAO extends DBContext{
             throw new RuntimeException(e);
         }
         return personnel;
+    }
+
+    public void updatePerson(Personnel person) {
+        String sql = "UPDATE Personnels SET first_name = ?, last_name = ?, address = ?, email = ?, phone_number = ? WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, person.getFirstName());
+            stmt.setString(2, person.getLastName());
+            stmt.setString(3, person.getAddress());
+            stmt.setString(4, person.getEmail());
+            stmt.setString(5, person.getPhoneNumber());
+            stmt.setString(6, person.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
         }

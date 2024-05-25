@@ -80,6 +80,30 @@
         <servlet-name>HTCreatePersonnelServlet</servlet-name>
         <servlet-class>controller.headteacher.HTCreatePersonnelServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateAdmin</servlet-name>
+        <servlet-class>controller.admin.UpdateAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminInformation</servlet-name>
+        <servlet-class>controller.admin.AdminInformation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHeadteacher</servlet-name>
+        <servlet-class>controller.headteacher.UpdateHeadteacher</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAccountantServlet</servlet-name>
+        <servlet-class>controller.accountant.UpdateAccountantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateStaffServlet</servlet-name>
+        <servlet-class>controller.academicstaff.UpdateStaffServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTeacherServlet</servlet-name>
+        <servlet-class>controller.teacher.UpdateTeacherServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -171,5 +195,29 @@
     <servlet-mapping>
         <servlet-name>HTCreatePersonnelServlet</servlet-name>
         <url-pattern>/htcreatepersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAdmin</servlet-name>
+        <url-pattern>/admin/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminInformation</servlet-name>
+        <url-pattern>/admin/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHeadteacher</servlet-name>
+        <url-pattern>/headteacher/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAccountantServlet</servlet-name>
+        <url-pattern>/accountant/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateStaffServlet</servlet-name>
+        <url-pattern>/academicstaff/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTeacherServlet</servlet-name>
+        <url-pattern>/teacher/update</url-pattern>
     </servlet-mapping>
 </web-app>
