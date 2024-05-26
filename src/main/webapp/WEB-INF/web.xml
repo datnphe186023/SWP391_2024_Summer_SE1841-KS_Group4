@@ -33,10 +33,6 @@
         <servlet-class>controller.ForgotPasswordServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ValidateOtp</servlet-name>
-        <servlet-class>controller.ValidateOtp</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>CreateUserServlet</servlet-name>
         <servlet-class>controller.admin.CreateUserServlet</servlet-class>
     </servlet>
@@ -45,17 +41,16 @@
         <servlet-class>controller.admin.SearchPersonnelServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>CategoryRoleServlet</servlet-name>
         <servlet-class>controller.admin.CategoryRoleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateNewUserServlet</servlet-name>
         <servlet-class>controller.admin.CreateNewUserServlet</servlet-class>
-=======
+    </servlet>
+    <servlet>
         <servlet-name>InformationAccountantServlet</servlet-name>
         <servlet-class>controller.accountant.InformationAccountantServlet</servlet-class>
->>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </servlet>
     <servlet>
         <servlet-name>ManagerUserServlet</servlet-name>
@@ -134,10 +129,6 @@
         <url-pattern>/forgotPassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ValidateOtp</servlet-name>
-        <url-pattern>/ValidateOtp</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>CreateUserServlet</servlet-name>
         <url-pattern>/admin/createUser</url-pattern>
     </servlet-mapping>
@@ -146,17 +137,16 @@
         <url-pattern>/admin/searchPersonnel</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>CategoryRoleServlet</servlet-name>
         <url-pattern>/admin/categoryRole</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateNewUserServlet</servlet-name>
         <url-pattern>/admin/createNewUser</url-pattern>
-=======
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>InformationAccountantServlet</servlet-name>
         <url-pattern>/accountant/information</url-pattern>
->>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManagerUserServlet</servlet-name>
