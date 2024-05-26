@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class ValidatePassword
  */
+@WebServlet(name = "ValidatePassword", value = "/ValidatePassword")
 public class ValidatePassword extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
