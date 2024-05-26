@@ -6,10 +6,13 @@ import utils.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PupilDAO extends DBContext {
 
@@ -37,7 +40,8 @@ public class PupilDAO extends DBContext {
         return pupil;
     }
 
-    public void createPupil(Pupil pupil) {
+    public boolean createPupil(Pupil pupil) {
+        PupilDAO pupilDAO = new PupilDAO();
         String sql = "INSERT INTO [dbo].[Pupils]\n"
                 + "           ([id]\n"
                 + "           ,[user_id]\n"
@@ -59,7 +63,7 @@ public class PupilDAO extends DBContext {
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, pupil.getId());
+            preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
             preparedStatement.setString(2, pupil.getUserId());
             preparedStatement.setString(3, pupil.getFirstName());
             preparedStatement.setString(4, pupil.getLastName());
@@ -79,9 +83,11 @@ public class PupilDAO extends DBContext {
             preparedStatement.setString(15, pupil.getCreatedBy().getId());
             preparedStatement.setString(16, pupil.getParentSpecialNote());
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
+        return false;
     }
 
     public List<Pupil> getAllPupils() {
@@ -119,13 +125,29 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
 
-    public List<Pupil> getListPupilByTeacherId(String teacherId) {
-        String sql = "select * from Pupils p join classDetails c on p.id = c.pupil_id\n"
-                + "where teacher_id= ?";
+    public List<Pupil> searchPupilInClass(String search, String classId) {
+        String sql = "select * from Pupils p join classDetails c on p.id = c.pupil_id where \n"
+                + " (last_name+' '+ first_name like N'%" + search + "%' or pupil_id like '%" + search + "%' )and class_id= '" + classId + "'";
         List<Pupil> listPupils = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, teacherId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Pupil pupil = new Pupil();
+                pupil = createPupil(resultSet);
+                listPupils.add(pupil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupils;
+    }
+
+    public List<Pupil> searchPupilByStatus(String search, String status) {
+        String sql = "select * from Pupils where (last_name+' '+ first_name like N'%" + search + "%' or id like '%" + search + "%' ) and status = N'" + status + "'";
+        List<Pupil> listPupils = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();
@@ -143,7 +165,7 @@ public class PupilDAO extends DBContext {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Pupil pupil = new Pupil();
                 pupil = createPupil(resultSet);
                 return pupil;
@@ -319,24 +341,23 @@ public class PupilDAO extends DBContext {
         return null;
     }
 
-    public Pupil getPupilById(String id) {
-        String sql = "Select * from Pupils where id= ?";
+    public Pupil getLatest() {
+        String sql = "select TOP 1 * from Pupils order by id desc";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Pupil p = new Pupil();
-                p = createPupil(rs);
-                return p;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return createPupil(resultSet);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, String motherPhoneNumber, String fatherName, String fatherPhoneNumber, String address, String parentSpecialNote) {
+    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, 
+                            String motherPhoneNumber, String fatherName, String fatherPhoneNumber, 
+                            String address, String parentSpecialNote) {
         String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -350,6 +371,45 @@ public class PupilDAO extends DBContext {
             ps.setString(8, address);
             ps.setString(9, parentSpecialNote);
             ps.executeUpdate();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    public String generateId(String latestId) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "HS" + result;
+    }
+
+    public void updateParent(Pupil pupil) {
+        String sql = "UPDATE [dbo].[Pupils]\n"
+                + "   SET \n"
+                + "      [mother_name] = ?\n"
+                + "      ,[mother_phone_number] = ?\n"
+                + "      \n"
+                + "      ,[father_name] = ?\n"
+                + "      ,[father_phone_number] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[address] = ?\n"
+                + "      \n"
+                + "      \n"
+                + "      \n"
+                + " WHERE [user_id] = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, pupil.getMotherName());
+            stmt.setString(2, pupil.getMotherPhoneNumber());
+            stmt.setString(3, pupil.getFatherName());
+            stmt.setString(4, pupil.getFatherPhoneNumber());
+            stmt.setString(5, pupil.getEmail());
+            stmt.setString(6, pupil.getAddress());
+            stmt.setString(7, pupil.getUserId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

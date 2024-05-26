@@ -4,13 +4,11 @@ public class ClassDetails {
     private String id;
     private String pupilId;
     private String classId;
-    private String teacherId;
 
-    public ClassDetails(String id, String pupilId, String classId, String teacherId) {
+    public ClassDetails(String id, String pupilId, String classId) {
         this.id = id;
         this.pupilId = pupilId;
         this.classId = classId;
-        this.teacherId = teacherId;
     }
 
     public ClassDetails() {
@@ -38,13 +36,5 @@ public class ClassDetails {
 
     public void setClassId(String classId) {
         this.classId = classId;
-    }
-
-    public String getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
     }
 }

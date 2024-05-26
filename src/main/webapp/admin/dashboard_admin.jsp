@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Main CSS-->
+        <!-- Test CSS-->
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
@@ -112,6 +112,7 @@
         <!--===============================================================================================-->
         <script src="js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+<<<<<<< HEAD
         <!--===============================================================================================-->
         <script src="js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
@@ -120,6 +121,25 @@
         <script src="js/plugins/pace.min.js"></script>
         <!--===============================================================================================-->
         <!--===============================================================================================-->
+=======
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/main.js"></script>
+        <script src="../js/plugins/pace.min.js"></script>
+        <script>
+                            function previewAvatar(event) {
+                                const reader = new FileReader();
+                                reader.onload = function () {
+                                    const output = document.getElementById('avatarDisplay');
+                                    output.src = reader.result;
+                                }
+                                reader.readAsDataURL(event.target.files[0]);
+                            }
+        
+                            function redirectToInfoPage() {
+                                window.location.href = '${pageContext.request.contextPath}/admin/information';
+                            }
+        </script>
+>>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </body>
 
 </html>

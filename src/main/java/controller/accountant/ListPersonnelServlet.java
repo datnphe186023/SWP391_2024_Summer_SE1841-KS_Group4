@@ -3,22 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.headteacher;
+package controller.accountant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.role.Role;
 
 /**
  *
  * @author asus
  */
-public class HTCreatePersonnelServlet extends HttpServlet {
+@WebServlet(name="ListPersonnelServlet", urlPatterns={"/accountant/listpersonnel"})
+public class ListPersonnelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +40,10 @@ public class HTCreatePersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HTCreatePersonnelServlet</title>");  
+            out.println("<title>Servlet ListPersonnelServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HTCreatePersonnelServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListPersonnelServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -52,10 +57,20 @@ public class HTCreatePersonnelServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+ @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       request.getRequestDispatcher("headteacher_createNewPersonnel.jsp").forward(request, response);
+        
+        List<Personnel> persons = new ArrayList<Personnel>();
+        List<Role> roles = new ArrayList<>();   
+        PersonnelDAO pdao = new PersonnelDAO();
+        persons = pdao.getAllPersonnels();
+        roles = pdao.getAllPersonnelRole();
+        
+        request.setAttribute("persons", persons);
+        request.setAttribute("roles", roles);
+        
+        request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
     } 
 
     /** 
@@ -68,46 +83,27 @@ public class HTCreatePersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       String xfirstname = request.getParameter("firstname");
-       String xlastname = request.getParameter("lastname");
-       String xbirthday = request.getParameter("birthday");
-       String xaddress = request.getParameter("address");
-       String xgender = request.getParameter("gender");
-       String xemail = request.getParameter("email");
-       String xphone = request.getParameter("phone");
-       String xrole = request.getParameter("role");
-       String xavatar = request.getParameter("avatar");
-       PersonnelDAO pdao = new PersonnelDAO();
-       int role = Integer.parseInt(xrole);
-       int gender = Integer.parseInt(xgender);
-       String id =generateId(role);
+         String role = request.getParameter("role");
+
+       String search = request.getParameter("search");
+       List<Personnel> persons = new ArrayList<Personnel>();
+       List<Role> roles = new ArrayList<>();
+        PersonnelDAO pdao = new PersonnelDAO();  
+        roles = pdao.getAllPersonnelRole();
+       if(role==null){
+        persons = pdao.getPersonnelByNameOrId(search);
+        request.setAttribute("searchdata", search);
+       }else{
+          int roleid = Integer.parseInt(role);
+          persons = pdao.getPersonnelByRole(roleid);
+          request.setAttribute("selectedrole", role);
+       }
        
-       pdao.insertPersonnel(id, xfirstname, xlastname, gender, xbirthday, xaddress, xemail, xphone, role, xavatar);
-       request.getRequestDispatcher("headteacher_createNewPersonnel.jsp").forward(request, response);
-       
-        
+       request.setAttribute("roles", roles);
+       request.setAttribute("persons", persons);
+        request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
     }
-private String generateId(int role){
-        String id ;
-        int newid ;
-        PersonnelDAO pdao = new PersonnelDAO();
-        newid= pdao.getNumberOfPersonByRole(role)+1;
-        DecimalFormat decimalFormat = new DecimalFormat("000000");
-        id= decimalFormat.format(newid);
-        if (role == 0) {
-            id = "AD" + id;
-        } else if (role == 1) {
-            id = "HT" + id;
-        } else if (role == 2) {
-            id = "AS" + id;
-        } else if (role==3){
-            id = "ACC"+ id;
-        }else if (role == 4){
-            id = "TEA"+ id;
-        }
-        
-        return id;
-    }
+
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

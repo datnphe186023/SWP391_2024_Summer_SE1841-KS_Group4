@@ -1,45 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
   User: Anh Quan
-  Date: 5/23/2024
-  Time: 3:17 PM
+  Date: 5/24/2024
+  Time: 10:10 PM
   To change this template use File | Settings | File Templates.
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Quản lý học sinh</title>
-    <style >
-        #style-span{
-            padding: 11px 150px;
-            margin-top: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-        }
-        table.table-bordered, table.table-bordered th, table.table-bordered td {
-            border: 2px solid black;
-            text-align: center;
-        }
-        .detail-button {
-            color: #001C41;
-            background-color: #FFD43A;
-            cursor: pointer;
-            border-radius: 20px;
-            padding: 5px 10px;
-        }
-        .detail-button:hover {
-            background-color: white;
-            color: #001C41;
-            border: 1px grey solid;
-        }
 
-        .form-select{
-            padding: 5px 53px;
-        }
-    </style>
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();
@@ -47,7 +19,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="dashboard_teacher.jsp"/>
+<jsp:include page="dashboard_staff.jsp"/>
 <%--Begin : title    --%>
 <main class="app-content">
     <div class="row justify-content-center">
@@ -56,15 +28,19 @@
     <%--End : title    --%>
     <div class="row">
         <%--  Begin : Search item      --%>
-        <c:set var="yearChecked" value="${requestScope.checkYear}"/>
+            <div class="col-lg-6">
+                <form action="pupilclass">
+                    <input type="hidden" value="${sessionScope.classId}" name="id">
+                    <div class="search-field">
+                        <div class="form-group has-search">
+                            <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
+                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Search" name="information">
+                        </div>
+                    </div>
+                </form>
+            </div>
         <div class="col-lg-6">
-            <form action="listpupil"  id="myForm">
-                <select class="form-select" aria-label="Default select example" onchange="submitForm()" name="schoolYear" >
-                    <c:forEach items="${requestScope.listSchoolYear}" var="year" >
-                        <option ${yearChecked eq year.id ? "selected" : ""} value="${year.id}"  >${year.name}</option>
-                    </c:forEach>
-                </select>
-            </form>
+            <a class="add-button" href="addpupiltoclass?classId=${sessionScope.classId}">ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPupilsPending})</a>
         </div>
         <%--End : Search item    --%>
     </div>
@@ -87,8 +63,8 @@
                     <td>${index}</td>
                     <td>${pupil.id}</td>
                     <td style="width: 20%;"><img src="../images/${pupil.avatar}"
-                             class="mx-auto d-block"
-                             style="width:50%"></td>
+                                                 class="mx-auto d-block"
+                                                 style="width:50%"></td>
                     <td>${pupil.lastName} ${pupil.firstName}</td>
                     <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
                     <td>${pupil.address}</td>
@@ -102,6 +78,3 @@
 
 </body>
 </html>
-
-
-

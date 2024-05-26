@@ -8,8 +8,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Main CSS-->
+        <!-- Test CSS-->
         <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/restyle.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -60,7 +61,7 @@
 
             <!-- head teacher dashboard start-->
             <ul class="app-menu">
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-group'></i><span
+                <li><a class="app-menu__item" href="class"><i class='app-menu__icon bx bx-group'></i><span
                             class="app-menu__label">Quản lý lớp học</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-calendar-event'></i><span
                             class="app-menu__label">Quản lý thời khóa biểu</span></a></li>
@@ -68,7 +69,7 @@
                             class="app-menu__label">Quản lý học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-check'></i><span
                             class="app-menu__label">Quản lý nhân sự</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-food-menu'></i><span
+                            <li><a class="app-menu__item" href="../headteacher/listpersonnel"><i class='app-menu__icon bx bx-food-menu'></i><span
                             class="app-menu__label">Quản lý thực đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-calendar'></i><span
                             class="app-menu__label">Sự kiện</span></a></li>

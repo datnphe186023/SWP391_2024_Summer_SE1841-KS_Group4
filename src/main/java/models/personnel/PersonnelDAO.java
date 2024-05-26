@@ -9,13 +9,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import models.role.Role;
 import utils.DBContext;
 
 /**
  *
  * @author asus
  */
-public class PersonnelDAO extends DBContext {
+
+
+public class PersonnelDAO extends DBContext{
+    private Personnel createPersonnel(ResultSet resultSet) throws SQLException {
+        Personnel person = new Personnel();
+        person.setId(resultSet.getString("id"));
+        person.setFirstName(resultSet.getString("first_name"));
+        person.setLastName(resultSet.getString("last_name"));
+        person.setGender(resultSet.getBoolean("gender"));
+        person.setBirthday(resultSet.getDate("birthday"));
+        person.setEmail(resultSet.getString("email"));
+        person.setAddress(resultSet.getString("address"));
+        person.setPhoneNumber(resultSet.getString("phone_number"));
+        person.setRoleId(resultSet.getInt("role_id"));
+        person.setStatus(resultSet.getString("status"));
+        person.setAvatar(resultSet.getString("avatar"));
+        person.setUserId(resultSet.getString("user_id"));
+        return person;
+    }
+
 
     // Get all personnel infomation
     public List<Personnel> getAllPersonnels() {
@@ -205,6 +225,7 @@ public class PersonnelDAO extends DBContext {
         return personnel;
     }
 
+
     public List<Personnel> getPersonelUserIdNull() {
         List<Personnel> list = new ArrayList<>();
         String sql = "SELECT * FROM Personnels where user_id IS NULL";
@@ -291,5 +312,105 @@ public class PersonnelDAO extends DBContext {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public List<Personnel> getPersonnelByStatus(String status){
+        String sql = " Select * from Personnels where [status] = N'" + status + "'";
+        List<Personnel> persons =new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            
+            
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Personnel person = new Personnel();
+                person.setId(resultSet.getString("id"));
+                person.setFirstName(resultSet.getString("first_name"));
+                person.setLastName(resultSet.getString("last_name"));
+                person.setGender(resultSet.getBoolean("gender"));
+                person.setBirthday(resultSet.getDate("birthday"));
+                person.setEmail(resultSet.getString("email"));
+                person.setAddress(resultSet.getString("address"));
+                person.setPhoneNumber(resultSet.getString("phone_number"));
+                person.setRoleId(resultSet.getInt("role_id"));
+                person.setStatus(resultSet.getString("status"));
+                person.setAvatar(resultSet.getString("avatar"));
+                person.setUserId(resultSet.getString("user_id"));
+                persons.add(person);
+            }
+        }catch (Exception e){
+            System.out.println("error in function");
+        }
+        return persons;
+    }
+    
+    public boolean updatePersonnelStatus(String pId, String status) {
+        String sql = "UPDATE [dbo].[Personnels]\n"
+                + "   SET [status] = ? \n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status);
+            preparedStatement.setString(2, pId);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public List<Role> getAllPersonnelRole(){
+        String sql = "select DISTINCT r.id,r.description from Roles r join Personnels p on r.id= p.role_id";
+        List<Role> roles =new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            
+            
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Role role = new Role();
+                role.setId(resultSet.getString("id"));
+                role.setDescription(resultSet.getString("description"));
+                roles.add(role);
+            }
+        }catch (Exception e){
+            System.out.println("error in function");
+        }
+        return roles; 
+    }
+
+    public void updatePerson(Personnel person) {
+        String sql = "UPDATE Personnels SET first_name = ?, last_name = ?, address = ?, email = ?, phone_number = ? WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, person.getFirstName());
+            stmt.setString(2, person.getLastName());
+            stmt.setString(3, person.getAddress());
+            stmt.setString(4, person.getEmail());
+            stmt.setString(5, person.getPhoneNumber());
+            stmt.setString(6, person.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Personnel> getAvailableTeachers(){
+        String sql = "SELECT *\n" +
+                "FROM Personnels t\n" +
+                "         LEFT JOIN class c ON t.id = c.teacher_id AND c.school_year_id = 'SY000002'\n" +
+                "WHERE c.teacher_id IS NULL and t.id like 'TEA%' and t.status like N'đang làm việc%';";
+        List<Personnel> teachers =new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Personnel teacher = createPersonnel(resultSet);
+                teachers.add(teacher);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return teachers;
     }
 }

@@ -8,8 +8,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Main CSS-->
+        <!-- Test CSS-->
         <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/restyle.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -19,6 +20,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -60,16 +64,15 @@
 
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon fa fa-bell'></i><span
-                            class="app-menu__label">Thông báo</span></a></li>
-                <li><a class="app-menu__item" href="../academicstaff/listpupil"><i class='app-menu__icon bx bx-user-voice'></i><span
-                            class="app-menu__label">Quản lý học sinh</span></a></li>
-
+                        class="app-menu__label">Thông báo</span></a></li>
+                <li><a class="app-menu__item" href="listpupil"><i class='app-menu__icon bx bx-user-voice'></i><span
+                        class="app-menu__label">Quản lý học sinh</span></a></li>
+                <li><a class="app-menu__item" href="class"><i class='app-menu__icon bx bxs-user-detail'></i><span
+                        class="app-menu__label">Quản lý lớp học</span></a></li>
+                <li><a class="app-menu__item" href="schoolyear"><i class='app-menu__icon bx bxs-user-detail'></i><span
+                        class="app-menu__label">Quản lý năm học</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bxs-user-detail'></i><span
-                            class="app-menu__label">Quản lý lớp học</span></a></li>
-                <li><a class="app-menu__item"
-                       href="#"
-                       target="_blank"><i class='app-menu__icon bx bx-task'></i><span
-                            class="app-menu__label">Đơn từ</span></a></li>
+                        class="app-menu__label">Đơn từ</span></a></li>
             </ul>
 
 
@@ -79,12 +82,6 @@
 
 
         </aside>
-
-
-
-
-
-
 
         <script src="../js/jquery-3.2.1.min.js"></script>
         <script src="../js/popper.min.js"></script>

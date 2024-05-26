@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.accountant;
+package controller.teacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,16 +11,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
 /**
  *
- * @author asus
+ * @author Admin
  */
-public class ACCViewPersonnelServlet extends HttpServlet {
+public class UpdateTeacherServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +36,10 @@ public class ACCViewPersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewPersonnelServlet</title>");  
+            out.println("<title>Servlet UpdateTeacherServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewPersonnelServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateTeacherServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,16 +67,40 @@ public class ACCViewPersonnelServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String xid = request.getParameter("id");
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // Lấy id của pupil từ request
+    String pupilId = request.getParameter("id");
+    
+    // Lấy thông tin pupil từ session
+    HttpSession session = request.getSession();
+    Personnel person = (Personnel) session.getAttribute("personnel");
+    
+    
+        // Lấy thông tin cần update từ request
+        String firstName = request.getParameter("first_name");
+        String lastName = request.getParameter("last_name");
+        String address = request.getParameter("address");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phone_number");
         
-        Personnel person = new Personnel();
-        PersonnelDAO pdao = new PersonnelDAO();   
-       person = pdao.getPersonnel(xid);
-       request.setAttribute("person", person);
-        request.getRequestDispatcher("accountant/accountant_viewPersonnelInfomation.jsp").forward(request, response);
-    }
+        // Cập nhật thông tin của pupil
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        person.setAddress(address);
+        person.setEmail(email);
+        person.setPhoneNumber(phoneNumber);
+        
+        // Cập nhật thông tin của pupil trong cơ sở dữ liệu
+        PersonnelDAO dao = new PersonnelDAO();
+        dao.updatePerson(person);
+        
+        // Lưu lại pupil đã được cập nhật vào session (nếu cần)
+        session.setAttribute("personnel", person);
+        
+        // Redirect hoặc forward đến trang cần thiết
+        response.sendRedirect("information");
+}
 
     /** 
      * Returns a short description of the servlet.

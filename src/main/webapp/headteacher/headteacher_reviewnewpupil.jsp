@@ -12,50 +12,6 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
-    <style >
-        #style-span{
-            padding: 11px 150px;
-            margin-top: 10px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-        }
-        table.table-bordered, table.table-bordered th, table.table-bordered td {
-            border: 2px solid black;
-            text-align: center;
-        }
-        .accept-button , decltine-button{
-            color: #001C41;
-            background-color: #4CB5FB;
-            cursor: pointer;
-            border-radius: 20px;
-            padding: 5px 0px;
-            display: block;
-        }
-        .decline-button{
-            color: #001C41;
-            background-color: red;
-            cursor: pointer;
-            border-radius: 20px;
-            padding: 5px 0px;
-            display: block;
-        }
-        .accept-button:hover{
-            background-color: white;
-            border: 1px grey solid;
-        }
-        .decline-button:hover{
-            background-color: white;
-            border: 1px grey solid;
-        }
-
-        #myForm{
-            display: flex;
-            justify-content: space-evenly;
-            font-weight: bold;
-        }
-
-
-    </style>
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();

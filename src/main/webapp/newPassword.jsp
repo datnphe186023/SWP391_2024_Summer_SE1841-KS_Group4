@@ -1,5 +1,7 @@
 <!doctype html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
     <head>
         <meta charset='utf-8'>
@@ -34,7 +36,7 @@
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6 mt-5">
                         <!-- White Container -->
                         <div class="container bg-white rounded mt-2 mb-2 px-0">
-                            <!-- Main Heading -->
+                            <!-- Test Heading -->
                             <div class="row justify-content-center align-items-center pt-3">
                                 <h1>
                                     <strong>Đổi mật khẩu</strong>
@@ -74,7 +76,7 @@
                                 <div class="px-4 pt-5">
                                     <hr>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -83,6 +85,18 @@
         </div>
         <script type='text/javascript'
         src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+        <!-- Display error message -->
+        <script>
+            <c:if test="${not empty err}">
+            swal({
+                title: "Error",
+                text: "${err}",
+                icon: "error",
+                button: "OK"
+            });
+            </c:if>
+        </script>
     </body>
 </html>

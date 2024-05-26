@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.accountant;
+package controller.headteacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.role.Role;
 
 /**
  *
  * @author asus
  */
-public class ACCListPersonnelServlet extends HttpServlet {
+@WebServlet(name = "headteacher/ListPersonnelServlet", value = "/headteacher/listpersonnel")
+public class ListPersonnelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -54,15 +57,20 @@ public class ACCListPersonnelServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
         List<Personnel> persons = new ArrayList<Personnel>();
+        List<Role> roles = new ArrayList<>();
+        List<Personnel> waitlist= new ArrayList<>();
         PersonnelDAO pdao = new PersonnelDAO();
         persons = pdao.getAllPersonnels();
+        roles = pdao.getAllPersonnelRole();
+        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
         request.setAttribute("persons", persons);
-        request.getRequestDispatcher("accountant/accountant_listPersonnel.jsp").forward(request, response);
+        request.setAttribute("roles", roles);
+        request.setAttribute("waitlist", waitlist);
+        request.getRequestDispatcher("headteacher_listPersonnel.jsp").forward(request, response);
     } 
 
     /** 
@@ -75,19 +83,27 @@ public class ACCListPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       String role = request.getParameter("role");
+        String role = request.getParameter("role");
 
        String search = request.getParameter("search");
        List<Personnel> persons = new ArrayList<Personnel>();
-        PersonnelDAO pdao = new PersonnelDAO();   
+       List<Role> roles = new ArrayList<>();
+        PersonnelDAO pdao = new PersonnelDAO();  
+        roles = pdao.getAllPersonnelRole();
        if(role==null){
         persons = pdao.getPersonnelByNameOrId(search);
+        request.setAttribute("searchdata", search);
        }else{
           int roleid = Integer.parseInt(role);
           persons = pdao.getPersonnelByRole(roleid);
+          request.setAttribute("selectedrole", role);
        }
+       List<Personnel> waitlist= new ArrayList<>();
+        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        request.setAttribute("waitlist", waitlist);
+       request.setAttribute("roles", roles);
        request.setAttribute("persons", persons);
-        request.getRequestDispatcher("accountant/accountant_listPersonnel.jsp").forward(request, response);
+        request.getRequestDispatcher("headteacher_listPersonnel.jsp").forward(request, response);
     }
 
     /** 

@@ -44,7 +44,8 @@ public class NewPassword extends HttpServlet {
             }
         } else {
             // Passwords do not match
-            request.setAttribute("status", "Mật khẩu không khớp!");
+            request.setAttribute("err", "Mật khẩu không khớp!");
+            request.getRequestDispatcher("newPassword.jsp").forward(request, response);
         }
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }

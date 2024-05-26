@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class InformationAdminServlet extends HttpServlet {
+public class AdminInformation extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +33,10 @@ public class InformationAdminServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InformationAdminServlet</title>");  
+            out.println("<title>Servlet AdminInformation</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InformationAdminServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AdminInformation at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,7 +66,7 @@ public class InformationAdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-                request.getRequestDispatcher("information_admin.jsp").forward(request, response);
+        request.getRequestDispatcher("information_admin.jsp").forward(request, response);
     }
 
     /** 

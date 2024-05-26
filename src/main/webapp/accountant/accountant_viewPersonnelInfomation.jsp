@@ -4,65 +4,67 @@
 <html lang="en">
 
     <head>
-        <title>Title</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Main CSS-->
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-        <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css"
-              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <title>Quản lý nhân sự</title>
+        <style >
+            #style-span{
+                padding: 11px 150px;
+                margin-top: 10px;
+                border-radius: 20px;
+                margin-bottom: 15px;
+            }
+            table.table-bordered, table.table-bordered th, table.table-bordered td {
+                border: 2px solid black;
+                text-align: center;
+            }
+            .accept-button , decltine-button , return-button {
+                color: #001C41;
+                background-color: #4CB5FB;
+                cursor: pointer;
+
+                padding: 5px 0px;
+                display: block;
+            }
+            .decline-button{
+                color: #001C41;
+                background-color: red;
+                cursor: pointer;
+
+                padding: 5px 0px;
+                display: block;
+            }
+            .return-button{
+                color: #001C41;
+                background-color: #99ff99;
+                cursor: pointer;
+
+                padding: 5px 0px;
+                display: block;
+            }
+            .accept-button:hover{
+                background-color: white;
+                border: 1px grey solid;
+            }
+            .decline-button:hover{
+                background-color: white;
+                border: 1px grey solid;
+            }
+            .return-button:hover{
+                background-color: white;
+                border: 1px grey solid;
+            }
+
+            #myForm{
+                display: flex;
+                justify-content: space-evenly;
+                font-weight: bold;
+            }
+
+
+        </style>
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
-        <!-- Navbar-->
-        <header class="app-header">
-            <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-                                            aria-label="Hide Sidebar"></a>
-            <!-- Navbar Right Menu-->
-            <ul class="app-nav">
-
-
-                <!-- User Menu-->
-                <li><a class="app-nav__item" href="login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
-                </li>
-            </ul>
-        </header>
-        <!-- Sidebar menu-->
-        <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
-                <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.account.fullName}</b></p>
-                    <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
-                </div>
-            </div>
-            <hr>
-            <ul class="app-menu">
-                <li><a class="app-menu__item" href="admin"><i class='app-menu__icon fa fa-money'></i><span
-                            class="app-menu__label">HỌC PHÍ</span></a></li>
-                <li><a class="app-menu__item" href="customermanager"><i class='app-menu__icon fa fa-user'></i><span
-                            class="app-menu__label">ĐIỂM DANH</span></a></li>
-                <li><a class="app-menu__item" href="productmanager"><i
-                            class='app-menu__icon fa fa-users'></i><span class="app-menu__label">QUẢN LÝ NHÂN SỰ</span></a>
-                </li>
-                <li><a class="app-menu__item" href="ordermanager"><i class='app-menu__icon fa fa-notes-medical'></i><span
-                            class="app-menu__label" style="text-wrap: pretty;">BÁO CÁO SỨC KHỎE CỦA HỌC SINH </span></a></li>
-                <li><a class="app-menu__item" href="admin"><i class='app-menu__icon fa fa-utensils'></i><span
-                            class="app-menu__label">THỰC ĐƠN</span></a></li>
-                <li><a class="app-menu__item" href="admin"><i class='app-menu__icon fa fa-bell'></i><span
-                            class="app-menu__label">THÔNG BÁO</span></a></li>
-            </ul>
-        </aside>
+        <jsp:include page="dashboard_accountant.jsp"/>
 
         <main class="app-content">
             <div style="display: flex; justify-content: center">
@@ -74,7 +76,7 @@
             </div>
             <c:set var="p" value="${requestScope.person}"/>
 
-            
+
 
             <section>
                 <div class="rt-container">
@@ -88,7 +90,7 @@
                                         <div class="col-lg-4">
                                             <div class="card shadow-sm">
                                                 <div class="card-header bg-transparent text-center">
-                                                    <img class="profile_img" src="images/${p.getAvatar()}" alt="ảnh nhân viên" width="191px" height="263px" object-fit: cover>
+                                                    <img class="profile_img" src="../images/${p.getAvatar()}" alt="ảnh nhân viên" width="191px" height="263px" object-fit: cover>
 
                                                 </div>
                                                 <div class="card-body">
@@ -163,11 +165,21 @@
                                                 </div>
                                             </div>
                                             <div style="height: 26px"></div>
-                                            <div class="button">
-                                                
-                                                <div style="text-align: center">
-                                                    <button style="background: #996fcb; color: #ffffff; border: none" type="button" onclick="redirect()">Quay lại </button>
+                                            <div >
+
+                                                <div class="row" style="text-align: center; align-content: center">
+                                                    
+                                                    
+                                                        <div class="col-lg-4"></div>
+                                                        
+                                                        <div class="col-lg-4"></div>                                                 
+                                                    
+                                                        <div class="col-lg-4"><a class="return-button" onclick="redirect()">Danh sách nhân viên</a></div>
+
+
                                                 </div>
+
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -201,15 +213,16 @@
         <!--===============================================================================================-->
         <!--===============================================================================================-->
         <script>
-                                                                                                        // JavaScript Function to Redirect to Product Details Page
-                                                                                                        function redirect() {
-                                                                                                          // Assuming x is your result set containing product details
-                                                                                                          // Replace this line with the correct way to retrieve product ID from your data
-                                                                                                          
-                                                                                                          // Redirect to the product details page with the product ID
-                                                                                                          window.location.href = "acclistpersonnel";
-                                                                                                                         }
-                                                                                                        </script> 
+                                                        // JavaScript Function to Redirect to Product Details Page
+                                                        function redirect() {
+                                                            // Assuming x is your result set containing product details
+                                                            // Replace this line with the correct way to retrieve product ID from your data
+
+                                                            // Redirect to the product details page with the product ID
+                                                            window.location.href = "listpersonnel";
+                                                        }
+        </script> 
+        
     </body>
 
 </html>

@@ -45,12 +45,17 @@
         <servlet-class>controller.admin.SearchPersonnelServlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>CategoryRoleServlet</servlet-name>
         <servlet-class>controller.admin.CategoryRoleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateNewUserServlet</servlet-name>
         <servlet-class>controller.admin.CreateNewUserServlet</servlet-class>
+=======
+        <servlet-name>InformationAccountantServlet</servlet-name>
+        <servlet-class>controller.accountant.InformationAccountantServlet</servlet-class>
+>>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </servlet>
     <servlet>
         <servlet-name>ManagerUserServlet</servlet-name>
@@ -63,6 +68,38 @@
     <servlet>
         <servlet-name>PulpilsProfileServlet</servlet-name>
         <servlet-class>controller.academicstaff.PulpilsProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAdmin</servlet-name>
+        <servlet-class>controller.admin.UpdateAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminInformation</servlet-name>
+        <servlet-class>controller.admin.AdminInformation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHeadteacher</servlet-name>
+        <servlet-class>controller.headteacher.UpdateHeadteacher</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAccountantServlet</servlet-name>
+        <servlet-class>controller.accountant.UpdateAccountantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateStaffServlet</servlet-name>
+        <servlet-class>controller.academicstaff.UpdateStaffServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTeacherServlet</servlet-name>
+        <servlet-class>controller.teacher.UpdateTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateParentServlet</servlet-name>
+        <servlet-class>controller.parent.UpdateParentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangepasswordServlet</servlet-name>
+        <servlet-class>controller.parent.ChangepasswordServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -109,12 +146,17 @@
         <url-pattern>/admin/searchPersonnel</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>CategoryRoleServlet</servlet-name>
         <url-pattern>/admin/categoryRole</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateNewUserServlet</servlet-name>
         <url-pattern>/admin/createNewUser</url-pattern>
+=======
+        <servlet-name>InformationAccountantServlet</servlet-name>
+        <url-pattern>/accountant/information</url-pattern>
+>>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManagerUserServlet</servlet-name>
@@ -127,5 +169,37 @@
     <servlet-mapping>
         <servlet-name>PulpilsProfileServlet</servlet-name>
         <url-pattern>/academicstaff/pupilprofile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAdmin</servlet-name>
+        <url-pattern>/admin/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminInformation</servlet-name>
+        <url-pattern>/admin/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHeadteacher</servlet-name>
+        <url-pattern>/headteacher/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAccountantServlet</servlet-name>
+        <url-pattern>/accountant/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateStaffServlet</servlet-name>
+        <url-pattern>/academicstaff/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTeacherServlet</servlet-name>
+        <url-pattern>/teacher/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateParentServlet</servlet-name>
+        <url-pattern>/parent/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangepasswordServlet</servlet-name>
+        <url-pattern>/parent/newPassword</url-pattern>
     </servlet-mapping>
 </web-app>

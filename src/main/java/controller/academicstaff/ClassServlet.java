@@ -7,21 +7,33 @@ import models.classes.Class;
 import models.classes.ClassDAO;
 import models.grade.Grade;
 import models.grade.GradeDAO;
+import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
+import models.user.User;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ClassServlet", value = "/academicstaff/class")
+    @WebServlet(name = "academicstaff/ClassServlet", value = "/academicstaff/class")
 public class ClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDAO classDAO = new ClassDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         try{
-            String schoolYearId = request.getParameter("schoolYear");
+            HttpSession session = request.getSession();
+            String toastType = "", toastMessage = "";
+            if (session.getAttribute("toastType") != null) {
+                toastType = session.getAttribute("toastType").toString();
+                toastMessage = session.getAttribute("toastMessage").toString();
+            }
+            session.removeAttribute("toastType");
+            session.removeAttribute("toastMessage");
+            request.setAttribute("toastType", toastType);
+            request.setAttribute("toastMessage", toastMessage);
+            String schoolYearId = request.getParameter("schoolYearId");
             if (schoolYearId == null) {
                 SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
                 schoolYearId = latestSchoolYear.getId();
@@ -30,11 +42,11 @@ public class ClassServlet extends HttpServlet {
             request.setAttribute("classes", classes);
             List<SchoolYear> schoolYears = schoolYearDAO.getAll();
             request.setAttribute("schoolYears", schoolYears);
-            request.setAttribute("schoolYearId", schoolYearId);
+            request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
             GradeDAO gradeDAO = new GradeDAO();
             request.setAttribute("grades", gradeDAO.getAll());
             PersonnelDAO personnelDAO = new PersonnelDAO();
-            request.setAttribute("teachers", personnelDAO.getPersonnelByRole(4));
+            request.setAttribute("teachers", personnelDAO.getAvailableTeachers());
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();
@@ -52,6 +64,26 @@ public class ClassServlet extends HttpServlet {
                 String teacherId = request.getParameter("teacher");
                 Class c = new Class();
                 c.setName(name);
+                GradeDAO gradeDAO = new GradeDAO();
+                c.setGrade(gradeDAO.getGrade(gradeId));
+                SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+                c.setSchoolYear(schoolYearDAO.getSchoolYear(schoolYearId));
+                PersonnelDAO personnelDAO = new PersonnelDAO();
+                Personnel teacher = personnelDAO.getPersonnel(teacherId);
+                c.setTeacher(teacher);
+                HttpSession session = request.getSession();
+                User user = (User) session.getAttribute("user");
+                c.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
+                ClassDAO classDAO = new ClassDAO();
+                String result = classDAO.createNewClass(c);
+                if (result.equals("success")) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Tạo mới thành công");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", result);
+                }
+                response.sendRedirect("class");
             }
         }
     }

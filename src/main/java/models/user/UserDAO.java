@@ -79,6 +79,25 @@ public class UserDAO extends DBContext {
         }
     }
 
+
+    public boolean updateNewPassword(User user) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET \n"
+                + "      \n"
+                + "      [password] = ?\n"
+                + "      \n"
+                + " WHERE [id] = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getPassword());
+            stmt.setString(2, user.getId());
+            int rowCount = stmt.executeUpdate();
+            return rowCount > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void createNewUser(String id, String user_name, String password, String email, int role_id, byte isDisable) {
         String sql = "insert into User values(?,?,?,?,?,?) ";
         try {
