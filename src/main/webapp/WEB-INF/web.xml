@@ -108,6 +108,10 @@
         <servlet-name>UpdateParentServlet</servlet-name>
         <servlet-class>controller.parent.UpdateParentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangepasswordServlet</servlet-name>
+        <servlet-class>controller.parent.ChangepasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -227,5 +231,9 @@
     <servlet-mapping>
         <servlet-name>UpdateParentServlet</servlet-name>
         <url-pattern>/parent/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangepasswordServlet</servlet-name>
+        <url-pattern>/parent/newPassword</url-pattern>
     </servlet-mapping>
 </web-app>
