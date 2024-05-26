@@ -4,73 +4,6 @@
 <html>
     <head>
         <title>Quản lý Nhân sự</title>
-        <style >
-            #style-span{
-                padding: 11px 150px;
-                margin-top: 10px;
-                border-radius: 20px;
-                margin-bottom: 40px;
-            }
-            table.table-bordered, table.table-bordered th, table.table-bordered td {
-                border: 2px solid black;
-                text-align: center;
-            }
-            .detail-button {
-                color: #001C41;
-                background-color: #FFD43A;
-                cursor: pointer;
-                border-radius: 20px;
-                padding: 5px -2px;
-                display: block;
-            }
-
-            .detail-button:hover {
-                background-color: white;
-                color: #001C41;
-                border: 1px grey solid;
-            }
-
-            .form-select{
-                padding: 5px 53px;
-            }
-            .role{
-                border-radius: 15px;
-                border: 1px #000 solid;
-            }
-            .round {
-                border-radius: 15px;
-                border: 1px #000 solid;
-            }
-            .addnew-button{
-                color: white;
-                background-color: #169D53;
-                padding: 10px 10px;
-                border-radius: 30px;
-                float: right;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            .addnew-button:hover{
-                background-color: white;
-                color: #169D53;
-                border: 1px grey solid;
-            }
-            .view-button{
-                color: white;
-                background-color: #007bff;
-                padding: 10px 10px;
-                border-radius: 30px;
-                float: right;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            .view-button:hover{
-                background-color: white;
-                color: #007bff;
-                border: 1px grey solid;
-            }
-
-        </style>
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -144,29 +77,22 @@
             </style>
 
             <div class="row">
-                <table border="10" cellspacing="2">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Ảnh</th>
-                            <th>Mã Nhân Viên</th>
-                            <th>Tên</th>
-                            <th>Giới Tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Chức vụ</th>
-                            <th>Trạng thái</th>
-                            <th>Chi tiết</th>
+                <table class="table table-bordered">
+                        <tr class="table">
+                            <th scope="col">STT</th>
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Mã Nhân Viên</th>
+                            <th scope="col">Tên</th>
+                            <th scope="col">Giới Tính</th>
+                            <th scope="col">Ngày sinh</th>
+                            <th scope="col">Chức vụ</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Chi tiết</th>
                         </tr>
-                    </thead>
                     <tbody>
-                        <c:set var="count" value="0" />
-
-
-
-                        <c:forEach items="${persons}" var="p">
-                            <c:set var="count" value="${count + 1}" />      
+                        <c:forEach items="${persons}" var="p" varStatus="status">
                             <tr>
-                                <td>${count}</td>
+                                <th scope="row">${status.index + 1}</th>
                                 <td><img class="profile_img" src="../images/${p.getAvatar()}" alt="ảnh nhân viên" width="191px" height="263px" object-fit: cover></td>
                                 <td>${p.getId()}</td>
                                 <td>${p.getLastName()} ${p.getFirstName()}</td>
@@ -232,7 +158,7 @@
                                             <option value="" hidden selected>Chọn chức vụ</option>
                                             <option value="0">Admin</option>
                                             <option value="1">Hiệu trưởng</option>
-                                            <option value="2">Academic staff</option>
+                                            <option value="2">Giáo Vụ</option>
                                             <option value="3">Nhân viên kế toán</option>
                                             <option value="4">Giáo viên</option>
                                         </select>
@@ -263,7 +189,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Email</label>
-                                        <input class="form-control" type="text" name="email" required>
+                                        <input class="form-control" type="email" name="email" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Số điện thoại</label>

@@ -59,8 +59,8 @@ public class PulpilsProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("id");
         PupilDAO dao = new PupilDAO();
-        Pupil p = dao.getPupilsById(id);
-        request.setAttribute("p", p);
+        Pupil pupil = dao.getPupilsById(id);
+        request.setAttribute("pupil", pupil);
         request.getRequestDispatcher("/academicstaff/information_pupils.jsp").forward(request, response);
     }
 

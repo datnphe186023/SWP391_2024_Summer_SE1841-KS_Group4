@@ -18,7 +18,7 @@ public class PupilDAO extends DBContext {
 
     PersonnelDAO personnelDAO = new PersonnelDAO();
 
-    public Pupil createPupil(ResultSet resultSet) throws SQLException {
+    private Pupil createPupil(ResultSet resultSet) throws SQLException {
         Pupil pupil = new Pupil();
         pupil.setId(resultSet.getString("id"));
         pupil.setUserId(resultSet.getString("user_id"));
