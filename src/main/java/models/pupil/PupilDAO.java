@@ -15,7 +15,7 @@ public class PupilDAO extends DBContext {
 
     PersonnelDAO personnelDAO = new PersonnelDAO();
 
-    public Pupil createPupil(ResultSet resultSet) throws SQLException{
+    public Pupil createPupil(ResultSet resultSet) throws SQLException {
         Pupil pupil = new Pupil();
         pupil.setId(resultSet.getString("id"));
         pupil.setUserId(resultSet.getString("user_id"));
@@ -318,24 +318,40 @@ public class PupilDAO extends DBContext {
         }
         return null;
     }
+
     public Pupil getPupilById(String id) {
         String sql = "Select * from Pupils where id= ?";
-        try{
+        try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Pupil p = new Pupil();
                 p = createPupil(rs);
                 return p;
             }
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, String motherPhoneNumber, String fatherName, String fatherPhoneNumber, String address, String parentSpecialNote ) {
-        String sql = "Update ";
+
+    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, String motherPhoneNumber, String fatherName, String fatherPhoneNumber, String address, String parentSpecialNote) {
+        String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, lastName);
+            ps.setString(2, firstName);
+            ps.setDate(3,new java.sql.Date(birthday.getTime()));
+            ps.setString(4, motherName);
+            ps.setString(5, motherPhoneNumber);
+            ps.setString(6, fatherName);
+            ps.setString(7, fatherPhoneNumber);
+            ps.setString(8, address);
+            ps.setString(9, parentSpecialNote);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
