@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Test CSS-->
         <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/information-style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -81,81 +82,71 @@
         <main class="app-content">
             <div class="app-title">
                 <div>
-                    <h1><i class="fa fa-edit"></i> Thông tin ${pupil.firstName} ${pupil.lastName}</h1>
-
+                    <h1><i class="fa fa-edit"></i> Thông tin phụ huynh</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="app-sidebar__user">
-                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.pupil.avatar}" alt="User Image" onclick="document.getElementById('avatarInput').click()">
-                        <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
-                    </div>
-                    <div class="mt-3">
-                        <button class="btn btn-primary btn-block" onclick="location.href = 'changePasswordPage'">Đổi mật khẩu</button>
+                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.pupil.avatar}" >
+                        <input class="avatar-input" id="avatarInput" type="file" name="avatar">
+                        <div>
+                            <p class="app-sidebar__user-name"><b style="color: #000">${pupil.lastName} ${pupil.firstName}</b></p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="tile">
                         <div class="tile-body">
-                            <form method="post" action="/parent/information" enctype="multipart/form-data">
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="id">ID</label>
-                                        <input class="form-control" id="id" type="text" name="id" value="${user.id}" readonly style="width: 250px">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="username">Username</label>
-                                        <input class="form-control" id="username" type="text" name="username" value="${user.username}" readonly style="width: 250px">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="firstName">Họ</label>
-                                        <input class="form-control" type="text" name="firstName" value="${pupil.firstName}" style="width: 250px" disabled>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="lastName">Tên</label>
-                                        <input class="form-control" type="text" name="lastName" value="${pupil.lastName}" style="width: 250px" disabled>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="lastName">Họ tên bố</label>
-                                        <input class="form-control" type="text" name="motherName" value="${pupil.motherName}" style="width: 250px" disabled>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="lastName">Họ tên mẹ</label>
-                                        <input class="form-control" type="text" name="fatherName" value="${pupil.fatherName}" style="width: 250px" disabled>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="phone">Số điện thoại bố</label>
-                                        <input class="form-control" id="phone" type="text" name="phone" value="${pupil.fatherPhoneNumber}" style="width: 250px">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="phone">Số điện thoại mẹ</label>
-                                        <input class="form-control" id="phone" type="text" name="phone" value="${pupil.motherPhoneNumber}" style="width: 250px">
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="gender">Giới tính</label>
-                                        <select class="form-control" id="gender" name="gender" style="width: 250px" disabled>
-                                            <option value="Male" ${sessionScope.pupil.gender ? 'selected' : ''}>Nam</option>
-                                            <option value="Female" ${!sessionScope.pupil.gender ? 'selected' : ''}>Nữ</option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group col-md-6">
-                                        <label for="email">Email</label>
-                                        <input class="form-control" id="email" type="email" name="email" value="${pupil.email}" style="width: 350px">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="address">Địa chỉ</label>
-                                        <input class="form-control" id="address" type="textarea" name="address" value="${pupil.address}">
-                                    </div>
-                                </div>
-                                <!-- Remove Avatar input from form since it's handled separately in sidebar -->
-                                <div class="form-group">
-                                    <button class="btn btn-primary" type="submit">Cập nhật thông tin</button>
-                                </div>
+                            <form action="update" method="post">
+                                <input type="hidden" name="id" value="${personnel.userId}"/>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" disabled/>
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>ID : </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" disabled/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}"/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}"/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}"/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" /><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">    
+                                                    <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" disabled/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" disabled/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Email :</h5> <input type="email" name="email" value="${pupil.email}" style="width: 170%"/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%"/><br />
+                                                </div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </br>
+                                <input type="submit" value="Update" style="width: 20%"/>
                             </form>
                         </div>
                     </div>
@@ -163,29 +154,12 @@
             </div>
         </main>
 
-
-
-
-
         <script src="../js/jquery-3.2.1.min.js"></script>
         <script src="../js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/main.js"></script>
         <script src="../js/plugins/pace.min.js"></script>
-        <script>
-                            function previewAvatar(event) {
-                                const reader = new FileReader();
-                                reader.onload = function () {
-                                    const output = document.getElementById('avatarDisplay');
-                                    output.src = reader.result;
-                                }
-                                reader.readAsDataURL(event.target.files[0]);
-                            }
-
-                            function redirectToInfoPage() {
-                                window.location.href = '${pageContext.request.contextPath}/parent/information';
-                            }
-        </script>
     </body>
+
 </html>

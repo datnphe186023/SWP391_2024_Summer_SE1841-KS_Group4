@@ -18,7 +18,7 @@ public class PupilDAO extends DBContext {
 
     PersonnelDAO personnelDAO = new PersonnelDAO();
 
-    public Pupil createPupil(ResultSet resultSet) throws SQLException{
+    public Pupil createPupil(ResultSet resultSet) throws SQLException {
         Pupil pupil = new Pupil();
         pupil.setId(resultSet.getString("id"));
         pupil.setUserId(resultSet.getString("user_id"));
@@ -125,9 +125,9 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
 
-    public List<Pupil> searchPupilInClass(String search, String classId){
-        String sql="select * from Pupils p join classDetails c on p.id = c.pupil_id where \n" +
-                " (last_name+' '+ first_name like N'%"+search+"%' or pupil_id like '%"+search+"%' )and class_id= '"+classId+"'";
+    public List<Pupil> searchPupilInClass(String search, String classId) {
+        String sql = "select * from Pupils p join classDetails c on p.id = c.pupil_id where \n"
+                + " (last_name+' '+ first_name like N'%" + search + "%' or pupil_id like '%" + search + "%' )and class_id= '" + classId + "'";
         List<Pupil> listPupils = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -143,8 +143,8 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
 
-    public List<Pupil> searchPupilByStatus(String search, String status){
-        String sql = "select * from Pupils where (last_name+' '+ first_name like N'%" + search + "%' or id like '%"+search+"%' ) and status = N'" + status+ "'";
+    public List<Pupil> searchPupilByStatus(String search, String status) {
+        String sql = "select * from Pupils where (last_name+' '+ first_name like N'%" + search + "%' or id like '%" + search + "%' ) and status = N'" + status + "'";
         List<Pupil> listPupils = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -159,7 +159,6 @@ public class PupilDAO extends DBContext {
         }
         return listPupils;
     }
-
 
     public Pupil getPupilsById(String id) {
         String sql = "select * from Pupils where id='" + id + "'";
@@ -342,21 +341,21 @@ public class PupilDAO extends DBContext {
         return null;
     }
 
-    public Pupil getLatest(){
+    public Pupil getLatest() {
         String sql = "select TOP 1 * from Pupils order by id desc";
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                return  createPupil(resultSet);
+            if (resultSet.next()) {
+                return createPupil(resultSet);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public String generateId(String latestId){
+    public String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
         int number = 0;
@@ -366,5 +365,33 @@ public class PupilDAO extends DBContext {
         DecimalFormat decimalFormat = new DecimalFormat("000000");
         String result = decimalFormat.format(number);
         return "HS" + result;
+    }
+
+    public void updateParent(Pupil pupil) {
+        String sql = "UPDATE [dbo].[Pupils]\n"
+                + "   SET \n"
+                + "      [mother_name] = ?\n"
+                + "      ,[mother_phone_number] = ?\n"
+                + "      \n"
+                + "      ,[father_name] = ?\n"
+                + "      ,[father_phone_number] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[address] = ?\n"
+                + "      \n"
+                + "      \n"
+                + "      \n"
+                + " WHERE [user_id] = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, pupil.getMotherName());
+            stmt.setString(2, pupil.getMotherPhoneNumber());
+            stmt.setString(3, pupil.getFatherName());
+            stmt.setString(4, pupil.getFatherPhoneNumber());
+            stmt.setString(5, pupil.getEmail());
+            stmt.setString(6, pupil.getAddress());
+            stmt.setString(7, pupil.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
