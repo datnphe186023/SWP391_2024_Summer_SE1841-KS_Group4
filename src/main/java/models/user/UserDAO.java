@@ -14,6 +14,17 @@ import utils.DBContext;
  */
 public class UserDAO extends DBContext {
 
+    private User createUser(ResultSet rs) throws SQLException {
+        User newUser = new User();
+        newUser.setId(rs.getString(1));
+        newUser.setUsername(rs.getString(2));
+        newUser.setPassword(rs.getString(3));
+        newUser.setEmail(rs.getString(4));
+        newUser.setRoleId(rs.getInt(5));
+        newUser.setIsDisabled(rs.getByte(6));
+        return newUser;
+    }
+
     public List<User> getListUser() {
         List<User> list = new ArrayList<>();
 
@@ -23,13 +34,7 @@ public class UserDAO extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                User u = new User();
-                u.setId(rs.getString(1));
-                u.setUsername(rs.getString(2));
-                u.setPassword(rs.getString(3));
-                u.setEmail(rs.getString(4));
-                u.setRoleId(rs.getInt(5));
-                u.setIsDisabled(rs.getByte(6));
+                User u = createUser(rs);
                 list.add(u);
             }
         } catch (SQLException e) {
@@ -48,13 +53,7 @@ public class UserDAO extends DBContext {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     // Create and return a User object if a record is found
-                    User user = new User();
-                    user.setId(rs.getString("id"));
-                    user.setUsername(rs.getString("user_name"));
-                    user.setPassword(rs.getString("password"));
-                    user.setEmail(rs.getString("email"));
-                    user.setRoleId(rs.getInt("role_id"));
-                    user.setIsDisabled(rs.getByte("isDisabled"));
+                    User user = createUser(rs);
                     return user;
                 }
             }
@@ -115,26 +114,18 @@ public class UserDAO extends DBContext {
     }
 
     public User searchById(String search) {
-        User u = new User();
         String sql = "Select * from dbo.[User] where id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, search);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                u.setId(rs.getString(1));
-                u.setUsername(rs.getString(2));
-                u.setPassword(rs.getString(3));
-                u.setEmail(rs.getString(4));
-                u.setRoleId(rs.getInt(5));
-                u.setIsDisabled(rs.getByte(6));
-            } else {
-                u = null;
+                return createUser(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return u;
+        return null;
     }
 
     public List<User> getUserByRole(int id) {
@@ -145,18 +136,28 @@ public class UserDAO extends DBContext {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                User u = new User();
-                u.setId(rs.getString(1));
-                u.setUsername(rs.getString(2));
-                u.setPassword(rs.getString(3));
-                u.setEmail(rs.getString(4));
-                u.setRoleId(rs.getInt(5));
-                u.setIsDisabled(rs.getByte(6));
+                User u = createUser(rs);
                 list.add(u);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public User getByUsernameOrEmail(String key) {
+        String sql = "Select * from dbo.[User] where user_name = ? or email = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, key);
+            stmt.setString(2, key);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                User u = createUser(rs);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
