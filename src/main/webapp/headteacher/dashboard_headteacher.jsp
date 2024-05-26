@@ -67,7 +67,7 @@
                             class="app-menu__label">Quản lý thời khóa biểu</span></a></li>
                 <li><a class="app-menu__item" href="../headteacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
                             class="app-menu__label">Quản lý học sinh</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-check'></i><span
+                <li><a class="app-menu__item" href="../headteacher/listpersonnel"><i class='app-menu__icon bx bx-user-check'></i><span
                             class="app-menu__label">Quản lý nhân sự</span></a></li>
                             <li><a class="app-menu__item" href="../headteacher/listpersonnel"><i class='app-menu__icon bx bx-food-menu'></i><span
                             class="app-menu__label">Quản lý thực đơn</span></a></li>
