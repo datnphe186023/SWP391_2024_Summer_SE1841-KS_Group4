@@ -64,7 +64,7 @@
                             class="app-menu__label">Học phí</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-calendar-check'></i><span
                             class="app-menu__label">Điểm danh</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-group'></i><span
+                <li><a class="app-menu__item" href="../accountant/listpersonnel"><i class='app-menu__icon bx bx-group'></i><span
                             class="app-menu__label">Quản lý nhân sự</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-heart'></i><span
                             class="app-menu__label">Báo cáo sức khỏe<br>
