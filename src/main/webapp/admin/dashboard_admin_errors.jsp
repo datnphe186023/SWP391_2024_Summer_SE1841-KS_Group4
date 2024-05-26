@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Test CSS-->
+        <!-- Main CSS-->
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
@@ -108,11 +108,37 @@
 
         </aside>
 
+
+        <div>
+            <h1 style="text-align: center; margin-top:  50px">Danh sách người dùng chưa có tài khoản</h1>
+            <div class="search-container">
+                <select name="role">
+                    <option value="">All (Role)</option>
+                    <option value="0">Admin</option>
+                    <option value="1">Headteacher</option>
+                    <option value="2">Academic Staff</option>
+                    <option value="3">Accountant</option>
+                    <option value="4">Teacher</option>
+                    <option value="5">Parent</option>
+                </select>
+                <form action="searchPersonnel" method="Post">
+                    <input type="text" name="search" placeholder="Search By ID">
+                    <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
+                </form>
+            </div>
+
+           <h4 style="color: red;text-align: center">${mess}</h4>
+            <form action="createUser">
+                <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
+            </form>
+        </div>
+
+
+
         <script src="js/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
         <script src="js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-<<<<<<< HEAD
         <!--===============================================================================================-->
         <script src="js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
@@ -121,25 +147,6 @@
         <script src="js/plugins/pace.min.js"></script>
         <!--===============================================================================================-->
         <!--===============================================================================================-->
-=======
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/main.js"></script>
-        <script src="../js/plugins/pace.min.js"></script>
-        <script>
-                            function previewAvatar(event) {
-                                const reader = new FileReader();
-                                reader.onload = function () {
-                                    const output = document.getElementById('avatarDisplay');
-                                    output.src = reader.result;
-                                }
-                                reader.readAsDataURL(event.target.files[0]);
-                            }
-        
-                            function redirectToInfoPage() {
-                                window.location.href = '${pageContext.request.contextPath}/admin/information';
-                            }
-        </script>
->>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </body>
 
 </html>

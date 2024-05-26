@@ -33,52 +33,41 @@
         <servlet-class>controller.ForgotPasswordServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ValidatePassword</servlet-name>
-        <servlet-class>controller.ValidatePassword</servlet-class>
+        <servlet-name>ValidateOtp</servlet-name>
+        <servlet-class>controller.ValidateOtp</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InformationHeadTeacherServlet</servlet-name>
-        <servlet-class>controller.headteacher.InformationHeadTeacherServlet</servlet-class>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <servlet-class>controller.admin.CreateUserServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InformationTeacherServlet</servlet-name>
-        <servlet-class>controller.teacher.InformationTeacherServlet</servlet-class>
+        <servlet-name>SearchPersonnelServlet</servlet-name>
+        <servlet-class>controller.admin.SearchPersonnelServlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
+        <servlet-name>CategoryRoleServlet</servlet-name>
+        <servlet-class>controller.admin.CategoryRoleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateNewUserServlet</servlet-name>
+        <servlet-class>controller.admin.CreateNewUserServlet</servlet-class>
+=======
         <servlet-name>InformationAccountantServlet</servlet-name>
         <servlet-class>controller.accountant.InformationAccountantServlet</servlet-class>
+>>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </servlet>
     <servlet>
-        <servlet-name>InformationStaffServlet</servlet-name>
-        <servlet-class>controller.academicstaff.InformationStaffServlet</servlet-class>
+        <servlet-name>ManagerUserServlet</servlet-name>
+        <servlet-class>controller.admin.ManagerUserServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InformationParentServlet</servlet-name>
-        <servlet-class>controller.parent.InformationParentServlet</servlet-class>
+        <servlet-name>CategoryRoleManagerServlet</servlet-name>
+        <servlet-class>controller.admin.CategoryRoleManagerServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
-        <servlet-class>controller.accountant.ACCCreatePersonnelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ACCListPersonnelServlet</servlet-name>
-        <servlet-class>controller.accountant.ACCListPersonnelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ACCViewPersonnelServlet</servlet-name>
-        <servlet-class>controller.accountant.ACCViewPersonnelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HTListPersonnelServlet</servlet-name>
-        <servlet-class>controller.headteacher.HTListPersonnelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HTViewPersonnelServlet</servlet-name>
-        <servlet-class>controller.headteacher.HTViewPersonnelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HTCreatePersonnelServlet</servlet-name>
-        <servlet-class>controller.headteacher.HTCreatePersonnelServlet</servlet-class>
+        <servlet-name>PulpilsProfileServlet</servlet-name>
+        <servlet-class>controller.academicstaff.PulpilsProfileServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateAdmin</servlet-name>
@@ -145,64 +134,41 @@
         <url-pattern>/forgotPassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ValidatePassword</servlet-name>
-        <url-pattern>/ValidatePassword</url-pattern>
+        <servlet-name>ValidateOtp</servlet-name>
+        <url-pattern>/ValidateOtp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InformationHeadTeacherServlet</servlet-name>
-        <url-pattern>/headteacher/information</url-pattern>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <url-pattern>/admin/createUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InformationTeacherServlet</servlet-name>
-        <url-pattern>/teacher/information</url-pattern>
+        <servlet-name>SearchPersonnelServlet</servlet-name>
+        <url-pattern>/admin/searchPersonnel</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
+        <servlet-name>CategoryRoleServlet</servlet-name>
+        <url-pattern>/admin/categoryRole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateNewUserServlet</servlet-name>
+        <url-pattern>/admin/createNewUser</url-pattern>
+=======
         <servlet-name>InformationAccountantServlet</servlet-name>
         <url-pattern>/accountant/information</url-pattern>
+>>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InformationStaffServlet</servlet-name>
-        <url-pattern>/academicstaff/information</url-pattern>
+        <servlet-name>ManagerUserServlet</servlet-name>
+        <url-pattern>/admin/managerUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InformationParentServlet</servlet-name>
-        <url-pattern>/parent/information</url-pattern>
+        <servlet-name>CategoryRoleManagerServlet</servlet-name>
+        <url-pattern>/admin/categoryRoleManager</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
-        <url-pattern>/acreatepersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ACCListPersonnelServlet</servlet-name>
-        <url-pattern>/alistpersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ACCViewPersonnelServlet</servlet-name>
-        <url-pattern>/aviewpersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ACCCreatePersonnelServlet</servlet-name>
-        <url-pattern>/acccreatepersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ACCListPersonnelServlet</servlet-name>
-        <url-pattern>/acclistpersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ACCViewPersonnelServlet</servlet-name>
-        <url-pattern>/accviewpersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HTListPersonnelServlet</servlet-name>
-        <url-pattern>/htlistpersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HTViewPersonnelServlet</servlet-name>
-        <url-pattern>/htviewpersonnel</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HTCreatePersonnelServlet</servlet-name>
-        <url-pattern>/htcreatepersonnel</url-pattern>
+        <servlet-name>PulpilsProfileServlet</servlet-name>
+        <url-pattern>/academicstaff/pupilprofile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateAdmin</servlet-name>

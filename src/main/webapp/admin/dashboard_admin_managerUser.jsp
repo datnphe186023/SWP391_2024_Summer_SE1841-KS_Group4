@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Test CSS-->
+        <!-- Main CSS-->
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
@@ -108,11 +108,79 @@
 
         </aside>
 
+
+        <div>
+            <h1 style="text-align: center; margin-top:  50px">Danh sách tài khoản</h1>
+            <div class="search-container">
+                <select name="role" id="roleSelect" onchange="redirectToServlet()">
+                    <option value="">All (Role)</option>
+                    <option value="0">Admin</option>
+                    <option value="1">Headteacher</option>
+                    <option value="2">Academic Staff</option>
+                    <option value="3">Accountant</option>
+                    <option value="4">Teacher</option>
+                    <option value="5">Parent</option>
+                </select>
+                <form action="searchPersonnel" method="Get">
+                    <input type="text" name="search" placeholder="Search By ID">
+                    <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
+                </form>
+            </div>
+            <table style="width: 70%; margin-left: 300px">
+                <thead>
+                <th>STT</th>
+                <th>Username</th>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Vai Trò</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+                </thead>
+                <tbody>
+                    <c:forEach items="${requestScope.list}" var="u" varStatus="status">
+                        <tr>
+                            <td>${status.index + 1}</td>
+                            <td>${u.getUsername()}</td>
+                            <td>${u.getId()}</td>
+                            <td>${u.getEmail()}</td>
+                            <td>${roleMap[u.getRoleId()]}</td>
+                            <td>${roleDis[u.getIsDisabled()]}</td>
+                            <td>
+                                <form><button>Chỉnh sửa</button></form>
+                                <form><button>Đặt lại mật khẩu</button></form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            function redirectToServlet() {
+                var selectedRole = document.getElementById("roleSelect").value;
+                if (selectedRole !== "") {
+                    window.location.href = "categoryRoleManager?role=" + selectedRole;
+                }
+            }
+            // Function to get query parameter value
+            function getQueryParam(param) {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Set the selected value on page load
+            document.addEventListener('DOMContentLoaded', (event) => {
+                var selectedRole = getQueryParam('role');
+                if (selectedRole) {
+                    document.getElementById('roleSelect').value = selectedRole;
+                }
+            });
+        </script>
+
         <script src="js/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
         <script src="js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-<<<<<<< HEAD
         <!--===============================================================================================-->
         <script src="js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
@@ -121,25 +189,7 @@
         <script src="js/plugins/pace.min.js"></script>
         <!--===============================================================================================-->
         <!--===============================================================================================-->
-=======
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/main.js"></script>
-        <script src="../js/plugins/pace.min.js"></script>
-        <script>
-                            function previewAvatar(event) {
-                                const reader = new FileReader();
-                                reader.onload = function () {
-                                    const output = document.getElementById('avatarDisplay');
-                                    output.src = reader.result;
-                                }
-                                reader.readAsDataURL(event.target.files[0]);
-                            }
-        
-                            function redirectToInfoPage() {
-                                window.location.href = '${pageContext.request.contextPath}/admin/information';
-                            }
-        </script>
->>>>>>> 949627addb0538bfcd3c8730ad7e8004802cb94c
     </body>
 
+</html>
 </html>

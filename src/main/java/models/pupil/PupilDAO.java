@@ -355,6 +355,26 @@ public class PupilDAO extends DBContext {
         return null;
     }
 
+    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, 
+                            String motherPhoneNumber, String fatherName, String fatherPhoneNumber, 
+                            String address, String parentSpecialNote) {
+        String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, lastName);
+            ps.setString(2, firstName);
+            ps.setDate(3,new java.sql.Date(birthday.getTime()));
+            ps.setString(4, motherName);
+            ps.setString(5, motherPhoneNumber);
+            ps.setString(6, fatherName);
+            ps.setString(7, fatherPhoneNumber);
+            ps.setString(8, address);
+            ps.setString(9, parentSpecialNote);
+            ps.executeUpdate();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
     public String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
