@@ -318,4 +318,24 @@ public class PupilDAO extends DBContext {
         }
         return null;
     }
+    public Pupil getPupilById(String id) {
+        String sql = "Select * from Pupils where id= ?";
+        try{
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Pupil p = new Pupil();
+                p = createPupil(rs);
+                return p;
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, String motherPhoneNumber, String fatherName, String fatherPhoneNumber, String address, String parentSpecialNote ) {
+        String sql = "Update ";
+    }
 }

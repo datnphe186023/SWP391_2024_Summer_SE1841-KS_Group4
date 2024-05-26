@@ -60,6 +60,10 @@
         <servlet-name>CategoryRoleManagerServlet</servlet-name>
         <servlet-class>controller.admin.CategoryRoleManagerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PulpilsProfileServlet</servlet-name>
+        <servlet-class>controller.academicstaff.PulpilsProfileServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -119,5 +123,9 @@
     <servlet-mapping>
         <servlet-name>CategoryRoleManagerServlet</servlet-name>
         <url-pattern>/admin/categoryRoleManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PulpilsProfileServlet</servlet-name>
+        <url-pattern>/academicstaff/pupilprofile</url-pattern>
     </servlet-mapping>
 </web-app>
