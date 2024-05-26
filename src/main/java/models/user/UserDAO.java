@@ -36,7 +36,7 @@ public class UserDAO extends DBContext {
         }
         return null;  // Return null if no record is found or an exception occurs
     }
-    
+
     public boolean updatePassword(String email, String newPassword) {
         try (Connection con = connection) {
             String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ?";
@@ -51,6 +51,23 @@ public class UserDAO extends DBContext {
             return false;
         }
     }
-    
+
+    public boolean updateNewPassword(User user) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET \n"
+                + "      \n"
+                + "      [password] = ?\n"
+                + "      \n"
+                + " WHERE [id] = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getPassword());
+            stmt.setString(2, user.getId());
+            int rowCount = stmt.executeUpdate();
+            return rowCount > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

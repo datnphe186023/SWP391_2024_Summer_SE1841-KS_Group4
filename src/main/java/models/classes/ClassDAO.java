@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,7 +99,7 @@ public class ClassDAO extends DBContext {
         return classes;
     }
 
-    public void createNewClass(Class c){
+    public String createNewClass(Class c){
         String sql = "insert into [Class] values (?,?,?,?,?,?,?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -110,9 +111,14 @@ public class ClassDAO extends DBContext {
             preparedStatement.setString(6, "đang chờ duyệt");
             preparedStatement.setString(7, c.getCreatedBy().getId());
             preparedStatement.executeUpdate();
-        }catch (Exception e) {
-            e.printStackTrace();
+        }catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return "Tạo mới thất bại. Lớp đã tồn tại";
         }
+        catch (Exception e) {
+            return Arrays.toString(e.getStackTrace());
+        }
+        return "success";
     }
 
     private Class getLatest(){
