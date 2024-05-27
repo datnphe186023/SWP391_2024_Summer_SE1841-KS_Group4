@@ -145,19 +145,16 @@ public class UserDAO extends DBContext {
         return list;
     }
 
-    public User getByUsernameOrEmail(String key) {
-        String sql = "Select * from dbo.[User] where user_name = ? or email = ?";
-        try{
+    public boolean emailExists(String email) {
+        String sql = "SELECT * FROM dbo.[User] WHERE email = ?";
+        try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, key);
-            stmt.setString(2, key);
+            stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                User u = createUser(rs);
-            }
-        }catch (Exception e){
+            return rs.next(); // returns true if the email exists, otherwise false
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 }
