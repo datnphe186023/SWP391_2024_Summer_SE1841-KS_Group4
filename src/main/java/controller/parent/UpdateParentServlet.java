@@ -69,13 +69,18 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         
         // Cập nhật thông tin của pupil trong cơ sở dữ liệu
         PupilDAO dao = new PupilDAO();
-        dao.updateParent(pupil);
+        boolean success =  dao.updateParent(pupil);
         
-        // Lưu lại pupil đã được cập nhật vào session 
-        session.setAttribute("pupil", pupil);
-        
-        // Redirect hoặc forward đến trang cần thiết
-        response.sendRedirect("information");
+        if (success) {
+            request.setAttribute("notiupdate", "Đã cập nhật thành công !");
+            session.setAttribute("pupil", pupil);
+            session.removeAttribute("notiupdate");
+            request.getRequestDispatcher("information_parent.jsp").forward(request, response);
+        } else {
+            request.setAttribute("failupdate", "Cập nhật thất bại!");
+            session.removeAttribute("failupdate");
+            request.getRequestDispatcher("information_parent.jsp").forward(request, response);
+        }
 }
 
     /** 

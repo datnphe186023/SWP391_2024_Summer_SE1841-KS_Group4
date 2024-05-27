@@ -87,6 +87,7 @@ public class LoginServlet extends HttpServlet {
                     break;
                 default:
                     request.setAttribute("error", "Invalid username or password");
+                    request.removeAttribute("error");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     break;
             }

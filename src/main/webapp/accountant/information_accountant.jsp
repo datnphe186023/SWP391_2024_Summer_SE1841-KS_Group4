@@ -20,6 +20,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -31,7 +33,26 @@
             .avatar-input {
                 display: none;
             }
+            .change-password-btn {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .change-password-btn:hover {
+                background-color: #0056b3;
+            }
         </style>
+        
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
@@ -92,6 +113,7 @@
                         <input class="avatar-input" id="avatarInput" type="file" name="avatar">
                         <div>
                             <p class="app-sidebar__user-name"><b style="color: #000">${personnel.lastName} ${personnel.firstName}</b></p>
+                            <button class="change-password-btn" data-toggle="modal" data-target="#changePasswordModal">Đổi mật khẩu</button>
                         </div>
                     </div>
                 </div>
@@ -117,11 +139,12 @@
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
                                                     <label for="gender">Giới tính</label>
-                                                    <select class="form-control" id="gender" name="gender" style="width: 250px" disabled>
-                                                        <option value="Male" ${sessionScope.personnel.gender ? 'selected' : ''}>Nam</option>
-                                                        <option value="Female" ${!sessionScope.personnel.gender ? 'selected' : ''}>Nữ</option>
+                                                    <select class="form-control" id="gender" name="gender" style="width: 250px">
+                                                        <option value="true" ${sessionScope.personnel.gender ? 'selected' : ''}>Nam</option>
+                                                        <option value="false" ${!sessionScope.personnel.gender ? 'selected' : ''}>Nữ</option>
                                                     </select>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">    
@@ -143,7 +166,35 @@
                                 </table>
                                 </br>
                                 <input type="submit" value="Update" style="width: 20%"/>
-                            </form>
+                                </form>
+                                <!-- Password Change Modal -->
+                            <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="changePasswordModalLabel">Đổi mật khẩu</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="newPassword" method="post">
+                                                <div class="form-group">
+                                                    <label for="newPassword">Mật khẩu mới:</label>
+                                                    <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="confirmPassword">Xác nhận mật khẩu:</label>
+                                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                                                </div>
+                                                <input type="submit" value="Đổi mật khẩu" class="btn btn-primary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Password Change Modal -->
+                            
                         </div>
                     </div>
                 </div>
@@ -156,6 +207,43 @@
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/main.js"></script>
         <script src="../js/plugins/pace.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+        <script>
+            <c:if test="${not empty noti}">
+                    swal({
+                        title: "Thông báo",
+                        text: "${noti}",
+                        icon: "success",
+                        button: "OK"
+                    });
+            </c:if>
+            <c:if test="${not empty fail}">
+                    swal({
+                        title: "Lỗi!Vui lòng nhập lại",
+                        text: "${fail}",
+                        icon: "info",
+                        button: "OK"
+                    });
+            </c:if>
+            <c:if test="${not empty notipass}">
+                    swal({
+                        title: "Thông báo",
+                        text: "${notipass}",
+                        icon: "${notipass eq 'Đã đổi mật khẩu thành công !' ? 'success' : 'error'}",
+                        button: "OK"
+                    });
+            </c:if>
+            <c:if test="${not empty failpass}">
+                    swal({
+                        title: "Lỗi!Vui lòng nhập lại",
+                        text: "${failpass}",
+                        icon: "error",
+                        button: "OK"
+                    });
+            </c:if>
+        </script>
     </body>
 
 </html>

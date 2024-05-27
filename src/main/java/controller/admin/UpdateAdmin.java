@@ -70,41 +70,47 @@ public class UpdateAdmin extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    // Lấy id của pupil từ request
-    String pupilId = request.getParameter("id");
-    
-    // Lấy thông tin pupil từ session
-    HttpSession session = request.getSession();
-    Personnel person = (Personnel) session.getAttribute("personnel");
-    
-    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Lấy thông tin pupil từ session
+        HttpSession session = request.getSession();
+        Personnel person = (Personnel) session.getAttribute("personnel");
+
         // Lấy thông tin cần update từ request
         String firstName = request.getParameter("first_name");
         String lastName = request.getParameter("last_name");
+        String genderStr = request.getParameter("gender");
         String address = request.getParameter("address");
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phone_number");
-        
+
         // Cập nhật thông tin của pupil
         person.setFirstName(firstName);
         person.setLastName(lastName);
+        // Validate and update gender
+        boolean gender = Boolean.parseBoolean(genderStr);
+        person.setGender(gender);
         person.setAddress(address);
         person.setEmail(email);
         person.setPhoneNumber(phoneNumber);
-        
+
         // Cập nhật thông tin của pupil trong cơ sở dữ liệu
         PersonnelDAO dao = new PersonnelDAO();
-        dao.updatePerson(person);
+        boolean success = dao.updatePerson(person);
+        if (success) {
+            request.setAttribute("noti", "Đã cập nhật thành công !");
+            session.setAttribute("personnel", person);
+            session.removeAttribute("noti");
+            request.getRequestDispatcher("information_admin.jsp").forward(request, response);
+        } else {
+            request.setAttribute("fail", "Cập nhật thất bại!");
+            session.removeAttribute("fail");
+            request.getRequestDispatcher("information_admin.jsp").forward(request, response);
+        }
         
-        // Lưu lại pupil đã được cập nhật vào session (nếu cần)
-        session.setAttribute("personnel", person);
         
-        // Redirect hoặc forward đến trang cần thiết
-        response.sendRedirect("information");
-}
-
+    }
 
     /**
      * Returns a short description of the servlet.

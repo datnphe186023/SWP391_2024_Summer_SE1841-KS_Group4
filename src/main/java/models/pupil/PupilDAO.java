@@ -387,7 +387,7 @@ public class PupilDAO extends DBContext {
         return "HS" + result;
     }
 
-    public void updateParent(Pupil pupil) {
+    public boolean updateParent(Pupil pupil) {
         String sql = "UPDATE [dbo].[Pupils]\n"
                 + "   SET \n"
                 + "      [mother_name] = ?\n"
@@ -409,9 +409,11 @@ public class PupilDAO extends DBContext {
             stmt.setString(5, pupil.getEmail());
             stmt.setString(6, pupil.getAddress());
             stmt.setString(7, pupil.getUserId());
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
