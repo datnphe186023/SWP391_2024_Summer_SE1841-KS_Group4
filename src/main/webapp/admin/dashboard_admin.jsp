@@ -19,50 +19,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <style>
-            .search-container {
-                width: 70%;
-                margin: 0 auto 20px;
-                display: flex;
-                justify-content: space-evenly;
-                align-items: center; /* Thêm dòng này để căn chỉnh nút theo chiều dọc */
+            .app-sidebar__user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
             }
-            .search-container select,
-            .search-container input[type="text"],
-            .search-container button {
-                margin-right: 10px;
-                height: 40px; /* Đặt chiều cao cho các phần tử là 40px */
-                box-sizing: border-box; /* Đảm bảo kích thước bao gồm cả padding và border */
-            }
-            .search-icon-btn {
-                height: 100%; /* Đặt chiều cao của nút là 100% của phần tử cha */
-                padding: 0 15px; /* Khoảng cách nút với biên là 0 15px */
-                background-color: #007bff; /* Màu nền cho nút */
-                color: #fff; /* Màu chữ cho nút */
-                border: none; /* Loại bỏ đường viền của nút */
-                border-radius: 4px; /* Định hình góc của nút */
-                cursor: pointer; /* Biểu tượng con trỏ khi di chuột vào nút */
-            }
-            .search-icon-btn i {
-                font-size: 20px; /* Kích thước của biểu tượng tìm kiếm */
-            }
-            table {
-                width: 70%;
-                margin: 50px auto;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 10px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            h1 {
-                text-align: center;
-                margin-top: 50px;
+            .avatar-input {
+                display: none;
             }
         </style>
     </head>
@@ -74,27 +40,25 @@
                                             aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
-
-
                 <!-- User Menu-->
-                <li><a class="app-nav__item" href="../login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
+                <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
                 </li>
             </ul>
         </header>
         <!-- Sidebar menu-->
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
+            <div class="app-sidebar__user">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.user.username}</b></p>
+                    <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
                     <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
                 </div>
             </div>
             <hr>
 
-            <!-- Admin homepage start-->
+                    <!-- Admin homepage start-->
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="createUser"><i class='app-menu__icon bx bx-user-plus'></i><span
                             class="app-menu__label">Tạo tài khoản</span></a></li>
@@ -105,12 +69,21 @@
             <!-- Admin homepage end-->
 
 
+            <!--  teacher dashboard end-->
+
+
+
 
         </aside>
 
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="js/popper.min.js"></script>
+                    
+
+
+
+
+
+        <script src="../js/jquery-3.2.1.min.js"></script>
+        <script src="../js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/main.js"></script>

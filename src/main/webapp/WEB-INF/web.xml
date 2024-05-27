@@ -33,12 +33,24 @@
         <servlet-class>controller.ForgotPasswordServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ValidatePassword</servlet-name>
+        <servlet-class>controller.ValidatePassword</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CreateUserServlet</servlet-name>
         <servlet-class>controller.admin.CreateUserServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>InformationHeadTeacherServlet</servlet-name>
+        <servlet-class>controller.headteacher.InformationHeadTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SearchPersonnelServlet</servlet-name>
         <servlet-class>controller.admin.SearchPersonnelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationTeacherServlet</servlet-name>
+        <servlet-class>controller.teacher.InformationTeacherServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CategoryRoleServlet</servlet-name>
@@ -53,8 +65,17 @@
         <servlet-class>controller.accountant.InformationAccountantServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>InformationStaffServlet</servlet-name>
+        <servlet-class>controller.academicstaff.InformationStaffServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
         <servlet-name>ManagerUserServlet</servlet-name>
-        <servlet-class>controller.admin.ManagerUserServlet</servlet-class>
+        <servlet-class>controller.admin.ManagerUserServlet</servlet-class> 
+    </servlet>
+    <servlet>
+        <servlet-name>InformationParentServlet</servlet-name>
+        <servlet-class>controller.parent.InformationParentServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CategoryRoleManagerServlet</servlet-name>
@@ -129,12 +150,24 @@
         <url-pattern>/forgotPassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ValidatePassword</servlet-name>
+        <url-pattern>/ValidatePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CreateUserServlet</servlet-name>
         <url-pattern>/admin/createUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>InformationHeadTeacherServlet</servlet-name>
+        <url-pattern>/headteacher/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SearchPersonnelServlet</servlet-name>
         <url-pattern>/admin/searchPersonnel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationTeacherServlet</servlet-name>
+        <url-pattern>/teacher/information</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CategoryRoleServlet</servlet-name>
@@ -149,8 +182,16 @@
         <url-pattern>/accountant/information</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>InformationStaffServlet</servlet-name>
+        <url-pattern>/academicstaff/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ManagerUserServlet</servlet-name>
         <url-pattern>/admin/managerUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationParentServlet</servlet-name>
+        <url-pattern>/parent/information</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CategoryRoleManagerServlet</servlet-name>
