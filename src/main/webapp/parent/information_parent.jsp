@@ -231,6 +231,23 @@
                         button: "OK"
                     });
             </c:if>
+            
+            <c:if test="${not empty notiupdate}">
+                    swal({
+                        title: "Thông báo",
+                        text: "${notiupdate}",
+                        icon: "success",
+                        button: "OK"
+                    });
+            </c:if>
+            <c:if test="${not empty failupdate}">
+                    swal({
+                        title: "Lỗi!Vui lòng nhập lại",
+                        text: "${failupdate}",
+                        icon: "info",
+                        button: "OK"
+                    });
+            </c:if>
         </script>
     </body>
 
