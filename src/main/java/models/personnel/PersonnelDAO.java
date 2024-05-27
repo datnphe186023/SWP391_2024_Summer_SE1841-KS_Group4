@@ -395,14 +395,15 @@ public class PersonnelDAO extends DBContext{
         }
     }
 
-    public List<Personnel> getAvailableTeachers(){
+    public List<Personnel> getAvailableTeachers(String schoolYearId){
         String sql = "SELECT *\n" +
                 "FROM Personnels t\n" +
-                "         LEFT JOIN class c ON t.id = c.teacher_id AND c.school_year_id = 'SY000002'\n" +
+                "         LEFT JOIN class c ON t.id = c.teacher_id AND c.school_year_id = ? \n" +
                 "WHERE c.teacher_id IS NULL and t.id like 'TEA%' and t.status like N'đang làm việc%';";
         List<Personnel> teachers =new ArrayList<>();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, schoolYearId);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 Personnel teacher = createPersonnel(resultSet);
