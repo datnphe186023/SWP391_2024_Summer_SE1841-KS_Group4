@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.academicstaff;
+package controller.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,14 +10,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.pupil.Pupil;
-import models.pupil.PupilDAO;
+import models.personnel.PersonnelDAO;
 
 /**
  *
  * @author TuyenCute
  */
-public class PulpilsProfileServlet extends HttpServlet {
+public class RegisterAccountServletServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +35,10 @@ public class PulpilsProfileServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PulpilsProfileServlet</title>");
+            out.println("<title>Servlet RegisterAccountServletServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PulpilsProfileServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet RegisterAccountServletServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,11 +56,7 @@ public class PulpilsProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        PupilDAO dao = new PupilDAO();
-        Pupil pupil = dao.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/academicstaff/information_pupils.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -74,12 +69,17 @@ public class PulpilsProfileServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String id = request.getParameter("id");
-        PupilDAO dao = new PupilDAO();
-        Pupil pupil = dao.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/academicstaff/information_pupils.jsp").forward(request, response);
+            throws ServletException, IOException {     
+        // Lấy giá trị của các checkbox được chọn từ request
+        String[] selectedUserIds = request.getParameterValues("user_checkbox");
+        // Kiểm tra nếu không có checkbox nào được chọn
+        if (selectedUserIds == null || selectedUserIds.length == 0) {
+            request.setAttribute("Không có tài khoản được chọn", "mess");
+            return;
+        }
+        for (String userId : selectedUserIds) {
+            
+        }
     }
 
     /**

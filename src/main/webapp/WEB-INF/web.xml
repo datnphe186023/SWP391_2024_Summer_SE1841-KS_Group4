@@ -68,10 +68,9 @@
         <servlet-name>InformationStaffServlet</servlet-name>
         <servlet-class>controller.academicstaff.InformationStaffServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>ManagerUserServlet</servlet-name>
-        <servlet-class>controller.admin.ManagerUserServlet</servlet-class> 
+        <servlet-class>controller.admin.ManagerUserServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InformationParentServlet</servlet-name>
@@ -116,6 +115,10 @@
     <servlet>
         <servlet-name>ChangepasswordServlet</servlet-name>
         <servlet-class>controller.parent.ChangepasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisterAccountServletServlet</servlet-name>
+        <servlet-class>controller.admin.RegisterAccountServletServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -232,5 +235,9 @@
     <servlet-mapping>
         <servlet-name>ChangepasswordServlet</servlet-name>
         <url-pattern>/parent/newPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterAccountServletServlet</servlet-name>
+        <url-pattern>/admin/registerAccount</url-pattern>
     </servlet-mapping>
 </web-app>

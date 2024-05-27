@@ -64,6 +64,16 @@
                 text-align: center;
                 margin-top: 50px;
             }
+            .app-sidebar__user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+            }
+            .avatar-input {
+                display: none;
+            }
         </style>
     </head>
 
@@ -74,21 +84,19 @@
                                             aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
-
-
                 <!-- User Menu-->
-                <li><a class="app-nav__item" href="../login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
+                <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
                 </li>
             </ul>
         </header>
         <!-- Sidebar menu-->
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
+            <div class="app-sidebar__user">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.user.username}</b></p>
+                    <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
                     <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
                 </div>
             </div>
@@ -103,6 +111,10 @@
 
             </ul>
             <!-- Admin homepage end-->
+
+
+            <!--  teacher dashboard end-->
+
 
 
 
@@ -125,71 +137,93 @@
                     <input type="text" name="search" placeholder="Search By ID">
                     <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
                 </form>
+                <div>
+                    <button onclick="selectAll()" class="btn-add">Chọn tất cả</button>
+                    <button onclick="deselectAll()" class="btn-danger">Bỏ chọn tất cả</button>
+                </div>
             </div>
-            <table style="width: 70%; margin-left: 300px">
-                <thead>
-                <th>STT</th>
-                <th>Họ Và Tên</th>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Vai Trò</th>
-                <th>Trạng Thái</th>
-                <th>Hành Động</th>
-                </thead>
-                <tbody>
-                    <c:forEach items="${requestScope.list}" var="p" varStatus="status">
-                        <tr>
-                            <td>${status.index + 1}</td>
-                            <td>${p.getLastName()} ${p.getFirstName()}</td>
-                            <td>${p.getId()}</td>
-                            <td>${p.getEmail()}</td>
-                            <td>${roleMap[p.getRoleId()]}</td>
-                            <td>${p.getStatus()}</td>
-                            <td>
-                                <form action="#" method="POST">
-                                    <button type="submit">Tạo Tài Khoản</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+            <form id="createAccountForm" action="registerAccountServlet" method="POST">
+                <table style="width: 70%; margin-left: 300px">
+                    <thead>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Vai Trò</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${requestScope.list}" var="p" varStatus="status">
+                            <tr>
+                                <td>${status.index + 1}</td>
+                                <td>${p.getLastName()} ${p.getFirstName()}</td>
+                                <td>${p.getId()}</td>
+                                <td>${p.getEmail()}</td>
+                                <td>${roleMap[p.getRoleId()]}</td>
+                                <td>${p.getStatus()}</td>
+                                <td>
+                                    <input type="checkbox" name="user_checkbox" value="${p.getId()}">
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
         </div>
+        <div style="text-align: right; margin-right: 150px; margin-bottom: 20px;">
+            <button type="submit" class="btn-add">Tạo tài khoản</button>
+        </div>
+    </form>
 
-        <script>
-            function redirectToServlet() {
-                var selectedRole = document.getElementById("roleSelect").value;
-                if (selectedRole !== "") {
-                    window.location.href = "categoryRole?role=" + selectedRole;
-                }
-            }
-            // Function to get query parameter value
-            function getQueryParam(param) {
-                var urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
+    <script>
 
-            // Set the selected value on page load
-            document.addEventListener('DOMContentLoaded', (event) => {
-                var selectedRole = getQueryParam('role');
-                if (selectedRole) {
-                    document.getElementById('roleSelect').value = selectedRole;
-                }
+        function redirectToServlet() {
+            var selectedRole = document.getElementById("roleSelect").value;
+            if (selectedRole !== "") {
+                window.location.href = "categoryRole?role=" + selectedRole;
+            }
+        }
+        // Function to get query parameter value
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Set the selected value on page load
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var selectedRole = getQueryParam('role');
+            if (selectedRole) {
+                document.getElementById('roleSelect').value = selectedRole;
+            }
+        });
+        function selectAll() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = true;
             });
-        </script>
+        }
 
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="js/popper.min.js"></script>
-        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <!--===============================================================================================-->
-        <script src="js/bootstrap.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="js/main.js"></script>
-        <!--===============================================================================================-->
-        <script src="js/plugins/pace.min.js"></script>
-        <!--===============================================================================================-->
-        <!--===============================================================================================-->
-    </body>
+        function deselectAll() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+        }
+        
+    </script>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/popper.min.js"></script>
+    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/main.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/plugins/pace.min.js"></script>
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+</body>
 
 </html>
