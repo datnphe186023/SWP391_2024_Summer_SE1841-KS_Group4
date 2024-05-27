@@ -72,6 +72,7 @@
                                     class="form-control" type="text" name="email" id="email-for-pass" required=""><small
                                     class="form-text text-muted">Nhập địa chỉ email đã đăng ký. Sau đó, chúng tôi sẽ gửi mật khẩu đến địa chỉ email này.</small>
                             </div>
+                            <span style="color:red">${error}</span>
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-success" type="submit">Xác nhận</button>

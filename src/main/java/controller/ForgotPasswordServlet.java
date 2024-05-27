@@ -36,7 +36,11 @@ public class ForgotPasswordServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         HttpSession mySession = request.getSession();
         UserDAO userDAO = new UserDAO();
-        if (email != null || !email.equals("")) {
+        if(!userDAO.emailExists(email)){
+            request.setAttribute("error", "Email bạn nhập không tồn tại vui lòng nhập lại!");
+            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+        }
+        else if (email != null || !email.equals("")) {
             // sending new password
             String passGen = generateRandomPassword(8);
             // update password generate random
