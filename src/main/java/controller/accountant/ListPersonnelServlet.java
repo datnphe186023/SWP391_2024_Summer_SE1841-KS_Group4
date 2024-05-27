@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import models.personnel.Personnel;
@@ -60,17 +61,27 @@ public class ListPersonnelServlet extends HttpServlet {
  @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+         HttpSession session = request.getSession(true);
+        String message = (String) session.getAttribute("message");
+        String type = (String) session.getAttribute("type");
         List<Personnel> persons = new ArrayList<Personnel>();
-        List<Role> roles = new ArrayList<>();   
+        List<Role> roles = new ArrayList<>();
+        List<String> statuss = new ArrayList<>();
+        List<Personnel> waitlist = new ArrayList<>();
         PersonnelDAO pdao = new PersonnelDAO();
-        persons = pdao.getAllPersonnels();
+        persons = pdao.getPersonnelByStatus("đang làm việc");
         roles = pdao.getAllPersonnelRole();
-        
+        statuss = pdao.getAllStatus();
+        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        request.setAttribute("message", message);
+        request.setAttribute("type", type);
         request.setAttribute("persons", persons);
         request.setAttribute("roles", roles);
-        
+        request.setAttribute("waitlist", waitlist);
+        request.setAttribute("statuss", statuss);
         request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
+        session.removeAttribute("message");
+        session.removeAttribute("type");
     } 
 
     /** 
@@ -83,27 +94,53 @@ public class ListPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         String role = request.getParameter("role");
+           
 
-       String search = request.getParameter("search");
-       List<Personnel> persons = new ArrayList<Personnel>();
-       List<Role> roles = new ArrayList<>();
-        PersonnelDAO pdao = new PersonnelDAO();  
+        HttpSession session = request.getSession(true);
+        String message = (String) session.getAttribute("message");
+        String type = (String) session.getAttribute("type");
+        String role = request.getParameter("role");
+        String status = request.getParameter("status");
+        String search = request.getParameter("search");
+        List<Personnel> persons = new ArrayList<Personnel>();
+        List<Role> roles = new ArrayList<>();
+        PersonnelDAO pdao = new PersonnelDAO();
         roles = pdao.getAllPersonnelRole();
-       if(role==null){
-        persons = pdao.getPersonnelByNameOrId(search);
-        request.setAttribute("searchdata", search);
-       }else{
-          int roleid = Integer.parseInt(role);
-          persons = pdao.getPersonnelByRole(roleid);
-          request.setAttribute("selectedrole", role);
-       }
-       
-       request.setAttribute("roles", roles);
-       request.setAttribute("persons", persons);
-        request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
-    }
+        if (role == null && status == null) {
+            persons = pdao.getPersonnelByNameOrId(search);
+            request.setAttribute("searchdata", search);
+        } else if (status == null && search == null) {
+            if (role.equalsIgnoreCase("all")) {
+                persons = pdao.getAllPersonnels();
+            } else {
+                int roleid = Integer.parseInt(role);
+                persons = pdao.getPersonnelByRole(roleid);
+                request.setAttribute("selectedrole", role);
+            }
+        } else if (role == null && search == null) {
+            if (status.equalsIgnoreCase("all")) {
+                persons = pdao.getAllPersonnels();
+            } else {
 
+                persons = pdao.getPersonnelByStatus(status);
+                request.setAttribute("selectedstatus", status);
+            }
+        }
+        List<String> statuss = new ArrayList<>();
+        statuss = pdao.getAllStatus();
+        request.setAttribute("statuss", statuss);
+        List<Personnel> waitlist = new ArrayList<>();
+        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        request.setAttribute("message", message);
+        request.setAttribute("type", type);
+        request.setAttribute("waitlist", waitlist);
+        request.setAttribute("roles", roles);
+        request.setAttribute("persons", persons);
+        request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
+        session.removeAttribute("message");
+        session.removeAttribute("type");
+    }
+    
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

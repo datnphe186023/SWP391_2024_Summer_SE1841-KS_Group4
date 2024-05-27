@@ -104,7 +104,7 @@
                                                             Hiệu trưởng
                                                         </c:if>
                                                         <c:if test="${p.getRoleId()==2}">     
-                                                            Accademic Staff
+                                                            Giáo vụ
                                                         </c:if>
                                                         <c:if test="${p.getRoleId()==3}">     
                                                             Nhân viên kế toán
@@ -124,17 +124,17 @@
                                                     <table class="table table-bordered">
                                                         <tr>
                                                             <th width="30%">Ngày sinh</th>
-                                                            <td width="2%">:</td>
+                                                           
                                                             <td>${p.getBirthday()}</td>
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Tình trạng công tác</th>
-                                                            <td width="2%">:</td>
+                                                           
                                                             <td>${p.getStatus()}</td>
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Giới tính</th>
-                                                            <td width="2%">:</td>
+                                                           
                                                             <td>
                                                                 <c:if test="${p.getGender()==true}">     
                                                                     Nam
@@ -146,18 +146,18 @@
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Địa chỉ</th>
-                                                            <td width="2%">:</td>
+                                                           
                                                             <td>${p.getAddress()}</td>
                                                         </tr>
 
                                                         <tr>
                                                             <th width="30%">Email</th>
-                                                            <td width="2%">:</td>
+                                                           
                                                             <td>${p.getEmail()}</td>
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Số điện thoại</th>
-                                                            <td width="2%">:</td>
+                                                           
                                                             <td>${p.getPhoneNumber()}</td>
                                                         </tr>
 

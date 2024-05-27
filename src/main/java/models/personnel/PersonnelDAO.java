@@ -413,4 +413,49 @@ public class PersonnelDAO extends DBContext{
         }
         return teachers;
     }
+    
+    public List<String> getAllStatus(){
+        String sql = "select distinct status from Personnels";
+        List<String> status = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                status.add(resultSet.getString("status"));
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return status;
+    }
+    
+    public boolean checkPersonnelPhone(String phonenumber){
+        String sql = "select phone_number  from  Personnels where phone_number='"+ phonenumber +"'";
+        
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                return true;
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return false;
+     }
+    
+    public boolean checkPersonnelEmail(String email){
+        String sql = "select email from  Personnels where email='"+email+"'";
+        
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                 return true;
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return false;
+     }
 }

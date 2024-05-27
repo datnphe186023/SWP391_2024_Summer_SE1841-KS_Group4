@@ -1,76 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
     <head>
         <title>Quản lý Nhân sự</title>
-        <style >
-            #style-span{
-                padding: 11px 150px;
-                margin-top: 10px;
-                border-radius: 20px;
-                margin-bottom: 40px;
-            }
-            table.table-bordered, table.table-bordered th, table.table-bordered td {
-                border: 2px solid black;
-                text-align: center;
-            }
-            .detail-button {
-                color: #001C41;
-                background-color: #FFD43A;
-                cursor: pointer;
-                border-radius: 20px;
-                padding: 5px -2px;
-                display: block;
-            }
-
-            .detail-button:hover {
-                background-color: white;
-                color: #001C41;
-                border: 1px grey solid;
-            }
-
-            .form-select{
-                padding: 5px 53px;
-            }
-            .role{
-                border-radius: 15px;
-                border: 1px #000 solid;
-            }
-            .round {
-                border-radius: 15px;
-                border: 1px #000 solid;
-            }
-            .addnew-button{
-                color: white;
-                background-color: #169D53;
-                padding: 10px 10px;
-                border-radius: 30px;
-                float: right;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            .addnew-button:hover{
-                background-color: white;
-                color: #169D53;
-                border: 1px grey solid;
-            }
-            .view-button{
-                color: white;
-                background-color: #007bff;
-                padding: 10px 10px;
-                border-radius: 30px;
-                float: right;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            .view-button:hover{
-                background-color: white;
-                color: #007bff;
-                border: 1px grey solid;
-            }
-
-        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("message") %>';
+                var toastType = '<%= request.getAttribute("type") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'fail') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -88,18 +39,32 @@
             <div class="row">
                 <%--  Begin : Select item      --%>
                 <c:set var="sltedrole" value="${requestScope.selectedrole}"/>
+                <c:set var="sltedstatus" value="${requestScope.selectedstatus}"/>
 
                 <div class="col-lg-5" style="display: flex; justify-content: space-between">
 
                     <div class="class-form">
                         <form action="listpersonnel" method="post" >    
-                            <label >Chọn chức vụ </label>
-                            <select name="role" onchange="this.form.submit()" class="role">
+                            <label class="label-text" >Chọn chức vụ </label>
+                            <select name="role" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden selected>Chức vụ</option>
                                 <c:forEach items="${requestScope.roles}" var="r">
                                     <option ${sltedrole eq r.getId() ? "selected" : ""} value="${r.getId()}">${r.getVNeseDescription()}</option> 
                                 </c:forEach>
+                                <option value="all">Hiện toàn bộ </option>
+                            </select>
+                        </form>        
+                    </div>
 
+                    <div class="class-form">
+                        <form action="listpersonnel" method="post" >    
+                            <label >Chọn tình trạng </label>
+                            <select name="status" onchange="this.form.submit()" class="custom-select">
+                                <option value="" hidden selected>Trạng thái</option>
+                                <c:forEach items="${requestScope.statuss}" var="r">
+                                    <option ${sltedstatus eq r ? "selected" : ""} value="${r}">${r}</option> 
+                                </c:forEach>
+                                <option value="all">Hiện toàn bộ </option>
                             </select>
                         </form>        
                     </div>
@@ -108,35 +73,36 @@
                         <form action="listpersonnel" method="post" >   
                             <label >Tìm kiếm </label>
 
-                            <input  type="text" name="search" placeholder="Nhập Tên hoặc ID " class="round" >    
+                            <input  type="search" name="search" placeholder="Nhập Tên hoặc ID " class="search" >    
 
                         </form>
                     </div>
+                    <style>
+                        .btn {
+                            margin:  0px 0px 0px 10px;
+                        }
+                    </style>   
 
                 </div>
                 <%--End : Select item    --%>
                 <div class="col-lg-7" style="display: flex; justify-content: end">
                     <div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPersonnelModal">
+                        <button type="button" class="btn btn-actv" data-toggle="modal" data-target="#newPersonnelModal">
                             TẠO NHÂN VIÊN MỚI
                         </button>
 
                     </div>
+
                     <div>
-                        <a class="view-button" href="waitlistpersonnel">ĐANG CHỜ PHÊ DUYỆT (${requestScope.waitlist.size()})</a>   
+                        <button class="btn btn-add" >
+                            <a  href="waitlistpersonnel">ĐANG CHỜ PHÊ DUYỆT (${requestScope.waitlist.size()})</a>   
+                        </button>
                     </div>
 
 
                 </div> 
             </div>
-            <div class="row">
-                <div class="col-lg-6"  style="display: flex">
-                    <div>
-                        <button type="button" onclick="redirect()">Hiện toàn bộ</button>
-                    </div>
 
-                </div>
-            </div>
 
             <style>
                 /* Hide the placeholder in the dropdown options */
@@ -146,18 +112,18 @@
             </style>
 
             <div class="row">
-                <table border="10" cellspacing="2">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Ảnh</th>
-                            <th>Mã Nhân Viên</th>
-                            <th>Tên</th>
-                            <th>Giới Tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Chức vụ</th>
-                            <th>Trạng thái</th>
-                            <th>Chi tiết</th>
+                            <th scope="col">STT</th>
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Mã Nhân Viên</th>
+                            <th scope="col">Tên</th>
+                            <th scope="col">Giới Tính</th>
+                            <th scope="col">Ngày sinh</th>
+                            <th scope="col">Chức vụ</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Chi tiết</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -189,7 +155,7 @@
                                         Hiệu trưởng
                                     </c:if>
                                     <c:if test="${p.getRoleId()==2}">     
-                                        Accademic Staff
+                                        Giáo vụ
                                     </c:if>
                                     <c:if test="${p.getRoleId()==3}">     
                                         Nhân viên kế toán
@@ -204,9 +170,9 @@
                                 <td>
                                     <form action="viewpersonnel" method="get">
                                         <input type="hidden" value="${p.getId()}" name="id">  
-                                        <button type="submit">Xem thông tin chi tiết</button>   
+                                        <button class="btn btn-info" type="submit">Xem thông tin chi tiết</button>   
                                     </form>
-                                       
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -265,7 +231,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Email</label>
-                                        <input class="form-control" type="text" name="email" required>
+                                        <input class="form-control" type="email" name="email" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Số điện thoại</label>
@@ -317,9 +283,9 @@
         <!--===============================================================================================-->
         <!--===============================================================================================-->
         <script>
-                                document.getElementById('role').addEventListener('change', function () {
-                                    this.querySelector('option[hidden]').disabled = true;
-                                });
+                                                    document.getElementById('role').addEventListener('change', function () {
+                                                        this.querySelector('option[hidden]').disabled = true;
+                                                    });
         </script>
         <script>
 
@@ -328,12 +294,12 @@
             }
         </script> 
         <script>
-                                document.getElementById('role').addEventListener('change', function () {
-                                    this.querySelector('option[hidden]').disabled = true;
-                                });
-                                document.getElementById('id').addEventListener('change', function () {
-                                    this.querySelector('option[hidden]').disabled = true;
-                                });
+            document.getElementById('role').addEventListener('change', function () {
+                this.querySelector('option[hidden]').disabled = true;
+            });
+            document.getElementById('id').addEventListener('change', function () {
+                this.querySelector('option[hidden]').disabled = true;
+            });
         </script>
         <script>
 

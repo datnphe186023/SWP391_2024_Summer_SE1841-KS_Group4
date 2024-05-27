@@ -12,7 +12,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.DecimalFormat;
+import javax.mail.Session;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import models.personnel.PersonnelDAO;
 
 /**
@@ -71,6 +76,12 @@ public class CreatePersonnelServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
        String action = request.getParameter("action");
+       String message="";
+       String type= "fail";
+       String regex = "^(0[23578]|09)\\d{8}$";
+       Pattern pattern = Pattern.compile(regex);
+       
+       PersonnelDAO pdao = new PersonnelDAO();
        if(action.equalsIgnoreCase("create")){
        String xfirstname = request.getParameter("firstname");
        String xlastname = request.getParameter("lastname");
@@ -81,16 +92,34 @@ public class CreatePersonnelServlet extends HttpServlet {
        String xphone = request.getParameter("phone");
        String xrole = request.getParameter("role");
        String xavatar = request.getParameter("avatar");
-       PersonnelDAO pdao = new PersonnelDAO();
        int role = Integer.parseInt(xrole);
        int gender = Integer.parseInt(xgender);
        String id =generateId(role);
-       
-       pdao.insertPersonnel(id, xfirstname, xlastname, gender, xbirthday, xaddress, xemail, xphone, role, xavatar);
+       Matcher matcher = pattern.matcher(xphone);
+       if(matcher.matches()==false){
+        message="Thêm nhân viên thất bại!Số điện thoại không hợp lệ";     
        }
-       response.sendRedirect("listpersonnel");
-       
-        
+       else if(pdao.checkPersonnelPhone(xphone)==false&&pdao.checkPersonnelEmail(xemail)==false){
+       pdao.insertPersonnel(id, xfirstname, xlastname, gender, xbirthday, xaddress, xemail, xphone, role, xavatar);    
+       message="Thêm nhân viên thành công";
+       type = "success" ;
+       }else if(pdao.checkPersonnelPhone(xphone)==true&&pdao.checkPersonnelEmail(xemail)==true){
+         message="Thêm nhân viên thất bại!Trùng dữ liệu email và số điện thoại";    
+       }else if(pdao.checkPersonnelPhone(xphone)==true){
+        message="Thêm nhân viên thất bại!Trùng dữ liệu số điện thoại ";   
+       }else if(pdao.checkPersonnelEmail(xemail)==true){
+        message="Thêm nhân viên thất bại!Trùng dữ liệu  email ";  
+       }
+           HttpSession session = request.getSession(true);
+           session.removeAttribute("message");
+           session.removeAttribute("type");
+           session.setAttribute("message", message);
+           session.setAttribute("type", type);
+           response.sendRedirect("listpersonnel");
+           
+            
+ 
+    }
     }
 private String generateId(int role){
         String id ;

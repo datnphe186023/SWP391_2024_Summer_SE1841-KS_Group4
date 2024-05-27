@@ -61,16 +61,20 @@ public class WaitlistPersonnelServlet extends HttpServlet {
         String action = request.getParameter("action");
         String personId = request.getParameter("id");
         String message ="";
+        String type = "";
         if(action!=null){
             if(action.equals("accept")){
                 pdao.updatePersonnelStatus(personId,"đã duyệt - chưa có tài khoản");
                 message="Đã duyệt thành công";
+                type = "success";
             }else if(action.equals("decline")){
                 pdao.updatePersonnelStatus(personId,"không được duyệt");
                 message="Đã từ chối";
+                type = "fail";
             }
         }
         request.setAttribute("message",message);
+        request.setAttribute("type",type);
         request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
         request.getRequestDispatcher("headteacher_waitlistPersonnel.jsp").forward(request,response);
     } 
@@ -85,26 +89,26 @@ public class WaitlistPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         PersonnelDAO pdao = new PersonnelDAO();
+        PersonnelDAO pdao = new PersonnelDAO();
         String action = request.getParameter("action");
         String personId = request.getParameter("id");
         String message ="";
+        String type = "";
         if(action!=null){
             if(action.equals("accept")){
                 pdao.updatePersonnelStatus(personId,"đã duyệt - chưa có tài khoản");
                 message="Đã duyệt thành công";
+                type = "success";
             }else if(action.equals("decline")){
                 pdao.updatePersonnelStatus(personId,"không được duyệt");
                 message="Đã từ chối";
+                type = "fail";
             }
         }
-        Personnel person ;
-        
-        person = pdao.getPersonnel(personId);
-        request.setAttribute("person", person);
         request.setAttribute("message",message);
+        request.setAttribute("type",type);
         request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
-        request.getRequestDispatcher("headteacher_viewPersonnelInfomation.jsp").forward(request,response);
+        request.getRequestDispatcher("headteacher_waitlistPersonnel.jsp").forward(request,response);
     }
 
     /** 

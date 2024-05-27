@@ -32,13 +32,14 @@
         <div class="col-lg-6">
             <form action="listpupil"  id="myForm">
                 <div class="class-form">
-                    <label >Chọn lớp</label>
+                    <label  >Chọn lớp</label>
                     <select class="form-select"  aria-label="Default select example" onchange="submitForm()" name="classes">
                         <option>Chọn lớp</option>
                         <c:forEach items="${requestScope.listClass}" var="c">
                             <option ${classesSelect eq c.id ? "selected" : ""} value="${c.id}">${c.name}</option>
                         </c:forEach>
                     </select>
+
                 </div>
 
                 <div class="year-form">
@@ -47,6 +48,7 @@
                         <c:forEach items="${requestScope.listSchoolYear}" var="year">
                             <option ${schoolYearSelect eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                         </c:forEach>
+                            
                     </select>
                 </div>
 

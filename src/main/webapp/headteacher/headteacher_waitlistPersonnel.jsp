@@ -13,50 +13,22 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
-    <style >
-        #style-span{
-            padding: 11px 150px;
-            margin-top: 10px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-        }
-        table.table-bordered, table.table-bordered th, table.table-bordered td {
-            border: 2px solid black;
-            text-align: center;
-        }
-        .accept-button , decltine-button{
-            color: #001C41;
-            background-color: #4CB5FB;
-            cursor: pointer;
-            border-radius: 20px;
-            padding: 5px 0px;
-            display: block;
-        }
-        .decline-button{
-            color: #001C41;
-            background-color: red;
-            cursor: pointer;
-            border-radius: 20px;
-            padding: 5px 0px;
-            display: block;
-        }
-        .accept-button:hover{
-            background-color: white;
-            border: 1px grey solid;
-        }
-        .decline-button:hover{
-            background-color: white;
-            border: 1px grey solid;
-        }
-
-        #myForm{
-            display: flex;
-            justify-content: space-evenly;
-            font-weight: bold;
-        }
-
-
-    </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= request.getAttribute("message") %>';
+            var toastType = '<%= request.getAttribute("type") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'fail') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();
@@ -76,14 +48,14 @@
     <div class="row">
         <table  class="table table-bordered">
             <tr class="table" >
-                <th>STT</th>
-                <th>Mã Nhân viên</th>
-                <th>Ảnh</th>
-                <th>Họ và tên</th>
-                <th>Ngày sinh</th>
-                <th>Địa chỉ</th>
-                <th>Chức vụ</th>
-                <th>Hành Động</th>
+                <th scope="col" >STT</th>
+                <th scope="col" >Mã Nhân viên</th>
+                <th scope="col" >Ảnh</th>
+                <th scope="col" >Họ và tên</th>
+                <th scope="col" >Ngày sinh</th>
+                <th scope="col" >Địa chỉ</th>
+                <th scope="col" >Chức vụ</th>
+                <th scope="col" >Hành Động</th>
             </tr>
 
             <c:set var="index" value="1"/> <%--  This code to display number of this pupil in table --%>
