@@ -11,7 +11,26 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= session.getAttribute("toastMessage") %>';
+            var toastType = '<%= session.getAttribute("toastType") %>';
+            <%
+                session.removeAttribute("toastMessage");
+                session.removeAttribute("toastType");
+            %>
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();
@@ -40,7 +59,7 @@
                 </form>
             </div>
         <div class="col-lg-6">
-            <a class="add-button" href="addpupiltoclass?classId=${sessionScope.classId}">ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPupilsPending})</a>
+            <a class="add-button" href="addpupiltoclass?classId=${sessionScope.classId}">Thêm học sinh vào lớp(${requestScope.numberOfPupilsPending})</a>
         </div>
         <%--End : Search item    --%>
     </div>

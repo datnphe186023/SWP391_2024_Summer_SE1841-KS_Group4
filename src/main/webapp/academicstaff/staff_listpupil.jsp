@@ -12,6 +12,26 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= session.getAttribute("toastMessage") %>';
+            var toastType = '<%= session.getAttribute("toastType") %>';
+            <%
+                session.removeAttribute("toastMessage");
+                session.removeAttribute("toastType");
+            %>
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
     <jsp:include page="dashboard_staff.jsp"/>
@@ -24,7 +44,7 @@
         <div class="row">
             <%--  Begin : Search item      --%>
             <div class="col-lg-6">
-                <form action="addpupiltoclass" method="post">
+                <form action="listpupil" method="get">
                     <div class="search-field">
                         <div class="form-group has-search">
                             <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>

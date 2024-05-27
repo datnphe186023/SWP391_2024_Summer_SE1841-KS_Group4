@@ -11,6 +11,31 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= session.getAttribute("toastMessage") %>';
+            var toastType = '<%= session.getAttribute("toastType") %>';
+            <%
+                session.removeAttribute("toastMessage");
+                session.removeAttribute("toastType");
+            %>
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+    </script>
     <script>
         function submitForm() {
             document.getElementById("myForm").submit();
