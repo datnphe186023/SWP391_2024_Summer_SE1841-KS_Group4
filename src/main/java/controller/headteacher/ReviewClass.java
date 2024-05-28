@@ -13,16 +13,38 @@ public class ReviewClass extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         ClassDAO classDAO = new ClassDAO();
+        String schoolYearId = request.getParameter("schoolYearId");
         try{
             if (action==null) {
-                request.setAttribute("classes", classDAO.getByStatus("đang chờ duyệt"));
-                request.getRequestDispatcher("reviewclass.jsp").forward(request, response);
+                if (schoolYearId == null) {
+                    response.sendRedirect("class");
+                } else{
+                    //handling toast message after process class
+                    HttpSession session = request.getSession();
+                    String result = (String) session.getAttribute("result");
+                    session.removeAttribute("result");
+                    if (result != null) {
+                        if (result.equals("success")) {
+                            request.setAttribute("toastType", result);
+                            request.setAttribute("toastMessage", "Duyệt thành công");
+                        } else {
+                            request.setAttribute("toastType", "error");
+                            request.setAttribute("toastMessage", result);
+                        }
+                    }
+                    //get all processing classes
+                    request.setAttribute("classes", classDAO.getByStatus("đang chờ duyệt", schoolYearId));
+                    request.setAttribute("schoolYearId", schoolYearId);
+                    request.getRequestDispatcher("reviewclass.jsp").forward(request, response);
+                }
             } else if (action.equals("accept") || action.equals("decline")) {
                 String classId = request.getParameter("id");
-                classDAO.reviewClass(action, classId);
-                response.sendRedirect("reviewclass");
+                String result = classDAO.reviewClass(action, classId);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", result);
+                response.sendRedirect("reviewclass?schoolYearId=" + schoolYearId);
             } else {
-                response.sendRedirect("reviewclass");
+                response.sendRedirect("class");
             }
         }catch (Exception e){
             e.printStackTrace();

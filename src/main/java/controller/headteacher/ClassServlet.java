@@ -25,10 +25,10 @@ public class ClassServlet extends HttpServlet {
                 SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
                 schoolYearId = latestSchoolYear.getId();
             }
-            List<Class> classes = classDAO.getBySchoolYear(schoolYearId);
+            List<Class> classes = classDAO.getByStatus("đã được duyệt", schoolYearId);
             request.setAttribute("selectedSchoolYearId", schoolYearId);
             request.setAttribute("classes", classes);
-            request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ duyệt").size());
+            request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ duyệt", schoolYearId).size());
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();

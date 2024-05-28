@@ -36,9 +36,10 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-6">
-                <a class="add-button" href="reviewclass">ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPendingClasses})</a>
-            </div>
+                <div class="col-lg-6">
+                    <a class="add-button" href="reviewclass?schoolYearId=${requestScope.selectedSchoolYearId}">
+                        ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPendingClasses})</a>
+                </div>
         </div>
         <table class="table table-bordered">
             <tr class="table">
