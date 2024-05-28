@@ -158,8 +158,8 @@
                             <td>${roleMap[u.getRoleId()]}</td>
                             <td>${roleDis[u.getIsDisabled()]}</td>
                             <td>
-                                <form><button>Chỉnh sửa</button></form>
-                                <form><button>Đặt lại mật khẩu</button></form>
+                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
+                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
                             </td>
                         </tr>
                     </c:forEach>

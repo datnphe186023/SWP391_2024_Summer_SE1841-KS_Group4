@@ -160,4 +160,38 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+    public User getUserById(String id) {
+        String sql = "select * from [User] where id=?";
+        try{
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                User user = new User();
+                user.setId(rs.getString(1));
+                user.setUsername(rs.getString(2));
+                user.setPassword(rs.getString(3));
+                user.setEmail(rs.getString(4));
+                user.setRoleId(rs.getInt(5));
+                user.setIsDisabled(rs.getByte(6));
+                return user;
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+    }
+        return null;
+}
+    public void updateUser(User user) {
+        String sql = "Update dbo.[User] set email=? , role_id=?, isDisabled=? where id=?";
+        try{
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user.getEmail());
+            ps.setInt(2, user.getRoleId());
+            ps.setByte(3, user.getIsDisabled());
+            ps.setString(4, user.getId());
+            ps.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

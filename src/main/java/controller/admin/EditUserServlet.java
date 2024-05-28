@@ -7,13 +7,14 @@ package controller.admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import models.personnel.Personnel;
+import models.personnel.PersonnelDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -21,7 +22,8 @@ import models.user.UserDAO;
  *
  * @author TuyenCute
  */
-public class ManagerUserServlet extends HttpServlet {
+@WebServlet(name = "EditUserServlet", urlPatterns = {"/admin/editUser"})
+public class EditUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +42,10 @@ public class ManagerUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManagerUserServlet</title>");
+            out.println("<title>Servlet EditUserServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ManagerUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditUserServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,13 +74,13 @@ public class ManagerUserServlet extends HttpServlet {
 
         roleDis.put((byte) 0, "Active");
         roleDis.put((byte) 1, "Disable");
+        String id = request.getParameter("id");
         UserDAO dao = new UserDAO();
-        List<User> list = new ArrayList<>();
-        list = dao.getListUser();
-        request.setAttribute("list", list);
+        User user = dao.getUserById(id);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
-        request.getRequestDispatcher("../admin/dashboard_admin_managerUser.jsp").forward(request, response);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/admin/dashboard_admin_editUser.jsp").forward(request, response);
     }
 
     /**
@@ -92,24 +94,7 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Map<Integer, String> roleMap = new HashMap<>();
-        Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-
-        roleDis.put((byte) 0, "Active");
-        roleDis.put((byte) 1, "Disable");
-        UserDAO dao = new UserDAO();
-        List<User> list = new ArrayList<>();
-        list = dao.getListUser();
-        request.setAttribute("list", list);
-        request.setAttribute("roleMap", roleMap);
-        request.setAttribute("roleDis", roleDis);
-        request.getRequestDispatcher("../admin/dashboard_admin_managerUser.jsp").forward(request, response);
+        
     }
 
     /**
