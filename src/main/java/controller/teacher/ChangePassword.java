@@ -74,11 +74,14 @@ public class ChangePassword extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         // Retrieve the new password and confirm password from the request
+        String oldPass = request.getParameter("oldPassword");
         String newPassword = request.getParameter("newPassword");
         String confPassword = request.getParameter("confirmPassword");
 
         // Check if new password and confirm password are not null and match
-        if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
+        if (newPassword != null && confPassword != null 
+                && newPassword.equals(confPassword)
+                && oldPass.equals(user.getPassword())) {
             user.setPassword(newPassword);
             // Attempt to update the user's password
             boolean success = userDAO.updateNewPassword(user);
