@@ -35,7 +35,7 @@ public class Role {
             case "1":
                 return "Hiệu trưởng";
             case "2":
-                return "Academic staff";
+                return "Giáo vụ";
             case "3":
                 return "Kế toán";
             case "4":

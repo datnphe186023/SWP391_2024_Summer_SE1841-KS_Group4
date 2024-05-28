@@ -4,6 +4,22 @@
 <html>
     <head>
         <title>Quản lý Nhân sự</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("message") %>';
+                var toastType = '<%= request.getAttribute("type") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'fail') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -21,18 +37,32 @@
             <div class="row">
                 <%--  Begin : Select item      --%>
                 <c:set var="sltedrole" value="${requestScope.selectedrole}"/>
+                <c:set var="sltedstatus" value="${requestScope.selectedstatus}"/>
 
                 <div class="col-lg-5" style="display: flex; justify-content: space-between">
 
                     <div class="class-form">
                         <form action="listpersonnel" method="post" >    
-                            <label >Chọn chức vụ </label>
-                            <select name="role" onchange="this.form.submit()" class="role">
+                            <label class="label-text" >Chọn chức vụ </label>
+                            <select name="role" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden selected>Chức vụ</option>
                                 <c:forEach items="${requestScope.roles}" var="r">
                                     <option ${sltedrole eq r.getId() ? "selected" : ""} value="${r.getId()}">${r.getVNeseDescription()}</option> 
                                 </c:forEach>
+                                <option value="all">Hiện toàn bộ </option>
+                            </select>
+                        </form>        
+                    </div>
 
+                    <div class="class-form">
+                        <form action="listpersonnel" method="post" >    
+                            <label >Chọn tình trạng </label>
+                            <select name="status" onchange="this.form.submit()" class="custom-select">
+                                <option value="" hidden selected>Trạng thái</option>
+                                <c:forEach items="${requestScope.statuss}" var="r">
+                                    <option ${sltedstatus eq r ? "selected" : ""} value="${r}">${r}</option> 
+                                </c:forEach>
+                                <option value="all">Hiện toàn bộ </option>
                             </select>
                         </form>        
                     </div>
@@ -41,33 +71,31 @@
                         <form action="listpersonnel" method="post" >   
                             <label >Tìm kiếm </label>
 
-                            <input  type="text" name="search" placeholder="Nhập Tên hoặc ID " class="round" >    
+                            <input  type="search" name="search" placeholder="Nhập Tên hoặc ID " class="search" >    
 
                         </form>
                     </div>
-
+                    <style>
+                        .btn {
+                            margin:  0px 0px 0px 10px;
+                        }
+                    </style>   
+                    
                 </div>
                 <%--End : Select item    --%>
                 <div class="col-lg-7" style="display: flex; justify-content: end">
                     <div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPersonnelModal">
+                        <button type="button" class="btn btn-actv" data-toggle="modal" data-target="#newPersonnelModal">
                             TẠO NHÂN VIÊN MỚI
                         </button>
 
                     </div>
-                    
+
 
 
                 </div> 
             </div>
-            <div class="row">
-                <div class="col-lg-6"  style="display: flex">
-                    <div>
-                        <button type="button" onclick="redirect()">Hiện toàn bộ</button>
-                    </div>
-
-                </div>
-            </div>
+           
 
             <style>
                 /* Hide the placeholder in the dropdown options */
@@ -128,7 +156,7 @@
                                 <td>
                                     <form action="viewpersonnel" method="get">
                                         <input type="hidden" value="${p.getId()}" name="id">  
-                                        <button type="submit">Xem thông tin chi tiết</button>   
+                                        <button class="btn btn-info" type="submit">Xem thông tin chi tiết</button>   
                                     </form>
                                        
                                 </td>

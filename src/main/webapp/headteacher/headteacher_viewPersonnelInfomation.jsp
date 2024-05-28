@@ -124,17 +124,17 @@
                                                     <table class="table table-bordered">
                                                         <tr>
                                                             <th width="30%">Ngày sinh</th>
-                                                            <td width="2%">:</td>
+                                                            
                                                             <td>${p.getBirthday()}</td>
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Tình trạng công tác</th>
-                                                            <td width="2%">:</td>
+                                                            
                                                             <td>${p.getStatus()}</td>
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Giới tính</th>
-                                                            <td width="2%">:</td>
+                                                            
                                                             <td>
                                                                 <c:if test="${p.getGender()==true}">     
                                                                     Nam
@@ -146,18 +146,18 @@
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Địa chỉ</th>
-                                                            <td width="2%">:</td>
+                                                            
                                                             <td>${p.getAddress()}</td>
                                                         </tr>
 
                                                         <tr>
                                                             <th width="30%">Email</th>
-                                                            <td width="2%">:</td>
+                                                            
                                                             <td>${p.getEmail()}</td>
                                                         </tr>
                                                         <tr>
                                                             <th width="30%">Số điện thoại</th>
-                                                            <td width="2%">:</td>
+                                                            
                                                             <td>${p.getPhoneNumber()}</td>
                                                         </tr>
 
@@ -225,17 +225,12 @@
         <!--===============================================================================================-->
         <!--===============================================================================================-->
         <script>
-                                                        // JavaScript Function to Redirect to Product Details Page
-                                                        function redirect() {
-                                                            // Assuming x is your result set containing product details
-                                                            // Replace this line with the correct way to retrieve product ID from your data
 
-                                                            // Redirect to the product details page with the product ID
+                                                        function redirect() {
                                                             window.location.href = "listpersonnel";
                                                         }
         </script> 
         <script>
-            // JavaScript Function to Redirect to Product Details Page
             function submitForm(action, id) {
                 // Tạo form
                 var form = document.createElement("form");

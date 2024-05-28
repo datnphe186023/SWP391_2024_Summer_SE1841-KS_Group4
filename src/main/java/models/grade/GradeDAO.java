@@ -38,7 +38,7 @@ public class GradeDAO extends DBContext {
 
     public List<Grade> getAll() {
         String sql = "select * from Grades";
-        List<Grade> grades = new ArrayList<Grade>();
+        List<Grade> grades = new ArrayList<>();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
