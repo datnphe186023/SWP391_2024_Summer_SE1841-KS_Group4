@@ -175,14 +175,13 @@
                             <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="changePasswordModalLabel">Đổi mật khẩu</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
+                                        
                                         <div class="modal-body">
                                             <form action="newPassword" method="post">
+                                                <div class="form-group">
+                                                    <label for="oldPassword">Mật khẩu cũ:</label>
+                                                    <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="newPassword">Mật khẩu mới:</label>
                                                     <input type="password" id="newPassword" name="newPassword" class="form-control" required>
@@ -225,9 +224,9 @@
             </c:if>
             <c:if test="${not empty fail}">
                     swal({
-                        title: "Lỗi!Vui lòng nhập lại",
+                        title: "Lỗi ! Vui lòng nhập lại",
                         text: "${fail}",
-                        icon: "error",
+                        icon: "info",
                         button: "OK"
                     });
             </c:if>
@@ -242,7 +241,7 @@
             </c:if>
             <c:if test="${not empty failupdate}">
                     swal({
-                        title: "Lỗi!Vui lòng nhập lại",
+                        title: "Lỗi ! Vui lòng nhập lại",
                         text: "${failupdate}",
                         icon: "info",
                         button: "OK"
