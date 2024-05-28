@@ -63,12 +63,13 @@ public class UserDAO extends DBContext {
         return null;  // Return null if no record is found or an exception occurs
     }
 
-    public boolean updatePassword(String email, String newPassword) {
+    public boolean updatePassword(String key, String newPassword) {
         try (Connection con = connection) {
-            String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ?";
+            String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ? OR user_name = ?";
             try (PreparedStatement pst = con.prepareStatement(sql)) {
                 pst.setString(1, newPassword);
-                pst.setString(2, email);
+                pst.setString(2, key);
+                pst.setString(3, key); // Thiết lập tham số cho user_name
                 int rowCount = pst.executeUpdate();
                 return rowCount > 0;
             }
@@ -145,16 +146,19 @@ public class UserDAO extends DBContext {
         return list;
     }
 
-    public boolean emailExists(String email) {
-        String sql = "SELECT * FROM dbo.[User] WHERE email = ?";
+    public User getByUsernameOrEmail(String key) {
+        String sql = "SELECT * FROM dbo.[User] WHERE user_name = ? OR email = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, email);
+            stmt.setString(1, key);
+            stmt.setString(2, key);
             ResultSet rs = stmt.executeQuery();
-            return rs.next(); // returns true if the email exists, otherwise false
+            if (rs.next()) {
+                return createUser(rs);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }
