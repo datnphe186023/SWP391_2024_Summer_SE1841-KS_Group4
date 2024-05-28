@@ -147,11 +147,12 @@ public class ClassDAO extends DBContext {
         return "C" + result;
     }
 
-    public List<Class> getByStatus(String status){
-        String sql = " Select * from Class where [status] = N'" + status + "'";
+    public List<Class> getByStatus(String status, String schoolYearId){
+        String sql = " Select * from Class where [status] = N'" + status + "'  and school_year_id = ?";
         try{
             List<Class> classes = new ArrayList<>();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,schoolYearId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Class c = createClass(resultSet);
@@ -164,7 +165,7 @@ public class ClassDAO extends DBContext {
         return null;
     }
 
-    public void reviewClass(String newStatus, String id){
+    public String reviewClass(String newStatus, String id){
         String sql = "update [Class] set [status]= ? where [id] = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -178,6 +179,8 @@ public class ClassDAO extends DBContext {
             preparedStatement.executeUpdate();
         }catch (Exception e) {
             e.printStackTrace();
+            return "Có lỗi xả ra khi duyệt, vui lòng thử lại";
         }
+        return "success";
     }
 }

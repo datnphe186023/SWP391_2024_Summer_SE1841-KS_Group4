@@ -10,6 +10,22 @@
 <html>
 <head>
     <title>Quản Lý Lớp Học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
 <jsp:include page="dashboard_headteacher.jsp"/>
@@ -38,8 +54,8 @@
                     <td>${classes.teacher.lastName} ${classes.teacher.firstName}</td>
                     <td>${classes.createdBy.lastName} ${classes.createdBy.firstName}</td>
                     <td>
-                        <a href="reviewclass?id=${classes.id}&action=accept" class="btn-accept">ACCEPT</a>
-                        <a href="reviewclass?id=${classes.id}&action=decline" class="btn-decline">DECLINE</a>
+                        <a href="reviewclass?id=${classes.id}&action=accept&schoolYearId=${requestScope.schoolYearId}" class="btn-accept">ACCEPT</a>
+                        <a href="reviewclass?id=${classes.id}&action=decline&schoolYearId=${requestScope.schoolYearId}" class="btn-decline">DECLINE</a>
                     </td>
                 </tr>
             </c:forEach>

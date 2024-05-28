@@ -66,6 +66,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">Tên Lớp</th>
                 <th scope="col">Khối</th>
+                <th scope="col">Trạng thái</th>
                 <th scope="col">Giáo viên</th>
                 <th scope="col">Điểm Danh</th>
                 <th scope="col">Báo Cáo Học Tập</th>
@@ -80,6 +81,7 @@
                     <td>${classes.id}</td>
                     <td>${classes.name}</td>
                     <td>${classes.grade.name}</td>
+                    <td>${classes.status}</td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
                     <td><button type="button" class="btn btn-primary"><a href="#">Chỉnh Sửa</a></button></td>
