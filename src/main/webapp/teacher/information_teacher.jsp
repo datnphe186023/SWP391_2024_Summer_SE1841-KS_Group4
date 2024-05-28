@@ -9,8 +9,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Test CSS-->
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/information-style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/information-style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -63,7 +63,7 @@
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
                 <!-- User Menu-->
-                <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
+                <li><a class="app-nav__item" href="${pageContext.request.contextPath}/logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
                 </li>
             </ul>
         </header>
@@ -71,7 +71,7 @@
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
-                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
                 <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
                     <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
@@ -88,7 +88,7 @@
                             class="app-menu__label">Thực đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-check-square'></i><span
                             class="app-menu__label">Điểm danh</span></a></li>
-                <li><a class="app-menu__item" href="../teacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/teacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
                         class="app-menu__label">Quản lý học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-bell'></i><span
                             class="app-menu__label">Thông báo</span></a></li>
@@ -114,7 +114,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="app-sidebar__user">
-                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" >
+                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${sessionScope.personnel.avatar}" >
                         <input class="avatar-input" id="avatarInput" type="file" name="avatar">
                         <div>
                             <p class="app-sidebar__user-name"><b style="color: #000">${personnel.lastName} ${personnel.firstName}</b></p>
@@ -178,7 +178,7 @@
                                     <div class="modal-content">
                                         
                                         <div class="modal-body">
-                                            <form action="newPassword" method="post">
+                                            <form action="${pageContext.request.contextPath}/new-password" method="post">
                                                 <div class="form-group">
                                                     <label for="oldPassword">Mật khẩu cũ:</label>
                                                     <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
@@ -205,12 +205,12 @@
             </div>
         </main>
 
-        <script src="../js/jquery-3.2.1.min.js"></script>
-        <script src="../js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/main.js"></script>
-        <script src="../js/plugins/pace.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/main.js"></script>
+        <script src="${pageContext.request.contextPath}/js/plugins/pace.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>

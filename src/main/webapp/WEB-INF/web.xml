@@ -116,28 +116,8 @@
         <servlet-class>controller.parent.UpdateParentServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ChangepasswordServlet</servlet-name>
-        <servlet-class>controller.parent.ChangepasswordServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePassword</servlet-name>
-        <servlet-class>controller.headteacher.ChangePassword</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>controller.teacher.ChangePassword</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePasswordStaff</servlet-name>
-        <servlet-class>controller.academicstaff.ChangePasswordStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePasswordAdmin</servlet-name>
-        <servlet-class>controller.admin.ChangePasswordAdmin</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePasswordAcc</servlet-name>
-        <servlet-class>controller.accountant.ChangePasswordAcc</servlet-class>
+        <servlet-name>ChangePasswords</servlet-name>
+        <servlet-class>controller.ChangePasswords</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -252,27 +232,7 @@
         <url-pattern>/parent/update</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ChangepasswordServlet</servlet-name>
-        <url-pattern>/parent/newPassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePassword</servlet-name>
-        <url-pattern>/headteacher/newPassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        <url-pattern>/teacher/newPassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePasswordStaff</servlet-name>
-        <url-pattern>/academicstaff/newPassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePasswordAdmin</servlet-name>
-        <url-pattern>/admin/newPassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePasswordAcc</servlet-name>
-        <url-pattern>/accountant/newPassword</url-pattern>
+        <servlet-name>ChangePasswords</servlet-name>
+        <url-pattern>/new-password</url-pattern>
     </servlet-mapping>
 </web-app>
