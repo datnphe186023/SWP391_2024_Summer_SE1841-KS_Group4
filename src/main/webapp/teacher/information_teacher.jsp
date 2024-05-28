@@ -132,15 +132,15 @@
                                     <tbody>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${personnel.userId}" disabled/>
+                                                    <h5>ID người dùng:</h5><input placeholder="User Id" type="text" name="userId" value="${personnel.userId}" disabled/>
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>First Name:</h5> <input placeholder="First Name" type="text" name="first_name" value="${personnel.firstName}" /><br />
+                                                    <h5>Tên:</h5> <input placeholder="First Name" type="text" name="first_name" value="${personnel.firstName}" /><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Last Name:</h5> <input type="text" name="last_name" value="${personnel.lastName}" /><br />
+                                                    <h5>Họ:</h5> <input type="text" name="last_name" value="${personnel.lastName}" /><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
                                                     <label for="gender">Giới tính</label>
@@ -153,10 +153,10 @@
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">    
-                                                    <h5>Birthday:</h5> <input type="date" name="birthday" value="${personnel.birthday}" disabled/><br />
+                                                    <h5>Ngày sinh:</h5> <input type="date" name="birthday" value="${personnel.birthday}" disabled/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Address:</h5> <input type="text" name="address" value="${personnel.address}" style="width: 200%"/><br />
+                                                    <h5>Địa chỉ:</h5> <input type="text" name="address" value="${personnel.address}" style="width: 200%"/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
@@ -164,13 +164,13 @@
                                                     <h5>Email:</h5> <input type="email" name="email" value="${personnel.email}" style="width: 170%"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Phone Number:</h5> <input type="text" name="phone_number" value="${personnel.phoneNumber}" /><br />
+                                                    <h5>Số điện thoại:</h5> <input type="text" name="phone_number" value="${personnel.phoneNumber}" /><br />
                                                 </div></td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 </br>
-                                <input type="submit" value="Update" style="width: 20%"/>
+                                <input type="submit" value="Lưu thông tin" style="width: 20%"/>
                                 </form>
                                 <!-- Password Change Modal -->
                             <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">

@@ -127,10 +127,10 @@
                                     <tbody>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" disabled/>
+                                                    <h5>ID người dùng:</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" disabled/>
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>ID : </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" disabled/><br />
+                                                    <h5>ID học sinh: </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" disabled/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
@@ -168,7 +168,7 @@
                                     </tbody>
                                 </table>
                                 </br>
-                                <input type="submit" value="Update" style="width: 20%"/>
+                                <input type="submit" value="Lưu thông tin" style="width: 20%"/>
                             </form>
 
                             <!-- Password Change Modal -->
