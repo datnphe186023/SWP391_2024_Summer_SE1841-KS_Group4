@@ -12,11 +12,7 @@
 <html>
 <head>
     <title>Quản lý học sinh</title>
-    <script>
-        function submitForm() {
-            document.getElementById("myForm").submit();
-        }
-    </script>
+
 </head>
 <body>
 <jsp:include page="dashboard_headteacher.jsp"/>
@@ -26,17 +22,6 @@
         <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh đang chờ phê duyệt</span>
     </div>
     <%--End : title    --%>
-    <c:set value="${requestScope.message}" var="message"/>
-    <c:if test="${message eq 'Đã duyệt thành công' }">
-        <div class="row justify-content-center" style="margin: 30px;">
-            <span class="bg-success font-weight-bold rounded-lg" style="padding: 8px;border-radius: 30px;">${message}</span>
-        </div>
-    </c:if>
-    <c:if test="${message eq 'Đã từ chối' }">
-        <div class="row justify-content-center" style="margin: 30px;">
-            <span class="bg-warning font-weight-bold rounded-lg"style="padding: 8px;border-radius: 30px;">${message}</span>
-        </div>
-    </c:if>
 
     <div class="row">
         <table  class="table table-bordered">
@@ -57,20 +42,30 @@
                     <td>${pupil.id}</td>
                     <td style="width: 30%;"><img src="../images/${pupil.avatar}"
                                                  class="mx-auto d-block"
-                                                 style="width:50%;"></td>
+                                                 style="width:50%;" alt=""></td>
                     <td>${pupil.lastName} ${pupil.firstName}</td>
                     <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
                     <td>${pupil.address}</td>
-                    <td style=" vertical-align: middle; padding-left: 10px"  ><a class="accept-button" href="reviewpupil?action=accept&id=${pupil.id}">Chấp nhận</a><br>
-                        <a class="decline-button" href="reviewpupil?action=decline&id=${pupil.id}">Từ chối</a>
+                    <td style="vertical-align: middle; padding-left: 10px">
+                        <form method="post" action="reviewpupil" style="display: inline;">
+                            <input type="hidden" name="action" value="accept">
+                            <input type="hidden" name="id" value="${pupil.id}">
+                            <button type="submit" class="accept-button" style="margin: auto; margin-bottom: 20px" >Chấp nhận</button>
+                        </form>
+                        <form method="post" action="reviewpupil" style="display: inline;">
+                            <input type="hidden" name="action" value="decline">
+                            <input type="hidden" name="id" value="${pupil.id}">
+                            <button type="submit" class="decline-button" style="margin: auto"  >Từ chối</button>
+                        </form>
                     </td>
+
+
                 </tr>
                 <c:set var="index" value="${index+1}"/>
             </c:forEach>
         </table>
     </div>
 </main>
-
 </body>
 </html>
 

@@ -66,13 +66,13 @@ public class ClassDAO extends DBContext {
     }
 
     public Class getClassById(String id){
-        String sql="select * from Class where id = ?";
+        String sql="select * from [Class] where id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                Class c = createClass(resultSet);
+            if (resultSet.next()){
+                return createClass(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

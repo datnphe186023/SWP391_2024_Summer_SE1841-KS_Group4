@@ -37,7 +37,8 @@ public class CreatePupilServlet extends HttpServlet {
         PupilDAO pupilDAO = new PupilDAO();
         User user = null;
         boolean gender = true;
-        String message = "";
+        String toastMessage = "";
+        String toastType="";
         if (session.getAttribute("user") != null) {
             String avatar = request.getParameter("avatar");
             String firstName = request.getParameter("firstName");
@@ -61,8 +62,6 @@ public class CreatePupilServlet extends HttpServlet {
             String address = request.getParameter("address");
             String fatherPhone = request.getParameter("fatherPhone");
             String motherPhone = request.getParameter("motherPhone");
-            String height = request.getParameter("height");
-            String weight = request.getParameter("weight");
             String status = "đang chờ xử lý";
             user = (User) session.getAttribute("user");
             Personnel createdBy = personnelDAO.getPersonnelByUserId(user.getId());
@@ -70,14 +69,16 @@ public class CreatePupilServlet extends HttpServlet {
             Pupil pupil = new Pupil("id", null, firstName, lastName, address, email, status, birthday, gender,
                     motherName, motherPhone, avatar, fatherName, fatherPhone, createdBy,
                     note);
-//            if (pupilDAO.createPupil(pupil)) {
-//                message = "Tạo thành công";
-//            } else {
-//                message = "Tạo thật bại";
-//            }
-//            request.setAttribute("message", message);
-            pupilDAO.createPupil(pupil);
-            response.sendRedirect("createpupil");
+            if (pupilDAO.createPupil(pupil)) {
+                toastMessage = "Xác nhận thành công";
+                toastType="success";
+            } else {
+                toastMessage = "Tạo thật bại";
+                toastType="error";
+            }
+            session.setAttribute("toastMessage", toastMessage);
+            session.setAttribute("toastType",toastType);
+            response.sendRedirect("listpupil");
 
         }
     }

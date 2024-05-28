@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Thêm học sinh</title>
 </head>
 <body>
 <jsp:include page="dashboard_staff.jsp"/>
@@ -87,10 +87,6 @@
                                 </div>
 
 
-                                <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" required>
-                                    </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -109,25 +105,11 @@
                                     <label for="motherPhone">Số điện thoại mẹ</label>
                                     <input type="text" class="form-control" id="motherPhone" name="motherPhone" required style="width: 40%">
                                 </div>
-                                <div class="form-group">
-                                    <label for="height">Chiều cao</label>
-                                    <div class="input-group" style="width: 30%">
-                                        <input type="number" class="form-control" id="height" name="height" required >
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">CM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="weight">Cân nặng</label>
-                                    <div class="input-group" style="width: 30%">
-                                        <input type="number" class="form-control" id="weight" name="weight"  required >
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">KG</span>
-                                        </div>
-                                    </div>
-                                </div>
 
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
                             </div>
                         </div>
                     </div>
