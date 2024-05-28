@@ -60,7 +60,7 @@
                         <h2>Quên mật khẩu?</h2>
                         <p>Thay đổi mật khẩu của bạn trong ba bước đơn giản:</p>
                         <ol class="list-unstyled">
-                            <li><span class="text-primary text-medium">1. </span>Nhập địa chỉ email của bạn.</li>
+                            <li><span class="text-primary text-medium">1. </span>Nhập địa chỉ email hoặc tên tài khoản của bạn.</li>
                             <li><span class="text-primary text-medium">2. </span>Bạn sẽ nhận được mật khẩu mới từ email.</li>
                             <li><span class="text-primary text-medium">3. </span>Hãy nhập mật khẩu mới và đổi mật khẩu của bạn.</li>
                         </ol>
@@ -68,9 +68,9 @@
                     <form class="card mt-4" action="forgotPassword" method="POST">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="email-for-pass">Nhập email của bạn</label> <input
+                                <label for="email-for-pass">Nhập email hoặc tài khoản của bạn</label> <input
                                     class="form-control" type="text" name="email" id="email-for-pass" required=""><small
-                                    class="form-text text-muted">Nhập địa chỉ email đã đăng ký. Sau đó, chúng tôi sẽ gửi mật khẩu đến địa chỉ email này.</small>
+                                    class="form-text text-muted">Nhập địa chỉ email hoặc tài khoản đã đăng ký. Sau đó, chúng tôi sẽ gửi mật khẩu đến email của bạn.</small>
                             </div>
                             <span style="color:red">${error}</span>
                         </div>
