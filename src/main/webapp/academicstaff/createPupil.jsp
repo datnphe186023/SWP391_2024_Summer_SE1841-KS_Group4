@@ -24,10 +24,10 @@
 
         <div class="col-md-3">
             <label for="imageUpload" class="form-label" style="cursor: pointer">Chọn hình ảnh</label>
-            <input type="file" class="form-control" id="imageUpload" required accept="image/*" onchange="previewImage(event)" name="avatar">
+            <input type="file" class="form-control" id="imageUpload" required accept="image/*" onchange="previewImage(event)" name="avatar" value="${param.avatar}">
 
             <div id="imagePreview" class="mt-3 text-center" style="display: none;">
-                <img id="preview" class="img-fluid rounded" alt="Preview Image" style="max-width: 300px; max-height: 300px;">
+                <img id="preview"   src="../images${param.avatar}" class="img-fluid rounded" alt="Preview Image" style="max-width: 300px; max-height: 300px;">
             </div>
     </div>
         <script>
@@ -56,31 +56,32 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="firstName">Tên học sinh</label>
-                                        <input type="text" class="form-control" id="firstName" required name="firstName" style="width: 50%">
+                                        <input type="text" class="form-control" id="firstName" required name="firstName" style="width: 50%" value="${param.firstName}">
                                     </div>
                                     <div class="form-group">
                                         <label for="lastName">Họ học sinh</label>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" required style="width: 40%">
+                                        <input type="text" class="form-control" id="lastName" name="lastName" required style="width: 40%" value="${param.lastName}">
                                     </div>
                                     <div class="form-group">
                                         <label for="fatherName">Họ tên bố</label>
-                                        <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                                        <input type="text" class="form-control" id="fatherName" name="fatherName" required value="${param.fatherName}">
                                     </div>
                                     <div class="form-group">
                                         <label for="motherName">Họ tên mẹ</label>
-                                        <input type="text" class="form-control" id="motherName" name="motherName" required>
+                                        <input type="text" class="form-control" id="motherName" name="motherName" required value="${param.motherName}">
                                     </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="birth" class="form-label">Ngày sinh</label>
-                                            <input type="date" id="birth" class="form-control" name="birth" required>
+                                            <label for="birth" class="form-label">Ngày sinh</label><br>
+                                            <span style="color: red">${requestScope.toasMessageBirthday}</span>
+                                            <input type="date" id="birth" class="form-control" name="birth" required value="${param.birth}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="gender" class="form-label" >Giới tính</label>
-                                            <select name="gender" id="gender" required class="form-select" aria-label="Default select example" style="width: 100%;height: 60%;">
-                                                <option value="1">Nam</option>
-                                                <option value="0">Nữ</option>
+                                            <select name="gender" id="gender" required class="form-select" aria-label="Default select example" style="width: 100%;height: 60%;" >
+                                                <option ${param.gender==1?"selected":""}  value="1">Nam</option>
+                                                <option ${param.gender==0?"selected":""} value="0">Nữ</option>
                                             </select>
                                         </div>
                                     </div>
@@ -91,24 +92,26 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="parentNote">Ghi chú của phụ huynh</label>
-                                    <textarea name="note" class="form-control" id="parentNote" rows="4"  required></textarea>
+                                    <textarea name="note" class="form-control" id="parentNote" rows="4"  required>${param.note}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>
-                                    <textarea class="form-control" id="address" rows="4" name="address" required></textarea>
+                                    <textarea class="form-control" id="address" rows="4" name="address" required>${param.address}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fatherPhone">Số điện thoại bố</label>
-                                    <input type="text" class="form-control" id="fatherPhone" name="fatherPhone" required style="width: 40%">
+                                    <label for="fatherPhone">Số điện thoại bố</label><br>
+                                    <span style="color: red">${requestScope.toastMessageFatherPhone}</span>
+                                    <input type="text" class="form-control" id="fatherPhone" name="fatherPhone" required style="width: 40%" value="${param.fatherPhone}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="motherPhone">Số điện thoại mẹ</label>
-                                    <input type="text" class="form-control" id="motherPhone" name="motherPhone" required style="width: 40%">
+                                    <label for="motherPhone">Số điện thoại mẹ</label><br>
+                                    <span style="color: red">${requestScope.toastMessageMotherPhone}</span>
+                                    <input type="text" class="form-control" id="motherPhone" name="motherPhone" required style="width: 40%" value="${param.motherPhone}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" required value="${param.email}">
                                 </div>
                             </div>
                         </div>
