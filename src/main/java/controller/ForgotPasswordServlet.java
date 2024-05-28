@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.user.User;
 import models.user.UserDAO;
 
 /**
@@ -32,21 +33,22 @@ public class ForgotPasswordServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String email = request.getParameter("email");
+        String key = request.getParameter("email");
         RequestDispatcher dispatcher = null;
         HttpSession mySession = request.getSession();
         UserDAO userDAO = new UserDAO();
-        if(!userDAO.emailExists(email)){
+        User user = userDAO.getByUsernameOrEmail(key);
+        if(user == null){
             request.setAttribute("error", "Email bạn nhập không tồn tại vui lòng nhập lại!");
             request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
         }
-        else if (email != null || !email.equals("")) {
+        else if (key != null || !key.equals("")) {
             // sending new password
             String passGen = generateRandomPassword(8);
             // update password generate random
-            userDAO.updatePassword(email, passGen);
+            userDAO.updatePassword(key, passGen);
 
-            String to = email;// change accordingly
+            String to = user.getEmail();// change accordingly
             // Get the session object
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
@@ -65,7 +67,7 @@ public class ForgotPasswordServlet extends HttpServlet {
             // compose message
             try {
                 MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(email));// change accordingly
+                message.setFrom(new InternetAddress(to));// change accordingly
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
                 message.setSubject("Xin chao!");
                 message.setText("Mat khau moi cua ban la: " + passGen);
@@ -78,7 +80,7 @@ public class ForgotPasswordServlet extends HttpServlet {
             dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
             request.setAttribute("message", "Mat khau moi da duoc gui den ban , vui long kiem tra email");
             mySession.setAttribute("passGen", passGen);
-            mySession.setAttribute("email", email);
+            mySession.setAttribute("email", to);
             dispatcher.forward(request, response);
         }
 
