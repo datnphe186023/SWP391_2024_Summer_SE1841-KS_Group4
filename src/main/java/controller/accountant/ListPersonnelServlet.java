@@ -93,8 +93,7 @@ public class ListPersonnelServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-           
+            throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
         String message = (String) session.getAttribute("message");
@@ -102,35 +101,38 @@ public class ListPersonnelServlet extends HttpServlet {
         String role = request.getParameter("role");
         String status = request.getParameter("status");
         String search = request.getParameter("search");
+        System.out.println(role);
+        System.out.println(status);
+        System.out.println(search);
         List<Personnel> persons = new ArrayList<Personnel>();
         List<Role> roles = new ArrayList<>();
         PersonnelDAO pdao = new PersonnelDAO();
         roles = pdao.getAllPersonnelRole();
-        if (role == null && status == null) {
+        if ((role != null || status != null)&& search == null) {
+            if(status.equalsIgnoreCase("all")&& role.equalsIgnoreCase("all")){
+                 persons = pdao.getAllPersonnels();
+             }
+            else if(!status.equalsIgnoreCase("all") && role.equalsIgnoreCase("all")){
+                  persons =pdao.getPersonnelByStatus(status);
+                 
+             }else if(!role.equalsIgnoreCase("all") && status.equalsIgnoreCase("all")){
+                 int xrole = Integer.parseInt(role);
+                 persons = pdao.getPersonnelByRole(xrole);
+                
+             } else{
+            persons = pdao.getPersonnelByIdNameRoleStatus(status, role);
+             }
+        }else if(search != null){
             persons = pdao.getPersonnelByNameOrId(search);
-            request.setAttribute("searchdata", search);
-        } else if (status == null && search == null) {
-            if (role.equalsIgnoreCase("all")) {
-                persons = pdao.getAllPersonnels();
-            } else {
-                int roleid = Integer.parseInt(role);
-                persons = pdao.getPersonnelByRole(roleid);
-                request.setAttribute("selectedrole", role);
-            }
-        } else if (role == null && search == null) {
-            if (status.equalsIgnoreCase("all")) {
-                persons = pdao.getAllPersonnels();
-            } else {
-
-                persons = pdao.getPersonnelByStatus(status);
-                request.setAttribute("selectedstatus", status);
-            }
-        }
+        } 
         List<String> statuss = new ArrayList<>();
         statuss = pdao.getAllStatus();
         request.setAttribute("statuss", statuss);
         List<Personnel> waitlist = new ArrayList<>();
         waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        request.setAttribute("searchdata", search);
+        request.setAttribute("selectedstatus", status);
+        request.setAttribute("selectedrole", role);
         request.setAttribute("message", message);
         request.setAttribute("type", type);
         request.setAttribute("waitlist", waitlist);
@@ -139,6 +141,7 @@ public class ListPersonnelServlet extends HttpServlet {
         request.getRequestDispatcher("accountant_listPersonnel.jsp").forward(request, response);
         session.removeAttribute("message");
         session.removeAttribute("type");
+        
     }
     
     /** 

@@ -40,36 +40,46 @@
                 <c:set var="sltedstatus" value="${requestScope.selectedstatus}"/>
 
                 <div class="col-lg-5" style="display: flex; justify-content: space-between">
-
+<form action="listpersonnel" method="post" > 
                     <div class="class-form">
-                        <form action="listpersonnel" method="post" >    
+                           
                             <label class="label-text" >Chọn chức vụ </label>
                             <select name="role" onchange="this.form.submit()" class="custom-select">
-                                <option value="" hidden selected>Chức vụ</option>
+                                <option value="" hidden >Chức vụ</option>
                                 <c:forEach items="${requestScope.roles}" var="r">
                                     <option ${sltedrole eq r.getId() ? "selected" : ""} value="${r.getId()}">${r.getVNeseDescription()}</option> 
                                 </c:forEach>
-                                <option value="all">Hiện toàn bộ </option>
+                                <c:if test="${sltedrole eq 'all'}">
+                                        <option value="all" selected>Hiện toàn bộ </option>
+                                     </c:if>
+                                      <c:if test="${sltedrole ne'all'}">
+                                        <option value="all" >Hiện toàn bộ </option>
+                                     </c:if>
                             </select>
-                        </form>        
+                              
                     </div>
 
                     <div class="class-form">
-                        <form action="listpersonnel" method="post" >    
+                          
                             <label >Chọn tình trạng </label>
                             <select name="status" onchange="this.form.submit()" class="custom-select">
-                                <option value="" hidden selected>Trạng thái</option>
+                                <option value="" hidden >Trạng thái</option>
                                 <c:forEach items="${requestScope.statuss}" var="r">
                                     <option ${sltedstatus eq r ? "selected" : ""} value="${r}">${r}</option> 
                                 </c:forEach>
-                                <option value="all">Hiện toàn bộ </option>
+                                    <c:if test="${sltedstatus eq 'all'}">
+                                        <option value="all" selected>Hiện toàn bộ </option>
+                                     </c:if>
+                                      <c:if test="${sltedstatus ne'all'}">
+                                        <option value="all" >Hiện toàn bộ </option>
+                                     </c:if>
                             </select>
-                        </form>        
+                                
                     </div>
-
+</form>
                     <div class="search">
                         <form action="listpersonnel" method="post" >   
-                            <label >Tìm kiếm </label>
+                            <label >Tìm kiếm </label></br>
 
                             <input  type="search" name="search" placeholder="Nhập Tên hoặc ID " class="search" >    
 
@@ -80,7 +90,7 @@
                             margin:  0px 0px 0px 10px;
                         }
                     </style>   
-                    
+
                 </div>
                 <%--End : Select item    --%>
                 <div class="col-lg-7" style="display: flex; justify-content: end">
