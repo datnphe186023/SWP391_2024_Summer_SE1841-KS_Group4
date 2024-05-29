@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import models.personnel.Personnel;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import utils.DBContext;
 
 /**
@@ -98,19 +100,63 @@ public class UserDAO extends DBContext {
         return false;
     }
 
-    public void createNewUser(String id, String user_name, String password, String email, int role_id, byte isDisable) {
-        String sql = "insert into User values(?,?,?,?,?,?) ";
+    public void createNewUser(String user_name, String email, int role_id, byte isDisable) {
+        String sql = "insert into [User] values(?,?,?,?,?,?) ";
         try {
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, id);
-            pst.setString(2, user_name);
-            pst.setString(3, password);
-            pst.setString(4, email);
-            pst.setInt(5, role_id);
-            pst.setByte(6, isDisable);
-
+            PreparedStatement statement = connection.prepareStatement(sql);
+            String userId = generateId(getLatest().getId());
+            statement.setString(1, userId);
+            statement.setString(2, user_name);
+            statement.setString(3, generatePassword());
+            statement.setString(4, email);
+            statement.setInt(5, role_id);
+            statement.setByte(6, isDisable);
+            statement.executeUpdate();
+            updatePersonnelUserId(user_name, userId);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private String generatePassword(){
+        return "1";
+    }
+    
+    private User getLatest(){
+        String sql = "select TOP 1 * from [User] order by id desc";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return createUser(resultSet);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    private String generateId(String latestId){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "U" + result;
+    }
+    
+    private void updatePersonnelUserId(String personnelId, String userId){
+        String sql = "update [Personnels] set user_id = ? where id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, userId);
+            statement.setString(2, personnelId);
+            statement.executeUpdate();
+        }catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
