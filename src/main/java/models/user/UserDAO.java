@@ -149,6 +149,7 @@ public class UserDAO extends DBContext {
             statement.setByte(6, isDisable);
             statement.executeUpdate();
             updatePersonnelUserId(user_name, userId);
+            updatePupilsUserId(user_name, userId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,6 +199,17 @@ public class UserDAO extends DBContext {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, userId);
             statement.setString(2, personnelId);
+            statement.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+    private void updatePupilsUserId(String PupilsId, String userId) {
+        String sql = "update Pupils set user_id = ? where id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, userId);
+            statement.setString(2, PupilsId);
             statement.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);

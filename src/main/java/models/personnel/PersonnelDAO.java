@@ -496,4 +496,22 @@ public class PersonnelDAO extends DBContext {
         return persons;
     }
 
+    public List<Personnel> getPersonnelsByRoleRangeandUserIdNull(int start, int end) {
+        List<Personnel> personnels = new ArrayList<>();
+        // Thêm logic kết nối cơ sở dữ liệu và truy vấn ở đây
+        String query = "SELECT * FROM Personnels WHERE role_id BETWEEN ? AND ? and user_id is null";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, start);
+            ps.setInt(2, end);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    personnels.add(createPersonnel(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personnels;
+    }
+
 }

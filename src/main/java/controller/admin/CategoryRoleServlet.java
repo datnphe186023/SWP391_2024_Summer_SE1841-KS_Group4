@@ -10,13 +10,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import models.personnel.PersonnelDAO;
 import models.personnel.Personnel;
-import models.user.User;
-import models.user.UserDAO;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
 
 /**
  *
@@ -62,6 +63,9 @@ public class CategoryRoleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String role_id = request.getParameter("role");
+        List<Personnel> personnels = new ArrayList<>();
+        List<Pupil> pupils = new ArrayList<>();
         Map<Integer, String> roleMap = new HashMap<>();
         roleMap.put(0, "Admin");
         roleMap.put(1, "Headteacher");
@@ -69,13 +73,19 @@ public class CategoryRoleServlet extends HttpServlet {
         roleMap.put(3, "Accountant");
         roleMap.put(4, "Teacher");
         roleMap.put(5, "Parent");
-        String id = request.getParameter("role");
-        PersonnelDAO dao = new PersonnelDAO();
-        List<Personnel> list = dao.getPersonelByRoleandNonUserId(Integer.parseInt(id));
-        System.out.println(list);
-        request.setAttribute("list", list);
+        if ("personnels".equals(role_id)) {
+            // Lọc các vai trò có giá trị từ 0 đến 4 cho personnel
+            personnels = new PersonnelDAO().getPersonnelsByRoleRangeandUserIdNull(0, 4);
+            request.setAttribute("list", personnels);
+            request.getRequestDispatcher("createuser").forward(request, response);
+        } else if ("5".equals(role_id)) {
+            // Lọc vai trò có giá trị là 5 cho pupil
+            pupils = new PupilDAO().getPupilNonUserId();
+            request.setAttribute("list", pupils);
+            request.getRequestDispatcher("../admin/admin_category_createpupils.jsp").forward(request, response);
+        }
         request.setAttribute("roleMap", roleMap);
-        request.getRequestDispatcher("../admin/dashboard_admin_category.jsp").forward(request, response);
+
     }
 
     /**

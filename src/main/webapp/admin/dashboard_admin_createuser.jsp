@@ -74,7 +74,7 @@
             .avatar-input {
                 display: none;
             }
-            
+
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -142,13 +142,8 @@
             <h1 style="text-align: center; margin-top:  50px">Danh sách người dùng chưa có tài khoản</h1>
             <div class="search-container">
                 <select name="role" id="roleSelect" onchange="redirectToServlet()">
-                    <option value="">All (Role)</option>
-                    <option value="0">Admin</option>
-                    <option value="1">Headteacher</option>
-                    <option value="2">Academic Staff</option>
-                    <option value="3">Accountant</option>
-                    <option value="4">Teacher</option>
-                    <option value="5">Parent</option>
+                    <option value="personnels">Personnels</option>
+                    <option value="5">Pupils</option>
                 </select>
                 <form action="searchPersonnel" method="Post">
                     <input type="text" name="search" placeholder="Search By ID">
@@ -171,9 +166,10 @@
                     <th>Hành Động</th>
                     </thead>
                     <tbody>
-                        <c:forEach items="${requestScope.list}" var="p" varStatus="status">
+                        <c:set var="counter" value="1" />
+                        <c:forEach items="${requestScope.list}" var="p" >
                             <tr>
-                                <td>${status.index + 1}</td>
+                                <td>${counter}</td>
                                 <td>${p.getLastName()} ${p.getFirstName()}</td>
                                 <td>${p.getId()}</td>
                                 <td>${p.getEmail()}</td>
@@ -183,6 +179,7 @@
                                     <input type="checkbox" name="user_checkbox" value="${p.getId()}">
                                 </td>
                             </tr>
+                            <c:set var="counter" value="${counter + 1}" />
                         </c:forEach>
                     </tbody>
                 </table>
