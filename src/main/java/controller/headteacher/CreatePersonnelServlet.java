@@ -14,6 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.mail.Session;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,6 +101,8 @@ public class CreatePersonnelServlet extends HttpServlet {
        Matcher matcher = pattern.matcher(xphone);
        if(matcher.matches()==false){
         message="Thêm nhân viên thất bại!Số điện thoại không hợp lệ";     
+       }else if(!checkAge(xbirthday)){
+           message="Thêm nhân viên thất bại!Nhân viên chưa đủ 18 tuổi";  
        }
        else if(pdao.checkPersonnelPhone(xphone)==false&&pdao.checkPersonnelEmail(xemail)==false){
        pdao.insertPersonnel(id, xfirstname, xlastname, gender, xbirthday, xaddress, xemail, xphone, role, xavatar);    
@@ -142,10 +147,58 @@ private String generateId(int role){
         
         return id;
     }
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
+    
+        public static int calculateAge(Date birthDate, Date currentDate) {
+        // Lấy ngày tháng năm của ngày sinh
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+
+        int birthYear = Integer.parseInt(yearFormat.format(birthDate));
+        int birthMonth = Integer.parseInt(monthFormat.format(birthDate));
+        int birthDay = Integer.parseInt(dayFormat.format(birthDate));
+
+        // Lấy ngày tháng năm của ngày hiện tại
+        int currentYear = Integer.parseInt(yearFormat.format(currentDate));
+        int currentMonth = Integer.parseInt(monthFormat.format(currentDate));
+        int currentDay = Integer.parseInt(dayFormat.format(currentDate));
+
+        // Tính tuổi
+        int age = currentYear - birthYear;
+           
+        // Kiểm tra xem học sinh đã qua sinh nhật năm nay chưa
+        if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDay < birthDay)) {
+            age--;
+        }
+
+        return age;
+    }
+
+    public static boolean checkAge(String birthDateString) {
+        try {
+            // Định dạng ngày
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            formatter.setLenient(false); // Đảm bảo ngày nhập vào là hợp lệ
+            Date birthDate = formatter.parse(birthDateString);
+
+            // Ngày hiện tại
+            Date currentDate = new Date();
+
+            // Kiểm tra nếu ngày sinh vượt quá ngày hiện tại
+            if (birthDate.after(currentDate)) {
+                return false;
+            }
+
+            // Tính tuổi
+            int age = calculateAge(birthDate, currentDate);
+            if (age <=18) {
+                return false;
+            }
+        } catch (ParseException e) {
+            System.out.println("Định dạng ngày sinh không hợp lệ. Vui lòng sử dụng định dạng yyyy-MM-dd.");
+        }
+        return true;
+    }
     @Override
     public String getServletInfo() {
         return "Short description";
