@@ -92,7 +92,24 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Map<Integer, String> roleMap = new HashMap<>();
+        Map<Byte, String> roleDis = new HashMap<>();
+        roleMap.put(0, "Admin");
+        roleMap.put(1, "Headteacher");
+        roleMap.put(2, "Academic Staff");
+        roleMap.put(3, "Accountant");
+        roleMap.put(4, "Teacher");
+        roleMap.put(5, "Parent");
+
+        roleDis.put((byte) 0, "Active");
+        roleDis.put((byte) 1, "Disable");
+        UserDAO dao = new UserDAO();
+        List<User> list = new ArrayList<>();
+        list = dao.getListUser();
+        request.setAttribute("list", list);
+        request.setAttribute("roleMap", roleMap);
+        request.setAttribute("roleDis", roleDis);
+        request.getRequestDispatcher("../admin/dashboard_admin_managerUser.jsp").forward(request, response);
     }
 
     /**

@@ -16,9 +16,8 @@ import utils.DBContext;
  *
  * @author asus
  */
+public class PersonnelDAO extends DBContext {
 
-
-public class PersonnelDAO extends DBContext{
     private Personnel createPersonnel(ResultSet resultSet) throws SQLException {
         Personnel person = new Personnel();
         person.setId(resultSet.getString("id"));
@@ -35,7 +34,6 @@ public class PersonnelDAO extends DBContext{
         person.setUserId(resultSet.getString("user_id"));
         return person;
     }
-
 
     // Get all personnel infomation
     public List<Personnel> getAllPersonnels() {
@@ -68,7 +66,7 @@ public class PersonnelDAO extends DBContext{
     }
 
     public List<Personnel> getPersonnelByRole(int role) {
-        String sql = "select * from [Personnels] where role_id = ?";
+        String sql = "select * from [Personnels] where role_id = 2 and status = N'đã duyệt - chưa có tài khoản' and user_id is null";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -223,10 +221,12 @@ public class PersonnelDAO extends DBContext{
         return personnel;
     }
 
-
-    public List<Personnel> getPersonelUserIdNull() {
+    public List<Personnel> getPersonelNonUserId() {
         List<Personnel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Personnels where user_id IS NULL";
+        String sql = "SELECT * \n"
+                + "FROM Personnels \n"
+                + "WHERE user_id IS NULL \n"
+                + "  AND status = N'đã duyệt - chưa có tài khoản';";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -283,9 +283,9 @@ public class PersonnelDAO extends DBContext{
         return p;
     }
 
-    public List<Personnel> getPersonelByRole(int id) {
+    public List<Personnel> getPersonelByRoleandNonUserId(int id) {
         List<Personnel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Personnels where role_id=? and user_id is null";
+        String sql = "SELECT * FROM Personnels where role_id=? and user_id is null and status = N'đã duyệt - chưa có tài khoản'";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
@@ -311,16 +311,15 @@ public class PersonnelDAO extends DBContext{
         }
         return list;
     }
-    
-    public List<Personnel> getPersonnelByStatus(String status){
+
+    public List<Personnel> getPersonnelByStatus(String status) {
         String sql = " Select * from Personnels where [status] = N'" + status + "'";
-        List<Personnel> persons =new ArrayList<>();
-        try{
+        List<Personnel> persons = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            
-            
+
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Personnel person = new Personnel();
                 person.setId(resultSet.getString("id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -336,12 +335,12 @@ public class PersonnelDAO extends DBContext{
                 person.setUserId(resultSet.getString("user_id"));
                 persons.add(person);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error in function");
         }
         return persons;
     }
-    
+
     public boolean updatePersonnelStatus(String pId, String status) {
         String sql = "UPDATE [dbo].[Personnels]\n"
                 + "   SET [status] = ? \n"
@@ -357,25 +356,24 @@ public class PersonnelDAO extends DBContext{
         }
         return false;
     }
-    
-    public List<Role> getAllPersonnelRole(){
+
+    public List<Role> getAllPersonnelRole() {
         String sql = "select DISTINCT r.id,r.description from Roles r join Personnels p on r.id= p.role_id";
-        List<Role> roles =new ArrayList<>();
-        try{
+        List<Role> roles = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            
-            
+
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Role role = new Role();
                 role.setId(resultSet.getString("id"));
                 role.setDescription(resultSet.getString("description"));
                 roles.add(role);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error in function");
         }
-        return roles; 
+        return roles;
     }
 
     public boolean updatePerson(Personnel person) {
@@ -396,88 +394,87 @@ public class PersonnelDAO extends DBContext{
         }
     }
 
-    public List<Personnel> getAvailableTeachers(String schoolYearId){
-        String sql = "SELECT *\n" +
-                "FROM Personnels t\n" +
-                "         LEFT JOIN class c ON t.id = c.teacher_id AND c.school_year_id = ? \n" +
-                "WHERE c.teacher_id IS NULL and t.id like 'TEA%' and t.status like N'đang làm việc%';";
-        List<Personnel> teachers =new ArrayList<>();
-        try{
+    public List<Personnel> getAvailableTeachers(String schoolYearId) {
+        String sql = "SELECT *\n"
+                + "FROM Personnels t\n"
+                + "         LEFT JOIN class c ON t.id = c.teacher_id AND c.school_year_id = ? \n"
+                + "WHERE c.teacher_id IS NULL and t.id like 'TEA%' and t.status like N'đang làm việc%';";
+        List<Personnel> teachers = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, schoolYearId);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Personnel teacher = createPersonnel(resultSet);
                 teachers.add(teacher);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return teachers;
     }
-    
-    public List<String> getAllStatus(){
+
+    public List<String> getAllStatus() {
         String sql = "select distinct status from Personnels";
         List<String> status = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 status.add(resultSet.getString("status"));
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return status;
     }
-    
-    public boolean checkPersonnelPhone(String phonenumber){
-        String sql = "select phone_number  from  Personnels where phone_number='"+ phonenumber +"'";
-        
+
+    public boolean checkPersonnelPhone(String phonenumber) {
+        String sql = "select phone_number  from  Personnels where phone_number='" + phonenumber + "'";
+
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return false;
-     }
-    
-    public boolean checkPersonnelEmail(String email){
-        String sql = "select email from  Personnels where email='"+email+"'";
-        
+    }
+
+    public boolean checkPersonnelEmail(String email) {
+        String sql = "select email from  Personnels where email='" + email + "'";
+
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                 return true;
+            if (resultSet.next()) {
+                return true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return false;
-     }
-    
-     public List<Personnel> getPersonnelByIdNameRoleStatus(String status,String role ){
+    }
+
+    public List<Personnel> getPersonnelByIdNameRoleStatus(String status, String role) {
         String sql = " Select * from Personnels where 1=1";
-       
+
         if (status != null && !status.isEmpty()) {
             sql += " AND status = N'" + status + "'";
         }
-        if (role!=null && !role.isEmpty() ){
-              int xrole = Integer.parseInt(role);
-             sql += " AND role_id = " + xrole + "";
+        if (role != null && !role.isEmpty()) {
+            int xrole = Integer.parseInt(role);
+            sql += " AND role_id = " + xrole + "";
         }
-        List<Personnel> persons =new ArrayList<>();
-        try{
+        List<Personnel> persons = new ArrayList<>();
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            
-            
+
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Personnel person = new Personnel();
                 person.setId(resultSet.getString("id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -493,11 +490,10 @@ public class PersonnelDAO extends DBContext{
                 person.setUserId(resultSet.getString("user_id"));
                 persons.add(person);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error in function");
         }
         return persons;
     }
-    
-    
+
 }

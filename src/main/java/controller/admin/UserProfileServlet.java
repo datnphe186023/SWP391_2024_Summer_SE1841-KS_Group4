@@ -7,14 +7,10 @@ package controller.admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import models.personnel.PersonnelDAO;
-import models.personnel.Personnel;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -22,7 +18,8 @@ import models.user.UserDAO;
  *
  * @author TuyenCute
  */
-public class CategoryRoleServlet extends HttpServlet {
+@WebServlet(name = "UserProfileServlet", urlPatterns = {"/admin/userprofile"})
+public class UserProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +38,10 @@ public class CategoryRoleServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CategoryRoleServlet</title>");
+            out.println("<title>Servlet UserProfileServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CategoryRoleServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UserProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,20 +59,7 @@ public class CategoryRoleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Map<Integer, String> roleMap = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-        String id = request.getParameter("role");
-        PersonnelDAO dao = new PersonnelDAO();
-        List<Personnel> list = dao.getPersonelByRoleandNonUserId(Integer.parseInt(id));
-        System.out.println(list);
-        request.setAttribute("list", list);
-        request.setAttribute("roleMap", roleMap);
-        request.getRequestDispatcher("../admin/dashboard_admin_category.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -89,7 +73,18 @@ public class CategoryRoleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String user_id = request.getParameter("userId");
+        String email = request.getParameter("email");
+        int role = Integer.parseInt(request.getParameter("role"));
+        byte active = Byte.parseByte(request.getParameter("active"));
+        User user = new User();
+        user.setId(user_id);
+        user.setEmail(email);
+        user.setIsDisabled(active);
+        user.setRoleId(role);
+        UserDAO dao = new UserDAO();
+        dao.updateUser(user);
+        request.getRequestDispatcher("manageruser").forward(request, response);
     }
 
     /**

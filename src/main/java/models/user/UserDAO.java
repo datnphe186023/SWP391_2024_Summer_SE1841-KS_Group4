@@ -1,5 +1,6 @@
 package models.user;
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,6 +66,42 @@ public class UserDAO extends DBContext {
         return null;  // Return null if no record is found or an exception occurs
     }
 
+    public User getUserById(String id) {
+        String sql = "select * from [User] where id=?";
+        try {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getString(1));
+                user.setUsername(rs.getString(2));
+                user.setPassword(rs.getString(3));
+                user.setEmail(rs.getString(4));
+                user.setRoleId(rs.getInt(5));
+                user.setIsDisabled(rs.getByte(6));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateUser(User user) {
+        String sql = "Update dbo.[User] set email=? , role_id=?, isDisabled=? where id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user.getEmail());
+            ps.setInt(2, user.getRoleId());
+            ps.setByte(3, user.getIsDisabled());
+            ps.setString(4, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean updatePassword(String key, String newPassword) {
         try (Connection con = connection) {
             String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ? OR user_name = ?";
@@ -118,7 +155,15 @@ public class UserDAO extends DBContext {
     }
 
     private String generatePassword() {
-        return "1";
+        SecureRandom random = new SecureRandom(); // Sử dụng SecureRandom để tạo số ngẫu nhiên
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < 8; i++) {
+            int digit = random.nextInt(10); // Sinh số ngẫu nhiên từ 0 đến 9
+            password.append(digit); // Thêm số ngẫu nhiên vào mật khẩu
+        }
+
+        return password.toString(); // Trả về mật khẩu dưới dạng chuỗi
     }
 
     private User getLatest() {
@@ -206,7 +251,7 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-
+  
     public boolean updateUserById(User user) {
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET [email] = ?\n"

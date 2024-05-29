@@ -74,23 +74,24 @@
             .avatar-input {
                 display: none;
             }
+            
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
-            var toastType = '<%= request.getAttribute("toastType") %>';
-            if (toastMessage) {
-                if (toastType === 'success') {
-                    toastr.success(toastMessage);
-                } else if (toastType === 'error') {
-                    toastr.error(toastMessage);
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
@@ -225,7 +226,7 @@
                 checkbox.checked = false;
             });
         }
-        
+
     </script>
 
     <script src="js/jquery-3.2.1.min.js"></script>

@@ -159,8 +159,8 @@
                             <td>${roleMap[p.getRoleId()]}</td>
                             <td>${roleDis[p.getIsDisabled()]}</td>
                             <td>
-                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
-                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
+                                <a class="detail-button" href="edituser?id=${p.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
+                                <a class="detail-button" href="edituser?id=${p.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
                             </td>
                         </tr>
                     </c:forEach>
