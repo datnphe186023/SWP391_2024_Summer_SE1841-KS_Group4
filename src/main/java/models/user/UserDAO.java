@@ -81,7 +81,6 @@ public class UserDAO extends DBContext {
         }
     }
 
-
     public boolean updateNewPassword(User user) {
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET \n"
@@ -117,26 +116,26 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
-    private String generatePassword(){
+
+    private String generatePassword() {
         return "1";
     }
-    
-    private User getLatest(){
+
+    private User getLatest() {
         String sql = "select TOP 1 * from [User] order by id desc";
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return createUser(resultSet);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    private String generateId(String latestId){
+
+    private String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
         int number = 0;
@@ -147,15 +146,15 @@ public class UserDAO extends DBContext {
         String result = decimalFormat.format(number);
         return "U" + result;
     }
-    
-    private void updatePersonnelUserId(String personnelId, String userId){
+
+    private void updatePersonnelUserId(String personnelId, String userId) {
         String sql = "update [Personnels] set user_id = ? where id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, userId);
             statement.setString(2, personnelId);
             statement.executeUpdate();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }
@@ -206,5 +205,20 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean updateUserById(User user) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [email] = ?\n"
+                + " WHERE [id] = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getId());
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 /**
  *
@@ -76,7 +78,7 @@ public class UpdatePersonnelServlet extends HttpServlet {
         // Lấy thông tin pupil từ session
         HttpSession session = request.getSession();
         Personnel person = (Personnel) session.getAttribute("personnel");
-
+        User user = (User) session.getAttribute("user");
         // Lấy thông tin cần update từ request
         String firstName = request.getParameter("first_name");
         String lastName = request.getParameter("last_name");
@@ -94,11 +96,13 @@ public class UpdatePersonnelServlet extends HttpServlet {
         person.setAddress(address);
         person.setEmail(email);
         person.setPhoneNumber(phoneNumber);
-
-        // Cập nhật thông tin của pupil trong cơ sở dữ liệu
+        user.setEmail(email);
+        // Cập nhật thông tin của pupil,user trong cơ sở dữ liệu
         PersonnelDAO dao = new PersonnelDAO();
-        boolean success = dao.updatePerson(person);
-        if (success) {
+        UserDAO userDAO = new UserDAO();
+        boolean successUser = userDAO.updateUserById(user);
+        boolean successPerson = dao.updatePerson(person);
+        if (successPerson && successUser) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Đã cập nhật thành công !");
             session.setAttribute("personnel", person);
