@@ -65,6 +65,42 @@ public class UserDAO extends DBContext {
         return null;  // Return null if no record is found or an exception occurs
     }
 
+    public User getUserById(String id) {
+        String sql = "select * from [User] where id=?";
+        try {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getString(1));
+                user.setUsername(rs.getString(2));
+                user.setPassword(rs.getString(3));
+                user.setEmail(rs.getString(4));
+                user.setRoleId(rs.getInt(5));
+                user.setIsDisabled(rs.getByte(6));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateUser(User user) {
+        String sql = "Update dbo.[User] set email=? , role_id=?, isDisabled=? where id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user.getEmail());
+            ps.setInt(2, user.getRoleId());
+            ps.setByte(3, user.getIsDisabled());
+            ps.setString(4, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean updatePassword(String key, String newPassword) {
         try (Connection con = connection) {
             String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ? OR user_name = ?";
@@ -80,7 +116,6 @@ public class UserDAO extends DBContext {
             return false;
         }
     }
-
 
     public boolean updateNewPassword(User user) {
         String sql = "UPDATE [dbo].[User]\n"
@@ -117,26 +152,26 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
-    private String generatePassword(){
+
+    private String generatePassword() {
         return "1";
     }
-    
-    private User getLatest(){
+
+    private User getLatest() {
         String sql = "select TOP 1 * from [User] order by id desc";
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return createUser(resultSet);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    private String generateId(String latestId){
+
+    private String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
         int number = 0;
@@ -147,15 +182,15 @@ public class UserDAO extends DBContext {
         String result = decimalFormat.format(number);
         return "U" + result;
     }
-    
-    private void updatePersonnelUserId(String personnelId, String userId){
+
+    private void updatePersonnelUserId(String personnelId, String userId) {
         String sql = "update [Personnels] set user_id = ? where id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, userId);
             statement.setString(2, personnelId);
             statement.executeUpdate();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }

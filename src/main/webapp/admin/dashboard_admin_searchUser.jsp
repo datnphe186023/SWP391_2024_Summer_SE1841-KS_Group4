@@ -147,8 +147,8 @@
                         <td>${roleMap[u.getRoleId()]}</td>
                         <td>${roleDis[u.getIsDisabled()]}</td>
                         <td>
-                            <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
-                            <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
+                            <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
+                            <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
                         </td>
                     </tr>
                 </tbody>
