@@ -25,10 +25,19 @@ public class ListPupilServlet extends HttpServlet {
         /////  Get request from search function
         String searchInformation = request.getParameter("information");
         if(searchInformation !=null){
-            listPupil = pupildao.getListOfSearchPupilByNameOrId(searchInformation);
+            listPupil = pupildao.getListOfSearchPupilByNameOrId(formatString(searchInformation));
         }
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("staff_listpupil.jsp").forward(request,response);
+    }
+
+    private String formatString(String search){
+        StringBuilder result = new StringBuilder();
+        String[] searchArray = search.split("\\s+");
+        for(int i=0;i<searchArray.length;i++){
+            result.append(searchArray[i]).append(" ");
+        }
+        return result.toString().trim();
     }
 
     @Override
