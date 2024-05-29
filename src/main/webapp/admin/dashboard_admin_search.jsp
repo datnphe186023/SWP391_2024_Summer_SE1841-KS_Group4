@@ -66,7 +66,6 @@
             }
         </style>
     </head>
-
     <body onload="time()" class="app sidebar-mini rtl">
         <!-- Navbar-->
         <header class="app-header">
@@ -74,11 +73,8 @@
                                             aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
-
-
                 <!-- User Menu-->
                 <li><a class="app-nav__item" href="../login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
                 </li>
             </ul>
         </header>
@@ -96,9 +92,9 @@
 
             <!-- Admin homepage start-->
             <ul class="app-menu">
-                <li><a class="app-menu__item" href="createUser"><i class='app-menu__icon bx bx-user-plus'></i><span
+                <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
                             class="app-menu__label">Tạo tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="managerUser"><i class='app-menu__icon bx bx-user-voice'></i><span
+                <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
                             class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
@@ -128,33 +124,36 @@
             </div>
 
             <h4 style="color: red;text-align: center">${mess}</h4>
-            <table style="width: 70%; margin-left: 300px">
-                <thead>
-                <th>STT</th>
-                <th>Họ Và Tên</th>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Vai Trò</th>
-                <th>Trạng Thái</th>
-                <th>Hành Động</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>${p.getLastName()} ${p.getFirstName()}</td>
-                        <td>${p.getId()}</td>
-                        <td>${p.getEmail()}</td>
-                        <td>${roleMap[p.getRoleId()]}</td>
-                        <td>${p.getStatus()}</td>
-                        <td>
-                            <form action="createNewUser" method="POST">
-                                <button type="submit">Tạo Tài Khoản</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <form action="createUser">
+            <form id="createAccountForm" action="registeraccount" method="POST">
+                <table style="width: 70%; margin-left: 300px">
+                    <thead>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Vai Trò</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>${p.getLastName()} ${p.getFirstName()}</td>
+                            <td>${p.getId()}</td>
+                            <td>${p.getEmail()}</td>
+                            <td>${roleMap[p.getRoleId()]}</td>
+                            <td>${p.getStatus()}</td>
+                            <td>
+                                <input type="checkbox" name="user_checkbox" value="${p.getId()}">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: right; margin-right: 150px; margin-bottom: 20px;">
+                    <button type="submit" class="btn-add">Tạo tài khoản</button>
+                </div>
+            </form>
+            <form action="createuser">
                 <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
             </form>
         </div>

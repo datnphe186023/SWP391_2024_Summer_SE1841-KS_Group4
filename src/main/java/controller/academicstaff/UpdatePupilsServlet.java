@@ -7,6 +7,7 @@ package controller.academicstaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +18,8 @@ import models.pupil.PupilDAO;
  *
  * @author TuyenCute
  */
-public class PulpilsProfileServlet extends HttpServlet {
+@WebServlet(name = "UpdatePupilsServlet", urlPatterns = {"/academicstaff/updatepupils"})
+public class UpdatePupilsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +38,10 @@ public class PulpilsProfileServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PulpilsProfileServlet</title>");
+            out.println("<title>Servlet UpdatePupilsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PulpilsProfileServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdatePupilsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,11 +59,17 @@ public class PulpilsProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+        Pupil pupil = new Pupil();
+        pupil.setId(request.getParameter("id"));
+        pupil.setMotherName(request.getParameter("mother_name"));
+        pupil.setMotherPhoneNumber(request.getParameter("mother_phone"));
+        pupil.setFatherName(request.getParameter("father_name"));
+        pupil.setFatherPhoneNumber(request.getParameter("father_phone"));
+        pupil.setAddress(request.getParameter("address"));
+        pupil.setParentSpecialNote(request.getParameter("note"));
         PupilDAO dao = new PupilDAO();
-        Pupil pupil = dao.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/academicstaff/information_pupils.jsp").forward(request, response);
+        dao.updatePupil(pupil);
+        request.getRequestDispatcher("pupilprofile").forward(request, response);
     }
 
     /**
@@ -75,11 +83,17 @@ public class PulpilsProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+        Pupil pupil = new Pupil();
+        pupil.setId(request.getParameter("id"));
+        pupil.setMotherName(request.getParameter("mother_name"));
+        pupil.setMotherPhoneNumber(request.getParameter("mother_phone"));
+        pupil.setFatherName(request.getParameter("father_name"));
+        pupil.setFatherPhoneNumber(request.getParameter("father_phone"));
+        pupil.setAddress(request.getParameter("address"));
+        pupil.setParentSpecialNote(request.getParameter("note"));
         PupilDAO dao = new PupilDAO();
-        Pupil pupil = dao.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/academicstaff/information_pupils.jsp").forward(request, response);
+        dao.updatePupil(pupil);
+        request.getRequestDispatcher("pupilprofile").forward(request, response);
     }
 
     /**

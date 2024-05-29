@@ -64,6 +64,16 @@
                 text-align: center;
                 margin-top: 50px;
             }
+            .app-sidebar__user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+            }
+            .avatar-input {
+                display: none;
+            }
         </style>
     </head>
 
@@ -74,21 +84,19 @@
                                             aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
-
-
                 <!-- User Menu-->
-                <li><a class="app-nav__item" href="../login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
+                <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
                 </li>
             </ul>
         </header>
         <!-- Sidebar menu-->
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
+            <div class="app-sidebar__user">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.user.username}</b></p>
+                    <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
                     <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
                 </div>
             </div>
@@ -96,13 +104,17 @@
 
             <!-- Admin homepage start-->
             <ul class="app-menu">
-                <li><a class="app-menu__item" href="createUser"><i class='app-menu__icon bx bx-user-plus'></i><span
+                <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
                             class="app-menu__label">Tạo tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="managerUser"><i class='app-menu__icon bx bx-user-voice'></i><span
+                <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
                             class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
             <!-- Admin homepage end-->
+
+
+            <!--  teacher dashboard end-->
+
 
 
 
@@ -146,8 +158,8 @@
                             <td>${roleMap[u.getRoleId()]}</td>
                             <td>${roleDis[u.getIsDisabled()]}</td>
                             <td>
-                                <form><button>Chỉnh sửa</button></form>
-                                <form><button>Đặt lại mật khẩu</button></form>
+                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
+                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
                             </td>
                         </tr>
                     </c:forEach>

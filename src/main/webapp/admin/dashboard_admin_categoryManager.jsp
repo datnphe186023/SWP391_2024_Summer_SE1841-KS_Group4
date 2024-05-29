@@ -21,6 +21,16 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <style>
+            .app-sidebar__user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+            }
+            .avatar-input {
+                display: none;
+            }
             .search-container {
                 width: 70%;
                 margin: 0 auto 20px;
@@ -74,21 +84,19 @@
                                             aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
-
-
                 <!-- User Menu-->
-                <li><a class="app-nav__item" href="../login"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-
+                <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
                 </li>
             </ul>
         </header>
         <!-- Sidebar menu-->
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
-            <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/${account.image}" width="50px"
-                                                alt="User Image">
+            <div class="app-sidebar__user">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
-                    <p class="app-sidebar__user-name"><b>${sessionScope.user.username}</b></p>
+                    <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
                     <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
                 </div>
             </div>
@@ -96,13 +104,18 @@
 
             <!-- Admin homepage start-->
             <ul class="app-menu">
-                <li><a class="app-menu__item" href="createUser"><i class='app-menu__icon bx bx-user-plus'></i><span
+                <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
                             class="app-menu__label">Tạo tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="managerUser"><i class='app-menu__icon bx bx-user-voice'></i><span
+                <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
                             class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
             <!-- Admin homepage end-->
+
+
+            <!--  teacher dashboard end-->
+
+
 
 
 
@@ -110,7 +123,7 @@
 
 
         <div>
-            <h1 style="text-align: center; margin-top:  50px">Danh sách người dùng chưa có tài khoản</h1>
+            <h1 style="text-align: center; margin-top:  50px">Danh sách tài khoản</h1>
             <div class="search-container">
                 <select name="role" id="roleSelect" onchange="redirectToServlet()">
                     <option value="">All (Role)</option>
@@ -121,7 +134,7 @@
                     <option value="4">Teacher</option>
                     <option value="5">Parent</option>
                 </select>
-                <form action="searchPersonnel" method="Post">
+                <form action="searchPersonnel" method="get">
                     <input type="text" name="search" placeholder="Search By ID">
                     <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
                 </form>
@@ -146,15 +159,15 @@
                             <td>${roleMap[p.getRoleId()]}</td>
                             <td>${roleDis[p.getIsDisabled()]}</td>
                             <td>
-                                <form><button>Chỉnh sửa</button></form>
-                                <form><button>Đặt lại mật khẩu</button></form>
+                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
+                                <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
                             </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
-        <form action="createUser">
+        <form action="manageruser">
             <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
         </form>
         <script>

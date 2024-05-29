@@ -19,60 +19,141 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <style>
+            .app-sidebar__user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+            }
 
+            .avatar-input {
+                display: none;
+            }
+
+            .form-buttons {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .update-btn, .cancel-btn {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .update-btn:hover, .cancel-btn:hover {
+                background-color: #0056b3;
+            }
+
+            .cancel-btn {
+                background-color: #dc3545;
+            }
+
+            .cancel-btn:hover {
+                background-color: #c82333;
+            }
+        </style>
 
     </head>
 
     <body>
-    <jsp:include page="dashboard_staff.jsp"/>
-    <main class="app-content">
-        <div class="student-info">
-            <div class="header">
-                <div class="avatar" >
-                    <img src="../images/${pupil.avatar}" alt="Avatar"/>
+        <jsp:include page="dashboard_staff.jsp"/>
+        <main class="app-content">
+            <div class="app-title">
+                <div>
+                    <h1><i class="fa fa-edit"></i> Thông tin phụ huynh</h1>
                 </div>
-                <div class="id">ID: <span>${pupil.id}</span></div>
             </div>
-            <form action="updatePulpil" method="POST">
-                <div class="form-group">
-                    <label for="fullname">Họ và tên:</label>
-                    <input type="text" id="fullname" value="${pupil.lastName} ${pupil.firstName}">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="app-sidebar__user">
+                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${pupil.avatar}" >
+                        <input class="avatar-input" id="avatarInput" type="file" name="avatar">
+                        <div>
+                            <p class="app-sidebar__user-name"><b style="color: #000">${pupil.lastName} ${pupil.firstName}</b></p>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="birthday">Ngày sinh:</label>
-                    <input type="date" id="birthday" name="date" placeholder="DD/MM/YYYY" value="${pupil.birthday}">
+                <div class="col-md-9">
+                    <div class="tile">
+                        <div class="tile-body">
+
+                            <form action="updatepupils" method="post">
+                                <input type="hidden" value="${personnel.userId}"/>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" readonly=""/>
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>ID : </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" readonly=""/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}"/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+
+                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}"/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}"/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" /><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">    
+                                                    <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly=""/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 200%"/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Ghi chú :</h5> <input type="text" name="note" value="${pupil.parentSpecialNote}" style="width: 200%"/><br />
+                                                </div></td>
+
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+                                <div class="form-buttons">
+                                    <button type="button" class="cancel-btn" onclick="cancelAction()">Quay Lại</button>
+                                    <button type="submit" class="update-btn">Chỉnh Sửa</button>
+                                </div>
+                            </form>
+
+
+
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="mother-name">Họ và tên mẹ:</label>
-                    <input type="text" id="mother-name" value="${pupil.motherName}">
-                </div>
-                <div class="form-group">
-                    <label for="mother-phone">Số điện thoại mẹ:</label>
-                    <input type="text" id="mother-phone" value="(+84)${motherPhoneNumber}">
-                </div>
-                <div class="form-group">
-                    <label for="father-name">Họ và tên bố:</label>
-                    <input type="text" id="father-name" value="${pupil.fatherName}">
-                </div>
-                <div class="form-group">
-                    <label for="father-phone">Số điện thoại bố:</label>
-                    <input type="text" id="father-phone" value="(+84)${pupil.fatherPhoneNumber}">
-                </div>
-                <div class="form-group">
-                    <label for="address">Địa chỉ:</label>
-                    <input type="text" id="address" value="${pupil.address}">
-                </div>
-                <div class="form-group special-notes">
-                    <label for="notes">Ghi chú đặc biệt của phụ huynh:</label>
-                    <input id="notes" value="${pupil.parentSpecialNote}"></input>
-                </div>
-                <div class="form-buttons">
-                    <button class="cancel" type="button" onclick="cancelAction()">HUỶ</button>
-                    <button type="submit" class="save">LƯU</button>
-                </div>
-            </form>
-        </div>
-    </main>
+            </div>
+        </main>
     </body>
     <script>
         function cancelAction() {
@@ -90,5 +171,6 @@
         function redirectToInfoPage() {
             window.location.href = '${pageContext.request.contextPath}/academicstaff/information';
         }
+
     </script>
 </html>
