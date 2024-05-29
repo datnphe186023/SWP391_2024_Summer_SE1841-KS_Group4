@@ -72,15 +72,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         boolean success =  dao.updateParent(pupil);
         
         if (success) {
-            request.setAttribute("notiupdate", "Đã cập nhật thành công !");
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Đã cập nhật thành công !");
             session.setAttribute("pupil", pupil);
-            session.removeAttribute("notiupdate");
-            request.getRequestDispatcher("information_parent.jsp").forward(request, response);
         } else {
-            request.setAttribute("failupdate", "Cập nhật thất bại!");
-            session.removeAttribute("failupdate");
-            request.getRequestDispatcher("information_parent.jsp").forward(request, response);
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Đã cập nhật thất bại !");
         }
+        request.getRequestDispatcher("information_parent.jsp").forward(request, response);
 }
 
     /** 
