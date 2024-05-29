@@ -463,4 +463,22 @@ public class PupilDAO extends DBContext {
             ex.printStackTrace();
         }
     }
+
+    public List<Pupil> getPupilNonUserId() {
+        List<Pupil> list = new ArrayList<>();
+        String sql = "SELECT * FROM Pupils WHERE user_id IS NULL AND status = N'đã duyệt - chưa có tài khoản'";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PupilDAO dao = new PupilDAO();               
+                list.add(dao.createPupil(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

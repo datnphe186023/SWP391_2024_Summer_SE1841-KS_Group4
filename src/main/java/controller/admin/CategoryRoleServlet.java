@@ -71,7 +71,8 @@ public class CategoryRoleServlet extends HttpServlet {
         roleMap.put(5, "Parent");
         String id = request.getParameter("role");
         PersonnelDAO dao = new PersonnelDAO();
-        List<Personnel> list = dao.getPersonelByRole(Integer.parseInt(id));
+        List<Personnel> list = dao.getPersonelByRoleandNonUserId(Integer.parseInt(id));
+        System.out.println(list);
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.getRequestDispatcher("../admin/dashboard_admin_category.jsp").forward(request, response);

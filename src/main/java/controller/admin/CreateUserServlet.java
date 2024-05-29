@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import models.personnel.*;
+import models.pupil.PupilDAO;
 
 /**
  *
@@ -71,13 +72,19 @@ public class CreateUserServlet extends HttpServlet {
         roleMap.put(5, "Parent");
 
         HttpSession session = request.getSession();
-        String mess = (String) session.getAttribute("mess");
-        session.removeAttribute("mess");
-        if (mess != null) {
+        String error = (String) session.getAttribute("error");
+        String success = (String) session.getAttribute("success");     
+        if (error!=null) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", mess);
+            request.setAttribute("toastMessage", "Không có tài khoản nào được chọn.");
+            session.removeAttribute(error);
+        } else if(success!=null){
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Tạo tài khoản mới thành công.");
+            session.removeAttribute(success);
         }
-        request.setAttribute("list", new PersonnelDAO().getPersonelUserIdNull());
+        request.setAttribute("listPupils", new PupilDAO().getPupilNonUserId());
+        request.setAttribute("list", new PersonnelDAO().getPersonelNonUserId());
         request.setAttribute("roleMap", roleMap);
 
         request.getRequestDispatcher("dashboard_admin_createuser.jsp").forward(request, response);

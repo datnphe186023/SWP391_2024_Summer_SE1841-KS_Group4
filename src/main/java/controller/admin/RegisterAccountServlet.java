@@ -80,7 +80,7 @@ public class RegisterAccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         // Kiểm tra nếu không có checkbox nào được chọn
         if (selectedUserIds == null || selectedUserIds.length == 0) {
-            session.setAttribute("mess", "Không có tài khoản được chọn");
+            session.setAttribute("error", "error");
             response.sendRedirect("createuser");
         } else {
             UserDAO userDAO = new UserDAO();
@@ -111,6 +111,7 @@ public class RegisterAccountServlet extends HttpServlet {
                         break;
                 }
             }
+            session.setAttribute("success", "success");
             response.sendRedirect("createuser");
         }
     }

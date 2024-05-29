@@ -1,5 +1,6 @@
 package models.user;
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -154,7 +155,15 @@ public class UserDAO extends DBContext {
     }
 
     private String generatePassword() {
-        return "1";
+        SecureRandom random = new SecureRandom(); // Sử dụng SecureRandom để tạo số ngẫu nhiên
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < 8; i++) {
+            int digit = random.nextInt(10); // Sinh số ngẫu nhiên từ 0 đến 9
+            password.append(digit); // Thêm số ngẫu nhiên vào mật khẩu
+        }
+
+        return password.toString(); // Trả về mật khẩu dưới dạng chuỗi
     }
 
     private User getLatest() {
@@ -242,4 +251,5 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
 }
