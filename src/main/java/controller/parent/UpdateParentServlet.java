@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 /**
  *
@@ -49,7 +51,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     // Lấy thông tin pupil từ session
     HttpSession session = request.getSession();
     Pupil pupil = (Pupil) session.getAttribute("pupil");
-    
+    User user = (User) session.getAttribute("user");
     
         // Lấy thông tin cần update từ request
         String motherName = request.getParameter("mother_name");
@@ -66,8 +68,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         pupil.setFatherPhoneNumber(fatherPhone);
         pupil.setEmail(email);
         pupil.setAddress(address);
-        
+        user.setEmail(email);
         // Cập nhật thông tin của pupil trong cơ sở dữ liệu
+        UserDAO userDAO = new UserDAO();
+        boolean successUser = userDAO.updateUserById(user);
         PupilDAO dao = new PupilDAO();
         boolean success =  dao.updateParent(pupil);
         
