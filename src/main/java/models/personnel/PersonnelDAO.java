@@ -96,14 +96,12 @@ public class PersonnelDAO extends DBContext{
         return persons;
     }
 
-    public List<Personnel> getPersonnelByNameOrId(String data) {
-        String sql = "select * from [Personnels] where id like ? or first_name like ? or last_name like ? ";
+    public List<Personnel> getPersonnelByNameOrId(String search) {
+        String sql = "select * from [Personnels] where (last_name+' '+ first_name like N'%" + search + "%' or id like '%" + search + "%' ) ";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "%" + data + "%");
-            statement.setString(2, "%" + data + "%");
-            statement.setString(3, "%" + data + "%");
+
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Personnel person = new Personnel();
