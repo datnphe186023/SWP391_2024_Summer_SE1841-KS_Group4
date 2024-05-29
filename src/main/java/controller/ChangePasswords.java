@@ -90,14 +90,17 @@ public class ChangePasswords extends HttpServlet {
             // Attempt to update the user's password
             boolean success = userDAO.updateNewPassword(user);
             if (success) {
-                request.setAttribute("noti", "Đã đổi mật khẩu thành công !");
+                request.setAttribute("toastType", "success");
+                request.setAttribute("toastMessage", "Đã cập nhật thành công !");
                 session.setAttribute("user", user);
             } else {
-                request.setAttribute("noti", "Đổi mật khẩu thất bại!");
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "Đã cập nhật thất bại !");
             }
         } else {
             // Passwords do not match
-            request.setAttribute("fail", "Mật khẩu không khớp!");
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Mật khẩu không khớp vui lòng nhập lại !");
         }
         switch (user.getRoleId()) {
             // role id = 0 : admin.
@@ -127,7 +130,7 @@ public class ChangePasswords extends HttpServlet {
             default:
                 throw new AssertionError();
         }
-
+        request.removeAttribute("toastMessage");
     }
 
     /**
