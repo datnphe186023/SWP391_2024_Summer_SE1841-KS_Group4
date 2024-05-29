@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet-mapping>
+        <servlet-name>UpdatePersonnelServlet</servlet-name>
+        <url-pattern>/update-information</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
@@ -88,28 +92,8 @@
         <servlet-class>controller.academicstaff.PulpilsProfileServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UpdateAdmin</servlet-name>
-        <servlet-class>controller.admin.UpdateAdmin</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AdminInformation</servlet-name>
         <servlet-class>controller.admin.AdminInformation</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateHeadteacher</servlet-name>
-        <servlet-class>controller.headteacher.UpdateHeadteacher</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateAccountantServlet</servlet-name>
-        <servlet-class>controller.accountant.UpdateAccountantServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateStaffServlet</servlet-name>
-        <servlet-class>controller.academicstaff.UpdateStaffServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateTeacherServlet</servlet-name>
-        <servlet-class>controller.teacher.UpdateTeacherServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateParentServlet</servlet-name>
@@ -118,6 +102,10 @@
     <servlet>
         <servlet-name>ChangePasswords</servlet-name>
         <servlet-class>controller.ChangePasswords</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdatePersonnelServlet</servlet-name>
+        <servlet-class>controller.UpdatePersonnelServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -204,28 +192,8 @@
         <url-pattern>/academicstaff/pupilprofile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdateAdmin</servlet-name>
-        <url-pattern>/admin/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>AdminInformation</servlet-name>
         <url-pattern>/admin/information</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateHeadteacher</servlet-name>
-        <url-pattern>/headteacher/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateAccountantServlet</servlet-name>
-        <url-pattern>/accountant/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateStaffServlet</servlet-name>
-        <url-pattern>/academicstaff/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateTeacherServlet</servlet-name>
-        <url-pattern>/teacher/update</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateParentServlet</servlet-name>

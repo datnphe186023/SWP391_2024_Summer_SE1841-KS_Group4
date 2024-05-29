@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 /**
  *
@@ -49,7 +51,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     // Lấy thông tin pupil từ session
     HttpSession session = request.getSession();
     Pupil pupil = (Pupil) session.getAttribute("pupil");
-    
+    User user = (User) session.getAttribute("user");
     
         // Lấy thông tin cần update từ request
         String motherName = request.getParameter("mother_name");
@@ -66,21 +68,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         pupil.setFatherPhoneNumber(fatherPhone);
         pupil.setEmail(email);
         pupil.setAddress(address);
-        
+        user.setEmail(email);
         // Cập nhật thông tin của pupil trong cơ sở dữ liệu
+        UserDAO userDAO = new UserDAO();
+        boolean successUser = userDAO.updateUserById(user);
         PupilDAO dao = new PupilDAO();
         boolean success =  dao.updateParent(pupil);
         
         if (success) {
-            request.setAttribute("notiupdate", "Đã cập nhật thành công !");
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Đã cập nhật thành công !");
             session.setAttribute("pupil", pupil);
-            session.removeAttribute("notiupdate");
-            request.getRequestDispatcher("information_parent.jsp").forward(request, response);
         } else {
-            request.setAttribute("failupdate", "Cập nhật thất bại!");
-            session.removeAttribute("failupdate");
-            request.getRequestDispatcher("information_parent.jsp").forward(request, response);
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Đã cập nhật thất bại !");
         }
+        request.getRequestDispatcher("information_parent.jsp").forward(request, response);
 }
 
     /** 
