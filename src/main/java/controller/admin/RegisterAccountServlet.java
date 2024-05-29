@@ -7,21 +7,21 @@ package controller.admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import models.personnel.*;
+import models.personnel.PersonnelDAO;
+import models.pupil.PupilDAO;
+import models.user.UserDAO;
 
 /**
  *
  * @author TuyenCute
  */
-public class CreateUserServlet extends HttpServlet {
+@WebServlet(name = "RegisterAccountServlet", urlPatterns = {"/admin/registeraccount"})
+public class RegisterAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class CreateUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateUserServlet</title>");
+            out.println("<title>Servlet RegisterAccountServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet RegisterAccountServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,26 +61,7 @@ public class CreateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Map<Integer, String> roleMap = new HashMap<>();
-
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-
-        HttpSession session = request.getSession();
-        String mess = (String) session.getAttribute("mess");
-        session.removeAttribute("mess");
-        if (mess != null) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", mess);
-        }
-        request.setAttribute("list", new PersonnelDAO().getPersonelUserIdNull());
-        request.setAttribute("roleMap", roleMap);
-
-        request.getRequestDispatcher("dashboard_admin_createuser.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -94,7 +75,44 @@ public class CreateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Lấy giá trị của các checkbox được chọn từ request
+        String[] selectedUserIds = request.getParameterValues("user_checkbox");
+        HttpSession session = request.getSession();
+        // Kiểm tra nếu không có checkbox nào được chọn
+        if (selectedUserIds == null || selectedUserIds.length == 0) {
+            session.setAttribute("mess", "Không có tài khoản được chọn");
+            response.sendRedirect("createuser");
+        } else {
+            UserDAO userDAO = new UserDAO();
+            PersonnelDAO personnelDAO = new PersonnelDAO();
+            PupilDAO pupilDAO = new PupilDAO();
+            for (String username : selectedUserIds) {
+                System.out.println(username);
+                switch (username.substring(0, 2)) {
+                    case "HS":
+                        userDAO.createNewUser(username, pupilDAO.getPupilsById(username).getEmail(), 5, (byte) 0);
+                        break;
+                    case "AC":
+                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 3, (byte) 0);
+                        break;
+                    case "HT":
+                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 1, (byte) 0);
+                        break;
+                    case "TE":
+                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 4, (byte) 0);
+                        break;
+                    case "AS":
+                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 2, (byte) 0);
+                        break;
+                    case "AD":
+                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 0, (byte) 0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            response.sendRedirect("createuser");
+        }
     }
 
     /**
