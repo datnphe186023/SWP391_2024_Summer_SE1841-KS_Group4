@@ -41,11 +41,11 @@
                 <c:set var="sltedrole" value="${requestScope.selectedrole}"/>
                 <c:set var="sltedstatus" value="${requestScope.selectedstatus}"/>
 
-                <div class="col-lg-5" style="display: flex; justify-content: space-between">
+                <div class="col-lg-4" style="display: flex; justify-content: space-between">
 <form action="listpersonnel" method="post" > 
                     <div class="class-form">
                            
-                            <label class="label-text" >Chọn chức vụ </label>
+                            
                             <select name="role" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden >Chức vụ</option>
                                 <c:forEach items="${requestScope.roles}" var="r">
@@ -63,7 +63,7 @@
 
                     <div class="class-form">
                           
-                            <label >Chọn tình trạng </label>
+                            
                             <select name="status" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden >Trạng thái</option>
                                 <c:forEach items="${requestScope.statuss}" var="r">
@@ -79,14 +79,7 @@
                                 
                     </div>
 </form>
-                    <div class="search">
-                        <form action="listpersonnel" method="post" >   
-                            <label >Tìm kiếm </label></br>
-
-                            <input  type="search" name="search" placeholder="Nhập Tên hoặc ID " class="search" >    
-
-                        </form>
-                    </div>
+                    
                     <style>
                         .btn {
                             margin:  0px 0px 0px 10px;
@@ -94,8 +87,18 @@
                     </style>   
 
                 </div>
+                <div class="col-lg-4" >
+                    <form action="listpersonnel" method="post" >   
+                    <div class="search-field">
+                        <div class="form-group has-search">
+                           <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
+                            <input  style="border-radius: 30px" type="text" class="form-control" placeholder="Nhập Tên hoặc ID " name="search" >    
+                       </div>
+                    </div>
+                     </form>
+                     </div> 
                 <%--End : Select item    --%>
-                <div class="col-lg-7" style="display: flex; justify-content: end">
+                <div class="col-lg-4" style="display: flex; justify-content: end">
                     <div>
                         <button type="button" class="btn btn-actv" data-toggle="modal" data-target="#newPersonnelModal">
                             TẠO NHÂN VIÊN MỚI
