@@ -251,5 +251,19 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-
+  
+    public boolean updateUserById(User user) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [email] = ?\n"
+                + " WHERE [id] = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getId());
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

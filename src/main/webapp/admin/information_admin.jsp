@@ -21,7 +21,22 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -52,7 +67,7 @@
                 background-color: #0056b3;
             }
         </style>
-        
+
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
@@ -113,7 +128,7 @@
                     <div class="tile">
                         <div class="tile-body">
 
-                            <form action="update" method="post">
+                            <form action="${pageContext.request.contextPath}/update-information" method="post">
                                 <input type="hidden" name="id" value="${personnel.userId}"/>
                                 <table>
                                     <tbody>
@@ -158,12 +173,12 @@
                                 </table>
                                 </br>
                                 <input type="submit" value="Lưu thông tin" style="width: 20%"/>
-                                </form>
-                                <!-- Password Change Modal -->
+                            </form>
+                            <!-- Password Change Modal -->
                             <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        
+
                                         <div class="modal-body">
                                             <form action="${pageContext.request.contextPath}/new-password" method="post">
                                                 <div class="form-group">
@@ -185,7 +200,7 @@
                                 </div>
                             </div>
                             <!-- End Password Change Modal -->
-                            
+
                         </div>
                     </div>
                 </div>
@@ -201,40 +216,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        <script>
-            <c:if test="${not empty noti}">
-                    swal({
-                        title: "Thông báo",
-                        text: "${noti}",
-                        icon: "success",
-                        button: "OK"
-                    });
-            </c:if>
-            <c:if test="${not empty fail}">
-                    swal({
-                        title: "Lỗi ! Vui lòng nhập lại",
-                        text: "${fail}",
-                        icon: "info",
-                        button: "OK"
-                    });
-            </c:if>
-            <c:if test="${not empty notipass}">
-                    swal({
-                        title: "Thông báo",
-                        text: "${notipass}",
-                        icon: "${notipass eq 'Đã đổi mật khẩu thành công !' ? 'success' : 'error'}",
-                        button: "OK"
-                    });
-            </c:if>
-            <c:if test="${not empty failpass}">
-                    swal({
-                        title: "Lỗi ! Vui lòng nhập lại",
-                        text: "${failpass}",
-                        icon: "error",
-                        button: "OK"
-                    });
-            </c:if>
-        </script>
     </body>
 
 </html>
