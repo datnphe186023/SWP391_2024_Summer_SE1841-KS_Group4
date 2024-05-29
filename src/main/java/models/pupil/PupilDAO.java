@@ -355,15 +355,15 @@ public class PupilDAO extends DBContext {
         return null;
     }
 
-    public void updatePupil(String lastName, String firstName, Date birthday, String motherName, 
-                            String motherPhoneNumber, String fatherName, String fatherPhoneNumber, 
-                            String address, String parentSpecialNote) {
+    public void updatePupil(String lastName, String firstName, Date birthday, String motherName,
+            String motherPhoneNumber, String fatherName, String fatherPhoneNumber,
+            String address, String parentSpecialNote) {
         String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, lastName);
             ps.setString(2, firstName);
-            ps.setDate(3,new java.sql.Date(birthday.getTime()));
+            ps.setDate(3, new java.sql.Date(birthday.getTime()));
             ps.setString(4, motherName);
             ps.setString(5, motherPhoneNumber);
             ps.setString(6, fatherName);
@@ -371,10 +371,11 @@ public class PupilDAO extends DBContext {
             ps.setString(8, address);
             ps.setString(9, parentSpecialNote);
             ps.executeUpdate();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     public String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
@@ -417,32 +418,49 @@ public class PupilDAO extends DBContext {
         }
     }
 
-    public List<Pupil> getPupilsWithoutClass(String gradeId,String date){
-        int ageOfPupil=0;
+    public List<Pupil> getPupilsWithoutClass(String gradeId, String date) {
+        int ageOfPupil = 0;
         List<Pupil> listPupil = new ArrayList<>();
-        String sql="SELECT *\n" +
-                "   FROM  Pupils left  JOIN\n" +
-                "  classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n" +
-                "  Class ON Class.id = classDetails.class_id\n" +
-                "  where  DATEDIFF(YEAR,birthday,?) = ?  and class_id is null and Pupils.status= N'đang theo học'";
-        if(gradeId.equals("G000001")){
+        String sql = "SELECT *\n"
+                + "   FROM  Pupils left  JOIN\n"
+                + "  classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n"
+                + "  Class ON Class.id = classDetails.class_id\n"
+                + "  where  DATEDIFF(YEAR,birthday,?) = ?  and class_id is null and Pupils.status= N'đang theo học'";
+        if (gradeId.equals("G000001")) {
             ageOfPupil = 3;
-        }else if (gradeId.equals("G000002")){
-            ageOfPupil=4;
-        }else if (gradeId.equals("G000003")){
-            ageOfPupil=5;
+        } else if (gradeId.equals("G000002")) {
+            ageOfPupil = 4;
+        } else if (gradeId.equals("G000003")) {
+            ageOfPupil = 5;
         }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,date);
-            preparedStatement.setInt(2,ageOfPupil);
+            preparedStatement.setString(1, date);
+            preparedStatement.setInt(2, ageOfPupil);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 listPupil.add(createPupil(resultSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return listPupil;
+    }
+
+    public void updatePupil(Pupil pupil) {
+        String sql = "update dbo.[Pupils] set mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=? where id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, pupil.getMotherName());
+            ps.setString(2, pupil.getMotherPhoneNumber());
+            ps.setString(3, pupil.getFatherName());
+            ps.setString(4, pupil.getFatherPhoneNumber());
+            ps.setString(5, pupil.getAddress());
+            ps.setString(6, pupil.getParentSpecialNote());
+            ps.setString(7, pupil.getId());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

@@ -90,7 +90,7 @@
                     <div class="tile">
                         <div class="tile-body">
 
-                            <form action="updatePupils" method="post">
+                            <form action="updatepupils" method="post">
                                 <input type="hidden" value="${personnel.userId}"/>
                                 <table>
                                     <tbody>
