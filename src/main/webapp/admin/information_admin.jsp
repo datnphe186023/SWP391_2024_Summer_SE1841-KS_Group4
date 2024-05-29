@@ -82,9 +82,9 @@
 
             <!-- Admin homepage start-->
             <ul class="app-menu">
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-plus'></i><span
+                <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
                             class="app-menu__label">Tạo tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
+                <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
                             class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>

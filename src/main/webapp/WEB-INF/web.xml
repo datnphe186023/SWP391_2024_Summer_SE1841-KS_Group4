@@ -189,7 +189,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManagerUserServlet</servlet-name>
-        <url-pattern>/admin/managerUser</url-pattern>
+        <url-pattern>/admin/manageruser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>InformationParentServlet</servlet-name>

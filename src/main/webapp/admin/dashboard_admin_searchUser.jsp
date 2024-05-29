@@ -96,9 +96,9 @@
 
             <!-- Admin homepage start-->
             <ul class="app-menu">
-                <li><a class="app-menu__item" href="createUser"><i class='app-menu__icon bx bx-user-plus'></i><span
+                <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
                             class="app-menu__label">Tạo tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="managerUser"><i class='app-menu__icon bx bx-user-voice'></i><span
+                <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
                             class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
@@ -147,13 +147,13 @@
                         <td>${roleMap[u.getRoleId()]}</td>
                         <td>${roleDis[u.getIsDisabled()]}</td>
                         <td>
-                            <form><button>Chỉnh sửa</button></form>
-                            <form><button>Đặt lại mật khẩu</button></form>
+                            <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-add">Chỉnh sửa</button></a>
+                            <a class="detail-button" href="editUser?id=${u.getId()}"><button class="btn-block btn-danger">Đặt lại mật khẩu</button></a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <form action="managerUser">
+            <form action="manageruser">
                 <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
             </form>
         </div>
