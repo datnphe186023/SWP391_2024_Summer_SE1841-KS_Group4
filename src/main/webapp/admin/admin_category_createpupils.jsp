@@ -173,7 +173,7 @@
                                 <td>${p.getLastName()} ${p.getFirstName()}</td>
                                 <td>${p.getId()}</td>
                                 <td>${p.getEmail()}</td>
-                                <td>${roleMap[p.getRoleId()]}</td>
+                                <td>Parent</td>
                                 <td>${p.getStatus()}</td>
                                 <td>
                                     <input type="checkbox" name="user_checkbox" value="${p.getId()}">
