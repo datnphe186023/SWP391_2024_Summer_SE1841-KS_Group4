@@ -2,7 +2,6 @@ package models.schoolYear;
 
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
-import models.week.Week;
 import models.week.WeekDAO;
 import utils.DBContext;
 
@@ -118,8 +117,4 @@ public class SchoolYearDAO extends DBContext {
         return null;
     }
 
-    private void createWeeksForSchoolYear(SchoolYear schoolYear) {
-        long dayBetween = (schoolYear.getEndDate().getTime() - schoolYear.getStartDate().getTime()) / (24 * 60 * 60 * 1000);
-
-    }
 }
