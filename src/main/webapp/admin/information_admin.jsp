@@ -37,6 +37,7 @@
                 }
             });
         </script>
+        
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -128,7 +129,7 @@
                     <div class="tile">
                         <div class="tile-body">
 
-                            <form action="${pageContext.request.contextPath}/update-information" method="post">
+                            <form action="${pageContext.request.contextPath}/update-information">
                                 <input type="hidden" name="id" value="${personnel.userId}"/>
                                 <table>
                                     <tbody>
@@ -166,7 +167,7 @@
                                                     <h5>Email:</h5> <input type="email" name="email" value="${personnel.email}" style="width: 170%"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại:</h5> <input type="text" name="phone_number" value="${personnel.phoneNumber}" /><br />
+                                                     <input type="text" id="phone_number" name="phone_number" value="${personnel.phoneNumber}" pattern="^\d{10}$" title="Số điện thoại phải gồm 10 chữ số." required /><br />
                                                 </div></td>
                                         </tr>
                                     </tbody>
@@ -216,6 +217,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+        
     </body>
 
 </html>
