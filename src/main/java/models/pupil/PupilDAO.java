@@ -159,6 +159,22 @@ public class PupilDAO extends DBContext {
         }
         return listPupils;
     }
+    public Pupil searchPupilById(String id){
+        String sql = "Select * from Pupils where id = ? and status = N'đã duyệt - chưa có tài khoản' and user_id is null";
+        try{
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                Pupil pupil = new Pupil();
+                pupil = createPupil(rs);
+                return pupil;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public Pupil getPupilsById(String id) {
         String sql = "select * from Pupils where id='" + id + "'";
