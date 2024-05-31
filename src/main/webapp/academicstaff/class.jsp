@@ -37,13 +37,14 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <form action="#">
+                <form action="class" method="post">
                     <div class="search-field">
                         <div class="form-group has-search">
                             <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
                             <input style="border-radius: 30px" type="text" class="form-control" placeholder="Tìm kiếm theo tên" name="information">
                         </div>
                     </div>
+                    <input name="schoolYearId" value="${requestScope.selectedSchoolYear.id}" hidden>
                 </form>
             </div>
             <div class="col-lg-6">
@@ -60,6 +61,7 @@
             </div>
         </div>
         <div>
+        <div>${requestScope.error}</div>
         <table class="table table-bordered">
             <tr class="table">
                 <th scope="col">STT</th>

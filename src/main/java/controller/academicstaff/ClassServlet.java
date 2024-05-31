@@ -14,6 +14,7 @@ import models.schoolYear.SchoolYearDAO;
 import models.user.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
     @WebServlet(name = "academicstaff/ClassServlet", value = "/academicstaff/class")
@@ -88,6 +89,16 @@ public class ClassServlet extends HttpServlet {
                 }
                 session.setAttribute("schoolYearId", schoolYearId);
                 response.sendRedirect("class");
+            } else if (action.equals("search")) {
+                String name = request.getParameter("name");
+                String schoolYearId = request.getParameter("schoolYearId");
+                ClassDAO classDAO = new ClassDAO();
+                List<Class> classes = classDAO.getByName(name, schoolYearId);
+                if (classes.size() > 0) {
+                    request.setAttribute("classes", classes);
+                } else {
+                    request.setAttribute("error", "Không có kết quả tương ứng");
+                }
             }
         }
     }
