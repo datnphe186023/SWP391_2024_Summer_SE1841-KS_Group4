@@ -254,7 +254,7 @@ public class PersonnelDAO extends DBContext {
 
     public Personnel searchById(String id) {
         Personnel p = null;
-        String sql = "SELECT * FROM Personnels where id like ?";
+        String sql = "SELECT * FROM Personnels where id like ? and status = N'đã duyệt - chưa có tài khoản'";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, id);
