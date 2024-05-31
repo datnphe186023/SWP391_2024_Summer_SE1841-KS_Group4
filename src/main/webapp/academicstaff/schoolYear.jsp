@@ -30,17 +30,6 @@
             <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách năm học</span>
         </div>
 
-        <div class="col-lg-6">
-            <form action="#">
-                <div class="search-field">
-                    <div class="form-group has-search">
-                        <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
-                        <input style="border-radius: 30px" type="text" class="form-control" placeholder="Tìm kiếm theo năm học" name="information">
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <table class="table table-bordered">
             <tr>
                 <th scope="col">STT</th>
