@@ -41,6 +41,7 @@
                         ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPendingClasses})</a>
                 </div>
         </div>
+        <div>${requestScope.error}</div>
         <table class="table table-bordered">
             <tr class="table">
                 <th scope="col">STT</th>

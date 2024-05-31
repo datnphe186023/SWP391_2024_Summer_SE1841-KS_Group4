@@ -7,8 +7,8 @@ import models.classes.ClassDAO;
 
 import java.io.IOException;
 
-@WebServlet(name = "headteacher/ReviewClass", value = "/headteacher/reviewclass")
-public class ReviewClass extends HttpServlet {
+@WebServlet(name = "headteacher/ReviewClassServlet", value = "/headteacher/reviewclass")
+public class ReviewClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");

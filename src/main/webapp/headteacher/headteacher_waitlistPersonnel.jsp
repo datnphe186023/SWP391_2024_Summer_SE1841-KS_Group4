@@ -40,7 +40,7 @@
 <%--Begin : title    --%>
 <main class="app-content">
     <div class="row justify-content-center">
-        <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh đang chờ phê duyệt</span>
+        <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách nhân viên đang chờ phê duyệt</span>
     </div>
     <%--End : title    --%>
    

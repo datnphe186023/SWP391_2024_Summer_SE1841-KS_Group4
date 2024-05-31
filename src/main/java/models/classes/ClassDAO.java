@@ -167,4 +167,22 @@ public class ClassDAO extends DBContext {
         }
         return "success";
     }
+
+    public List<Class> getByName(String name, String schoolYearId){
+        List<Class> classes = new ArrayList<>();
+        String sql = "select * from [Class] where [name] like ? and [school_year_id] = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,"%" + name + "%");
+            preparedStatement.setString(2, schoolYearId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Class c = createClass(resultSet);
+                classes.add(c);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return classes;
+    }
 }

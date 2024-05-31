@@ -37,13 +37,16 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <form action="#">
+                <form action="class" method="post">
                     <div class="search-field">
                         <div class="form-group has-search">
                             <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
-                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Tìm kiếm theo tên" name="information">
+                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Tìm kiếm theo tên" name="name">
                         </div>
                     </div>
+                    <input name="schoolYearId" value="${requestScope.selectedSchoolYear.id}" hidden>
+                    <input name="action" value="search" hidden>
+                    <button type="submit" style="display: none;"></button>
                 </form>
             </div>
             <div class="col-lg-6">
@@ -75,6 +78,7 @@
                 <th scope="col">Thông Tin Lớp</th>
             </tr>
             <tbody>
+            <div style="color: red">${requestScope.error}</div>
             <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
                 <tr>
                     <th scope="row">${status.index + 1}</th>
