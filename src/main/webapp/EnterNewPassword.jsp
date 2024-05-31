@@ -37,7 +37,7 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                                <input id="otp" name="passValue" placeholder="Nhập mật khẩu" class="form-control" type="text" required="required">
+                                                <input id="otp" name="currentPassword" placeholder="Nhập mật khẩu" class="form-control" type="password" required="required">
                                             </div>
                                         </div>
                                         <div class="form-group">

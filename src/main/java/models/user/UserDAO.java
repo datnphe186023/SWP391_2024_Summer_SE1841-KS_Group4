@@ -7,10 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import utils.DBContext;
+import utils.*;
 
 /**
  * UserDAO class provides CRUD operations for User entities.
@@ -21,10 +23,9 @@ public class UserDAO extends DBContext {
         User newUser = new User();
         newUser.setId(rs.getString(1));
         newUser.setUsername(rs.getString(2));
-        newUser.setPassword(rs.getString(3));
-        newUser.setEmail(rs.getString(4));
-        newUser.setRoleId(rs.getInt(5));
-        newUser.setIsDisabled(rs.getByte(6));
+        newUser.setEmail(rs.getString(5));
+        newUser.setRoleId(rs.getInt(6));
+        newUser.setIsDisabled(rs.getByte(7));
         return newUser;
     }
 
@@ -46,13 +47,63 @@ public class UserDAO extends DBContext {
         return list;
     }
 
+    private byte[] getUserSalt(String username){
+        byte[] salt = null;
+        String sql = "select salt from [User] where user_name = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                salt = rs.getBytes("salt");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return salt;
+    }
+
+    public boolean checkPassword(String password, String username) throws Exception {
+        byte[] salt = getUserSalt(username);
+        byte[] expectedHashPassword = PasswordUtil.hashPassword(password.toCharArray(), salt);
+        String sql = "select [hashed_password] from [User] where user_name = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                byte[] hashPassword = rs.getBytes("hashed_password");
+                String expectedHex = bytesToHex(expectedHashPassword);
+                String actualHex = bytesToHex(hashPassword);
+                // Compare the hexadecimal representations
+                return expectedHex.equals(actualHex);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : bytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
     public User getUserByUsernamePassword(String userName, String password) {
-        String sql = "SELECT * FROM [dbo].[User] WHERE user_name = ? AND password = ?";
+        String sql = "SELECT * FROM [dbo].[User] WHERE user_name = ? AND hashed_password = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
             // Set the parameters for the prepared statement
             ps.setString(1, userName);
-            ps.setString(2, password);
-
+            byte[] salt = Objects.requireNonNull(getUserSalt(userName));
+            byte[] hashedPassword = PasswordUtil.hashPassword(password.toCharArray(), salt);
+            ps.setBytes(2, hashedPassword);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     // Create and return a User object if a record is found
@@ -62,6 +113,8 @@ public class UserDAO extends DBContext {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return null;  // Return null if no record is found or an exception occurs
     }
@@ -76,10 +129,9 @@ public class UserDAO extends DBContext {
                 User user = new User();
                 user.setId(rs.getString(1));
                 user.setUsername(rs.getString(2));
-                user.setPassword(rs.getString(3));
-                user.setEmail(rs.getString(4));
-                user.setRoleId(rs.getInt(5));
-                user.setIsDisabled(rs.getByte(6));
+                user.setEmail(rs.getString(5));
+                user.setRoleId(rs.getInt(6));
+                user.setIsDisabled(rs.getByte(7));
                 return user;
             }
         } catch (SQLException e) {
@@ -104,13 +156,18 @@ public class UserDAO extends DBContext {
 
     public boolean updatePassword(String key, String newPassword) {
         try (Connection con = connection) {
-            String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE [email] = ? OR user_name = ?";
+            String sql = "UPDATE [dbo].[User] SET [salt] =? and [hashed_password] = ? WHERE [email] = ? OR user_name = ?";
             try (PreparedStatement pst = con.prepareStatement(sql)) {
-                pst.setString(1, newPassword);
-                pst.setString(2, key);
-                pst.setString(3, key); // Thiết lập tham số cho user_name
+                byte[] salt = PasswordUtil.generateSalt();
+                byte[] hashedNewPassword = PasswordUtil.hashPassword(newPassword.toCharArray(), salt);
+                pst.setBytes(1, salt);
+                pst.setBytes(2, hashedNewPassword);
+                pst.setString(3, key);
+                pst.setString(4, key); // Thiết lập tham số cho user_name
                 int rowCount = pst.executeUpdate();
                 return rowCount > 0;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -118,40 +175,91 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public boolean updateNewPassword(User user) {
-        String sql = "UPDATE [dbo].[User]\n"
-                + "   SET \n"
-                + "      \n"
-                + "      [password] = ?\n"
-                + "      \n"
-                + " WHERE [id] = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, user.getPassword());
-            stmt.setString(2, user.getId());
-            int rowCount = stmt.executeUpdate();
+    public boolean resetPassword(String key) {
+        try{
+            String newPassword = generatePassword();
+            Email.sendEmail(Objects.requireNonNull(getUserByUsernameOrEmail(key)).getEmail(),"Yêu cầu quên mật khẩu", "Mật khẩu mới: " + newPassword);
+            byte[] salt = PasswordUtil.generateSalt();
+            byte[] hashedNewPassword = PasswordUtil.hashPassword(newPassword.toCharArray(), salt);
+            String sql = "UPDATE [dbo].[User] SET [salt] =?, [hashed_password] = ? WHERE [email] = ? OR user_name = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setBytes(1, salt);
+            statement.setBytes(2, hashedNewPassword);
+            statement.setString(3, key);
+            statement.setString(4, key);
+            int rowCount = statement.executeUpdate();
             return rowCount > 0;
-        } catch (SQLException e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
         return false;
     }
 
-    public void createNewUser(String user_name, String email, int role_id, byte isDisable) {
-        String sql = "insert into [User] values(?,?,?,?,?,?) ";
+    private User getUserByUsernameOrEmail(String key) {
+        String sql = "select * from [User] where user_name = ? or email = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            String userId = generateId(getLatest().getId());
+            statement.setString(1, key);
+            statement.setString(2, key);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                User user = createUser(rs);
+                return user;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateNewPassword(String newPassword, String userId) {
+        String sql = "UPDATE [User]\n" +
+                "SET [salt] = ? \n" +
+                "  ,[hashed_password] = ? \n" +
+                "WHERE [id] = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            byte[] salt = PasswordUtil.generateSalt();
+            byte[] hashedNewPassword = PasswordUtil.hashPassword(newPassword.toCharArray(), salt);
+            statement.setBytes(1, salt);
+            statement.setBytes(2, hashedNewPassword);
+            statement.setString(3, userId);
+            int rowCount = statement.executeUpdate();
+            return rowCount > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public void createNewUser(String user_name, String email, int role_id, byte isDisable) {
+        String sql = "insert into [User] values(?,?,?,?,?,?,?) ";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            String userId;
+            if (getLatest()!=null){
+                userId = generateId(getLatest().getId());
+            } else {
+                userId = "U000001";
+            }
             statement.setString(1, userId);
-            statement.setString(2, user_name);
-            statement.setString(3, generatePassword());
-            statement.setString(4, email);
-            statement.setInt(5, role_id);
-            statement.setByte(6, isDisable);
+            statement.setString(2, user_name.toLowerCase());
+            String password = generatePassword();
+            byte[] salt = PasswordUtil.generateSalt();
+            statement.setBytes(3, salt);
+            byte[] hashedPassword = PasswordUtil.hashPassword(password.toCharArray(), salt);
+            statement.setBytes(4, hashedPassword);
+            statement.setString(5, email);
+            statement.setInt(6, role_id);
+            statement.setByte(7, isDisable);
             statement.executeUpdate();
+            Email.sendEmail(email, "Tạo tài khoản Mầm Non Bono thành công", "Tên tài khoản: " + user_name.toLowerCase() + "||Mật khẩu: " + password);
             updatePersonnelUserId(user_name, userId);
             updatePupilsUserId(user_name, userId);
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -82,24 +82,19 @@ public class ChangePasswords extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String confPassword = request.getParameter("confirmPassword");
 
-        // Check if new password and confirm password are not null and match
-        if (newPassword != null && confPassword != null
-                && newPassword.equals(confPassword)
-                && oldPass.equals(user.getPassword())) {
-            user.setPassword(newPassword);
-            // Attempt to update the user's password
-            boolean success = userDAO.updateNewPassword(user);
-            if (success) {
-                session.setAttribute("toastType", "success");
-                session.setAttribute("toastMessage", "Đã cập nhật thành công !");
-            } else {
-                session.setAttribute("toastType", "error");
-                session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
+        try {
+            if (userDAO.checkPassword(oldPass, user.getUsername()) && newPassword.equals(confPassword)){
+                boolean result = userDAO.updateNewPassword(newPassword, user.getId());
+                if (result) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Đã cập nhật thành công !");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
+                }
             }
-        } else {
-            // Passwords do not match
-            session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Mật khẩu không khớp vui lòng nhập lại !");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         switch (user.getRoleId()) {
             // role id = 0 : admin.

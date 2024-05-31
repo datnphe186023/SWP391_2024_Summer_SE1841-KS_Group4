@@ -66,7 +66,7 @@ public class PersonnelDAO extends DBContext {
     }
 
     public List<Personnel> getPersonnelByRole(int role) {
-        String sql = "select * from [Personnels] where role_id = 2 and status = N'đã duyệt - chưa có tài khoản' and user_id is null";
+        String sql = "select * from [Personnels] where role_id = 2 and status = N'đang làm việc' and user_id is null";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -226,7 +226,7 @@ public class PersonnelDAO extends DBContext {
         String sql = "SELECT * \n"
                 + "FROM Personnels \n"
                 + "WHERE user_id IS NULL \n"
-                + "  AND status = N'đã duyệt - chưa có tài khoản';";
+                + "  AND status = N'đang làm việc';";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -254,7 +254,7 @@ public class PersonnelDAO extends DBContext {
 
     public Personnel searchById(String id) {
         Personnel p = null;
-        String sql = "SELECT * FROM Personnels where id like ? and status = N'đã duyệt - chưa có tài khoản'";
+        String sql = "SELECT * FROM Personnels where id like ? and status = N'đang làm việc'";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, id);
@@ -285,7 +285,7 @@ public class PersonnelDAO extends DBContext {
 
     public List<Personnel> getPersonelByRoleandNonUserId(int id) {
         List<Personnel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Personnels where role_id=? and user_id is null and status = N'đã duyệt - chưa có tài khoản'";
+        String sql = "SELECT * FROM Personnels where role_id=? and user_id is null and status = N'đang làm việc'";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
