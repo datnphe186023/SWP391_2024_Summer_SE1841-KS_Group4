@@ -103,39 +103,36 @@ public class UpdatePersonnelServlet extends HttpServlet {
         boolean successUser = userDAO.updateUserById(user);
         boolean successPerson = dao.updatePerson(person);
         if (successPerson && successUser) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Đã cập nhật thành công !");
-            session.setAttribute("personnel", person);
+            session.setAttribute("toastType", "success");
+            session.setAttribute("toastMessage", "Đã cập nhật thành công !");
         } else {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Đã cập nhật thất bại !");
+            session.setAttribute("toastType", "error");
+            session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
         }
         switch (person.getRoleId()) {
             // role id = 0 : admin.
             case 0:
-                request.getRequestDispatcher("admin/information_admin.jsp").forward(request, response);
+                response.sendRedirect("admin/information");
                 break;
             case 1:
                 // role id = 1 : Head Teacher.
-                request.getRequestDispatcher("headteacher/information_headteacher.jsp").forward(request, response);
+                response.sendRedirect("headteacher/information");
                 break;
             case 2:
                 // role id = 2 : academic staff.
-                request.getRequestDispatcher("academicstaff/information_staff.jsp").forward(request, response);
+                response.sendRedirect("academicstaff/information");
                 break;
             case 3:
                 // role id = 3 : Accountant.
-                request.getRequestDispatcher("accountant/information_accountant.jsp").forward(request, response);
+                response.sendRedirect("accountant/information");
                 break;
             case 4:
                 // role id = 4: Teacher .
-                request.getRequestDispatcher("teacher/information_teacher.jsp").forward(request, response);
+                response.sendRedirect("teacher/information");
                 break;
             default:
                 throw new AssertionError();
         }
-        request.removeAttribute("toastMessage");
-
     }
 
     /**
