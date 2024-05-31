@@ -94,11 +94,15 @@ public class ClassServlet extends HttpServlet {
                 String schoolYearId = request.getParameter("schoolYearId");
                 ClassDAO classDAO = new ClassDAO();
                 List<Class> classes = classDAO.getByName(name, schoolYearId);
+                SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+                request.setAttribute("schoolYears", schoolYearDAO.getAll());
+                request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
                 if (classes.size() > 0) {
                     request.setAttribute("classes", classes);
                 } else {
                     request.setAttribute("error", "Không có kết quả tương ứng");
                 }
+                request.getRequestDispatcher("class.jsp").forward(request, response);
             }
         }
     }
