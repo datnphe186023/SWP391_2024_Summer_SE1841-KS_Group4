@@ -167,20 +167,20 @@
                     </thead>
                     <tbody>
                         <c:set var="counter" value="1" />
-                        <c:forEach items="${requestScope.list}" var="p" >
+                        
                             <tr>
                                 <td>${counter}</td>
-                                <td>${p.getLastName()} ${p.getFirstName()}</td>
-                                <td>${p.getId()}</td>
-                                <td>${p.getEmail()}</td>
+                                <td>${pupil.getLastName()} ${pupil.getFirstName()}</td>
+                                <td>${pupil.getId()}</td>
+                                <td>${pupil.getEmail()}</td>
                                 <td>Parent</td>
-                                <td>${p.getStatus()}</td>
+                                <td>${pupil.getStatus()}</td>
                                 <td>
-                                    <input type="checkbox" name="user_checkbox" value="${p.getId()}">
+                                    <input type="checkbox" name="user_checkbox" value="${pupil.getId()}">
                                 </td>
                             </tr>
                             <c:set var="counter" value="${counter + 1}" />
-                        </c:forEach>
+                        
                     </tbody>
                 </table>
         </div>
