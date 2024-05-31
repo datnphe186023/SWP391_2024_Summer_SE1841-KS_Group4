@@ -32,22 +32,6 @@ public class ClassDAO extends DBContext {
         return c;
     }
 
-    public List<Class> getAll() {
-        List<Class> classes = new ArrayList<Class>();
-        String sql = "select * from Class";
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Class c = createClass(resultSet);
-                classes.add(c);
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return classes;
-    }
-
     public List<Class> getBySchoolYear(String schoolYearId) {
         List<Class> classes = new ArrayList<>();
         String sql = "select * from Class where school_year_id = ?";

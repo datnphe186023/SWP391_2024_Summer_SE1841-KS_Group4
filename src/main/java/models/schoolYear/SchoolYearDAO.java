@@ -2,6 +2,7 @@ package models.schoolYear;
 
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.week.WeekDAO;
 import utils.DBContext;
 
 import java.sql.PreparedStatement;
@@ -65,7 +66,8 @@ public class SchoolYearDAO extends DBContext {
                 throw new Exception("Tạo mới thất bại. Ngày kết thúc không thể trước ngày bắt đầu");
             }
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, generateId(getLatest().getId()));
+            String newSchoolYearId = generateId(getLatest().getId());
+            statement.setString(1, newSchoolYearId);
             statement.setString(2, schoolYear.getName());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String sqlStartDate = dateFormat.format(schoolYear.getStartDate());
@@ -75,9 +77,11 @@ public class SchoolYearDAO extends DBContext {
             statement.setString(5, schoolYear.getDescription());
             statement.setString(6, schoolYear.getCreatedBy().getId());
             statement.execute();
+            WeekDAO weekDAO = new WeekDAO();
+            weekDAO.generateWeeks(getSchoolYear(newSchoolYearId));
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return "Tạo mới thất bại. Năm học đã tồn tại";
+            return "Tạo mới thất bại" + sqlException.getMessage();
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
@@ -113,8 +117,4 @@ public class SchoolYearDAO extends DBContext {
         return null;
     }
 
-    private void createWeeksForSchoolYear(SchoolYear schoolYear) {
-        long dayBetween = (schoolYear.getEndDate().getTime() - schoolYear.getStartDate().getTime()) / (24 * 60 * 60 * 1000);
-
-    }
 }

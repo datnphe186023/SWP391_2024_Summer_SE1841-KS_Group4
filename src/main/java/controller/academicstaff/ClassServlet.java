@@ -33,7 +33,10 @@ public class ClassServlet extends HttpServlet {
             session.removeAttribute("toastMessage");
             request.setAttribute("toastType", toastType);
             request.setAttribute("toastMessage", toastMessage);
-            String schoolYearId = request.getParameter("schoolYearId");
+            String schoolYearId = (String) session.getAttribute("schoolYearId");
+            if (schoolYearId == null ) {
+                schoolYearId = request.getParameter("schoolYearId");
+            }
             if (schoolYearId == null) {
                 SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
                 schoolYearId = latestSchoolYear.getId();
@@ -83,6 +86,7 @@ public class ClassServlet extends HttpServlet {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", result);
                 }
+                session.setAttribute("schoolYearId", schoolYearId);
                 response.sendRedirect("class");
             }
         }
