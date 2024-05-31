@@ -2,50 +2,55 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
-package controller.academicstaff;
+package controller.teacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
 
 /**
  *
- * @author Admin
+ * @author TuyenCute
  */
-public class InformationStaffServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "/teacher/PupilsProfileServlet" , value = "/teacher/pupilprofile")
+public class PulpilsProfileServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InformationStaffServlet</title>");  
+            out.println("<title>Servlet PulpilsProfileServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InformationStaffServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet PulpilsProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -53,22 +58,17 @@ public class InformationStaffServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String toastType = "", toastMessage = "";
-        if (session.getAttribute("toastType") != null) {
-            toastType = session.getAttribute("toastType").toString();
-            toastMessage = session.getAttribute("toastMessage").toString();
-        }
-        session.removeAttribute("toastType");
-        session.removeAttribute("toastMessage");
-        request.setAttribute("toastType", toastType);
-        request.setAttribute("toastMessage", toastMessage);
-        request.getRequestDispatcher("information_staff.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
+        String id = request.getParameter("id");
+        PupilDAO dao = new PupilDAO();
+        Pupil pupil = dao.getPupilsById(id);
+        request.setAttribute("pupil", pupil);
+        request.getRequestDispatcher("/teacher/information_pupils.jsp").forward(request, response);
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -76,12 +76,17 @@ public class InformationStaffServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-                request.getRequestDispatcher("information_staff.jsp").forward(request, response);
+            throws ServletException, IOException {
+        String id = request.getParameter("id");
+        PupilDAO dao = new PupilDAO();
+        Pupil pupil = dao.getPupilsById(id);
+        request.setAttribute("pupil", pupil);
+        request.getRequestDispatcher("/teacher/information_pupils.jsp").forward(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
