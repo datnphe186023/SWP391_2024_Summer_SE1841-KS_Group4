@@ -25,7 +25,7 @@
             <%--  Begin : Search item      --%>
             <div class="col-lg-6">
                 <form action="addpupiltoclass">
-                    <input type="hidden" name="classIdSession" value="${sessionScope.classId}" > <%--  This code to help know that we are add to which class in url --%>
+                    <input type="hidden" name="classId" value="${requestScope.classId}" > <%--  This code to help know that we are add to which class in url --%>
                     <div class="search-field">
                         <div class="form-group has-search">
                             <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
@@ -40,7 +40,7 @@
 
         <div class="row">
             <form action="addpupiltoclass" method="post">
-<%--            <input type="hidden" name="classIdSession" value="${sessionScope.classId}" >--%>
+            <input type="hidden" name="classId" value="${requestScope.classId}" >
                 <table  class="table table-bordered">
 
                         <button style="float: right; margin-right: 220px;padding: 10px 20px; margin-bottom: 10px" class="btn btn-save" type="submit">Chọn vào lớp</button>

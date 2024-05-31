@@ -54,7 +54,7 @@
                         <label>Mật khẩu</label>
                     </div>
                     <button type="submit" class="btn">Đăng nhập</button>
-                    <span style="color:red">${error}</span>
+                    <span  style="color:red;display: block; margin: 10px">${error}</span>
                     <p class="forgot-password"><a href="forgotPassword">Quên mật khẩu?</a></p>
                 </form>
             </div>

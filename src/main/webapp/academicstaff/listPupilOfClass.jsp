@@ -49,7 +49,7 @@
         <%--  Begin : Search item      --%>
             <div class="col-lg-6">
                 <form action="pupilclass">
-                    <input type="hidden" value="${sessionScope.classId}" name="id">
+                    <input type="hidden" value="${requestScope.classId}" name="classId">
                     <div class="search-field">
                         <div class="form-group has-search">
                             <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
@@ -59,7 +59,7 @@
                 </form>
             </div>
         <div class="col-lg-6">
-            <a class="add-button" href="addpupiltoclass?classId=${sessionScope.classId}">Thêm học sinh vào lớp(${requestScope.numberOfPupilsPending})</a>
+            <a class="add-button" href="addpupiltoclass?classId=${requestScope.classId}">Thêm học sinh vào lớp(${requestScope.numberOfPupilsPending})</a>
         </div>
         <%--End : Search item    --%>
     </div>
