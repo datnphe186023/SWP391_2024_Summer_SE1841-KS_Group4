@@ -3,16 +3,14 @@ package models.user;
 public class User {
     private String id;
     private String username;
-    private String password;
     private String email;
     private int roleId;
     private byte isDisabled;
 
-    public User(String id, String username, String password, String email,
+    public User(String id, String username, String email,
             int roleId, byte isDisabled) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.email = email;
         this.roleId = roleId;
         this.isDisabled = isDisabled;
@@ -35,14 +33,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {

@@ -13,6 +13,7 @@ import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.user.User;
 import models.user.UserDAO;
+import utils.PasswordUtil;
 
 public class LoginServlet extends HttpServlet {
 
@@ -31,6 +32,7 @@ public class LoginServlet extends HttpServlet {
 
         // Check data login
         UserDAO userDAO = new UserDAO();
+
         User user = userDAO.getUserByUsernamePassword(username, password);
 
         if (user != null) {

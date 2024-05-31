@@ -1,45 +1,33 @@
 package utils;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
+import java.util.Arrays;
+import java.util.Base64;
 
 public class PasswordUtil {
-    private static final int ITERATIONS = 65536;
-    private static final int KEY_LENGTH = 256;
     private static final String ALGORITHM = "PBKDF2WithHmacSHA256";
+    private static final int SALT_LENGTH = 16; // 16 bytes = 128 bits
+    private static final int ITERATION_COUNT = 65536;
+    private static final int KEY_LENGTH = 256; // 256 bits
 
-    public static String hashPassword(final char[] password, final byte[] salt) {
-        try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGORITHM);
-            KeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
-            byte[] hash = skf.generateSecret(spec).getEncoded();
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        }
+
+    public static String hashPassword(String password) throws Exception {
+        return Arrays.toString(hashPassword(password.toCharArray(), generateSalt()));
     }
 
-    public static boolean verifyPassword(final char[] originalPassword, final String storedHash, final byte[] salt) {
-        String newHash = hashPassword(originalPassword, salt);
-        return storedHash.equals(newHash);
+    public static byte[] generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[SALT_LENGTH];
+        random.nextBytes(salt);
+        return salt;
     }
 
-    public static byte[] getSalt() {
-        // Securely generate a random salt here, for simplicity we'll use a fixed value.
-        // In practice, you should use SecureRandom to generate a new salt for each password.
-        return "12345678".getBytes();
-    }
-
-    public static void main(String[] args) {
-        byte[] salt = getSalt();
-        String hashedPassword = hashPassword("password".toCharArray(), salt);
-        System.out.println("Hashed Password: " + hashedPassword);
-
-        boolean isPasswordCorrect = verifyPassword("password".toCharArray(), hashedPassword, salt);
-        System.out.println("Password verification: " + isPasswordCorrect);
+    public static byte[] hashPassword(char[] password, byte[] salt) throws Exception {
+        KeySpec spec = new PBEKeySpec(password, salt, PasswordUtil.ITERATION_COUNT, PasswordUtil.KEY_LENGTH);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
+        return factory.generateSecret(spec).getEncoded();
     }
 }

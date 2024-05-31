@@ -35,7 +35,7 @@ public class ForgotPasswordServlet extends HttpServlet {
 
         String key = request.getParameter("email");
         RequestDispatcher dispatcher = null;
-        HttpSession mySession = request.getSession();
+        HttpSession session = request.getSession();
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getByUsernameOrEmail(key);
         if(user == null){
@@ -43,57 +43,14 @@ public class ForgotPasswordServlet extends HttpServlet {
             request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
         }
         else if (key != null || !key.equals("")) {
-            // sending new password
-            String passGen = generateRandomPassword(8);
             // update password generate random
-            userDAO.updatePassword(key, passGen);
-
-            String to = user.getEmail();// change accordingly
-            // Get the session object
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-            Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("hoangthhek17@gmail.com", "ghvl eyfe jmiq lwzt");// Put your email
-                    // id and
-                    // password here
-                }
-            });
-            // compose message
-            try {
-                MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(to));// change accordingly
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                message.setSubject("Xin chao!");
-                message.setText("Mat khau moi cua ban la: " + passGen);
-                // send message
-                Transport.send(message);
-                System.out.println("Message sent successfully");
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
+            userDAO.resetPassword(key);
+            session.setAttribute("username", user.getUsername());
             dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
-            request.setAttribute("message", "Mat khau moi da duoc gui den ban , vui long kiem tra email");
-            mySession.setAttribute("passGen", passGen);
-            mySession.setAttribute("email", to);
+            request.setAttribute("message", "Mật khẩu đã được gửi đến bạn, vui lòng kiểm tra email");
             dispatcher.forward(request, response);
         }
 
-    }
-
-    private String generateRandomPassword(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        Random rand = new Random();
-        StringBuilder password = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            password.append(characters.charAt(rand.nextInt(characters.length())));
-        }
-        return password.toString();
     }
 
 }

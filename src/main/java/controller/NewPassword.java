@@ -29,13 +29,13 @@ public class NewPassword extends HttpServlet {
         String confPassword = request.getParameter("confPassword");
 
         // Check if new password and confirm password are not null and match
-        if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
+        if (newPassword != null && newPassword.equals(confPassword)) {
 
             // Get the user's email from the session
-            String email = (String) session.getAttribute("email");
+            String username = (String) session.getAttribute("username");
 
             // Attempt to update the user's password
-            boolean success = userDAO.updatePassword(email, newPassword);
+            boolean success = userDAO.updateNewPassword(newPassword, userDAO.getByUsernameOrEmail(username).getId());
 
             if (success) {
                 request.setAttribute("status", "Đã đổi mật khẩu thành công !");
