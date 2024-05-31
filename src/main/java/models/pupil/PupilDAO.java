@@ -481,4 +481,33 @@ public class PupilDAO extends DBContext {
         return list;
     }
 
+    public List<Pupil> searchPupilWithoutClassByGrade(String gradeId, String date, String search){
+        int ageOfPupil = 0;
+        List<Pupil> listPupil = new ArrayList<>();
+        String sql="SELECT *\n" +
+                "                FROM  Pupils left  JOIN\n" +
+                "               classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n" +
+                "                Class ON Class.id = classDetails.class_id\n" +
+                "              where  (DATEDIFF(YEAR,birthday,?) = ? and class_id is null and Pupils.status= N'đang theo học') and (last_name+' '+ first_name like N'%"+search+"%' or Pupils.id like '%"+search+"%')";
+        if (gradeId.equals("G000001")) {
+            ageOfPupil = 3;
+        } else if (gradeId.equals("G000002")) {
+            ageOfPupil = 4;
+        } else if (gradeId.equals("G000003")) {
+            ageOfPupil = 5;
+        }
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, date);
+            preparedStatement.setInt(2, ageOfPupil);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                listPupil.add(createPupil(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupil;
+    }
+
 }

@@ -21,20 +21,26 @@ public class AddPupilToClass extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PupilDAO pupilDAO = new PupilDAO();
         ClassDAO classDAO = new ClassDAO();
-        HttpSession session = request.getSession();
         String classId = request.getParameter("classId");
-        ////  Get session for the add pupil to class function
-        session.setAttribute("classId",classId);
         Class classes = classDAO.getClassById(classId);
         /// This variable to display the schoolyear of this class
         String schoolYear =classes.getSchoolYear().getStartDate().toString();
         List<Pupil> listPupil = pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear);
         String search = request.getParameter("information");
         if(search!=null){
-//            listPupil = pupilDAO.searchPupilByStatus(search,"đang chờ xử lý");
+            listPupil = pupilDAO.searchPupilWithoutClassByGrade(classes.getGrade().getId(),schoolYear,formatString(search));
         }
+        request.setAttribute("classId",classId);
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("addPupilToClass.jsp").forward(request,response);
+    }
+    private String formatString(String search){
+        StringBuilder result = new StringBuilder();
+        String[] searchArray = search.split("\\s+");
+        for(int i=0;i<searchArray.length;i++){
+            result.append(searchArray[i]).append(" ");
+        }
+        return result.toString().trim();
     }
 
     @Override
@@ -44,17 +50,15 @@ public class AddPupilToClass extends HttpServlet {
         String toastMessage ="";
         String toastType="";
         boolean addResult = false;
-        boolean updateResult = false;
+
         String [] pupilSelected = request.getParameterValues("pupilSelected");
-        String classId = (String) session.getAttribute("classId");
+        String classId = request.getParameter("classId");
         if(pupilSelected!=null){
             for(int i=0;i<pupilSelected.length;i++){
                  addResult= pupilDAO.addPupilToClass(pupilSelected[i],classId);
-                 updateResult =  pupilDAO.updatePupilStatus(pupilSelected[i],"" );
-                 session.removeAttribute("classId");
             }
         }
-        if(addResult && updateResult){
+        if(addResult){
             toastMessage="Thêm học sinh vào lớp thành công";
             toastType="success";
         }else{

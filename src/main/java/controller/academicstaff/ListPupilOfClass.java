@@ -24,21 +24,26 @@ public class ListPupilOfClass extends HttpServlet {
         String classId = request.getParameter("classId");
         List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
         String search = request.getParameter("information");
-
-        String id = request.getParameter("id");
         if(search!=null){
-            listPupil = pupilDAO.searchPupilInClass(search,id);
-            session.removeAttribute("classId");
-        }else {
-            session.setAttribute("classId",classId); //// lưu classId vào session trước khi search
-                                                        //// vì sau khi search sẽ mất classId
+            listPupil = pupilDAO.searchPupilInClass(formatString(search),classId);
         }
+
         Class classes = classDAO.getClassById(classId);
         /// This variable to display the schoolyear of this class
         String schoolYear =classes.getSchoolYear().getStartDate().toString();
+        session.removeAttribute("classId");
+        request.setAttribute("classId",classId);
         request.setAttribute("listPupil",listPupil);
         request.setAttribute("numberOfPupilsPending",pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear).size());
         request.getRequestDispatcher("listPupilOfClass.jsp").forward(request,response);
+    }
+    private String formatString(String search){
+        StringBuilder result = new StringBuilder();
+        String[] searchArray = search.split("\\s+");
+        for(int i=0;i<searchArray.length;i++){
+            result.append(searchArray[i]).append(" ");
+        }
+        return result.toString().trim();
     }
 
     @Override

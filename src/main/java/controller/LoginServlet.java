@@ -86,14 +86,14 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("parent/dashboard");
                     break;
                 default:
-                    request.setAttribute("error", "Invalid username or password");
+                    request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                     request.removeAttribute("error");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     break;
             }
         } else {
             // Nếu thông tin đăng nhập không chính xác, hiển thị thông báo lỗi trên trang đăng nhập
-            request.setAttribute("error", "Invalid username or password");
+            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

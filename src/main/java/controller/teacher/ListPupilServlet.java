@@ -29,8 +29,8 @@ public class ListPupilServlet extends HttpServlet {
         PupilDAO pupilDAO = new PupilDAO();
         PersonnelDAO personnelDAO = new PersonnelDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        ClassDAO classDAO = new ClassDAO();
-        GradeDAO gradeDAO = new GradeDAO();
+//        ClassDAO classDAO = new ClassDAO();
+//        GradeDAO gradeDAO = new GradeDAO();
 
         HttpSession session = request.getSession();
 
@@ -38,8 +38,8 @@ public class ListPupilServlet extends HttpServlet {
         //// variable to display the year that being checked
         String yearSelected = "";
         ///// Field to define the variable
-        Grade grade = new Grade();
-        Class classes = new Class();
+//        Grade grade = new Grade();
+//        Class classes = new Class();
         List<Pupil> listPupil = new ArrayList<>();
 
         if (session.getAttribute("user") != null) {
@@ -56,15 +56,15 @@ public class ListPupilServlet extends HttpServlet {
             listPupil = pupilDAO.getListPupilOfTeacherBySchoolYear(schoolYear, teacher.getId());
 
             /////  Get Class and grade of class of this teacher in one school year
-             classes = classDAO.getTeacherClassByYear(schoolYear,teacher.getId());
-             if(classes!=null){
-                 grade = gradeDAO.getGrade(classes.getGrade().getId());
-             }
+//             classes = classDAO.getTeacherClassByYear(schoolYear,teacher.getId());
+//             if(classes!=null){
+//                 grade = gradeDAO.getGrade(classes.getGrade().getId());
+//             }
 
         }
         List<SchoolYear> listSchoolYear = schoolYearDAO.getAll();
-        request.setAttribute("grade",grade);
-        request.setAttribute("classes",classes);
+//        request.setAttribute("grade",grade);
+//        request.setAttribute("classes",classes);
         request.setAttribute("checkYear", yearSelected);
         request.setAttribute("listPupil", listPupil);
         request.setAttribute("listSchoolYear", listSchoolYear);
