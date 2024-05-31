@@ -68,7 +68,7 @@
                             class="app-menu__label">Thời khóa biểu</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-food-menu'></i><span
                             class="app-menu__label">Thực đơn</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user'></i><span
+                <li><a class="app-menu__item" href="pupilprofile?id=${pupil.id}"><i class='app-menu__icon bx bx-user'></i><span
                             class="app-menu__label">Thông tin học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-envelope'></i><span
                             class="app-menu__label">Gửi đơn</span></a></li>
