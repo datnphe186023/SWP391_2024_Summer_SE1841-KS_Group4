@@ -129,7 +129,7 @@
                     <div class="tile">
                         <div class="tile-body">
 
-                            <form action="${pageContext.request.contextPath}/update-information">
+                            <form action="${pageContext.request.contextPath}/update-information" method="post">
                                 <input type="hidden" name="id" value="${personnel.userId}"/>
                                 <table>
                                     <tbody>

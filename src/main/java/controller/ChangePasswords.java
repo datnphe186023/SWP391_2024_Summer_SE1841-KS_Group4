@@ -90,47 +90,45 @@ public class ChangePasswords extends HttpServlet {
             // Attempt to update the user's password
             boolean success = userDAO.updateNewPassword(user);
             if (success) {
-                request.setAttribute("toastType", "success");
-                request.setAttribute("toastMessage", "Đã cập nhật thành công !");
-                session.setAttribute("user", user);
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Đã cập nhật thành công !");
             } else {
-                request.setAttribute("toastType", "error");
-                request.setAttribute("toastMessage", "Đã cập nhật thất bại !");
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
             }
         } else {
             // Passwords do not match
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Mật khẩu không khớp vui lòng nhập lại !");
+            session.setAttribute("toastType", "error");
+            session.setAttribute("toastMessage", "Mật khẩu không khớp vui lòng nhập lại !");
         }
         switch (user.getRoleId()) {
             // role id = 0 : admin.
             case 0:
-                request.getRequestDispatcher("admin/information_admin.jsp").forward(request, response);
+                response.sendRedirect("admin/information");
                 break;
             case 1:
                 // role id = 1 : Head Teacher.
-                request.getRequestDispatcher("headteacher/information_headteacher.jsp").forward(request, response);
+                response.sendRedirect("headteacher/information");
                 break;
             case 2:
                 // role id = 2 : academic staff.
-                request.getRequestDispatcher("academicstaff/information_staff.jsp").forward(request, response);
+                response.sendRedirect("academicstaff/information");
                 break;
             case 3:
                 // role id = 3 : Accountant.
-                request.getRequestDispatcher("accountant/information_accountant.jsp").forward(request, response);
+                response.sendRedirect("accountant/information");
                 break;
             case 4:
                 // role id = 4: Teacher .
-                request.getRequestDispatcher("teacher/information_teacher.jsp").forward(request, response);
+                response.sendRedirect("teacher/information");
                 break;
             case 5:
-                // role id = 5 : Parent.
-                request.getRequestDispatcher("parent/information_parent.jsp").forward(request, response);
+                // role id = 5 : parent
+                response.sendRedirect("parent/information");
                 break;
             default:
                 throw new AssertionError();
         }
-        request.removeAttribute("toastMessage");
     }
 
     /**
