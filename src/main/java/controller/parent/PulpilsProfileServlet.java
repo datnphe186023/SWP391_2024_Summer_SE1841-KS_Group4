@@ -2,26 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin;
+package controller.parent;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import models.personnel.PersonnelDAO;
-import models.personnel.Personnel;
-import models.user.User;
-import models.user.UserDAO;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
 
 /**
  *
  * @author TuyenCute
  */
-public class SearchPersonnelServlet extends HttpServlet {
+@WebServlet(name = "PupilsProfileServlet" , value = "/parent/pupilprofile")
+public class PulpilsProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +38,10 @@ public class SearchPersonnelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchPersonnelServlet</title>");
+            out.println("<title>Servlet PulpilsProfileServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchPersonnelServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PulpilsProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,31 +59,11 @@ public class SearchPersonnelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        Map<Integer, String> roleMap = new HashMap<>();
-        Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-
-        roleDis.put((byte) 0, "Active");
-        roleDis.put((byte) 1, "Disable");
-        String search = request.getParameter("search");
-        UserDAO dao = new UserDAO();
-        User u = dao.searchById(search);
-        if (u == null) {
-            request.setAttribute("mess", "Không tìm thấy, Hãy Thử Lại ID Khác.");
-            request.getRequestDispatcher("/admin/dashboard_admin_errorsManager.jsp").forward(request, response);
-        } else {
-            request.setAttribute("u", u);
-            request.setAttribute("roleMap", roleMap);
-            request.setAttribute("roleDis", roleDis);
-            request.getRequestDispatcher("../admin/dashboard_admin_searchUser.jsp").forward(request, response);
-        }
+        String id = request.getParameter("id");
+        PupilDAO dao = new PupilDAO();
+        Pupil pupil = dao.getPupilsById(id);
+        request.setAttribute("pupil", pupil);
+        request.getRequestDispatcher("/parent/information_pupils.jsp").forward(request, response);
     }
 
     /**
@@ -99,27 +77,11 @@ public class SearchPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        Map<Integer, String> roleMap = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-        String search = request.getParameter("search");
-        PersonnelDAO dao = new PersonnelDAO();
-        Personnel p = dao.searchById(search);
-        if (p == null) {
-            request.setAttribute("mess", "Không tìm thấy, Hãy Thử Lại ID Khác.");
-            request.getRequestDispatcher("/admin/dashboard_admin_errors.jsp").forward(request, response);
-        } else {
-            request.setAttribute("p", p);
-            request.setAttribute("roleMap", roleMap);
-            request.getRequestDispatcher("/admin/dashboard_admin_search.jsp").forward(request, response);
-        }
-
+        String id = request.getParameter("id");
+        PupilDAO dao = new PupilDAO();
+        Pupil pupil = dao.getPupilsById(id);
+        request.setAttribute("pupil", pupil);
+        request.getRequestDispatcher("/parent/information_pupils.jsp").forward(request, response);
     }
 
     /**
