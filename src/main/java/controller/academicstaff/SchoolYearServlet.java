@@ -11,6 +11,8 @@ import models.user.User;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class SchoolYearServlet extends HttpServlet {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date startDate = dateFormat.parse(startDateRaw);
                 Date endDate = dateFormat.parse(endDateRaw);
-                schoolYear.setName(name);
+                schoolYear.setName(getSchoolYearName(startDate, endDate));
                 schoolYear.setStartDate(startDate);
                 schoolYear.setEndDate(endDate);
                 schoolYear.setDescription(description);
@@ -76,5 +78,21 @@ public class SchoolYearServlet extends HttpServlet {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private String getSchoolYearName(Date startDate, Date endDate) {
+        // Convert Date to LocalDate
+        LocalDate startLocalDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Extract the year from each LocalDate
+        int startYear = startLocalDate.getYear();
+        int endYear = endLocalDate.getYear();
+        if (endYear - startYear != 1) {
+           return "Thời điểm bắt đầu và kết thúc năm học phải cách nhau 1 năm";
+        }
+
+        // Generate the school year string
+        return startYear + "-" + endYear;
     }
 }
