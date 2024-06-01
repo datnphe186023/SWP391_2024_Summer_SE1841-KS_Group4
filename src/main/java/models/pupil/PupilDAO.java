@@ -160,7 +160,7 @@ public class PupilDAO extends DBContext {
         return listPupils;
     }
     public Pupil searchPupilById(String id){
-        String sql = "Select * from Pupils where id = ? and status = N'đã duyệt - chưa có tài khoản' and user_id is null";
+        String sql = "Select * from Pupils where id = ? and status = N'đang theo học' and user_id is null";
         try{
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, id);
@@ -482,7 +482,7 @@ public class PupilDAO extends DBContext {
 
     public List<Pupil> getPupilNonUserId() {
         List<Pupil> list = new ArrayList<>();
-        String sql = "SELECT * FROM Pupils WHERE user_id IS NULL AND status = N'đã duyệt - chưa có tài khoản'";
+        String sql = "SELECT * FROM Pupils WHERE user_id IS NULL AND status = N'đang theo học'";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
