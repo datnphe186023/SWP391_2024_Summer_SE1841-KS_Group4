@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -301,21 +300,6 @@ public class UserDAO extends DBContext {
         } catch (Exception ex) {
             System.out.println(ex);
         }
-    }
-
-    public User searchById(String search) {
-        String sql = "Select * from dbo.[User] where id = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, search);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return createUser(rs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public List<User> getUserByRole(int id) {
