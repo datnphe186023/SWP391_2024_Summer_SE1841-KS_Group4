@@ -57,7 +57,7 @@ public class UpdatePupilsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

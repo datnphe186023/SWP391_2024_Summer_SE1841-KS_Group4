@@ -181,6 +181,14 @@
                                                     <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%"/><br />
                                                 </div></td>
                                         </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Tình trạng :</h5> <input type="text" name="status" value="${pupil.status}" style="width: 150%" disabled/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Ghi chú : </h5> <input type="text" name="note" value="${pupil.parentSpecialNote}" style="width: 200%"/><br />
+                                                </div></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 </br>

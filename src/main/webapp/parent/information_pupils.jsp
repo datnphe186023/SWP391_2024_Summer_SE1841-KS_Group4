@@ -154,22 +154,5 @@
             </div>
         </main>
     </body>
-    <script>
-        function cancelAction() {
-            window.location.href = '${pageContext.request.contextPath}/parent/listpupil';
-        }
-        function previewAvatar(event) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                const output = document.getElementById('avatarDisplay');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        function redirectToInfoPage() {
-            window.location.href = '${pageContext.request.contextPath}/parent/information';
-        }
-
-    </script>
+   
 </html>

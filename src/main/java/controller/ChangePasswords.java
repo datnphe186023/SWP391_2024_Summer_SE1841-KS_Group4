@@ -83,7 +83,7 @@ public class ChangePasswords extends HttpServlet {
         String confPassword = request.getParameter("confirmPassword");
 
         try {
-            if (userDAO.checkPassword(oldPass, user.getUsername()) && newPassword.equals(confPassword)){
+            if (userDAO.checkPassword(oldPass, user.getUsername()) && newPassword.equals(confPassword)) {
                 boolean result = userDAO.updateNewPassword(newPassword, user.getId());
                 if (result) {
                     session.setAttribute("toastType", "success");
@@ -92,6 +92,9 @@ public class ChangePasswords extends HttpServlet {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
                 }
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Mật khẩu không trùng khớp !");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
