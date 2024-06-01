@@ -96,16 +96,16 @@
             <hr>
 
             <!-- head teacher dashboard start-->
-            <ul class="app-menu">
+             <ul class="app-menu">
                 <li><a class="app-menu__item" href="class"><i class='app-menu__icon bx bx-group'></i><span
                             class="app-menu__label">Quản lý lớp học</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-calendar-event'></i><span
                             class="app-menu__label">Quản lý thời khóa biểu</span></a></li>
-                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/headteacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
-                        class="app-menu__label">Quản lý học sinh</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-check'></i><span
+                <li><a class="app-menu__item" href="../headteacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
+                            class="app-menu__label">Quản lý học sinh</span></a></li>
+                <li><a class="app-menu__item" href="../headteacher/listpersonnel"><i class='app-menu__icon bx bx-user-check'></i><span
                             class="app-menu__label">Quản lý nhân sự</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-food-menu'></i><span
+                            <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-food-menu'></i><span
                             class="app-menu__label">Quản lý thực đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-calendar'></i><span
                             class="app-menu__label">Sự kiện</span></a></li>

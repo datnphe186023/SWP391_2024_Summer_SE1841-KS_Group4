@@ -106,8 +106,6 @@
                             class="app-menu__label">Thời khóa biểu</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-food-menu'></i><span
                             class="app-menu__label">Thực đơn</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user'></i><span
-                            class="app-menu__label">Thông tin học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-envelope'></i><span
                             class="app-menu__label">Gửi đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-file'></i><span
@@ -179,6 +177,14 @@
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
                                                     <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%"/><br />
+                                                </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Tình trạng :</h5> <input type="text" name="status" value="${pupil.status}" style="width: 150%" disabled/><br />
+                                                </div></td>
+                                            <td><div class="form-group col-md-6">
+                                                    <h5>Ghi chú : </h5> <input type="text" name="note" value="${pupil.parentSpecialNote}" style="width: 200%"/><br />
                                                 </div></td>
                                         </tr>
                                     </tbody>

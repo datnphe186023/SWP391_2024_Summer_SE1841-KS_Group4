@@ -414,7 +414,7 @@ public class PupilDAO extends DBContext {
                 + "      ,[father_phone_number] = ?\n"
                 + "      ,[email] = ?\n"
                 + "      ,[address] = ?\n"
-                + "      \n"
+                + "      ,[parent_special_note] = ?\n"
                 + "      \n"
                 + "      \n"
                 + " WHERE [user_id] = ?";
@@ -425,7 +425,8 @@ public class PupilDAO extends DBContext {
             stmt.setString(4, pupil.getFatherPhoneNumber());
             stmt.setString(5, pupil.getEmail());
             stmt.setString(6, pupil.getAddress());
-            stmt.setString(7, pupil.getUserId());
+            stmt.setString(7,pupil.getParentSpecialNote());
+            stmt.setString(8, pupil.getUserId());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {

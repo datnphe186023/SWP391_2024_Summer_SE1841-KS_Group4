@@ -60,6 +60,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         String fatherPhone = request.getParameter("father_phone");
         String email =request.getParameter("email");
         String address = request.getParameter("address");
+        String note = request.getParameter("note");
+        
         
         // Cập nhật thông tin của pupil
         pupil.setMotherName(motherName);
@@ -68,6 +70,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         pupil.setFatherPhoneNumber(fatherPhone);
         pupil.setEmail(email);
         pupil.setAddress(address);
+        pupil.setParentSpecialNote(note);
         user.setEmail(email);
         // Cập nhật thông tin của pupil trong cơ sở dữ liệu
         UserDAO userDAO = new UserDAO();
@@ -75,7 +78,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         PupilDAO dao = new PupilDAO();
         boolean success =  dao.updateParent(pupil);
         
-        if (success) {
+        if (success && successUser) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Đã cập nhật thành công !");
             session.setAttribute("pupil", pupil);
