@@ -111,7 +111,7 @@ public class UserDAO extends DBContext {
                     return user;
                 }
             }
-        } catch (SQLException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);

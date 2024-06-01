@@ -15,14 +15,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <%
+        String toastMessage = (String) session.getAttribute("toastMessage");
+        String toastType = (String) session.getAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        session.removeAttribute("toastType");
+    %>
     <script>
         $(document).ready(function() {
-            var toastMessage = '<%= session.getAttribute("toastMessage") %>';
-            var toastType = '<%= session.getAttribute("toastType") %>';
-            <%
-                session.removeAttribute("toastMessage");
-                session.removeAttribute("toastType");
-            %>
+            var toastMessage = '<%= toastMessage %>';
+            var toastType = '<%= toastType %>';
             if (toastMessage) {
                 if (toastType === 'success') {
                     toastr.success(toastMessage);

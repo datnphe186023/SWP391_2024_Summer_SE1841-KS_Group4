@@ -44,6 +44,7 @@
                 <table  class="table table-bordered">
 
                         <button style="float: right; margin-right: 220px;padding: 10px 20px; margin-bottom: 10px" class="btn btn-save" type="submit">Chọn vào lớp</button>
+                        <a style="float: right; margin-right: 30px;padding: 10px 20px; margin-bottom: 10px" class="btn btn-cancel" href="pupilclass?classId=${requestScope.classId}">Quay Lại</a>
 
                     <tr class="table" >
                         <th>STT</th>

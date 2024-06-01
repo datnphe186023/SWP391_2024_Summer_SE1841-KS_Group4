@@ -22,8 +22,13 @@
         <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh đang chờ phê duyệt</span>
     </div>
     <%--End : title    --%>
-
     <div class="row">
+        <div class="col-lg-6">
+            <a style="float: right; margin-right: 200px;padding: 10px 20px; margin-bottom: 10px" class="btn btn-cancel" href="listpupil">Quay Lại</a>
+
+        </div>
+    </div>
+        <div class="row">
         <table  class="table table-bordered">
             <tr class="table" >
                 <th>STT</th>

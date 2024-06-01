@@ -31,6 +31,7 @@ public class ListPupilOfClass extends HttpServlet {
         Class classes = classDAO.getClassById(classId);
         /// This variable to display the schoolyear of this class
         String schoolYear =classes.getSchoolYear().getStartDate().toString();
+        request.setAttribute("schoolYear",classes.getSchoolYear().getId());
         session.removeAttribute("classId");
         request.setAttribute("classId",classId);
         request.setAttribute("listPupil",listPupil);
