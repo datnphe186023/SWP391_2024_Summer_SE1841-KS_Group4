@@ -254,7 +254,7 @@ public class PersonnelDAO extends DBContext {
 
     public Personnel searchById(String id) {
         Personnel p = null;
-        String sql = "SELECT * FROM Personnels where id like ? and status = N'đang làm việc'";
+        String sql = "SELECT * FROM Personnels where id like ? and status = N'đang làm việc' and [user_id] is null";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, id);
@@ -282,6 +282,24 @@ public class PersonnelDAO extends DBContext {
         }
         return p;
     }
+
+    public List<Personnel> getPersonnelByNameOrEmail(String search) {
+        String sql = "select * from [Personnels] where (last_name+' '+ first_name like N'%" + search + "%' or [email] like '%" + search + "%' ) ";
+        List<Personnel> persons = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Personnel person = createPersonnel(resultSet);
+                persons.add(person);
+            }
+        } catch (Exception e) {
+            System.out.println("error in function");
+        }
+        return persons;
+    }
+
 
     public List<Personnel> getPersonelByRoleandNonUserId(int id) {
         List<Personnel> list = new ArrayList<>();

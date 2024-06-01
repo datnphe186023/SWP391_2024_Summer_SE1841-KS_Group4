@@ -105,16 +105,15 @@
             <!-- Admin homepage start-->
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
-                            class="app-menu__label">Tạo tài khoản</span></a></li>
+                        class="app-menu__label">Tạo tài khoản</span></a></li>
                 <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
-                            class="app-menu__label">Quản lý tài khoản</span></a></li>
+                        class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
             <!-- Admin homepage end-->
 
 
             <!--  teacher dashboard end-->
-
 
 
 
@@ -134,10 +133,7 @@
                     <option value="4">Teacher</option>
                     <option value="5">Parent</option>
                 </select>
-                <form action="searchPersonnel" method="get">
-                    <input type="text" name="search" placeholder="Search By ID">
-                    <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
-                </form>
+
             </div>
             <table style="width: 70%; margin-left: 300px">
                 <thead>
@@ -171,6 +167,9 @@
             <button style="display: block; margin: 0 auto;">Xem Lại Danh Sách</button>
         </form>
         <script>
+            function redirectToInfoPage() {
+                window.location.href = '${pageContext.request.contextPath}/admin/information';
+            }
             function redirectToServlet() {
                 var selectedRole = document.getElementById("roleSelect").value;
                 if (selectedRole !== "") {
