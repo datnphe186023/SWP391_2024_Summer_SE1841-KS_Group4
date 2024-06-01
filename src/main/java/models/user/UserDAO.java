@@ -154,27 +154,6 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public boolean updatePassword(String key, String newPassword) {
-        try (Connection con = connection) {
-            String sql = "UPDATE [dbo].[User] SET [salt] =? and [hashed_password] = ? WHERE [email] = ? OR user_name = ?";
-            try (PreparedStatement pst = con.prepareStatement(sql)) {
-                byte[] salt = PasswordUtil.generateSalt();
-                byte[] hashedNewPassword = PasswordUtil.hashPassword(newPassword.toCharArray(), salt);
-                pst.setBytes(1, salt);
-                pst.setBytes(2, hashedNewPassword);
-                pst.setString(3, key);
-                pst.setString(4, key); // Thiết lập tham số cho user_name
-                int rowCount = pst.executeUpdate();
-                return rowCount > 0;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean resetPassword(String key) {
         try{
             String newPassword = generatePassword();
