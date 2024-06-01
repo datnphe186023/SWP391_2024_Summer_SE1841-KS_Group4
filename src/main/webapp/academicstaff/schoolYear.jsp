@@ -76,10 +76,6 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label class="control-label">Năm học</label>
-                                <input class="form-control" type="text" name="name" required>
-                            </div>
-                            <div class="form-group col-md-6">
                                 <label class="control-label">Ngày bắt đầu</label>
                                 <input class="form-control" type="date" name="startDate" required>
                             </div>

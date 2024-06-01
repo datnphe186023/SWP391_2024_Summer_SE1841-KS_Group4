@@ -87,7 +87,7 @@
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
-                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
                 <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
                     <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
@@ -99,12 +99,19 @@
             <!-- Admin homepage start-->
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
-                            class="app-menu__label">Tạo tài khoản</span></a></li>
+                        class="app-menu__label">Tạo tài khoản</span></a></li>
                 <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
-                            class="app-menu__label">Quản lý tài khoản</span></a></li>
+                        class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
             <!-- Admin homepage end-->
+
+
+            <!--  teacher dashboard end-->
+
+
+
+
         </aside>
 
         <!-- Head Teacher Information Section -->
