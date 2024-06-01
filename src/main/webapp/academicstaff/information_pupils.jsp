@@ -96,7 +96,7 @@
                                     <tbody>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" readonly=""/>
+                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" readonly=""/>
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
                                                     <h5>ID : </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" readonly=""/><br />

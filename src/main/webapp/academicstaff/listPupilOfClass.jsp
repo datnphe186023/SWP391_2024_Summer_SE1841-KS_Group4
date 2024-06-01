@@ -59,6 +59,7 @@
                 </form>
             </div>
         <div class="col-lg-6">
+            <a style=" margin-right: 30px;padding: 10px 20px; margin-bottom: 10px" class="btn btn-cancel" href="class?schoolYearId=${requestScope.schoolYear}">Quay Lại</a>
             <a class="add-button" href="addpupiltoclass?classId=${requestScope.classId}">Thêm học sinh vào lớp(${requestScope.numberOfPupilsPending})</a>
         </div>
         <%--End : Search item    --%>

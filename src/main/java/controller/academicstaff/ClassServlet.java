@@ -93,7 +93,7 @@ public class ClassServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 String schoolYearId = request.getParameter("schoolYearId");
                 ClassDAO classDAO = new ClassDAO();
-                List<Class> classes = classDAO.getByName(name, schoolYearId);
+                List<Class> classes = classDAO.getByName(formatString(name), schoolYearId);
                 SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
                 request.setAttribute("schoolYears", schoolYearDAO.getAll());
                 request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
@@ -106,4 +106,12 @@ public class ClassServlet extends HttpServlet {
             }
         }
     }
+        private String formatString(String search){
+            StringBuilder result = new StringBuilder();
+            String[] searchArray = search.split("\\s+");
+            for(int i=0;i<searchArray.length;i++){
+                result.append(searchArray[i]).append(" ");
+            }
+            return result.toString().trim();
+        }
 }

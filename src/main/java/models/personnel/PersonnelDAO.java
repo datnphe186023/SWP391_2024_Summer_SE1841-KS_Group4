@@ -202,7 +202,7 @@ public class PersonnelDAO extends DBContext {
             preparedStatement.setString(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                personnel.setId(resultSet.getString(7)); /// 7 is position of personnel Id on join of two table
+                personnel.setId(resultSet.getString(8)); /// 8 is position of personnel Id on join of two table
                 personnel.setFirstName(resultSet.getString("first_name"));
                 personnel.setLastName(resultSet.getString("last_name"));
                 personnel.setGender(resultSet.getBoolean("gender"));

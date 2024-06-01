@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         // Check data login
         UserDAO userDAO = new UserDAO();
 
-        User user = userDAO.getUserByUsernamePassword(username, password);
+        User user = userDAO.getUserByUsernamePassword(username, password);;
 
         if (user != null) {
 
