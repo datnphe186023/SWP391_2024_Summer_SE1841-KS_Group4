@@ -225,7 +225,20 @@
         }
 
     </script>
-
+    <script>
+                            function previewAvatar(event) {
+                                const reader = new FileReader();
+                                reader.onload = function () {
+                                    const output = document.getElementById('avatarDisplay');
+                                    output.src = reader.result;
+                                }
+                                reader.readAsDataURL(event.target.files[0]);
+                            }
+        
+                            function redirectToInfoPage() {
+                                window.location.href = '${pageContext.request.contextPath}/admin/information';
+                            }
+        </script>
     <script src="js/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
     <script src="js/popper.min.js"></script>

@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Main CSS-->
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -78,7 +78,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="app-sidebar__user">
-                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${pupil.avatar}" >
+                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${pupil.avatar}" >
                         <input class="avatar-input" id="avatarInput" type="file" name="avatar">
                         <div>
                             <p class="app-sidebar__user-name"><b style="color: #000">${pupil.lastName} ${pupil.firstName}</b></p>
@@ -168,7 +168,7 @@
         }
 
         function redirectToInfoPage() {
-            window.location.href = '${pageContext.request.contextPath}/academicstaff/information';
+            window.location.href = '${pageContext.request.contextPath}/parent/information';
         }
 
     </script>
