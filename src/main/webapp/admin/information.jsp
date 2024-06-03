@@ -37,7 +37,7 @@
                 }
             });
         </script>
-        
+
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -99,9 +99,9 @@
             <!-- Admin homepage start-->
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
-                        class="app-menu__label">Tạo tài khoản</span></a></li>
+                            class="app-menu__label">Tạo tài khoản</span></a></li>
                 <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
-                        class="app-menu__label">Quản lý tài khoản</span></a></li>
+                            class="app-menu__label">Quản lý tài khoản</span></a></li>
 
             </ul>
             <!-- Admin homepage end-->
@@ -174,8 +174,9 @@
                                                     <h5>Email:</h5> <input type="email" name="email" value="${personnel.email}" style="width: 170%"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                     <input type="text" id="phone_number" name="phone_number" value="${personnel.phoneNumber}" pattern="^\d{10}$" title="Số điện thoại phải gồm 10 chữ số." required /><br />
-                                                </div></td>
+                                                    <input type="text" id="phone_number" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." required /><br />
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -224,7 +225,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        
+
     </body>
 
 </html>

@@ -78,9 +78,9 @@ public class ChangePasswords extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         // Retrieve the new password and confirm password from the request
-        String oldPass = request.getParameter("oldPassword");
-        String newPassword = request.getParameter("newPassword");
-        String confPassword = request.getParameter("confirmPassword");
+        String oldPass = request.getParameter("oldPassword").trim();
+        String newPassword = request.getParameter("newPassword").trim();
+        String confPassword = request.getParameter("confirmPassword").trim();
 
         try {
             if (userDAO.checkPassword(oldPass, user.getUsername()) && newPassword.equals(confPassword)) {

@@ -25,8 +25,8 @@ public class NewPassword extends HttpServlet {
         HttpSession session = request.getSession();
 
         // Retrieve the new password and confirm password from the request
-        String newPassword = request.getParameter("password");
-        String confPassword = request.getParameter("confPassword");
+        String newPassword = request.getParameter("password").trim();
+        String confPassword = request.getParameter("confPassword").trim();
 
         // Check if new password and confirm password are not null and match
         if (newPassword != null && newPassword.equals(confPassword)) {

@@ -174,7 +174,7 @@
                                                     <h5>Email:</h5> <input type="email" name="email" value="${personnel.email}" style="width: 170%"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại:</h5> <input type="text" name="phone_number" value="${personnel.phoneNumber}" pattern="^\d{10}$" title="Số điện thoại phải gồm 10 chữ số."/><br />
+                                                    <h5>Số điện thoại:</h5> <input type="text" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/><br />
                                                 </div></td>
                                         </tr>
                                     </tbody>
