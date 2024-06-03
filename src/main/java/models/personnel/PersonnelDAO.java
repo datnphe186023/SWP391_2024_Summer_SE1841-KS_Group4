@@ -66,7 +66,7 @@ public class PersonnelDAO extends DBContext {
     }
 
     public List<Personnel> getPersonnelByRole(int role) {
-        String sql = "select * from [Personnels] where role_id = 2 and status = N'đang làm việc' and user_id is null";
+        String sql = "select * from [Personnels] where role_id = ?";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
