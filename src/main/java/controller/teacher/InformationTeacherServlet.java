@@ -64,7 +64,7 @@ public class InformationTeacherServlet extends HttpServlet {
         session.removeAttribute("toastMessage");
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
-        request.getRequestDispatcher("information_teacher.jsp").forward(request, response);
+        request.getRequestDispatcher("informationTeacher.jsp").forward(request, response);
     } 
 
     /** 
@@ -77,7 +77,7 @@ public class InformationTeacherServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-                request.getRequestDispatcher("information_teacher.jsp").forward(request, response);
+                request.getRequestDispatcher("informationTeacher.jsp").forward(request, response);
     }
 
     /** 

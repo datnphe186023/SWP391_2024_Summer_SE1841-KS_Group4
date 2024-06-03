@@ -86,7 +86,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Đã cập nhật thất bại !");
         }
-        request.getRequestDispatcher("information_parent.jsp").forward(request, response);
+        request.getRequestDispatcher("informationParent.jsp").forward(request, response);
 }
 
     /** 

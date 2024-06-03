@@ -76,7 +76,7 @@ public class WaitlistPersonnelServlet extends HttpServlet {
         request.setAttribute("message",message);
         request.setAttribute("type",type);
         request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
-        request.getRequestDispatcher("headteacher_waitlistPersonnel.jsp").forward(request,response);
+        request.getRequestDispatcher("waitlistPersonnel.jsp").forward(request,response);
     } 
 
     /** 
@@ -108,7 +108,7 @@ public class WaitlistPersonnelServlet extends HttpServlet {
         request.setAttribute("message",message);
         request.setAttribute("type",type);
         request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
-        request.getRequestDispatcher("headteacher_waitlistPersonnel.jsp").forward(request,response);
+        request.getRequestDispatcher("waitlistPersonnel.jsp").forward(request,response);
     }
 
     /** 

@@ -1,9 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
     <head>
         <title>Quản lý Nhân sự</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -29,7 +27,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="dashboard_headteacher.jsp"/>
+        <jsp:include page="dashboard.jsp"/>
 
         <main class="app-content">
             <div class="row justify-content-center">
@@ -45,7 +43,7 @@
 <form action="listpersonnel" method="post" > 
                     <div class="class-form">
                            
-                            
+                          
                             <select name="role" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden >Chức vụ</option>
                                 <c:forEach items="${requestScope.roles}" var="r">
@@ -87,7 +85,7 @@
                     </style>   
 
                 </div>
-                <div class="col-lg-4" >
+                  <div class="col-lg-4" >
                     <form action="listpersonnel" method="post" >   
                     <div class="search-field">
                         <div class="form-group has-search">
@@ -99,18 +97,18 @@
                      </div> 
                 <%--End : Select item    --%>
                 <div class="col-lg-4" style="display: flex; justify-content: end">
-                  
-
                     <div>
-                        <button class="btn btn-add" >
-                            <a  href="waitlistpersonnel">ĐANG CHỜ PHÊ DUYỆT (${requestScope.waitlist.size()})</a>   
+                        <button type="button" class="btn btn-actv" data-toggle="modal" data-target="#newPersonnelModal">
+                            TẠO NHÂN VIÊN MỚI
                         </button>
+
                     </div>
+
 
 
                 </div> 
             </div>
-
+           
 
             <style>
                 /* Hide the placeholder in the dropdown options */
@@ -121,8 +119,7 @@
 
             <div class="row">
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
+                        <tr class="table">
                             <th scope="col">STT</th>
                             <th scope="col">Ảnh</th>
                             <th scope="col">Mã Nhân Viên</th>
@@ -133,16 +130,10 @@
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Chi tiết</th>
                         </tr>
-                    </thead>
                     <tbody>
-                        <c:set var="count" value="0" />
-
-
-
-                        <c:forEach items="${persons}" var="p">
-                            <c:set var="count" value="${count + 1}" />      
+                        <c:forEach items="${persons}" var="p" varStatus="status">
                             <tr>
-                                <td>${count}</td>
+                                <th scope="row">${status.index + 1}</th>
                                 <td><img class="profile_img" src="../images/${p.getAvatar()}" alt="ảnh nhân viên" width="191px" height="263px" object-fit: cover></td>
                                 <td>${p.getId()}</td>
                                 <td>${p.getLastName()} ${p.getFirstName()}</td>
@@ -163,7 +154,7 @@
                                         Hiệu trưởng
                                     </c:if>
                                     <c:if test="${p.getRoleId()==2}">     
-                                        Giáo vụ
+                                        Accademic Staff
                                     </c:if>
                                     <c:if test="${p.getRoleId()==3}">     
                                         Nhân viên kế toán
@@ -180,7 +171,7 @@
                                         <input type="hidden" value="${p.getId()}" name="id">  
                                         <button class="btn btn-info" type="submit">Xem thông tin chi tiết</button>   
                                     </form>
-
+                                       
                                 </td>
                             </tr>
                         </c:forEach>
@@ -188,7 +179,88 @@
                     </tbody>
                 </table>
             </div>
-            
+            <!--modal for new personnel-->
+            <div class="modal fade" id="newPersonnelModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <form action="createpersonnel?action=create" method="POST">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <span class="thong-tin-thanh-toan">
+                                            <h5>Tạo Nhân Viên Mới</h5>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Chức vụ </label>
+                                        <select class="form-control" name="role"  id="role" required>
+                                            <option value="" hidden selected>Chọn chức vụ</option>
+                                            <option value="0">Admin</option>
+                                            <option value="1">Hiệu trưởng</option>
+                                            <option value="2">Giáo Vụ</option>
+                                            <option value="3">Nhân viên kế toán</option>
+                                            <option value="4">Giáo viên</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Tên </label>
+                                        <input class="form-control" type="text" name="firstname" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Họ</label>
+                                        <input class="form-control" type="text" name="lastname" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Giới tính </label>
+                                        <select class="form-control" name="gender" id="gender" required>
+                                            <option value="" hidden selected>Chọn giới tính</option>
+                                            <option value="0">Nữ</option>
+                                            <option value="1">Nam</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Ngày sinh</label>
+                                        <input class="form-control" type="date" name="birthday" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Địa chỉ</label>
+                                        <input class="form-control" type="text" name="address" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Email</label>
+                                        <input class="form-control" type="email" name="email" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Số điện thoại</label>
+                                        <input class="form-control" type="text" name="phone" required>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">Ảnh :</label>
+                                        <div class="form-group col-md-12">
+
+                                            <div id="myfileupload">
+                                                <input type="file" id="uploadfile" name="avatar" onchange="readURL(this);" required/>
+                                            </div>
+                                            <div id="thumbbox">
+                                                <img height="200" width="200" alt="Thumb image" id="thumbimage" style="display: none" />
+                                                <a class="removeimg" href="javascript:"></a>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <button class="btn btn-save" type="submit">Lưu lại</button>
+                                <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>          
 
         </main>
 
@@ -210,9 +282,9 @@
         <!--===============================================================================================-->
         <!--===============================================================================================-->
         <script>
-                                                    document.getElementById('role').addEventListener('change', function () {
-                                                        this.querySelector('option[hidden]').disabled = true;
-                                                    });
+                                document.getElementById('role').addEventListener('change', function () {
+                                    this.querySelector('option[hidden]').disabled = true;
+                                });
         </script>
         <script>
 
@@ -221,12 +293,12 @@
             }
         </script> 
         <script>
-            document.getElementById('role').addEventListener('change', function () {
-                this.querySelector('option[hidden]').disabled = true;
-            });
-            document.getElementById('id').addEventListener('change', function () {
-                this.querySelector('option[hidden]').disabled = true;
-            });
+                                document.getElementById('role').addEventListener('change', function () {
+                                    this.querySelector('option[hidden]').disabled = true;
+                                });
+                                document.getElementById('id').addEventListener('change', function () {
+                                    this.querySelector('option[hidden]').disabled = true;
+                                });
         </script>
         <script>
 

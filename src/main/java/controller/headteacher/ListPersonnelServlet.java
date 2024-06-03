@@ -80,7 +80,7 @@ public class ListPersonnelServlet extends HttpServlet {
         request.setAttribute("roles", roles);
         request.setAttribute("waitlist", waitlist);
         request.setAttribute("statuss", statuss);
-        request.getRequestDispatcher("headteacher_listPersonnel.jsp").forward(request, response);
+        request.getRequestDispatcher("listPersonnel.jsp").forward(request, response);
         session.removeAttribute("message");
         session.removeAttribute("type");
         
@@ -141,7 +141,7 @@ public class ListPersonnelServlet extends HttpServlet {
         request.setAttribute("waitlist", waitlist);
         request.setAttribute("roles", roles);
         request.setAttribute("persons", persons);
-        request.getRequestDispatcher("headteacher_listPersonnel.jsp").forward(request, response);
+        request.getRequestDispatcher("listPersonnel.jsp").forward(request, response);
         session.removeAttribute("message");
         session.removeAttribute("type");
         

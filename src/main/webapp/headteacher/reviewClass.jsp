@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="dashboard_headteacher.jsp"/>
+<jsp:include page="dashboard.jsp"/>
 <main class="app-content">
     <div class="container my-4">
         <div class="row justify-content-center">

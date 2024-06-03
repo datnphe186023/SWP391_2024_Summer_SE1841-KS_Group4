@@ -87,7 +87,7 @@ public class CreateUserServlet extends HttpServlet {
         request.setAttribute("list", new PersonnelDAO().getPersonelNonUserId());
         request.setAttribute("roleMap", roleMap);
 
-        request.getRequestDispatcher("dashboard_admin_createuser.jsp").forward(request, response);
+        request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
     }
 
     /**

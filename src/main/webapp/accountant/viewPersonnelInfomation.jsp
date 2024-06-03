@@ -64,7 +64,7 @@
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
-        <jsp:include page="dashboard_accountant.jsp"/>
+        <jsp:include page="dashboard.jsp"/>
 
         <main class="app-content">
             <div style="display: flex; justify-content: center">
