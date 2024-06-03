@@ -12,12 +12,7 @@ public class PasswordUtil {
     private static final int SALT_LENGTH = 16; // 16 bytes = 128 bits
     private static final int ITERATION_COUNT = 65536;
     private static final int KEY_LENGTH = 256; // 256 bits
-
-
-    public static String hashPassword(String password) throws Exception {
-        return Arrays.toString(hashPassword(password.toCharArray(), generateSalt()));
-    }
-
+    
     public static byte[] generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_LENGTH];
