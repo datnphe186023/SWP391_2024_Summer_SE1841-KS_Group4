@@ -145,10 +145,6 @@
                     <option value="personnels">Personnels</option>
                     <option value="5">Pupils</option>
                 </select>
-                <form action="searchpupil" method="Post">
-                    <input type="text" name="search" placeholder="Search By ID">
-                    <button type="submit" class="search-icon-btn"><i class="material-icons">search</i></button>
-                </form>
                 <div>
                     <button onclick="selectAll()" class="btn-add">Chọn tất cả</button>
                     <button onclick="deselectAll()" class="btn-danger">Bỏ chọn tất cả</button>
