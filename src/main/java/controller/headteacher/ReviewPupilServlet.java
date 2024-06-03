@@ -17,7 +17,7 @@ public class ReviewPupilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PupilDAO pupilDAO = new PupilDAO();
         request.setAttribute("listPupil",pupilDAO.getPupilByStatus("đang chờ xử lý"));
-        request.getRequestDispatcher("headteacher_reviewnewpupil.jsp").forward(request,response);
+        request.getRequestDispatcher("ReviewNewPupil.jsp").forward(request,response);
     }
 
     @Override

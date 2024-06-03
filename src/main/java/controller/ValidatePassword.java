@@ -34,7 +34,7 @@ public class ValidatePassword extends HttpServlet {
 
             } else {
                 request.setAttribute("message", "Sai mật khẩu, vui lòng thử lại");
-                dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
+                dispatcher = request.getRequestDispatcher("enterNewPassword.jsp");
                 dispatcher.forward(request, response);
 
             }

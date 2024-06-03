@@ -29,7 +29,7 @@ public class DashboardAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("../admin/dashboard_admin.jsp").forward(request, response);
+        request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
     }
 
     /**
@@ -43,7 +43,7 @@ public class DashboardAdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("../dashboard_admin.jsp").forward(request, response);
+        request.getRequestDispatcher("../dashboard.jsp").forward(request, response);
 }
 
     /**

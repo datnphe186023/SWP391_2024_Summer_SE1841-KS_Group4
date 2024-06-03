@@ -14,7 +14,7 @@
 
 </head>
 <body>
-    <jsp:include page="dashboard_staff.jsp"/>
+    <jsp:include page="dashboard.jsp"/>
 
     <main class="app-content">
         <div class="row justify-content-center">

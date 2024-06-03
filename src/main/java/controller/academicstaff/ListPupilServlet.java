@@ -28,7 +28,7 @@ public class ListPupilServlet extends HttpServlet {
             listPupil = pupildao.getListOfSearchPupilByNameOrId(formatString(searchInformation));
         }
         request.setAttribute("listPupil",listPupil);
-        request.getRequestDispatcher("staff_listpupil.jsp").forward(request,response);
+        request.getRequestDispatcher("listPupil.jsp").forward(request,response);
     }
 
     private String formatString(String search){

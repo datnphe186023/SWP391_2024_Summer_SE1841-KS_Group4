@@ -68,7 +68,7 @@
     </head>
 
     <body>
-        <jsp:include page="dashboard_headteacher.jsp"/>
+        <jsp:include page="dashboard.jsp"/>
         <main class="app-content">
             <div class="app-title">
                 <div>

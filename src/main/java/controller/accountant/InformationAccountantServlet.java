@@ -66,7 +66,7 @@ public class InformationAccountantServlet extends HttpServlet {
         session.removeAttribute("toastMessage");
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
-        request.getRequestDispatcher("information_accountant.jsp").forward(request, response);
+        request.getRequestDispatcher("information.jsp").forward(request, response);
     } 
 
     /** 
@@ -79,7 +79,7 @@ public class InformationAccountantServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-                request.getRequestDispatcher("information_accountant.jsp").forward(request, response);
+                request.getRequestDispatcher("information.jsp").forward(request, response);
     }
 
     /** 

@@ -62,7 +62,7 @@ public class ViewPersonnelServlet extends HttpServlet {
         PersonnelDAO pdao = new PersonnelDAO();  
         person = pdao.getPersonnel(xid);
        request.setAttribute("person", person);
-        request.getRequestDispatcher("headteacher_viewPersonnelInfomation.jsp").forward(request, response);  
+        request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
             
     } 
 
@@ -81,7 +81,7 @@ public class ViewPersonnelServlet extends HttpServlet {
 //        PersonnelDAO pdao = new PersonnelDAO();  
 //        person = pdao.getPersonnel(xid);
 //       request.setAttribute("person", person);
-//        request.getRequestDispatcher("headteacher_viewPersonnelInfomation.jsp").forward(request, response);  
+//        request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
         
     }
 
