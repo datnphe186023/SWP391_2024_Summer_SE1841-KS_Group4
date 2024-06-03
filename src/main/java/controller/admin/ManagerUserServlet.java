@@ -78,7 +78,7 @@ public class ManagerUserServlet extends HttpServlet {
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
-        request.getRequestDispatcher("../admin/dashboard_admin_managerUser.jsp").forward(request, response);
+        request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
     }
 
     /**
@@ -109,7 +109,7 @@ public class ManagerUserServlet extends HttpServlet {
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
-        request.getRequestDispatcher("../admin/dashboard_admin_managerUser.jsp").forward(request, response);
+        request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
     }
 
     /**

@@ -36,7 +36,7 @@
     </script>
 </head>
 <body>
-    <jsp:include page="dashboard_staff.jsp"/>
+    <jsp:include page="dashboard.jsp"/>
 <%--Begin : title    --%>
     <main class="app-content">
         <div class="row justify-content-center">

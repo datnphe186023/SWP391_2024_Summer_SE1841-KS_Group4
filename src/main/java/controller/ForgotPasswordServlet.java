@@ -28,7 +28,7 @@ public class ForgotPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+        request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,13 +40,13 @@ public class ForgotPasswordServlet extends HttpServlet {
         User user = userDAO.getByUsernameOrEmail(key);
         if(user == null){
             request.setAttribute("error", "Email bạn nhập không tồn tại vui lòng nhập lại!");
-            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+            request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
         }
         else if (key != null || !key.equals("")) {
             // update password generate random
             userDAO.resetPassword(key);
             session.setAttribute("username", user.getUsername());
-            dispatcher = request.getRequestDispatcher("EnterNewPassword.jsp");
+            dispatcher = request.getRequestDispatcher("enterNewPassword.jsp");
             request.setAttribute("message", "Mật khẩu đã được gửi đến bạn, vui lòng kiểm tra email");
             dispatcher.forward(request, response);
         }

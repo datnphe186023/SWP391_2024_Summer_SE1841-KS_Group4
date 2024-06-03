@@ -78,7 +78,7 @@ public class EditUserServlet extends HttpServlet {
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/admin/dashboard_admin_editUser.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/editUser.jsp").forward(request, response);
     }
 
     /**

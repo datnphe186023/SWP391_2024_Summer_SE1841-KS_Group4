@@ -35,7 +35,7 @@ public class ReviewClassServlet extends HttpServlet {
                     //get all processing classes
                     request.setAttribute("classes", classDAO.getByStatus("đang chờ duyệt", schoolYearId));
                     request.setAttribute("schoolYearId", schoolYearId);
-                    request.getRequestDispatcher("reviewclass.jsp").forward(request, response);
+                    request.getRequestDispatcher("reviewClass.jsp").forward(request, response);
                 }
             } else if (action.equals("accept") || action.equals("decline")) {
                 String classId = request.getParameter("id");

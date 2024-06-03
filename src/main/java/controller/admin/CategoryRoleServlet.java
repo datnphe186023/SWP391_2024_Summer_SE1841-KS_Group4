@@ -82,7 +82,7 @@ public class CategoryRoleServlet extends HttpServlet {
             // Lọc vai trò có giá trị là 5 cho pupil
             pupils = new PupilDAO().getPupilNonUserId();
             request.setAttribute("list", pupils);
-            request.getRequestDispatcher("../admin/admin_category_createpupils.jsp").forward(request, response);
+            request.getRequestDispatcher("../admin/categoryCreatePupils.jsp").forward(request, response);
         }
         request.setAttribute("roleMap", roleMap);
 
