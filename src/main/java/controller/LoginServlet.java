@@ -27,8 +27,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get data from login form
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
 
         // Check data login
         UserDAO userDAO = new UserDAO();

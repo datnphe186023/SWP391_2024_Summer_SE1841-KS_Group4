@@ -531,5 +531,19 @@ public class PersonnelDAO extends DBContext {
         }
         return personnels;
     }
+    public boolean checkPhoneNumberExists(String phoneNumber) {
+        String sql = "SELECT COUNT(*) FROM [Personnels] WHERE phone_number = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, phoneNumber);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

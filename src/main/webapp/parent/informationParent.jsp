@@ -152,7 +152,7 @@
                                                     <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}" pattern="^\d{10}$" title="Số điện thoại phải gồm 10 chữ số."/><br />
+                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
@@ -160,7 +160,7 @@
                                                     <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" pattern="^\d{10}$" title="Số điện thoại phải gồm 10 chữ số."/><br />
+                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>

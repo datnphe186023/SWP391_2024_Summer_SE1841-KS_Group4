@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.pupil.PupilDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -74,41 +75,56 @@ public class UpdatePersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Cập nhật thông tin của pupil,user trong cơ sở dữ liệu
+        PersonnelDAO dao = new PersonnelDAO();
+        UserDAO userDAO = new UserDAO();
+        PupilDAO pupilDAO = new PupilDAO();
         // Lấy thông tin pupil từ session
         HttpSession session = request.getSession();
         Personnel person = (Personnel) session.getAttribute("personnel");
         User user = (User) session.getAttribute("user");
         // Lấy thông tin cần update từ request
-        String firstName = request.getParameter("first_name");
-        String lastName = request.getParameter("last_name");
-        String genderStr = request.getParameter("gender");
-        String address = request.getParameter("address");
-        String email = request.getParameter("email");
-        String phoneNumber = request.getParameter("phone_number");
+        String firstName = request.getParameter("first_name").trim();
+        String lastName = request.getParameter("last_name").trim();
+        String genderStr = request.getParameter("gender").trim();
+        String address = request.getParameter("address").trim();
+        String email = request.getParameter("email").trim();
+        String phoneNumber = request.getParameter("phone_number").trim();
 
-        // Cập nhật thông tin của pupil
-        person.setFirstName(firstName);
-        person.setLastName(lastName);
-        // Validate and update gender
-        boolean gender = Boolean.parseBoolean(genderStr);
-        person.setGender(gender);
-        person.setAddress(address);
-        person.setEmail(email);
-        person.setPhoneNumber(phoneNumber);
-        user.setEmail(email);
-        // Cập nhật thông tin của pupil,user trong cơ sở dữ liệu
-        PersonnelDAO dao = new PersonnelDAO();
-        UserDAO userDAO = new UserDAO();
-        boolean successUser = userDAO.updateUserById(user);
-        boolean successPerson = dao.updatePerson(person);
-        if (successPerson && successUser) {
-            session.setAttribute("toastType", "success");
-            session.setAttribute("toastMessage", "Đã cập nhật thành công !");
-        } else {
+        // Kiểm tra tính duy nhất của email và số điện thoại
+        boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
+        boolean phoneNumberExists = dao.checkPhoneNumberExists(phoneNumber) || pupilDAO.checkParentPhoneNumberExists(phoneNumber);
+        if (emailExists && phoneNumberExists) {
             session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
+            session.setAttribute("toastMessage", "Email và số điện thoại đã tồn tại.");
+        } else if (emailExists) {
+            session.setAttribute("toastType", "error");
+            session.setAttribute("toastMessage", "Email đã tồn tại.");
+        } else if (phoneNumberExists) {
+            session.setAttribute("toastType", "error");
+            session.setAttribute("toastMessage", "Số điện thoại đã tồn tại.");
+        } else {
+            // Cập nhật thông tin của pupil
+            person.setFirstName(firstName);
+            person.setLastName(lastName);
+            // Validate and update gender
+            boolean gender = Boolean.parseBoolean(genderStr);
+            person.setGender(gender);
+            person.setAddress(address);
+            person.setEmail(email);
+            person.setPhoneNumber(phoneNumber);
+            user.setEmail(email);
+            boolean successUser = userDAO.updateUserById(user);
+            boolean successPerson = dao.updatePerson(person);
+            if (successPerson && successUser) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Đã cập nhật thành công !");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Đã cập nhật thất bại !");
+            }
         }
+
         switch (person.getRoleId()) {
             // role id = 0 : admin.
             case 0:
