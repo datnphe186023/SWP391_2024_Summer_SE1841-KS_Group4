@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Anh Quan
@@ -43,6 +44,7 @@
         </script>
 
         <div class="col-md-9">
+            <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
             <div class="tile">
                 <div class="tile-body">
 
@@ -56,19 +58,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="firstName">Tên học sinh</label>
-                                        <input type="text" class="form-control" id="firstName" required name="firstName" style="width: 50%" value="${param.firstName}">
+                                        <input type="text" class="form-control" id="firstName" required name="firstName" style="width: 50%" value="${param.firstName}" pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)">
                                     </div>
                                     <div class="form-group">
                                         <label for="lastName">Họ học sinh</label>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" required style="width: 40%" value="${param.lastName}">
+                                        <input type="text" class="form-control" id="lastName" name="lastName" required style="width: 40%" value="${param.lastName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" title="Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)">
                                     </div>
                                     <div class="form-group">
                                         <label for="fatherName">Họ tên bố</label>
-                                        <input type="text" class="form-control" id="fatherName" name="fatherName" required value="${param.fatherName}">
+                                        <input type="text" class="form-control" id="fatherName" name="fatherName" required value="${param.fatherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
                                     </div>
                                     <div class="form-group">
                                         <label for="motherName">Họ tên mẹ</label>
-                                        <input type="text" class="form-control" id="motherName" name="motherName" required value="${param.motherName}">
+                                        <input type="text" class="form-control" id="motherName" name="motherName" required value="${param.motherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
                                     </div>
                                 <div class="form-group">
                                     <div class="row">
@@ -90,28 +92,27 @@
 
                             </div>
                             <div class="col-md-6">
+
                                 <div class="form-group">
-                                    <label for="parentNote">Ghi chú của phụ huynh</label>
-                                    <textarea name="note" class="form-control" id="parentNote" rows="4"  required>${param.note}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <textarea class="form-control" id="address" rows="4" name="address" required>${param.address}</textarea>
+                                    <label for="address">Địa chỉ</label>
+                                    <input class="form-control" id="address"  name="address" required value="${param.address}" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự">
                                 </div>
                                 <div class="form-group">
                                     <label for="fatherPhone">Số điện thoại bố</label><br>
-                                    <span style="color: red">${requestScope.toastMessageFatherPhone}</span>
-                                    <input type="text" class="form-control" id="fatherPhone" name="fatherPhone" required style="width: 40%" value="${param.fatherPhone}">
+                                    <input type="text"  class="form-control" id="fatherPhone" name="fatherPhone" required style="width: 40%" value="${param.fatherPhone}" pattern="^(0[23578]|09)\d{8}$" title="Vui lòng nhập đúng định dạng số điện thoại">
                                 </div>
                                 <div class="form-group">
                                     <label for="motherPhone">Số điện thoại mẹ</label><br>
-                                    <span style="color: red">${requestScope.toastMessageMotherPhone}</span>
-                                    <input type="text" class="form-control" id="motherPhone" name="motherPhone" required style="width: 40%" value="${param.motherPhone}">
+                                    <input type="text" class="form-control" id="motherPhone" name="motherPhone" required style="width: 40%" value="${param.motherPhone}" pattern="^(0[23578]|09)\d{8}$" title="Vui lòng nhập đúng định dạng số điện thoại">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" required value="${param.email}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="parentNote">Ghi chú của phụ huynh</label>
+                                    <textarea name="note" class="form-control" id="parentNote" style="height: 20px" required>${param.note}</textarea>
                                 </div>
                             </div>
                         </div>
