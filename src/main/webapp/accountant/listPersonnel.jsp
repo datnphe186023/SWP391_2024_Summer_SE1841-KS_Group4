@@ -43,7 +43,7 @@
 <form action="listpersonnel" method="post" > 
                     <div class="class-form">
                            
-                          
+                        <label>Chức vụ</label>  
                             <select name="role" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden >Chức vụ</option>
                                 <c:forEach items="${requestScope.roles}" var="r">
@@ -61,7 +61,7 @@
 
                     <div class="class-form">
                           
-                            
+                            <label>Trạng thái</label>
                             <select name="status" onchange="this.form.submit()" class="custom-select">
                                 <option value="" hidden >Trạng thái</option>
                                 <c:forEach items="${requestScope.statuss}" var="r">
