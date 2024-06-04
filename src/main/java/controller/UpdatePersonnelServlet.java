@@ -93,7 +93,11 @@ public class UpdatePersonnelServlet extends HttpServlet {
 
         // Kiểm tra tính duy nhất của email và số điện thoại
         boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
-        boolean phoneNumberExists = dao.checkPhoneNumberExists(phoneNumber) || pupilDAO.checkParentPhoneNumberExists(phoneNumber);
+        boolean phoneNumberExists = (dao.checkPhoneNumberExists(phoneNumber)
+                || pupilDAO.checkMotherPhoneNumberExists(phoneNumber)
+                || pupilDAO.checkFatherPhoneNumberExists(phoneNumber))
+                && !phoneNumber.equals(person.getPhoneNumber());
+
         if (emailExists && phoneNumberExists) {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", "Email và số điện thoại đã tồn tại.");
