@@ -53,7 +53,7 @@
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
-                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
+                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image">
                 <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
                 <div>
                     <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
@@ -62,17 +62,20 @@
             </div>
             <hr>
 
-            <ul class="app-menu">
+           <ul class="app-menu">
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon fa fa-bell'></i><span
-                        class="app-menu__label">Thông báo</span></a></li>
+                            class="app-menu__label">Thông báo</span></a></li>
                 <li><a class="app-menu__item" href="listpupil"><i class='app-menu__icon bx bx-user-voice'></i><span
-                        class="app-menu__label">Quản lý học sinh</span></a></li>
+                            class="app-menu__label">Quản lý học sinh</span></a></li>
                 <li><a class="app-menu__item" href="class"><i class='app-menu__icon bx bxs-user-detail'></i><span
-                        class="app-menu__label">Quản lý lớp học</span></a></li>
+                            class="app-menu__label">Quản lý lớp học</span></a></li>
                 <li><a class="app-menu__item" href="schoolyear"><i class='app-menu__icon bx bxs-user-detail'></i><span
-                        class="app-menu__label">Quản lý năm học</span></a></li>
+                            class="app-menu__label">Quản lý năm học</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bxs-user-detail'></i><span
-                        class="app-menu__label">Đơn từ</span></a></li>
+                            class="app-menu__label">Đơn từ</span></a></li>
+                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
+
             </ul>
 
 
@@ -89,19 +92,5 @@
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/main.js"></script>
         <script src="../js/plugins/pace.min.js"></script>
-        <script>
-                    function previewAvatar(event) {
-                        const reader = new FileReader();
-                        reader.onload = function () {
-                            const output = document.getElementById('avatarDisplay');
-                            output.src = reader.result;
-                        }
-                        reader.readAsDataURL(event.target.files[0]);
-                    }
-
-                    function redirectToInfoPage() {
-                        window.location.href = '${pageContext.request.contextPath}/academicstaff/information';
-                    }
-        </script>
     </body>
 </html>

@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>ViewInformationServlet</servlet-name>
+        <servlet-class>controller.admin.ViewInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewProfileServlet</servlet-name>
+        <servlet-class>controller.academicstaff.ViewProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewInformationAccServlet</servlet-name>
+        <servlet-class>controller.accountant.ViewInformationAccServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewInformationHTServlet</servlet-name>
+        <servlet-class>controller.headteacher.ViewInformationHTServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewInformationTeacherServlet</servlet-name>
+        <servlet-class>controller.teacher.ViewInformationTeacherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewInformationParentServlet</servlet-name>
+        <servlet-class>controller.parent.ViewInformationParentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationServlet</servlet-name>
+        <url-pattern>/admin/view-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewProfileServlet</servlet-name>
+        <url-pattern>/academicstaff/view-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationAccServlet</servlet-name>
+        <url-pattern>/accountant/view-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationHTServlet</servlet-name>
+        <url-pattern>/headteacher/view-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationTeacherServlet</servlet-name>
+        <url-pattern>/teacher/view-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationParentServlet</servlet-name>
+        <url-pattern>/parent/view-information</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>

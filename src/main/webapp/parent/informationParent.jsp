@@ -110,6 +110,8 @@
                             class="app-menu__label">Gửi đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-file'></i><span
                             class="app-menu__label">Báo cáo</span></a></li>
+                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
             </ul>
         </aside>
 
@@ -197,7 +199,7 @@
                             <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        
+
                                         <div class="modal-body">
                                             <form action="${pageContext.request.contextPath}/new-password" method="post">
                                                 <div class="form-group">
@@ -235,7 +237,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        
+
     </body>
 
 </html>

@@ -111,6 +111,8 @@
                             class="app-menu__label">Sự kiện</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-medal'></i><span
                             class="app-menu__label">Tổng kết <br> khen thưởng học sinh</span></a></li>
+                            <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
             </ul>
             <!-- head teacher dashboard end-->
         </aside>
