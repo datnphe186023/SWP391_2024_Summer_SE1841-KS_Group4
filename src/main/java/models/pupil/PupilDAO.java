@@ -526,5 +526,19 @@ public class PupilDAO extends DBContext {
         }
         return listPupil;
     }
-
+    
+    public boolean checkParentPhoneNumberExists(String phoneNumber) {
+        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE phone_number = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, phoneNumber);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
