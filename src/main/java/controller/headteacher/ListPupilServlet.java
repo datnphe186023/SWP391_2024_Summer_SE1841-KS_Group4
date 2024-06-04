@@ -26,6 +26,7 @@ public class ListPupilServlet extends HttpServlet {
 
         String classesSelect = request.getParameter("classes");
         String schoolYearSelect = request.getParameter("schoolYear");
+        /// School Year default will set to the lastest year
         if (schoolYearSelect==null ){
             schoolYearSelect = schoolYearDAO.getLatest().getId();
         }

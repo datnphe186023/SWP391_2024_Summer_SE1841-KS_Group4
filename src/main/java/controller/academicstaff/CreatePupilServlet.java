@@ -37,8 +37,6 @@ public class CreatePupilServlet extends HttpServlet {
         HttpSession session = request.getSession();
         PersonnelDAO personnelDAO = new PersonnelDAO();
         PupilDAO pupilDAO = new PupilDAO();
-        String regex = "^(0[23578]|09)\\d{8}$";
-        Pattern pattern = Pattern.compile(regex);
         User user = null;
         boolean gender = true;
         String toastMessage = "";
@@ -70,30 +68,17 @@ public class CreatePupilServlet extends HttpServlet {
             user = (User) session.getAttribute("user");
             Personnel createdBy = personnelDAO.getPersonnelByUserId(user.getId());
 
-            Pupil pupil = new Pupil(null, null, firstName, lastName, address, email, status, birthday, gender,
-                    motherName, motherPhone, avatar, fatherName, fatherPhone, createdBy,
+            Pupil pupil = new Pupil(null, null, formatString(firstName), formatString(lastName), address, email, status, birthday, gender,
+                    formatString(motherName), motherPhone, avatar, formatString(fatherName), fatherPhone, createdBy,
                     note);
-//            Check format of phone number
-            Matcher matcherFatherPhone = pattern.matcher(fatherPhone);
-            Matcher matcherMotherPhone = pattern.matcher(motherPhone);
 ///          Check format of phone and birthday information
 //            Must have age greater than 3 year olds
-            if(!matcherFatherPhone.matches() || !matcherMotherPhone.matches() || !checkAge(birth)){
-                String toastMessageMotherPhone = "";
+            if( !checkAge(birth) || note.length()>255 ){
                 String toasMessageBirthday="";
-                String toastMessageFatherPhone = "";
-                if(!matcherFatherPhone.matches() ){
-                    toastMessageFatherPhone="Số điện thoại không hợp lệ !";
-                }
-                if(!matcherMotherPhone.matches()){
-                    toastMessageMotherPhone="Số điện thoại không hợp lệ !";
-                }
                  if(!checkAge(birth)){
                     toasMessageBirthday="Ngày sinh không hợp lệ !";
                 }
-                request.setAttribute("toastMessageMotherPhone",toastMessageMotherPhone);
                 request.setAttribute("toasMessageBirthday",toasMessageBirthday);
-                request.setAttribute("toastMessageFatherPhone",toastMessageFatherPhone);
                 String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
                 request.setAttribute("newPupilId", newPupilId);
                 request.getRequestDispatcher("createPupil.jsp").forward(request,response);
@@ -113,7 +98,14 @@ public class CreatePupilServlet extends HttpServlet {
 
         }
     }
-
+    private String formatString(String search){
+        StringBuilder result = new StringBuilder();
+        String[] searchArray = search.split("\\s+");
+        for(int i=0;i<searchArray.length;i++){
+            result.append(searchArray[i]).append(" ");
+        }
+        return result.toString().trim();
+    }
 
     public static int calculateAge(Date birthDate, Date currentDate) {
         // Lấy ngày tháng năm của ngày sinh
