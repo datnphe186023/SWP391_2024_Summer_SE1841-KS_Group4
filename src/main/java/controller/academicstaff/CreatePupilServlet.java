@@ -98,11 +98,15 @@ public class CreatePupilServlet extends HttpServlet {
 
         }
     }
+    private String standardiztionString(String word){
+        word = word.toLowerCase();
+        return word.substring(0,1).toUpperCase()+word.substring(1).trim();
+    }
     private String formatString(String search){
         StringBuilder result = new StringBuilder();
         String[] searchArray = search.split("\\s+");
         for(int i=0;i<searchArray.length;i++){
-            result.append(searchArray[i]).append(" ");
+            result.append(standardiztionString(searchArray[i])).append(" ");
         }
         return result.toString().trim();
     }
