@@ -119,12 +119,8 @@ public class ListPersonnelServlet extends HttpServlet {
                   persons =pdao.getPersonnelByStatus(status);
                  
              }else if(!role.equalsIgnoreCase("all") && status.equalsIgnoreCase("all")){
-                 try{
                  int xrole = Integer.parseInt(role);
                  persons = pdao.getPersonnelByRole(xrole);
-                 }catch (NumberFormatException e){
-                   persons = pdao.getPersonnelByRole(-1);  
-                 }
                 
              } else{
             persons = pdao.getPersonnelByIdNameRoleStatus(status, role);
