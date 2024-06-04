@@ -103,8 +103,8 @@
                             class="app-menu__label">Thực đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-check-square'></i><span
                             class="app-menu__label">Điểm danh</span></a></li>
-                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/teacher/listpupil"><i class='app-menu__icon bx bx-user'></i><span
-                        class="app-menu__label">Quản lý học sinh</span></a></li>
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/teacher/listpupil?schoolYear=${requestScope.schoolYearLastest}"><i class='app-menu__icon bx bx-user'></i><span
+                            class="app-menu__label">Quản lý học sinh</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-bell'></i><span
                             class="app-menu__label">Thông báo</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-badge-check'></i><span
@@ -113,6 +113,8 @@
                             class="app-menu__label">Báo cáo sức khỏe</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-star'></i><span
                             class="app-menu__label">Đánh giá học sinh <br> hằng ngày</span></a></li>
+                            <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
             </ul>
 
 

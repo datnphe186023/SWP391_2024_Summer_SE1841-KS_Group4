@@ -110,6 +110,9 @@
                             class="app-menu__label">Thực đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-bell'></i><span
                             class="app-menu__label">Thông báo</span></a></li>
+                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
+
             </ul>
             <!-- Accountant dashboard end-->
         </aside>
