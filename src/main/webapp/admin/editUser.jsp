@@ -160,7 +160,7 @@
                                         </div></td>
                                     <td><div class="form-group col-md-6">
 
-                                            <h5>Email :</h5> <input style="width: 200%" type="text" name="email" value="${user.getEmail()}"/><br />
+                                            <h5>Email :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}"/><br />
                                         </div></td>
                                 </tr>
                                 <tr>
