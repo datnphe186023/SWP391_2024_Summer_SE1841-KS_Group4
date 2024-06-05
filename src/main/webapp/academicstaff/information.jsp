@@ -148,7 +148,7 @@
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Họ:</h5> <input type="text" name="last_name" value="${personnel.lastName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" title="Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)"/><br />
+                                                    <h5>Họ:</h5> <input type="text" name="last_name" value="${personnel.lastName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
                                                     <label for="gender">Giới tính</label>
