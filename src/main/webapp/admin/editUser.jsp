@@ -108,10 +108,11 @@
             <!-- Admin homepage start-->
             <ul class="app-menu">
                 <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
-                        class="app-menu__label">Tạo tài khoản</span></a></li>
+                            class="app-menu__label">Tạo tài khoản</span></a></li>
                 <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
-                        class="app-menu__label">Quản lý tài khoản</span></a></li>
-
+                            class="app-menu__label">Quản lý tài khoản</span></a></li>
+                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
             </ul>
             <!-- Admin homepage end-->
 

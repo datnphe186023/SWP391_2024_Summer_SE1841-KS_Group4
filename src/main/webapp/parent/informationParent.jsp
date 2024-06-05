@@ -110,6 +110,8 @@
                             class="app-menu__label">Gửi đơn</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-file'></i><span
                             class="app-menu__label">Báo cáo</span></a></li>
+                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
             </ul>
         </aside>
 
@@ -134,7 +136,7 @@
                 <div class="col-md-9">
                     <div class="tile">
                         <div class="tile-body">
-
+                            <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
                             <form action="update" method="post">
                                 <input type="hidden" name="id" value="${personnel.userId}"/>
                                 <table>
@@ -149,18 +151,18 @@
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}"/><br />
+                                                    <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/><br />
+                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}" value="${param.fatherPhone}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}"/><br />
+                                                    <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/><br />
+                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" value="${param.fatherPhone}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
@@ -176,7 +178,7 @@
                                                     <h5>Email :</h5> <input type="email" name="email" value="${pupil.email}" style="width: 170%"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%"/><br />
+                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự"/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
@@ -197,7 +199,7 @@
                             <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        
+
                                         <div class="modal-body">
                                             <form action="${pageContext.request.contextPath}/new-password" method="post">
                                                 <div class="form-group">
@@ -235,7 +237,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        
+
     </body>
 
 </html>

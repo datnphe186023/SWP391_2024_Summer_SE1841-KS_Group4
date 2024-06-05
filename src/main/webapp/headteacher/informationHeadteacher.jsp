@@ -111,6 +111,8 @@
                             class="app-menu__label">Sự kiện</span></a></li>
                 <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-medal'></i><span
                             class="app-menu__label">Tổng kết <br> khen thưởng học sinh</span></a></li>
+                            <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
+                            class="app-menu__label">Thông tin cá nhân</span></a></li>
             </ul>
             <!-- head teacher dashboard end-->
         </aside>
@@ -136,7 +138,7 @@
                 <div class="col-md-9">
                     <div class="tile">
                         <div class="tile-body">
-
+                            <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
                             <form action="${pageContext.request.contextPath}/update-information" method="post">
                                 <input type="hidden" name="id" value="${personnel.userId}"/>
                                 <table>
@@ -146,12 +148,12 @@
                                                     <h5>ID người dùng:</h5><input placeholder="User Id" type="text" name="userId" value="${personnel.userId}" disabled/>
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Tên:</h5> <input placeholder="First Name" type="text" name="first_name" value="${personnel.firstName}" /><br />
+                                                    <h5>Tên:</h5> <input placeholder="First Name" type="text" name="first_name" value="${personnel.firstName}" pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)"/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Họ:</h5> <input type="text" name="last_name" value="${personnel.lastName}" /><br />
+                                                    <h5>Họ:</h5> <input type="text" name="last_name" value="${personnel.lastName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" title="Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)"/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
                                                     <label for="gender">Giới tính</label>
@@ -167,7 +169,7 @@
                                                     <h5>Ngày sinh:</h5> <input type="date" name="birthday" value="${personnel.birthday}" disabled/><br />
                                                 </div></td>
                                             <td><div class="form-group col-md-6">
-                                                    <h5>Địa chỉ:</h5> <input type="text" name="address" value="${personnel.address}" style="width: 200%"/><br />
+                                                    <h5>Địa chỉ:</h5> <input type="text" name="address" value="${personnel.address}" style="width: 200%" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự"/><br />
                                                 </div></td>
                                         </tr>
                                         <tr>

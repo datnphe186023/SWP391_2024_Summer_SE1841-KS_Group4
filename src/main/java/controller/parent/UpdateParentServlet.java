@@ -67,8 +67,10 @@ public class UpdateParentServlet extends HttpServlet {
 
         // Kiểm tra tính duy nhất của email và số điện thoại
         boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
-        boolean phoneNumberMotherExists = dao.checkPhoneNumberExists(motherPhone) || pupilDAO.checkParentPhoneNumberExists(motherPhone);
-        boolean phoneNumberFatherExists = dao.checkPhoneNumberExists(fatherPhone) || pupilDAO.checkParentPhoneNumberExists(fatherPhone);
+        boolean phoneNumberMotherExists = (dao.checkPhoneNumberExists(motherPhone) || pupilDAO.checkMotherPhoneNumberExists(motherPhone) || pupilDAO.checkFatherPhoneNumberExists(motherPhone)) 
+                && (!motherPhone.equals(pupil.getMotherPhoneNumber()));
+        boolean phoneNumberFatherExists = (dao.checkPhoneNumberExists(fatherPhone) || pupilDAO.checkMotherPhoneNumberExists(fatherPhone) || pupilDAO.checkFatherPhoneNumberExists(motherPhone))
+                && (!fatherPhone.equals(pupil.getFatherPhoneNumber()));
         if (emailExists && phoneNumberMotherExists && phoneNumberFatherExists) {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Email và số điện thoại của cả mẹ và bố đã tồn tại.");
