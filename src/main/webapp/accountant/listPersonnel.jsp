@@ -38,7 +38,7 @@
                 <%--  Begin : Select item      --%>
                 <c:set var="sltedrole" value="${requestScope.selectedrole}"/>
                 <c:set var="sltedstatus" value="${requestScope.selectedstatus}"/>
-
+                <c:set var="vietnamesePattern" value="ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
                 <div class="col-lg-4" style="display: flex; justify-content: space-between">
 <form action="listpersonnel" method="post" > 
                     <div class="class-form">
@@ -206,11 +206,11 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Tên </label>
-                                        <input class="form-control" type="text" name="firstname" required>
+                                        <input class="form-control" type="text" name="firstname"  pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Họ</label>
-                                        <input class="form-control" type="text" name="lastname" required>
+                                        <input class="form-control" type="text" name="lastname"  pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Giới tính </label>
@@ -226,7 +226,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Địa chỉ</label>
-                                        <input class="form-control" type="text" name="address" required>
+                                        <input class="form-control" type="text" name="address" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Email</label>
@@ -234,7 +234,10 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label">Số điện thoại</label>
-                                        <input class="form-control" type="text" name="phone" required>
+                                        <input class="form-control" type="text" pattern="^(0[23578]|09)\d{8}$" name="phone" required>
+
+
+                                     
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label class="control-label">Ảnh :</label>
