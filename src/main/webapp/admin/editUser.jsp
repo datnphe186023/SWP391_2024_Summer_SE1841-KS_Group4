@@ -158,10 +158,11 @@
                                                 <option value="5">Parent</option>
                                             </select><br />
                                         </div></td>
-                                    <td><div class="form-group col-md-6">
-
-                                            <h5>Email :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}"/><br />
-                                        </div></td>
+                                    <td>
+                                        <div class="form-group col-md-6">
+                                            <h5>Email :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}" /><br />
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><div class="form-group col-md-6">
@@ -188,12 +189,6 @@
         </div>
     </div>
 </main>
-
-
-
-
-
-
 <script src="../js/jquery-3.2.1.min.js"></script>
 <script src="../js/popper.min.js"></script>
 <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
