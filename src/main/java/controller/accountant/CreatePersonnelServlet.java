@@ -17,8 +17,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import models.personnel.PersonnelDAO;
 
 /**
@@ -79,8 +78,6 @@ public class CreatePersonnelServlet extends HttpServlet {
        String action = request.getParameter("action");
        String message="";
        String type= "fail";
-       String regex = "^(0[23578]|09)\\d{8}$";
-       Pattern pattern = Pattern.compile(regex);
        
        PersonnelDAO pdao = new PersonnelDAO();
        if(action.equalsIgnoreCase("create")){
@@ -96,10 +93,7 @@ public class CreatePersonnelServlet extends HttpServlet {
        int role = Integer.parseInt(xrole);
        int gender = Integer.parseInt(xgender);
        String id =generateId(role);
-       Matcher matcher = pattern.matcher(xphone);
-       if(matcher.matches()==false){
-        message="Thêm nhân viên thất bại!Số điện thoại không hợp lệ";     
-       }else if(!checkAge(xbirthday)){
+        if(!checkAge(xbirthday)){
            message="Thêm nhân viên thất bại!Nhân viên chưa đủ 18 tuổi";  
        }
        else if(pdao.checkPersonnelPhone(xphone)==false&&pdao.checkPersonnelEmail(xemail)==false){
@@ -111,7 +105,7 @@ public class CreatePersonnelServlet extends HttpServlet {
        }else if(pdao.checkPersonnelPhone(xphone)==true){
         message="Thêm nhân viên thất bại!Trùng dữ liệu số điện thoại ";   
        }else if(pdao.checkPersonnelEmail(xemail)==true){
-        message="Thêm nhân viên thất bại!Trùng dữ liệu  email ";  
+        message="Thêm nhân viên thất bại!Trùng dữ liệu email ";  
        }
            HttpSession session = request.getSession(true);
            session.removeAttribute("message");
