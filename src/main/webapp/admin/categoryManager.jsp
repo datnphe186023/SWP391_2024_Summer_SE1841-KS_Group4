@@ -126,7 +126,7 @@
             <h1 style="text-align: center; margin-top:  50px">Danh sách tài khoản</h1>
             <div class="search-container">
                 <select name="role" id="roleSelect" onchange="redirectToServlet()">
-                    <option value="">All (Role)</option>
+                    <option value="6">All (Role)</option>
                     <option value="0">Admin</option>
                     <option value="1">Headteacher</option>
                     <option value="2">Academic Staff</option>
