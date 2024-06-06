@@ -20,14 +20,7 @@ public class ListPupilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PupilDAO pupildao = new PupilDAO();
 
-        List<Pupil> listPupil = new ArrayList<>();
-        /////  Create list of all pupil as a default list
-        listPupil = pupildao.getAllPupils();
-        /////  Get request from search function
-        String searchInformation = request.getParameter("information");
-        if(searchInformation !=null){
-            listPupil = pupildao.getListOfSearchPupilByNameOrId(Helper.formatString(searchInformation));
-        }
+        List<Pupil> listPupil = pupildao.getAllPupils();
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("listPupil.jsp").forward(request,response);
     }
