@@ -36,6 +36,7 @@ public class ClassServlet extends HttpServlet {
             request.setAttribute("toastType", toastType);
             request.setAttribute("toastMessage", toastMessage);
             String schoolYearId = (String) session.getAttribute("schoolYearId");
+            session.removeAttribute("schoolYearId");
             if (schoolYearId == null ) {
                 schoolYearId = request.getParameter("schoolYearId");
             }
@@ -62,8 +63,10 @@ public class ClassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action != null){
+            //create new class
             if (action.equals("create")) {
                 String name = request.getParameter("name");
+                name = Helper.formatString(name);
                 String gradeId = request.getParameter("grade");
                 String schoolYearId = request.getParameter("schoolYear");
                 String teacherId = request.getParameter("teacher");
@@ -74,13 +77,16 @@ public class ClassServlet extends HttpServlet {
                 SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
                 c.setSchoolYear(schoolYearDAO.getSchoolYear(schoolYearId));
                 PersonnelDAO personnelDAO = new PersonnelDAO();
-                Personnel teacher = personnelDAO.getPersonnel(teacherId);
-                c.setTeacher(teacher);
+                if (!teacherId.isEmpty()) {
+                    Personnel teacher = personnelDAO.getPersonnel(teacherId);
+                    c.setTeacher(teacher);
+                }
                 HttpSession session = request.getSession();
                 User user = (User) session.getAttribute("user");
                 c.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
                 ClassDAO classDAO = new ClassDAO();
                 String result = classDAO.createNewClass(c);
+                //return result of creation to user
                 if (result.equals("success")) {
                     session.setAttribute("toastType", "success");
                     session.setAttribute("toastMessage", "Tạo mới thành công");
@@ -90,20 +96,6 @@ public class ClassServlet extends HttpServlet {
                 }
                 session.setAttribute("schoolYearId", schoolYearId);
                 response.sendRedirect("class");
-            } else if (action.equals("search")) {
-                String name = request.getParameter("name");
-                String schoolYearId = request.getParameter("schoolYearId");
-                ClassDAO classDAO = new ClassDAO();
-                List<Class> classes = classDAO.getByName(Helper.formatString(name), schoolYearId);
-                SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-                request.setAttribute("schoolYears", schoolYearDAO.getAll());
-                request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
-                if (classes.size() > 0) {
-                    request.setAttribute("classes", classes);
-                } else {
-                    request.setAttribute("error", "Không có kết quả tương ứng");
-                }
-                request.getRequestDispatcher("class.jsp").forward(request, response);
             }
         }
     }

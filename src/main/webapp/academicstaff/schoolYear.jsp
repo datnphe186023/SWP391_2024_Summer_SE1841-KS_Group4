@@ -92,8 +92,26 @@
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label class="control-label">Mô Tả</label>
-                                            <textarea class="form-control" type="text" name="description" rows="5" required></textarea>
+                                            <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự" name="description" rows="5" required maxlength="255"></textarea>
+                                            <p style="display: none" id="charCount">255 characters remaining</p>
+                                            <p style="display: none" class="alert-warning" id="warning">Không được vượt quá 255 kí tự.</p>
                                         </div>
+                                        <script>
+                                            const textarea = document.querySelector('textarea[name="description"]');
+                                            const charCount = document.getElementById('charCount');
+                                            const warning = document.getElementById('warning');
+
+                                            textarea.addEventListener('input', () => {
+                                                const remaining = 255 - textarea.value.length;
+                                                charCount.textContent = `${remaining} characters remaining`;
+
+                                                if (remaining <= 0) {
+                                                    warning.style.display = 'block';
+                                                } else {
+                                                    warning.style.display = 'none';
+                                                }
+                                            });
+                                        </script>
                                     </div>
                                     <br>
                                     <button class="btn btn-success" type="submit">Lưu lại</button>

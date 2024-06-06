@@ -105,14 +105,28 @@
                             </span>
                                         </div>
                                     </div>
+                                    <c:set var="vietnamesePattern" value="ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Tên Lớp</label>
-                                            <input class="form-control" type="text" name="name" required>
+                                            <input class="form-control" type="text" placeholder="Tối đa 50 kí tự" name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa kí tự đặc biệt (Tối đa 50 kí tự)" required>
+                                            <p style="display: none" id="nameWarning" class="alert-warning">Tên không được chứa kí tự đặc biệt và tối đa 50 kí tự.</p>
                                         </div>
+                                        <script>
+                                            const nameInput = document.querySelector('input[name="name"]');
+                                            const nameWarning = document.getElementById('nameWarning');
+
+                                            nameInput.addEventListener('input', () => {
+                                                if (nameInput.validity.patternMismatch) {
+                                                    nameWarning.style.display = 'block';
+                                                } else {
+                                                    nameWarning.style.display = 'none';
+                                                }
+                                            });
+                                        </script>
                                         <div class="form-group col-md-6">
                                             <label for="teacherSelect">Giáo viên</label>
-                                            <select class="form-control" id="teacherSelect" name="teacher" required>
+                                            <select class="form-control" id="teacherSelect" name="teacher">
                                                 <option value="">-- Chọn Giáo Viên --</option>
                                                 <c:forEach var="teacher" items="${requestScope.teachers}">
                                                     <option value="${teacher.id}">${teacher.lastName} ${teacher.firstName}</option>

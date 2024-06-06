@@ -4,6 +4,7 @@ import models.day.DayDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import utils.DBContext;
+import utils.Helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,8 +36,8 @@ public class WeekDAO extends DBContext {
         try{
             Date startDate = schoolYear.getStartDate();
             Date endDate = schoolYear.getEndDate();
-            LocalDate schoolYearStartDate = convertToLocalDate(startDate);
-            LocalDate schoolYearEndDate = convertToLocalDate(endDate);;
+            LocalDate schoolYearStartDate = Helper.convertDateToLocalDate(startDate);
+            LocalDate schoolYearEndDate = Helper.convertDateToLocalDate(endDate);;
             LocalDate currentStartDate = schoolYearStartDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
             while (!currentStartDate.isAfter(schoolYearEndDate)) {
@@ -47,8 +48,8 @@ public class WeekDAO extends DBContext {
                 Week week = new Week();
                 String newWeekId = generateId(Objects.requireNonNull(getLatest()).getId());
                 week.setId(newWeekId);
-                week.setStartDate(convertLocalDateToDate(currentStartDate));
-                week.setEndDate(convertLocalDateToDate(currentEndDate));
+                week.setStartDate(Helper.convertLocalDateToDate(currentStartDate));
+                week.setEndDate(Helper.convertLocalDateToDate(currentEndDate));
                 week.setSchoolYear(schoolYear);
                 addWeekToDatabase(week);
                 DayDAO dayDAO = new DayDAO();
@@ -77,10 +78,6 @@ public class WeekDAO extends DBContext {
         }
     }
 
-    private Date convertLocalDateToDate(LocalDate localDate) {
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
     private Week getLatest() {
         String sql = "SELECT TOP 1 * FROM Weeks ORDER BY ID DESC";
         try{
@@ -105,15 +102,6 @@ public class WeekDAO extends DBContext {
         DecimalFormat decimalFormat = new DecimalFormat("000000");
         String result = decimalFormat.format(number);
         return "W" + result;
-    }
-
-    private LocalDate convertToLocalDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1; // Calendar.MONTH is zero-based
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        return LocalDate.of(year, month, dayOfMonth);
     }
 
     public Week getWeek(String id){
