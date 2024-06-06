@@ -8,6 +8,7 @@ import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
+import utils.Helper;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -45,10 +46,10 @@ public class SchoolYearServlet extends HttpServlet {
             if (action == null){
                 response.sendRedirect("schoolyear");
             } else if (action.equals("create")) {
-                String name = request.getParameter("name");
                 String startDateRaw = request.getParameter("startDate");
                 String endDateRaw = request.getParameter("endDate");
                 String description = request.getParameter("description");
+                description = Helper.formatString(description);
                 //username of an account is also that person's id in the organization
                 HttpSession session = request.getSession();
                 User user = (User) session.getAttribute("user");
