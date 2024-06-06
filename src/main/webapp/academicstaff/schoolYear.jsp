@@ -31,9 +31,10 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Năm Học</h1>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Năm Học</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
