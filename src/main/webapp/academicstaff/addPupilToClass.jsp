@@ -29,7 +29,7 @@
                     <div class="search-field">
                         <div class="form-group has-search">
                             <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
-                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Search" name="information">
+                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="" name="information">
                         </div>
                     </div>
                 </form>
