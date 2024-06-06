@@ -43,7 +43,6 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Năm học</th>
-                                    <th>ID</th>
                                     <th>Ngày bắt đầu</th>
                                     <th>Ngày kết thúc</th>
                                     <th>Người tạo</th>
@@ -54,7 +53,6 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${schoolYear.name}</td>
-                                        <td>${schoolYear.id}</td>
                                         <td>${schoolYear.startDate}</td>
                                         <td>${schoolYear.endDate}</td>
                                         <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
@@ -92,14 +90,14 @@
                                             <label class="control-label">Ngày kết thúc</label>
                                             <input class="form-control" type="date" name="endDate" required>
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-12">
                                             <label class="control-label">Mô Tả</label>
-                                            <input class="form-control" type="text" name="description" required>
+                                            <textarea class="form-control" type="text" name="description" rows="5" required></textarea>
                                         </div>
                                     </div>
                                     <br>
-                                    <button class="btn btn-save" type="submit">Lưu lại</button>
-                                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                    <button class="btn btn-success" type="submit">Lưu lại</button>
+                                    <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
                                     <br>
                                 </div>
                             </div>

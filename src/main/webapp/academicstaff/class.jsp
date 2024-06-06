@@ -63,7 +63,6 @@
                                     <thead>
                                     <tr>
                                         <th>STT</th>
-                                        <th>ID</th>
                                         <th>Tên Lớp</th>
                                         <th>Khối</th>
                                         <th>Trạng thái</th>
@@ -75,7 +74,6 @@
                                     <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
                                         <tr>
                                             <th scope="row">${status.index + 1}</th>
-                                            <td>${classes.id}</td>
                                             <td>${classes.name}</td>
                                             <td>${classes.grade.name}</td>
                                             <td>${classes.status}</td>
