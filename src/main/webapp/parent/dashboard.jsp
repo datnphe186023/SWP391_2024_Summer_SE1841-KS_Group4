@@ -30,7 +30,7 @@
     <jsp:include page="navbar.jsp"/>
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
-            <jsp:include page="../header.jsp"/>
+            <jsp:include page="header.jsp"/>
             <div class="container-fluid">
 
             </div>

@@ -4,215 +4,144 @@
 <html lang="en">
 
     <head>
-        <title>Title</title>
+        <title>Profile</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Test CSS-->
+        <!-- Custom CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/information-style.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-        <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css"
-              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
-                var toastType = '<%= request.getAttribute("toastType") %>';
-                if (toastMessage) {
-                    if (toastType === 'success') {
-                        toastr.success(toastMessage);
-                    } else if (toastType === 'error') {
-                        toastr.error(toastMessage);
-                    }
-                }
-            });
-        </script>
+
         <style>
-            .app-sidebar__user-avatar {
+            .profile-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .profile-card img {
                 width: 150px;
                 height: 150px;
                 border-radius: 50%;
-                cursor: pointer;
                 object-fit: cover;
+                margin-bottom: 15px;
             }
-
-            .avatar-input {
-                display: none;
+            .profile-info {
+                text-align: left;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                width: 100%;
             }
-
-            .change-password-btn {
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 10px 20px;
+            .profile-info div {
+                flex: 1 1 45%; /* Adjust the width to be around 45% to fit two columns */
+                margin-bottom: 10px;
+            }
+            .profile-info h3 {
                 text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin-top: 10px;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
+                margin-bottom: 10px;
+                color: #333;
+                width: 100%;
             }
-
-            .change-password-btn:hover {
-                background-color: #0056b3;
+            .profile-info p {
+                margin: 5px 0;
+                color: #666;
+            }
+            .profile-actions {
+                margin-top: 20px;
+            }
+            .profile-actions a {
+                text-decoration: none;
+                padding: 10px 20px;
+                background: #007bff;
+                color: white;
+                border-radius: 5px;
+                transition: background 0.3s ease;
+            }
+            .profile-actions a:hover {
+                background: #0056b3;
             }
         </style>
     </head>
 
-    <body onload="time()" class="app sidebar-mini rtl">
-        <!-- Navbar-->
-        <header class="app-header">
-            <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-                                            aria-label="Hide Sidebar"></a>
-            <!-- Navbar Right Menu-->
-            <ul class="app-nav">
-                <!-- User Menu-->
-                <li><a class="app-nav__item" href="${pageContext.request.contextPath}/logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-                </li>
-            </ul>
-        </header>
-        <!-- Sidebar menu-->
-        <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
-            <div class="app-sidebar__user">
-                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${sessionScope.pupil.avatar}" alt="User Image" onclick="redirectToInfoPage()">
-                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
-                <div>
-                    <p class="app-sidebar__user-name"><b>${pupil.lastName} ${pupil.firstName}</b></p>
-                    <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
-                </div>
-            </div>
-            <hr>
+    <body id="page-top">
+        <div id="wrapper">
+            <jsp:include page="navbar.jsp"/>
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    <jsp:include page="header.jsp"/>
+                    <div class="container-fluid">
+                        <!-- Head Teacher Information Section -->
+                        <main>
+                            <div class="app-title">
+                                <div>
+                                    <h1><i class="fa fa-edit"></i> Thông tin tài khoản</h1>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="profile-card">
+                                        <img src="${pageContext.request.contextPath}/images/${sessionScope.pupil.avatar}" alt="User Avatar">
+                                        <div class="profile-info">
+                                            <h3>${pupil.lastName} ${pupil.firstName}</h3>
+                                           
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <p><strong>ID người dùng:</strong> ${pupil.userId}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>ID học sinh:</strong> ${pupil.id}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Họ tên mẹ:</strong> ${pupil.motherName}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Số điện thoại mẹ:</strong> ${pupil.motherPhoneNumber}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Họ tên bố:</strong> ${pupil.fatherName}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Số điện thoại bố:</strong> ${pupil.fatherPhoneNumber}</p>
+                                                </div>
+                                            </div>
+                                                <div class="col-md-6">
+                                                <div>
+                                                    <p><strong>Họ tên bé:</strong> ${pupil.lastName} ${pupil.firstName}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Ngày sinh của bé:</strong> ${pupil.birthday}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Email:</strong> ${pupil.email}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Địa chỉ:</strong> ${pupil.address}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Tình trạng:</strong> ${pupil.status}</p>
+                                                </div>
+                                                <div>
+                                                    <p><strong>Ghi chú:</strong> ${pupil.parentSpecialNote}</p>
+                                                </div>
+                                            </div>
 
-            <!-- parent dashboard start-->
-            <ul class="app-menu">
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-bell'></i><span
-                            class="app-menu__label">Thông báo</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-check-square'></i><span
-                            class="app-menu__label">Điểm danh</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-time'></i><span
-                            class="app-menu__label">Thời khóa biểu</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-food-menu'></i><span
-                            class="app-menu__label">Thực đơn</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-envelope'></i><span
-                            class="app-menu__label">Gửi đơn</span></a></li>
-                <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-file'></i><span
-                            class="app-menu__label">Báo cáo</span></a></li>
-                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
-                            class="app-menu__label">Thông tin cá nhân</span></a></li>
-            </ul>
-        </aside>
-
-        <!-- Head Teacher Information Section -->
-        <main class="app-content">
-            <div class="app-title">
-                <div>
-                    <h1><i class="fa fa-edit"></i> Thông tin phụ huynh</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="app-sidebar__user">
-                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${sessionScope.pupil.avatar}" >
-                        <input class="avatar-input" id="avatarInput" type="file" name="avatar">
-                        <div>
-                            <p class="app-sidebar__user-name"><b style="color: #000">${pupil.lastName} ${pupil.firstName}</b></p>
-       
-                        </div>
+                                        </div>
+                                        <div class="profile-actions">
+                                            <a href="information">Cập nhật thông tin</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="tile">
-                        <div class="tile-body">
-                            
-                            
-                                <input type="hidden" name="id" value="${personnel.userId}"/>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>ID người dùng:</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" disabled/>
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>ID học sinh: </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" disabled/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}" disabled/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}" value="${param.fatherPhone}" disabled/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}" disabled/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" value="${param.fatherPhone}" disabled/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">    
-                                                    <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" disabled/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" disabled/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Email :</h5> <input type="email" name="email" value="${pupil.email}" style="width: 170%" disabled/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%" disabled/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Tình trạng :</h5> <input type="text" name="status" value="${pupil.status}" style="width: 150%" disabled/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Ghi chú : </h5> <input type="text" name="note" value="${pupil.parentSpecialNote}" style="width: 200%" disabled/><br />
-                                                </div></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                </br>
-                                <a href="information"><input type="submit" value="Cập nhật thông tin" style="width: 20%"/></a>
-                            
-
-                            
-
-                        </div>
-                    </div>
-                </div>
+                <jsp:include page="../footer.jsp"/>
             </div>
-        </main>
-
-        <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/main.js"></script>
-        <script src="${pageContext.request.contextPath}/js/plugins/pace.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-
+        </div>
     </body>
 
 </html>
