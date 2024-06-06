@@ -26,6 +26,8 @@
             document.getElementById("myForm").submit();
         }
     </script>
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -35,25 +37,8 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
-                <div class="container my-4">
                     <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Lớp Học</h1>
                     <div class="row">
-                        <div class="col-lg-6 mb-4">
-                            <form action="class" method="post"
-                                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-white border-0 small" placeholder="Tìm kiếm theo tên" name="name"
-                                           aria-label="Search" aria-describedby="basic-addon2">
-                                    <input name="schoolYearId" value="${requestScope.selectedSchoolYear.id}" hidden>
-                                    <input name="action" value="search" hidden>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                         <div class="col-lg-6 mb-4">
                             <form action="class"  id="myForm">
                                 <div>
@@ -68,30 +53,39 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <table class="table table-bordered">
-                            <tr class="table">
-                                <th scope="col">STT</th>
-                                <th scope="col">ID</th>
-                                <th scope="col">Tên Lớp</th>
-                                <th scope="col">Khối</th>
-                                <th scope="col">Trạng thái</th>
-                                <th scope="col">Thông Tin Lớp</th>
-                            </tr>
-                            <tbody>
-                            <div style="color: red">${requestScope.error}</div>
-                            <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
-                                <tr>
-                                    <th scope="row">${status.index + 1}</th>
-                                    <td>${classes.id}</td>
-                                    <td>${classes.name}</td>
-                                    <td>${classes.grade.name}</td>
-                                    <td>${classes.status}</td>
-                                    <td><a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông tin chi tiết</a></td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>ID</th>
+                                        <th>Tên Lớp</th>
+                                        <th>Khối</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thông Tin Lớp</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <div style="color: red">${requestScope.error}</div>
+                                    <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
+                                        <tr>
+                                            <th scope="row">${status.index + 1}</th>
+                                            <td>${classes.id}</td>
+                                            <td>${classes.name}</td>
+                                            <td>${classes.grade.name}</td>
+                                            <td>${classes.status}</td>
+                                            <td><a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông tin chi tiết</a></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-end">
@@ -99,7 +93,6 @@
                             TẠO LỚP MỚI
                         </button>
                     </div>
-                </div>
 
                 <!-- New School Year Modal -->
                 <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -157,5 +150,11 @@
         <jsp:include page="../footer.jsp"/>
     </div>
 </div>
+<!-- Page level plugins -->
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../js/demo/datatables-demo.js"></script>
 </body>
 </html>
