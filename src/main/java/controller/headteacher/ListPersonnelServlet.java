@@ -17,6 +17,7 @@ import java.util.List;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 import models.role.Role;
+import utils.Helper;
 
 /**
  *
@@ -131,7 +132,7 @@ public class ListPersonnelServlet extends HttpServlet {
             persons = pdao.getPersonnelByIdNameRoleStatus(status, role);
              }
         }else if(search != null){
-            persons = pdao.getPersonnelByNameOrId(formatString(search));
+            persons = pdao.getPersonnelByNameOrId(Helper.formatString(search));
         } 
         List<String> statuss = new ArrayList<>();
         statuss = pdao.getAllStatus();
@@ -150,15 +151,6 @@ public class ListPersonnelServlet extends HttpServlet {
         session.removeAttribute("message");
         session.removeAttribute("type");
         
-    }
-
-    private String formatString(String search){
-        StringBuilder result = new StringBuilder();
-        String[] searchArray = search.split("\\s+");
-        for(int i=0;i<searchArray.length;i++){
-            result.append(searchArray[i]).append(" ");
-        }
-        return result.toString().trim();
     }
     @Override
     public String getServletInfo() {

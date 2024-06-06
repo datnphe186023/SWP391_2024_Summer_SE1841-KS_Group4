@@ -1,9 +1,9 @@
 package models.day;
 
-import models.schoolYear.SchoolYear;
 import models.week.Week;
 import models.week.WeekDAO;
 import utils.DBContext;
+import utils.Helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +11,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -51,13 +50,13 @@ public class DayDAO extends DBContext {
 
     public void generateDays(Week week){
         try{
-            LocalDate currentDate = convertToLocalDate(week.getStartDate());
-            LocalDate endDate = convertToLocalDate(week.getEndDate());
+            LocalDate currentDate = Helper.convertDateToLocalDate(week.getStartDate());
+            LocalDate endDate = Helper.convertDateToLocalDate(week.getEndDate());
             while(!currentDate.isAfter(endDate)) {
                 Day day = new Day();
                 day.setId(generateId(Objects.requireNonNull(getLatest()).getId()));
                 day.setWeek(week);
-                day.setDate(convertLocalDateToDate(currentDate));
+                day.setDate(Helper.convertLocalDateToDate(currentDate));
                 addDayToDatabase(day);
                 currentDate = currentDate.plusDays(1);
             }
@@ -79,18 +78,5 @@ public class DayDAO extends DBContext {
         }catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private Date convertLocalDateToDate(LocalDate localDate) {
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
-    private LocalDate convertToLocalDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1; // Calendar.MONTH is zero-based
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        return LocalDate.of(year, month, dayOfMonth);
     }
 }
