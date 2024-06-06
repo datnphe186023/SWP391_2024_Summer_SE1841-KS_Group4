@@ -48,7 +48,6 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Tên lớp</th>
-                                    <th>ID Lớp</th>
                                     <th>Khối</th>
                                     <th>Giáo viên</th>
                                     <th>Tạo Bởi</th>
@@ -60,7 +59,6 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${classes.name}</td>
-                                        <td>${classes.id}</td>
                                         <td>${classes.grade.name}</td>
                                         <td>${classes.teacher.lastName} ${classes.teacher.firstName}</td>
                                         <td>${classes.createdBy.lastName} ${classes.createdBy.firstName}</td>

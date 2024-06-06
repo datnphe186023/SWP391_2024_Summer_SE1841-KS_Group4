@@ -11,6 +11,7 @@ import models.classes.ClassDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.schoolYear.SchoolYearDAO;
+import utils.Helper;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ListPupilOfClass extends HttpServlet {
         List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
         String search = request.getParameter("information");
         if(search!=null){
-            listPupil = pupilDAO.searchPupilInClass(formatString(search),classId);
+            listPupil = pupilDAO.searchPupilInClass(Helper.formatString(search),classId);
         }
 
         Class classes = classDAO.getClassById(classId);
@@ -37,14 +38,6 @@ public class ListPupilOfClass extends HttpServlet {
         request.setAttribute("listPupil",listPupil);
         request.setAttribute("numberOfPupilsPending",pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear).size());
         request.getRequestDispatcher("listPupilOfClass.jsp").forward(request,response);
-    }
-    private String formatString(String search){
-        StringBuilder result = new StringBuilder();
-        String[] searchArray = search.split("\\s+");
-        for(int i=0;i<searchArray.length;i++){
-            result.append(searchArray[i]).append(" ");
-        }
-        return result.toString().trim();
     }
 
     @Override

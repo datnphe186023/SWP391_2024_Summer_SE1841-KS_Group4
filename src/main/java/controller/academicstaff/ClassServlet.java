@@ -12,6 +12,7 @@ import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
+import utils.Helper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class ClassServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 String schoolYearId = request.getParameter("schoolYearId");
                 ClassDAO classDAO = new ClassDAO();
-                List<Class> classes = classDAO.getByName(formatString(name), schoolYearId);
+                List<Class> classes = classDAO.getByName(Helper.formatString(name), schoolYearId);
                 SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
                 request.setAttribute("schoolYears", schoolYearDAO.getAll());
                 request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
@@ -106,12 +107,4 @@ public class ClassServlet extends HttpServlet {
             }
         }
     }
-        private String formatString(String search){
-            StringBuilder result = new StringBuilder();
-            String[] searchArray = search.split("\\s+");
-            for(int i=0;i<searchArray.length;i++){
-                result.append(searchArray[i]).append(" ");
-            }
-            return result.toString().trim();
-        }
 }

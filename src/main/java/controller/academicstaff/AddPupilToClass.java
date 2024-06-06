@@ -11,6 +11,7 @@ import models.classes.ClassDAO;
 import models.grade.GradeDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import utils.Helper;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,19 +29,11 @@ public class AddPupilToClass extends HttpServlet {
         List<Pupil> listPupil = pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear);
         String search = request.getParameter("information");
         if(search!=null){
-            listPupil = pupilDAO.searchPupilWithoutClassByGrade(classes.getGrade().getId(),schoolYear,formatString(search));
+            listPupil = pupilDAO.searchPupilWithoutClassByGrade(classes.getGrade().getId(),schoolYear, Helper.formatString(search));
         }
         request.setAttribute("classId",classId);
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("addPupilToClass.jsp").forward(request,response);
-    }
-    private String formatString(String search){
-        StringBuilder result = new StringBuilder();
-        String[] searchArray = search.split("\\s+");
-        for(int i=0;i<searchArray.length;i++){
-            result.append(searchArray[i]).append(" ");
-        }
-        return result.toString().trim();
     }
 
     @Override

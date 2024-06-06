@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import utils.Helper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,19 +26,10 @@ public class ListPupilServlet extends HttpServlet {
         /////  Get request from search function
         String searchInformation = request.getParameter("information");
         if(searchInformation !=null){
-            listPupil = pupildao.getListOfSearchPupilByNameOrId(formatString(searchInformation));
+            listPupil = pupildao.getListOfSearchPupilByNameOrId(Helper.formatString(searchInformation));
         }
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("listPupil.jsp").forward(request,response);
-    }
-
-    private String formatString(String search){
-        StringBuilder result = new StringBuilder();
-        String[] searchArray = search.split("\\s+");
-        for(int i=0;i<searchArray.length;i++){
-            result.append(searchArray[i]).append(" ");
-        }
-        return result.toString().trim();
     }
 
     @Override
