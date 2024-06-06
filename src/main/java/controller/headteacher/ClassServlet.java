@@ -26,6 +26,9 @@ public class ClassServlet extends HttpServlet {
                 schoolYearId = latestSchoolYear.getId();
             }
             List<Class> classes = classDAO.getByStatus("đã được duyệt", schoolYearId);
+            for (Class c : classes) {
+                System.out.println(c.getTeacher().getId());
+            }
             request.setAttribute("selectedSchoolYearId", schoolYearId);
             request.setAttribute("classes", classes);
             request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ duyệt", schoolYearId).size());
