@@ -68,6 +68,7 @@
                         <th>Mã học sinh</th>
                         <th>Họ và tên</th>
                         <th>Ngày sinh</th>
+                        <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
                     </thead>
@@ -78,6 +79,17 @@
                             <td>${pupil.id}</td>
                             <td>${pupil.lastName} ${pupil.firstName}</td>
                             <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                            <c:set value="${pupil.status}" var="status"/>
+                            <c:if test="${status eq 'đang theo học'}">
+                                <td><span class="badge badge-success">${status}</span></td>
+                            </c:if>
+                            <c:if test="${status eq 'đã thôi học'}">
+                                <td><span class="badge badge-danger">${status}</span> </td>
+                            </c:if>
+                            <c:if test="${status eq 'đang chờ xử lý'}">
+                                <td><span class="badge badge-warning">${status}</span>  </td>
+                            </c:if>
+
                             <td class="text-center"><a href="pupilprofile?id=${pupil.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Thông tin chi tiết</a></td>
                         </tr>
                     </c:forEach>
