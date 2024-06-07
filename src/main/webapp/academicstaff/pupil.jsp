@@ -42,10 +42,10 @@
     </script>
     <style>
         #imagePreview img {
-            width: 150px; /* Chiều rộng của hình ảnh */
-            height: 150px; /* Chiều cao của hình ảnh */
-            border-radius: 50%; /* Tạo hình tròn */
-            object-fit: cover; /* Đảm bảo hình ảnh lấp đầy khung hình tròn */
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
         }
     </style>
     <!-- Custom styles for this page -->
@@ -118,7 +118,7 @@
                             </span>
                                     </div>
                                 </div>
-                                <form action="createpupil" method="post" id="my-form">
+                                <form action="pupil?action=create" method="post" id="create-form">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <label for="imageUpload" class="form-label" style="cursor: pointer ;margin-left: 14px">Chọn hình ảnh<a style="color: red">(*)</a></label>
@@ -167,7 +167,7 @@
                                                             </div>
 
                                                             <div class="form-group col-md-6">
-                                                                <label for="fatherName">Họ tên <a style="color: red">(*)</a></label>
+                                                                <label for="fatherName">Họ tên bố <a style="color: red">(*)</a></label>
                                                                 <input type="text" class="form-control" id="fatherName" name="fatherName" required value="${param.fatherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
                                                             </div>
                                                         <div class="form-group col-md-6">
@@ -186,7 +186,6 @@
 
                                                                     <div class=" form-group col-md-6">
                                                                         <label for="birth" class="form-label">Ngày sinh<a style="color: red">(*)</a></label><br>
-                                                                        <span style="color: red">${requestScope.toasMessageBirthday}</span>
                                                                         <input type="date" id="birth" class="form-control" style="width: 70%" name="birth" required value="${param.birth}">
                                                                     </div>
                                                                     <div class="form-group col-md-6" >
@@ -228,6 +227,28 @@
                 </div>
             <jsp:include page="../footer.jsp"/>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const birthInput = document.getElementById("birth");
+
+                // Calculate the minimum date (3 years ago from today)
+                const today = new Date();
+                const minDate = new Date(today.setFullYear(today.getFullYear() - 3));
+                const minDateString = minDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+
+                // Set the minimum date on the input field
+                birthInput.setAttribute("max", minDateString);
+
+                // Add event listener to validate the date
+                document.getElementById("create-form").addEventListener("submit", function(event) {
+                    const selectedDate = new Date(birthInput.value);
+                    if (selectedDate > minDate) {
+                        alert("The birth date must be at least 3 years ago.");
+                        event.preventDefault(); // Prevent the form from being submitted
+                    }
+                });
+            });
+        </script>
         <!-- Page level plugins -->
         <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>

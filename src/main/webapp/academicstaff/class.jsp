@@ -43,7 +43,7 @@
                             <form action="class"  id="myForm">
                                 <div>
                                     <label >Chọn năm học</label>
-                                    <select class="form-select dropdown"  aria-label="Default select example" onchange="submitForm()" name="schoolYearId">
+                                    <select class="custom-select" style="width: 25%"  aria-label="Default select example" onchange="submitForm()" name="schoolYearId">
                                         <c:forEach items="${requestScope.schoolYears}" var="year">
                                             <option ${requestScope.selectedSchoolYear.id eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                         </c:forEach>

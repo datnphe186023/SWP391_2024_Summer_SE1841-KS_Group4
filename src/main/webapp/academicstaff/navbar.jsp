@@ -42,7 +42,7 @@
 
         <!-- Nav Item -->
         <li class="nav-item">
-            <a class="nav-link" href="listpupil">
+            <a class="nav-link" href="pupil">
                 <i class="fas fa-fw fa-solid fa-graduation-cap"></i>
                 <span>Quản lý học sinh</span></a>
         </li>

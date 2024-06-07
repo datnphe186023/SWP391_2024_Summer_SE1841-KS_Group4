@@ -26,11 +26,7 @@ import java.util.regex.Pattern;
 public class CreatePupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
-        String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
-        request.setAttribute("newPupilId", newPupilId);
 
-        request.getRequestDispatcher("createPupil.jsp").forward(request, response);
     }
 
     @Override
@@ -75,16 +71,6 @@ public class CreatePupilServlet extends HttpServlet {
                     note);
 ///          Check format of phone and birthday information
 //            Must have age greater than 3 year olds
-            if( !checkAge(birth) || note.length()>255 ){
-                String toasMessageBirthday="";
-                 if(!checkAge(birth)){
-                    toasMessageBirthday="Ngày sinh không hợp lệ !";
-                }
-                request.setAttribute("toasMessageBirthday",toasMessageBirthday);
-                String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
-                request.setAttribute("newPupilId", newPupilId);
-                request.getRequestDispatcher("createPupil.jsp").forward(request,response);
-            }else {
                 ////   Stage for create pupil
                 if (pupilDAO.createPupil(pupil)) {
                     toastMessage = "Xác nhận thành công";
@@ -95,9 +81,7 @@ public class CreatePupilServlet extends HttpServlet {
                 }
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType",toastType);
-                response.sendRedirect("listpupil");
-            }
-
+                request.getRequestDispatcher("pupil.jsp").forward(request,response);
         }
     }
 

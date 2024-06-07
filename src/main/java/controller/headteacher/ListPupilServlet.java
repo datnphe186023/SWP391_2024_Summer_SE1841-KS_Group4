@@ -40,7 +40,7 @@ public class ListPupilServlet extends HttpServlet {
         request.setAttribute("schoolYearSelect",schoolYearSelect);
         request.setAttribute("listClass",listClass);
         request.setAttribute("listSchoolYear",schoolYearDAO.getAll());
-        request.getRequestDispatcher("listPupil.jsp").forward(request,response);
+        request.getRequestDispatcher("pupil.jsp").forward(request,response);
     }
 
     @Override

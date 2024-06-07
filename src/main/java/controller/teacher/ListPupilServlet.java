@@ -68,7 +68,7 @@ public class ListPupilServlet extends HttpServlet {
         request.setAttribute("checkYear", yearSelected);
         request.setAttribute("listPupil", listPupil);
         request.setAttribute("listSchoolYear", listSchoolYear);
-        request.getRequestDispatcher("listPupil.jsp").forward(request, response);
+        request.getRequestDispatcher("pupil.jsp").forward(request, response);
     }
 
     @Override
