@@ -24,6 +24,10 @@
         <servlet-name>ViewInformationParentServlet</servlet-name>
         <servlet-class>controller.parent.ViewInformationParentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateTimetableServlet</servlet-name>
+        <servlet-class>controller.academicstaff.CreateTimetableServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
@@ -51,6 +55,10 @@
     <servlet-mapping>
         <servlet-name>ViewInformationParentServlet</servlet-name>
         <url-pattern>/parent/view-information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateTimetableServlet</servlet-name>
+        <url-pattern>/academicstaff/timetable</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
