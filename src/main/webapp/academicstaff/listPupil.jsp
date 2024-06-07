@@ -19,28 +19,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <style>
-        #scrollToTopBtn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: green;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 4px;
-            opacity: 0.1;
-            transition: opacity 0.3s;
-        }
 
-        #scrollToTopBtn:hover {
-            opacity: 1;
-        }
-    </style>
 
     <%
         String toastMessage = (String) session.getAttribute("toastMessage");
@@ -61,37 +40,29 @@
             }
         });
     </script>
-
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-<body>
-    <jsp:include page="dashboard.jsp"/>
-<%--Begin : title    --%>
-    <main class="app-content">
+<body id="page-top">
+<div id="wrapper">
+    <jsp:include page="navbar.jsp"/>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <jsp:include page="../header.jsp"/>
+                <div class="container-fluid">
+                    <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Học Sinh</h1>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newClassModal">
+                                <i class="fas fa-upload"></i> Thêm học sinh
+                            </button>
 
-        <div class="row justify-content-center">
-            <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh</span>
-        </div>
-<%--End : title    --%>
-        <div class="row">
-            <%--  Begin : Search item      --%>
-            <div class="col-lg-6">
-                <form action="listpupil" method="get">
-                    <div class="search-field">
-                        <div class="form-group has-search">
-                            <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
-                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="" name="information">
                         </div>
-                    </div>
-                </form>
-            </div>
-            <%--End : Search item    --%>
-                <div class="col-lg-6">
-                    <a class="add-button" href="createpupil">Thêm học sinh mới</a>
-                </div>
-        </div>
-
-            <div class="row">
-                <table  class="table table-bordered">
+            <div class="card-body">
+                <div class="table-responsive">
+                <table  class="table table-bordered" id="dataTable">
+                    <thead>
                     <tr class="table" >
                         <th>STT</th>
                         <th>Mã học sinh</th>
@@ -99,43 +70,33 @@
                         <th>Ngày sinh</th>
                         <th>Hành động</th>
                     </tr>
-
-                    <c:set var="index" value="1"/> <%--  This code to display number of this pupil in table --%>
-                    <c:forEach items="${requestScope.listPupil}" var="i">
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${requestScope.listPupil}" var="pupil" varStatus="status">
                         <tr >
-                            <td>${index}</td>
-                            <td>${i.id}</td>
-                            <td>${i.lastName} ${i.firstName}</td>
-                            <td><fmt:formatDate value="${i.birthday}" pattern="dd/MM/yyyy" /></td>
-                            <td style="padding: 0px;"><a style="margin-top: 15px;display: inline-block;padding: 0px 20px;" class="detail-button" href="pupilprofile?id=${i.id}">Chi tiết</a></td>
+                            <th scope="row">${status.index + 1}</th>
+                            <td>${pupil.id}</td>
+                            <td>${pupil.lastName} ${pupil.firstName}</td>
+                            <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                            <td class="text-center"><a href="pupilprofile?id=${pupil.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Thông tin chi tiết</a></td>
                         </tr>
-                        <c:set var="index" value="${index+1}"/>
                     </c:forEach>
+                    <tbody>
                 </table>
+                </div>
             </div>
-        <button id="scrollToTopBtn"><i class="fa fa-angle-double-up"></i></button>
-    </main>
-        <script>
-            const btnScrollToTop = document.getElementById('scrollToTopBtn')
-            const docEl = document.documentElement
+                        </div>
+                </div>
+                </div>
+            <jsp:include page="../footer.jsp"/>
+        </div>
+        <!-- Page level plugins -->
+        <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-            document.addEventListener('scroll', () => {
-                const scrollToTal = docEl.scrollHeight - docEl.clientHeight
+        <!-- Page level custom scripts -->
+        <script src="../js/demo/datatables-demo.js"></script>
 
-                if ((docEl.scrollTop / scrollToTal) >= 0.4) {
-                    btnScrollToTop.hidden = false
-                } else {
-                    btnScrollToTop.hidden = true
-                }
-            })
-
-            btnScrollToTop.addEventListener('click', () => {
-                docEl.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                })
-            })
-        </script>
 </body>
 </html>
 

@@ -38,6 +38,7 @@ public class CreatePupilServlet extends HttpServlet {
         HttpSession session = request.getSession();
         PersonnelDAO personnelDAO = new PersonnelDAO();
         PupilDAO pupilDAO = new PupilDAO();
+        Helper helper = new Helper();
         User user = null;
         boolean gender = true;
         String toastMessage = "";
@@ -69,8 +70,8 @@ public class CreatePupilServlet extends HttpServlet {
             user = (User) session.getAttribute("user");
             Personnel createdBy = personnelDAO.getPersonnelByUserId(user.getId());
 
-            Pupil pupil = new Pupil(null, null, formatString(firstName), formatString(lastName), address, email, status, birthday, gender,
-                    formatString(motherName), motherPhone, avatar, formatString(fatherName), fatherPhone, createdBy,
+            Pupil pupil = new Pupil(null, null, helper.formatName(firstName), helper.formatName(lastName), address, email, status, birthday, gender,
+                    helper.formatName(motherName), motherPhone, avatar, helper.formatName(fatherName), fatherPhone, createdBy,
                     note);
 ///          Check format of phone and birthday information
 //            Must have age greater than 3 year olds
@@ -99,18 +100,7 @@ public class CreatePupilServlet extends HttpServlet {
 
         }
     }
-    private String standardiztionString(String word){
-        word = word.toLowerCase();
-        return word.substring(0,1).toUpperCase()+word.substring(1).trim();
-    }
-    private String formatString(String search){
-        StringBuilder result = new StringBuilder();
-        String[] searchArray = search.split("\\s+");
-        for(int i=0;i<searchArray.length;i++){
-            result.append(standardiztionString(searchArray[i])).append(" ");
-        }
-        return result.toString().trim();
-    }
+
 
     public static int calculateAge(Date birthDate, Date currentDate) {
         // Formating date, year, month
