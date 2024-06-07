@@ -18,9 +18,10 @@ import java.util.List;
 public class ListPupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupildao = new PupilDAO();
-
-        List<Pupil> listPupil = pupildao.getAllPupils();
+        PupilDAO pupilDAO = new PupilDAO();
+        List<Pupil> listPupil = pupilDAO.getAllPupils();
+        String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+        request.setAttribute("newPupilId", newPupilId);
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("listPupil.jsp").forward(request,response);
     }
