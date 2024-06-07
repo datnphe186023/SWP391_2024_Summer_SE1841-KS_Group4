@@ -57,6 +57,7 @@
                             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newClassModal">
                                 <i class="fas fa-upload"></i> Thêm học sinh
                             </button>
+
                         </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -95,6 +96,7 @@
 
         <!-- Page level custom scripts -->
         <script src="../js/demo/datatables-demo.js"></script>
+
 </body>
 </html>
 
