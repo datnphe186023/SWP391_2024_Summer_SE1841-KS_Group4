@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var toastMessage = '<%= request.getAttribute("toastMessage") %>';
             var toastType = '<%= request.getAttribute("toastType") %>';
             if (toastMessage) {
@@ -37,6 +37,7 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
+
                     <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Lớp Học</h1>
                     <div class="row">
                         <div class="col-lg-6 mb-4">
@@ -51,49 +52,54 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
 
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên Lớp</th>
+                                    <th>Khối</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thông Tin Lớp</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div style="color: red">${requestScope.error}</div>
+                                <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
                                     <tr>
-                                        <th>STT</th>
-                                        <th>Tên Lớp</th>
-                                        <th>Khối</th>
-                                        <th>Trạng thái</th>
-                                        <th>Thông Tin Lớp</th>
+                                        <th scope="row">${status.index + 1}</th>
+                                        <td>${classes.name}</td>
+                                        <td>${classes.grade.name}</td>
+                                        <td>${classes.status}</td>
+                                        <td><a href="#"
+                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
+                                            tin chi tiết</a></td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    <div style="color: red">${requestScope.error}</div>
-                                    <c:forEach var="classes" items="${requestScope.classes}" varStatus="status">
-                                        <tr>
-                                            <th scope="row">${status.index + 1}</th>
-                                            <td>${classes.name}</td>
-                                            <td>${classes.grade.name}</td>
-                                            <td>${classes.status}</td>
-                                            <td><a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông tin chi tiết</a></td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
 
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
-                            TẠO LỚP MỚI
-                        </button>
-                    </div>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
+                        TẠO LỚP MỚI
+                    </button>
+                </div>
 
                 <!-- New School Year Modal -->
-                <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-hidden="true"
+                     data-backdrop="static" data-keyboard="false">
                     <form action="class?action=create" method="POST">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
@@ -105,12 +111,17 @@
                             </span>
                                         </div>
                                     </div>
-                                    <c:set var="vietnamesePattern" value="ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
+                                    <c:set var="vietnamesePattern"
+                                           value="ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Tên Lớp</label>
-                                            <input class="form-control" type="text" placeholder="Tối đa 50 kí tự" name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa kí tự đặc biệt (Tối đa 50 kí tự)" required>
-                                            <p style="display: none" id="nameWarning" class="alert-warning">Tên không được chứa kí tự đặc biệt và tối đa 50 kí tự.</p>
+                                            <input class="form-control" type="text" placeholder="Tối đa 50 kí tự"
+                                                   name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$"
+                                                   title="Tên không được chứa kí tự đặc biệt (Tối đa 50 kí tự)"
+                                                   required>
+                                            <p style="display: none" id="nameWarning" class="alert-warning">Tên không
+                                                được chứa kí tự đặc biệt và tối đa 50 kí tự.</p>
                                         </div>
                                         <script>
                                             const nameInput = document.querySelector('input[name="name"]');
@@ -144,8 +155,10 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Năm học</label>
-                                            <input class="form-control" type="text" value="${requestScope.selectedSchoolYear.name}" readonly>
-                                            <input name="schoolYear" value="${requestScope.selectedSchoolYear.id}" hidden>
+                                            <input class="form-control" type="text"
+                                                   value="${requestScope.selectedSchoolYear.name}" readonly>
+                                            <input name="schoolYear" value="${requestScope.selectedSchoolYear.id}"
+                                                   hidden>
                                         </div>
                                     </div>
                                     <br>

@@ -7,6 +7,8 @@ import java.util.Date;
 public class Application {
     private String id;
     private Date date;
+    private ApplicationType type;
+    private String details;
     private String status;
     private Personnel createdBy;
     private Date created_at;
@@ -15,9 +17,12 @@ public class Application {
     public Application() {
     }
 
-    public Application(String id, Date date, String status, Personnel createdBy, Date created_at, Personnel processed_by) {
+    public Application(String id, Date date, ApplicationType type, String details, String status, Personnel createdBy,
+                       Date created_at, Personnel processed_by) {
         this.id = id;
         this.date = date;
+        this.type = type;
+        this.details = details;
         this.status = status;
         this.createdBy = createdBy;
         this.created_at = created_at;
@@ -70,5 +75,21 @@ public class Application {
 
     public void setProcessed_by(Personnel processed_by) {
         this.processed_by = processed_by;
+    }
+
+    public ApplicationType getType() {
+        return type;
+    }
+
+    public void setType(ApplicationType type) {
+        this.type = type;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }

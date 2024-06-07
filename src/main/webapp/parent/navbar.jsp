@@ -69,7 +69,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="sendapplication">
                 <i class="fas fa-fw fa-envelope"></i>
                 <span>Gửi Đơn</span></a>
         </li>
