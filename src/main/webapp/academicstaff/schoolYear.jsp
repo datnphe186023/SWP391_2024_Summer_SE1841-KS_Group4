@@ -21,82 +21,117 @@
             }
         });
     </script>
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 <body>
-<jsp:include page="dashboard.jsp"/>
-<main class="app-content">
-    <div class="container my-4">
-        <div class="row justify-content-center">
-            <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách năm học</span>
-        </div>
-
-        <table class="table table-bordered">
-            <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Năm học</th>
-                <th scope="col">ID</th>
-                <th scope="col">Ngày bắt đầu</th>
-                <th scope="col">Ngày kết thúc</th>
-                <th scope="col">Người tạo</th>
-            </tr>
-            <tbody>
-            <c:forEach var="schoolYear" items="${requestScope.schoolYears}" varStatus="status">
-                <tr>
-                    <th scope="row">${status.index + 1}</th>
-                    <td>${schoolYear.name}</td>
-                    <td>${schoolYear.id}</td>
-                    <td>${schoolYear.startDate}</td>
-                    <td>${schoolYear.endDate}</td>
-                    <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newSchoolYearModal">
-                TẠO NĂM HỌC MỚI
-            </button>
-        </div>
-
-    </div>
-
-    <!-- New School Year Modal -->
-    <div class="modal fade" id="newSchoolYearModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <form action="schoolyear?action=create" method="POST">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-md-12">
+<div id="wrapper">
+    <jsp:include page="navbar.jsp"/>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <jsp:include page="../header.jsp"/>
+            <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Năm Học</h1>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Năm Học</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Năm học</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Người tạo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="schoolYear" items="${requestScope.schoolYears}" varStatus="status">
+                                    <tr>
+                                        <th scope="row">${status.index + 1}</th>
+                                        <td>${schoolYear.name}</td>
+                                        <td>${schoolYear.startDate}</td>
+                                        <td>${schoolYear.endDate}</td>
+                                        <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newSchoolYearModal">
+                            TẠO NĂM HỌC MỚI
+                        </button>
+                    </div>
+                <!-- New School Year Modal -->
+                <div class="modal fade" id="newSchoolYearModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                    <form action="schoolyear?action=create" method="POST">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
                             <span class="thong-tin-thanh-toan">
                                 <h5>Tạo Năm Học Mới</h5>
                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">Ngày bắt đầu</label>
+                                            <input class="form-control" type="date" name="startDate" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">Ngày kết thúc</label>
+                                            <input class="form-control" type="date" name="endDate" required>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label">Mô Tả</label>
+                                            <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự" name="description" rows="5" required maxlength="255"></textarea>
+                                            <p style="display: none" id="charCount">255 characters remaining</p>
+                                            <p style="display: none" class="alert-warning" id="warning">Không được vượt quá 255 kí tự.</p>
+                                        </div>
+                                        <script>
+                                            const textarea = document.querySelector('textarea[name="description"]');
+                                            const charCount = document.getElementById('charCount');
+                                            const warning = document.getElementById('warning');
+
+                                            textarea.addEventListener('input', () => {
+                                                const remaining = 255 - textarea.value.length;
+                                                charCount.textContent = `${remaining} characters remaining`;
+
+                                                if (remaining <= 0) {
+                                                    warning.style.display = 'block';
+                                                } else {
+                                                    warning.style.display = 'none';
+                                                }
+                                            });
+                                        </script>
+                                    </div>
+                                    <br>
+                                    <button class="btn btn-success" type="submit">Lưu lại</button>
+                                    <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                    <br>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Ngày bắt đầu</label>
-                                <input class="form-control" type="date" name="startDate" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Ngày kết thúc</label>
-                                <input class="form-control" type="date" name="endDate" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mô Tả</label>
-                                <input class="form-control" type="text" name="description" required>
-                            </div>
-                        </div>
-                        <br>
-                        <button class="btn btn-save" type="submit">Lưu lại</button>
-                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                        <br>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
+        <jsp:include page="../footer.jsp"/>
     </div>
-</main>
+</div>
+<!-- Page level plugins -->
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../js/demo/datatables-demo.js"></script>
 </body>
 </html>

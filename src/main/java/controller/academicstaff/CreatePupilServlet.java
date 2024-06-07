@@ -11,6 +11,7 @@ import models.personnel.PersonnelDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.user.User;
+import utils.Helper;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -112,24 +113,25 @@ public class CreatePupilServlet extends HttpServlet {
     }
 
     public static int calculateAge(Date birthDate, Date currentDate) {
-        // Lấy ngày tháng năm của ngày sinh
+        // Formating date, year, month
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
 
+        // Parse day, year, month to integer
         int birthYear = Integer.parseInt(yearFormat.format(birthDate));
         int birthMonth = Integer.parseInt(monthFormat.format(birthDate));
         int birthDay = Integer.parseInt(dayFormat.format(birthDate));
 
-        // Lấy ngày tháng năm của ngày hiện tại
+
         int currentYear = Integer.parseInt(yearFormat.format(currentDate));
         int currentMonth = Integer.parseInt(monthFormat.format(currentDate));
         int currentDay = Integer.parseInt(dayFormat.format(currentDate));
 
-        // Tính tuổi
+
         int age = currentYear - birthYear;
 
-        // Kiểm tra xem học sinh đã qua sinh nhật năm nay chưa
+
         if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDay < birthDay)) {
             age--;
         }
@@ -139,26 +141,26 @@ public class CreatePupilServlet extends HttpServlet {
 
     public static boolean checkAge(String birthDateString) {
         try {
-            // Định dạng ngày
+            // Formating date
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             formatter.setLenient(false); // Đảm bảo ngày nhập vào là hợp lệ
             Date birthDate = formatter.parse(birthDateString);
 
-            // Ngày hiện tại
+
             Date currentDate = new Date();
 
-            // Kiểm tra nếu ngày sinh vượt quá ngày hiện tại
+            // Check if birdate is after current date
             if (birthDate.after(currentDate)) {
                 return false;
             }
 
-            // Tính tuổi
+            // Calculate Age
             int age = calculateAge(birthDate, currentDate);
             if (age < 3) {
                 return false;
             }
         } catch (ParseException e) {
-            System.out.println("Định dạng ngày sinh không hợp lệ. Vui lòng sử dụng định dạng yyyy-MM-dd.");
+
         }
         return true;
     }
