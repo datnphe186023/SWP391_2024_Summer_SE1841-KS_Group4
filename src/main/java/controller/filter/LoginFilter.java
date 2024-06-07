@@ -107,7 +107,6 @@ public class LoginFilter implements Filter {
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         boolean loggedIn = session != null && session.getAttribute("user") != null;
         boolean loginRequest = httpRequest.getRequestURI().endsWith("login.jsp") || path.equals("/login") || path.equals("/register") || path.equals("/");
-
         if (loggedIn) {
             User user = (User) session.getAttribute("user");
             if (hasAccess(user, path)) {
