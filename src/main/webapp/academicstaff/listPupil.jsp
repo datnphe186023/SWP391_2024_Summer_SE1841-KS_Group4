@@ -9,12 +9,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Quản lý học sinh</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
     <%
         String toastMessage = (String) session.getAttribute("toastMessage");
         String toastType = (String) session.getAttribute("toastType");
@@ -34,57 +40,74 @@
             }
         });
     </script>
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-<body>
-    <jsp:include page="dashboard.jsp"/>
-<%--Begin : title    --%>
-    <main class="app-content">
-        <div class="row justify-content-center">
-            <span class="bg-secondary font-weight-bold rounded-lg" id="style-span">Danh sách học sinh</span>
-        </div>
-<%--End : title    --%>
-        <div class="row">
-            <%--  Begin : Search item      --%>
-            <div class="col-lg-6">
-                <form action="listpupil" method="get">
-                    <div class="search-field">
-                        <div class="form-group has-search">
-                            <span style="margin-top: 5px" class="fa fa-search form-control-feedback"></span>
-                            <input style="border-radius: 30px" type="text" class="form-control" placeholder="Search" name="information">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <%--End : Search item    --%>
-                <div class="col-lg-6">
-                    <a class="add-button" href="createpupil">Thêm học sinh mới</a>
-                </div>
-        </div>
+<body id="page-top">
+<div id="wrapper">
+    <jsp:include page="navbar.jsp"/>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <jsp:include page="../header.jsp"/>
+                <div class="container-fluid">
+                    <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Học Sinh</h1>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newClassModal">
+                                <i class="fas fa-upload"></i> Thêm học sinh
+                            </button>
 
-            <div class="row">
-                <table  class="table table-bordered">
+                        </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                <table  class="table table-bordered" id="dataTable">
+                    <thead>
                     <tr class="table" >
                         <th>STT</th>
                         <th>Mã học sinh</th>
                         <th>Họ và tên</th>
                         <th>Ngày sinh</th>
+                        <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
-
-                    <c:set var="index" value="1"/> <%--  This code to display number of this pupil in table --%>
-                    <c:forEach items="${requestScope.listPupil}" var="i">
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${requestScope.listPupil}" var="pupil" varStatus="status">
                         <tr >
-                            <td>${index}</td>
-                            <td>${i.id}</td>
-                            <td>${i.lastName} ${i.firstName}</td>
-                            <td><fmt:formatDate value="${i.birthday}" pattern="dd/MM/yyyy" /></td>
-                            <td style="padding: 0px;"><a style="margin-top: 15px;display: inline-block;padding: 0px 20px;" class="detail-button" href="pupilprofile?id=${i.id}">Chi tiết</a></td>
+                            <th scope="row">${status.index + 1}</th>
+                            <td>${pupil.id}</td>
+                            <td>${pupil.lastName} ${pupil.firstName}</td>
+                            <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                            <c:set value="${pupil.status}" var="status"/>
+                            <c:if test="${status eq 'đang theo học'}">
+                                <td><span class="badge badge-success">${status}</span></td>
+                            </c:if>
+                            <c:if test="${status eq 'đã thôi học'}">
+                                <td><span class="badge badge-danger">${status}</span> </td>
+                            </c:if>
+                            <c:if test="${status eq 'đang chờ xử lý'}">
+                                <td><span class="badge badge-warning">${status}</span>  </td>
+                            </c:if>
+
+                            <td class="text-center"><a href="pupilprofile?id=${pupil.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Thông tin chi tiết</a></td>
                         </tr>
-                        <c:set var="index" value="${index+1}"/>
                     </c:forEach>
+                    <tbody>
                 </table>
+                </div>
             </div>
-    </main>
+                        </div>
+                </div>
+                </div>
+            <jsp:include page="../footer.jsp"/>
+        </div>
+        <!-- Page level plugins -->
+        <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="../js/demo/datatables-demo.js"></script>
 
 </body>
 </html>
