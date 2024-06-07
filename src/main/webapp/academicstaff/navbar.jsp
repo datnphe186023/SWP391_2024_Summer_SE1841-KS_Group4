@@ -54,6 +54,13 @@
                 <i class="fas fa-fw fa-graduation-cap"></i>
                 <span>Quản lý lớp học</span></a>
         </li>
+        
+        <!-- Nav Item -->
+        <li class="nav-item">
+            <a class="nav-link" href="timetable">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Quản lý thời khóa biểu</span></a>
+        </li>
 
         <!-- Nav Item -->
         <li class="nav-item">
