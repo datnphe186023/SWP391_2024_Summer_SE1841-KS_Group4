@@ -17,7 +17,7 @@ public class ReviewPupilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PupilDAO pupilDAO = new PupilDAO();
         request.setAttribute("listPupil",pupilDAO.getPupilByStatus("đang chờ xử lý"));
-        request.getRequestDispatcher("ReviewNewPupil.jsp").forward(request,response);
+        request.getRequestDispatcher("reviewNewPupil.jsp").forward(request,response);
     }
 
     @Override
@@ -43,8 +43,9 @@ public class ReviewPupilServlet extends HttpServlet {
             toastMessage="Từ chối thành công";
             toastType="error";
         }
-        session.setAttribute("toastMessage",toastMessage);
-        session.setAttribute("toastType",toastType);
-        response.sendRedirect("listpupil");
+        request.setAttribute("listPupil",pupilDAO.getPupilByStatus("đang chờ xử lý"));
+        request.setAttribute("toastMessage",toastMessage);
+        request.setAttribute("toastType",toastType);
+        request.getRequestDispatcher("reviewNewPupil.jsp").forward(request,response);
     }
 }

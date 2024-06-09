@@ -1,0 +1,156 @@
+
+<%--
+  Created by IntelliJ IDEA.
+  User: Anh Quan
+  Date: 5/23/2024
+  Time: 8:47 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Danh Sách Học Sinh Chờ Phê Duyệt</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <%
+        String toastMessage = (String) request.getAttribute("toastMessage");
+        String toastType = (String) request.getAttribute("toastType");
+    %>
+    <script>
+        $(document).ready(function() {
+            var toastMessage = '<%= toastMessage %>';
+            var toastType = '<%= toastType %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
+    <script>
+        function confirmAccept() {
+            if (confirm('Bạn chắc chắn muốn phê duyệt học sinh này chứ ?')) {
+                document.getElementById('accept-form').submit();
+            }
+        }
+
+        function confirmDecline() {
+            if (confirm('Bạn không muốn phê duyệt học sinh này ?')) {
+                document.getElementById('decline-form').submit();
+            }
+        }
+    </script>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <jsp:include page="navbar.jsp"/>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <jsp:include page="../header.jsp"/>
+            <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Học Sinh Chờ Phê Duyệt</h1>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Danh sách học sinh</h6>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã học sinh</th>
+                                        <th>Ảnh</th>
+                                        <th>Họ và tên</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="pupil" items="${requestScope.listPupil}" varStatus="status">
+                                    <tr>
+                                     <th scope="row">${status.index + 1}</th>
+                                        <td>${pupil.id}</td>
+                                        <td style="width: 20%;">
+                                            <img src="../images/${pupil.avatar}"
+                                                 class="mx-auto d-block"
+                                                 style="width:100px; height:100px; object-fit: cover;">
+                                        </td>
+                                        <td>${pupil.lastName} ${pupil.firstName}</td>
+                                        <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                                        <td>${pupil.address}</td>
+                                        <td>
+                                            <div class="d-flex flex-column align-items-center">
+                                                <form method="post" action="reviewpupil" id="accept-form" class="d-inline mb-2">
+                                                    <input type="hidden" name="action" value="accept">
+                                                    <input type="hidden" name="id" value="${pupil.id}">
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm" onclick="confirmAccept()">Chấp nhận</button>
+                                                </form>
+
+                                                <form method="post" action="reviewpupil" id="decline-form" class="d-inline mb-2">
+                                                    <input type="hidden" name="action" value="decline">
+                                                    <input type="hidden" name="id" value="${pupil.id}">
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm" onclick="confirmDecline()">Từ chối</button>
+                                                </form>
+
+                                                <a href="pupilprofile?id=${pupil.id}" class="btn btn-sm btn-primary shadow-sm">Thông tin chi tiết</a>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <jsp:include page="../footer.jsp"/>
+    </div>
+</div>
+<!-- Page level plugins -->
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../js/demo/datatables-demo.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
