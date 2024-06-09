@@ -62,27 +62,63 @@ public class ListPersonnelServlet extends HttpServlet {
  @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         HttpSession session = request.getSession(true);
-        String message = (String) session.getAttribute("message");
-        String type = (String) session.getAttribute("type");
-        List<Personnel> persons = new ArrayList<Personnel>();
-        List<Role> roles = new ArrayList<>();
-        List<String> statuss = new ArrayList<>();
-        List<Personnel> waitlist = new ArrayList<>();
-        PersonnelDAO pdao = new PersonnelDAO();
-        persons = pdao.getPersonnelByStatus("đang làm việc");
-        roles = pdao.getAllPersonnelRole();
-        statuss = pdao.getAllStatus();
-        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
-        request.setAttribute("message", message);
-        request.setAttribute("type", type);
-        request.setAttribute("persons", persons);
-        request.setAttribute("roles", roles);
-        request.setAttribute("waitlist", waitlist);
-        request.setAttribute("statuss", statuss);
-        request.getRequestDispatcher("listPersonnel.jsp").forward(request, response);
-        session.removeAttribute("message");
-        session.removeAttribute("type");
+             HttpSession session = request.getSession(true);
+            String message = (String) session.getAttribute("message");
+            String type = (String) session.getAttribute("type");
+             String xfirstname = (String) session.getAttribute("firstname");
+             String xlastname = (String) session.getAttribute("lastname");
+             String xbirthday = (String) session.getAttribute("birthday");
+             String xaddress = (String) session.getAttribute("address");
+             String xgender = (String) session.getAttribute("gender");
+             String xemail = (String) session.getAttribute("email");
+             String xphone = (String) session.getAttribute("phone");
+             String xrole = (String) session.getAttribute("role");
+             String xavatar = (String) session.getAttribute("avatar");
+
+            List<Personnel> persons = new ArrayList<Personnel>();
+            List<Role> roles = new ArrayList<>();
+            List<String> statuss = new ArrayList<>();
+            List<Personnel> waitlist = new ArrayList<>();
+            PersonnelDAO pdao = new PersonnelDAO();
+            persons = pdao.getPersonnelByStatus("đang làm việc");
+            roles = pdao.getAllPersonnelRole();
+            statuss = pdao.getAllStatus();
+            waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+            request.setAttribute("message", message);
+            request.setAttribute("type", type);
+            if(type!=null ) {
+                if (type.equalsIgnoreCase("fail")) {
+                    request.setAttribute("firstname", xfirstname);
+                    request.setAttribute("lastname", xlastname);
+                    request.setAttribute("birthday", xbirthday);
+                    request.setAttribute("address", xaddress);
+                    request.setAttribute("gender", xgender);
+                    request.setAttribute("email", xemail);
+                    request.setAttribute("phone", xphone);
+                    request.setAttribute("role", xrole);
+                    request.setAttribute("avatar", xavatar);
+                }
+            }
+            request.setAttribute("persons", persons);
+            request.setAttribute("roles", roles);
+            request.setAttribute("waitlist", waitlist);
+            request.setAttribute("statuss", statuss);
+            request.getRequestDispatcher("listPersonnel.jsp").forward(request, response);
+            session.removeAttribute("message");
+            session.removeAttribute("type");
+     if(type!=null ) {
+
+             session.removeAttribute("firstname");
+             session.removeAttribute("lastname");
+             session.removeAttribute("birthday");
+             session.removeAttribute("address");
+             session.removeAttribute("gender");
+             session.removeAttribute("email");
+             session.removeAttribute("phone");
+             session.removeAttribute("role");
+             session.removeAttribute("avatar");
+
+     }
     } 
 
     /** 
@@ -102,14 +138,12 @@ public class ListPersonnelServlet extends HttpServlet {
         String role = request.getParameter("role");
         String status = request.getParameter("status");
         String search = request.getParameter("search");
-        System.out.println(role);
-        System.out.println(status);
-        System.out.println(search);
+
         List<Personnel> persons = new ArrayList<Personnel>();
         List<Role> roles = new ArrayList<>();
         PersonnelDAO pdao = new PersonnelDAO();
         roles = pdao.getAllPersonnelRole();
-        if ((role != null || status != null)&& search == null) {
+
             if(status.equalsIgnoreCase("all")&& role.equalsIgnoreCase("all")){
                  persons = pdao.getAllPersonnels();
              }
@@ -127,9 +161,6 @@ public class ListPersonnelServlet extends HttpServlet {
              } else{
             persons = pdao.getPersonnelByIdNameRoleStatus(status, role);
              }
-        }else if(search != null){
-            persons = pdao.getPersonnelByNameOrId(Helper.formatString(search));
-        } 
         List<String> statuss = new ArrayList<>();
         statuss = pdao.getAllStatus();
         request.setAttribute("statuss", statuss);

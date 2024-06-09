@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
@@ -89,6 +90,10 @@ public class WaitlistPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        session.removeAttribute("message");
+        session.removeAttribute("type");
+
         PersonnelDAO pdao = new PersonnelDAO();
         String action = request.getParameter("action");
         String personId = request.getParameter("id");
@@ -105,10 +110,11 @@ public class WaitlistPersonnelServlet extends HttpServlet {
                 type = "fail";
             }
         }
-        request.setAttribute("message",message);
-        request.setAttribute("type",type);
-        request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
-        request.getRequestDispatcher("waitlistPersonnel.jsp").forward(request,response);
+        session.setAttribute("message", message);
+        session.setAttribute("type", type);
+      //  request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
+      //  request.getRequestDispatcher("waitlistPersonnel.jsp").forward(request,response);
+        response.sendRedirect("viewpersonnel?id="+personId);
     }
 
     /** 
