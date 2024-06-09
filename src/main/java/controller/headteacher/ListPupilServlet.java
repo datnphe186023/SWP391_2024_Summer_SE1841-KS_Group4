@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.personnel.Personnel;
+import models.personnel.PersonnelDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.schoolYear.SchoolYearDAO;
@@ -22,6 +24,7 @@ public class ListPupilServlet extends HttpServlet {
         ClassDAO classDAO = new ClassDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         PupilDAO pupilDAO = new PupilDAO();
+        PersonnelDAO personnelDAO = new PersonnelDAO();
 
 
         String classesSelect = request.getParameter("classes");
@@ -30,6 +33,12 @@ public class ListPupilServlet extends HttpServlet {
         if (schoolYearSelect==null ){
             schoolYearSelect = schoolYearDAO.getLatest().getId();
         }
+            Class gradeClass =  classDAO.getClassById(classesSelect);
+            Personnel teacher = personnelDAO.getTeacherByClassAndSchoolYear(classesSelect,schoolYearSelect);
+            if(teacher!=null && gradeClass!=null){
+                request.setAttribute("teacherName",teacher.getLastName()+" "+teacher.getFirstName());
+                request.setAttribute("grade",gradeClass.getName());
+            }
 
         List<Pupil> listPupils = pupilDAO.getPupilByClassAndSchoolYear(classesSelect,schoolYearSelect);
         List<Class> listClass = classDAO.getBySchoolYear(schoolYearSelect);
@@ -40,7 +49,7 @@ public class ListPupilServlet extends HttpServlet {
         request.setAttribute("schoolYearSelect",schoolYearSelect);
         request.setAttribute("listClass",listClass);
         request.setAttribute("listSchoolYear",schoolYearDAO.getAll());
-        request.getRequestDispatcher("pupil.jsp").forward(request,response);
+        request.getRequestDispatcher("listPupil.jsp").forward(request,response);
     }
 
     @Override

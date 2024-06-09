@@ -75,6 +75,7 @@ public class CreatePersonnelServlet extends HttpServlet {
     @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
        String action = request.getParameter("action");
        String message="";
        String type= "fail";
@@ -94,28 +95,45 @@ public class CreatePersonnelServlet extends HttpServlet {
        int gender = Integer.parseInt(xgender);
        String id =generateId(role);
         if(!checkAge(xbirthday)){
-           message="Thêm nhân viên thất bại!Nhân viên chưa đủ 18 tuổi";  
+           message="Thêm nhân viên thất bại!Nhân viên chưa đủ 18 tuổi";
+           session.setAttribute("firstname", xfirstname);
+
        }
-       else if(pdao.checkPersonnelPhone(xphone)==false&&pdao.checkPersonnelEmail(xemail)==false){
-       pdao.insertPersonnel(id, xfirstname, xlastname, gender, xbirthday, xaddress, xemail, xphone, role, xavatar);    
+       else if(!pdao.checkPersonnelPhone(xphone)&&!pdao.checkPersonnelEmail(xemail)){
+       pdao.insertPersonnel(id.trim(), xfirstname.trim(), xlastname.trim(), gender, xbirthday.trim(), xaddress.trim(), xemail.trim(), xphone.trim(), role, xavatar.trim());
        message="Thêm nhân viên thành công";
        type = "success" ;
-       }else if(pdao.checkPersonnelPhone(xphone)==true&&pdao.checkPersonnelEmail(xemail)==true){
-         message="Thêm nhân viên thất bại!Trùng dữ liệu email và số điện thoại";    
-       }else if(pdao.checkPersonnelPhone(xphone)==true){
-        message="Thêm nhân viên thất bại!Trùng dữ liệu số điện thoại ";   
-       }else if(pdao.checkPersonnelEmail(xemail)==true){
-        message="Thêm nhân viên thất bại!Trùng dữ liệu email ";  
+       }else if(pdao.checkPersonnelPhone(xphone)&&pdao.checkPersonnelEmail(xemail)){
+         message="Thêm nhân viên thất bại!Trùng dữ liệu email và số điện thoại";
+
+       }else if(pdao.checkPersonnelPhone(xphone)){
+        message="Thêm nhân viên thất bại!Trùng dữ liệu số điện thoại ";
+
+       }else if(pdao.checkPersonnelEmail(xemail)){
+        message="Thêm nhân viên thất bại!Trùng dữ liệu email ";
+
        }
-           HttpSession session = request.getSession(true);
+           session.setAttribute("firstname", xfirstname);
+           session.setAttribute("lastname", xlastname);
+           session.setAttribute("birthday", xbirthday);
+           session.setAttribute("address", xaddress);
+           session.setAttribute("gender", xgender);
+           session.setAttribute("email", xemail);
+           session.setAttribute("phone", xphone);
+           session.setAttribute("role", xrole);
+           session.setAttribute("avatar", xavatar);
            session.removeAttribute("message");
            session.removeAttribute("type");
            session.setAttribute("message", message);
            session.setAttribute("type", type);
            response.sendRedirect("listpersonnel");
+
+
         
     }
   }
+
+
     private String generateId(int role){
         String id ;
         int newid ;
