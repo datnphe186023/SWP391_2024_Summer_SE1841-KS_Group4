@@ -39,4 +39,9 @@ public class Helper {
     public static Date convertLocalDateToDate(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
+    
+    public static Date convertLocalNowDateToDate(LocalDate localDate) {
+        return java.sql.Date.valueOf(localDate);
+    }
+    
 }

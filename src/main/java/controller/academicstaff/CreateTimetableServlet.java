@@ -11,16 +11,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import models.grade.Grade;
+import models.grade.GradeDAO;
+import models.schoolYear.SchoolYear;
+import models.schoolYear.SchoolYearDAO;
+import models.subject.Subject;
+import models.subject.SubjectDAO;
 import models.timeslot.Timeslot;
 import models.timeslot.TimeslotDAO;
+import models.week.Week;
+import models.week.WeekDAO;
 
 /**
  *
  * @author Admin
  */
 public class CreateTimetableServlet extends HttpServlet {
-
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,9 +66,27 @@ public class CreateTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SchoolYearDAO yearDAO = new SchoolYearDAO();
         TimeslotDAO timeslotDAO = new TimeslotDAO();
+        WeekDAO weekDAO = new WeekDAO();
+        GradeDAO gradeDAO = new GradeDAO();
+        
+        List<Grade> listGrade = gradeDAO.getAll();
+        List<Week> listWeek = weekDAO.getWeeksFromNow();
         List<Timeslot> listTimeslot = timeslotDAO.getAllTimeslots();
+        String selectedGradeId = request.getParameter("gradeId");
+        SubjectDAO subDAO = new SubjectDAO();
+        List<Subject> subList = subDAO.getSubjectsByGradeId(selectedGradeId);
+        request.setAttribute("subList", subList);
+        
+        
+        SchoolYear newYear = yearDAO.getLatest();
         request.setAttribute("listTimeslot", listTimeslot);
+        request.setAttribute("newYear", newYear);
+        request.setAttribute("listWeek", listWeek);
+        request.setAttribute("listGrade", listGrade);
+        request.setAttribute("selectedGradeId", selectedGradeId);
+        
         request.getRequestDispatcher("createTimetable.jsp").forward(request, response);
 
     }
@@ -78,6 +102,8 @@ public class CreateTimetableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         request.getRequestDispatcher("createTimetable.jsp").forward(request, response);
     }
 
