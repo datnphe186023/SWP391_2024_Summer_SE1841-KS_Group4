@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
@@ -57,13 +58,19 @@ public class ViewPersonnelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        String message = (String) session.getAttribute("message");
+        String type = (String) session.getAttribute("type");
         String xid = request.getParameter("id");
         Personnel person ;
         PersonnelDAO pdao = new PersonnelDAO();  
         person = pdao.getPersonnel(xid);
        request.setAttribute("person", person);
+       request.setAttribute("message", message);
+       request.setAttribute("type", type);
         request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
-            
+        session.removeAttribute("message");
+        session.removeAttribute("type");
     } 
 
     /** 
