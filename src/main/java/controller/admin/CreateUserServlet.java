@@ -82,7 +82,7 @@ public class CreateUserServlet extends HttpServlet {
             session.removeAttribute(success);
         }
         request.setAttribute("listPupils", new PupilDAO().getPupilNonUserId());
-        request.setAttribute("list", new PersonnelDAO().getPersonelNonUserId());
+        request.setAttribute("listPersonnel", new PersonnelDAO().getPersonelNonUserId());
         request.setAttribute("roleMap", roleMap);
 
         request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);

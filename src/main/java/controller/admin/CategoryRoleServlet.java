@@ -64,8 +64,8 @@ public class CategoryRoleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String role_id = request.getParameter("role");
-        List<Personnel> personnels = new ArrayList<>();
-        List<Pupil> pupils = new ArrayList<>();
+        List<Personnel> listPersonnel = new ArrayList<>();
+        List<Pupil> listPupils = new ArrayList<>();
         Map<Integer, String> roleMap = new HashMap<>();
         roleMap.put(0, "Admin");
         roleMap.put(1, "Headteacher");
@@ -73,19 +73,49 @@ public class CategoryRoleServlet extends HttpServlet {
         roleMap.put(3, "Accountant");
         roleMap.put(4, "Teacher");
         roleMap.put(5, "Parent");
-        if ("personnels".equals(role_id)) {
-            // Lọc các vai trò có giá trị từ 0 đến 4 cho personnel
-            personnels = new PersonnelDAO().getPersonnelsByRoleRangeandUserIdNull(0, 4);
-            request.setAttribute("list", personnels);
-            request.getRequestDispatcher("createuser").forward(request, response);
-        } else if ("5".equals(role_id)) {
-            // Lọc vai trò có giá trị là 5 cho pupil
-            pupils = new PupilDAO().getPupilNonUserId();
-            request.setAttribute("list", pupils);
-            request.getRequestDispatcher("../admin/categoryCreatePupils.jsp").forward(request, response);
+        switch (role_id) {
+            case "0":
+                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(0);
+                request.setAttribute("roleMap", roleMap);
+                request.setAttribute("listPersonnel", listPersonnel);
+                request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
+                break;
+            case "1":
+                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(1);
+                request.setAttribute("roleMap", roleMap);
+                request.setAttribute("listPersonnel", listPersonnel);
+                request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
+                break;
+            case "2":
+                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(2);
+                request.setAttribute("roleMap", roleMap);
+                request.setAttribute("listPersonnel", listPersonnel);
+                request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
+                break;
+            case "3":
+                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(3);
+                request.setAttribute("roleMap", roleMap);
+                request.setAttribute("listPersonnel", listPersonnel);
+                request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
+                break;
+            case "4":
+                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(4);
+                request.setAttribute("roleMap", roleMap);
+                request.setAttribute("listPersonnel", listPersonnel);
+                request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
+                break;
+            case "5":
+                listPupils = new PupilDAO().getPupilNonUserId();
+                request.setAttribute("roleMap", roleMap);
+                request.setAttribute("listPupils", listPupils);
+                request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
+                break;
+            case "6":
+                response.sendRedirect("createuser");
+                break;
+            default:
+                throw new AssertionError();
         }
-        request.setAttribute("roleMap", roleMap);
-
     }
 
     /**
