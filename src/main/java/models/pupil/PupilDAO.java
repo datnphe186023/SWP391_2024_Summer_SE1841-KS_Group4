@@ -29,11 +29,11 @@ public class PupilDAO extends DBContext {
         pupil.setStatus(resultSet.getString("status"));
         pupil.setBirthday(resultSet.getDate("birthday"));
         pupil.setGender(resultSet.getBoolean("gender"));
-        pupil.setMotherName(resultSet.getString("mother_name"));
-        pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
+        pupil.setfirstGuardianName(resultSet.getString("first_guardian_name"));
+        pupil.setfirstGuardianPhoneNumber(resultSet.getString("first_guardian_phone_number"));
         pupil.setAvatar(resultSet.getString("avatar"));
-        pupil.setFatherName(resultSet.getString("father_name"));
-        pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
+        pupil.setsecondGuardianName(resultSet.getString("second_guardian_name"));
+        pupil.setsecondGuardianPhoneNumber(resultSet.getString("second_guardian_phone_number"));
         Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
         pupil.setCreatedBy(personnel);
         pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
@@ -52,11 +52,11 @@ public class PupilDAO extends DBContext {
                 + "           ,[status]\n"
                 + "           ,[birthday]\n"
                 + "           ,[gender]\n"
-                + "           ,[mother_name]\n"
-                + "           ,[mother_phone_number]\n"
+                + "           ,[first_guardian_name]\n"
+                + "           ,[first_guardian_phone_number]\n"
                 + "           ,[avatar]\n"
-                + "           ,[father_name]\n"
-                + "           ,[father_phone_number]\n"
+                + "           ,[second_guardian_name]\n"
+                + "           ,[second_guardian_phone_number]\n"
                 + "           ,[created_by]\n"
                 + "           ,[parent_special_note])\n"
                 + "     VALUES\n"
@@ -75,11 +75,11 @@ public class PupilDAO extends DBContext {
             String formattedBirthday = dateFormat.format(birhtday);
             preparedStatement.setString(8, formattedBirthday);
             preparedStatement.setBoolean(9, pupil.getGender());
-            preparedStatement.setString(10, pupil.getMotherName());
-            preparedStatement.setString(11, pupil.getMotherPhoneNumber());
+            preparedStatement.setString(10, pupil.getfirstGuardianName());
+            preparedStatement.setString(11, pupil.getfirstGuardianPhoneNumber());
             preparedStatement.setString(12, pupil.getAvatar());
-            preparedStatement.setString(13, pupil.getFatherName());
-            preparedStatement.setString(14, pupil.getFatherPhoneNumber());
+            preparedStatement.setString(13, pupil.getsecondGuardianName());
+            preparedStatement.setString(14, pupil.getsecondGuardianPhoneNumber());
             preparedStatement.setString(15, pupil.getCreatedBy().getId());
             preparedStatement.setString(16, pupil.getParentSpecialNote());
             preparedStatement.executeUpdate();
@@ -267,11 +267,11 @@ public class PupilDAO extends DBContext {
                 pupil.setStatus(resultSet.getString("status"));
                 pupil.setBirthday(resultSet.getDate("birthday"));
                 pupil.setGender(resultSet.getBoolean("gender"));
-                pupil.setMotherName(resultSet.getString("mother_name"));
-                pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
+                pupil.setfirstGuardianName(resultSet.getString("first_guardian_name"));
+                pupil.setfirstGuardianPhoneNumber(resultSet.getString("first_guardian_phone_number"));
                 pupil.setAvatar(resultSet.getString("avatar"));
-                pupil.setFatherName(resultSet.getString("father_name"));
-                pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
+                pupil.setsecondGuardianName(resultSet.getString("second_guardian_name"));
+                pupil.setsecondGuardianPhoneNumber(resultSet.getString("second_guardian_phone_number"));
                 Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
                 pupil.setCreatedBy(personnel);
                 pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
@@ -307,11 +307,11 @@ public class PupilDAO extends DBContext {
                 pupil.setStatus(resultSet.getString("status"));
                 pupil.setBirthday(resultSet.getDate("birthday"));
                 pupil.setGender(resultSet.getBoolean("gender"));
-                pupil.setMotherName(resultSet.getString("mother_name"));
-                pupil.setMotherPhoneNumber(resultSet.getString("mother_phone_number"));
+                pupil.setfirstGuardianName(resultSet.getString("first_guardian_name"));
+                pupil.setfirstGuardianPhoneNumber(resultSet.getString("first_guardian_phone_number"));
                 pupil.setAvatar(resultSet.getString("avatar"));
-                pupil.setFatherName(resultSet.getString("father_name"));
-                pupil.setFatherPhoneNumber(resultSet.getString("father_phone_number"));
+                pupil.setsecondGuardianName(resultSet.getString("second_guardian_name"));
+                pupil.setsecondGuardianPhoneNumber(resultSet.getString("second_guardian_phone_number"));
                 Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
                 pupil.setCreatedBy(personnel);
                 pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
@@ -371,19 +371,19 @@ public class PupilDAO extends DBContext {
         return null;
     }
 
-    public void updatePupil(String lastName, String firstName, Date birthday, String motherName,
-            String motherPhoneNumber, String fatherName, String fatherPhoneNumber,
+    public void updatePupil(String lastName, String firstName, Date birthday, String firstGuardianName,
+            String firstGuardianPhoneNumber, String secondGuardianName, String secondGuardianPhoneNumber,
             String address, String parentSpecialNote) {
-        String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=?";
+        String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, lastName);
             ps.setString(2, firstName);
             ps.setDate(3, new java.sql.Date(birthday.getTime()));
-            ps.setString(4, motherName);
-            ps.setString(5, motherPhoneNumber);
-            ps.setString(6, fatherName);
-            ps.setString(7, fatherPhoneNumber);
+            ps.setString(4, firstGuardianName);
+            ps.setString(5, firstGuardianPhoneNumber);
+            ps.setString(6, secondGuardianName);
+            ps.setString(7, secondGuardianPhoneNumber);
             ps.setString(8, address);
             ps.setString(9, parentSpecialNote);
             ps.executeUpdate();
@@ -407,11 +407,11 @@ public class PupilDAO extends DBContext {
     public boolean updateParent(Pupil pupil) {
         String sql = "UPDATE [dbo].[Pupils]\n"
                 + "   SET \n"
-                + "      [mother_name] = ?\n"
-                + "      ,[mother_phone_number] = ?\n"
+                + "      [first_guardian_name] = ?\n"
+                + "      ,[first_guardian_phone_number] = ?\n"
                 + "      \n"
-                + "      ,[father_name] = ?\n"
-                + "      ,[father_phone_number] = ?\n"
+                + "      ,[second_guardian_name] = ?\n"
+                + "      ,[second_guardian_phone_number] = ?\n"
                 + "      ,[email] = ?\n"
                 + "      ,[address] = ?\n"
                 + "      ,[parent_special_note] = ?\n"
@@ -419,10 +419,10 @@ public class PupilDAO extends DBContext {
                 + "      \n"
                 + " WHERE [user_id] = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, pupil.getMotherName());
-            stmt.setString(2, pupil.getMotherPhoneNumber());
-            stmt.setString(3, pupil.getFatherName());
-            stmt.setString(4, pupil.getFatherPhoneNumber());
+            stmt.setString(1, pupil.getfirstGuardianName());
+            stmt.setString(2, pupil.getfirstGuardianPhoneNumber());
+            stmt.setString(3, pupil.getsecondGuardianName());
+            stmt.setString(4, pupil.getsecondGuardianPhoneNumber());
             stmt.setString(5, pupil.getEmail());
             stmt.setString(6, pupil.getAddress());
             stmt.setString(7,pupil.getParentSpecialNote());
@@ -465,13 +465,13 @@ public class PupilDAO extends DBContext {
     }
 
     public void updatePupil(Pupil pupil) {
-        String sql = "update dbo.[Pupils] set mother_name=?, mother_phone_number=?, father_name=?, father_phone_number=?, address=?, parent_special_note=? where id=?";
+        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, pupil.getMotherName());
-            ps.setString(2, pupil.getMotherPhoneNumber());
-            ps.setString(3, pupil.getFatherName());
-            ps.setString(4, pupil.getFatherPhoneNumber());
+            ps.setString(1, pupil.getfirstGuardianName());
+            ps.setString(2, pupil.getfirstGuardianPhoneNumber());
+            ps.setString(3, pupil.getsecondGuardianName());
+            ps.setString(4, pupil.getsecondGuardianPhoneNumber());
             ps.setString(5, pupil.getAddress());
             ps.setString(6, pupil.getParentSpecialNote());
             ps.setString(7, pupil.getId());
@@ -527,8 +527,8 @@ public class PupilDAO extends DBContext {
         return listPupil;
     }
     
-    public boolean checkMotherPhoneNumberExists(String phoneNumber) {
-        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE mother_phone_number = ?";
+    public boolean checkfirstGuardianPhoneNumberExists(String phoneNumber) {
+        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE first_guardian_phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, phoneNumber);
             try (ResultSet rs = ps.executeQuery()) {
@@ -542,8 +542,8 @@ public class PupilDAO extends DBContext {
         return false;
     }
     
-    public boolean checkFatherPhoneNumberExists(String phoneNumber) {
-        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE father_phone_number = ?";
+    public boolean checksecondGuardianPhoneNumberExists(String phoneNumber) {
+        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE second_guardian_phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, phoneNumber);
             try (ResultSet rs = ps.executeQuery()) {

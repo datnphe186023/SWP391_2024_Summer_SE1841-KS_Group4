@@ -57,52 +57,52 @@ public class UpdateParentServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         // Lấy thông tin cần update từ request
-        String motherName = request.getParameter("mother_name").trim();
-        String motherPhone = request.getParameter("mother_phone").trim();
-        String fatherName = request.getParameter("father_name").trim();
-        String fatherPhone = request.getParameter("father_phone").trim();
+        String firstGuardianName = request.getParameter("first_guardian_name").trim();
+        String firstGuardianPhoneNumber = request.getParameter("firstGuardianPhoneNumber").trim();
+        String secondGuardianName = request.getParameter("second_guardian_name").trim();
+        String secondGuardianPhoneNumber = request.getParameter("secondGuardianPhoneNumber").trim();
         String email = request.getParameter("email").trim();
         String address = request.getParameter("address").trim();
         String note = request.getParameter("note").trim();
 
         // Kiểm tra tính duy nhất của email và số điện thoại
         boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
-        boolean phoneNumberMotherExists = (dao.checkPhoneNumberExists(motherPhone) || pupilDAO.checkMotherPhoneNumberExists(motherPhone) || pupilDAO.checkFatherPhoneNumberExists(motherPhone)) 
-                && (!motherPhone.equals(pupil.getMotherPhoneNumber()));
-        boolean phoneNumberFatherExists = (dao.checkPhoneNumberExists(fatherPhone) || pupilDAO.checkMotherPhoneNumberExists(fatherPhone) || pupilDAO.checkFatherPhoneNumberExists(motherPhone))
-                && (!fatherPhone.equals(pupil.getFatherPhoneNumber()));
-        if (emailExists && phoneNumberMotherExists && phoneNumberFatherExists) {
+        boolean phoneNumberMotherExists = (dao.checkPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checkfirstGuardianPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checksecondGuardianPhoneNumberExists(firstGuardianPhoneNumber)) 
+                && (!firstGuardianPhoneNumber.equals(pupil.getfirstGuardianPhoneNumber()));
+        boolean phoneNumberSecondGuardianExists = (dao.checkPhoneNumberExists(secondGuardianPhoneNumber) || pupilDAO.checkfirstGuardianPhoneNumberExists(secondGuardianPhoneNumber) || pupilDAO.checksecondGuardianPhoneNumberExists(firstGuardianPhoneNumber))
+                && (!secondGuardianPhoneNumber.equals(pupil.getsecondGuardianPhoneNumber()));
+        if (emailExists && phoneNumberMotherExists && phoneNumberSecondGuardianExists) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Email và số điện thoại của cả mẹ và bố đã tồn tại.");
+            request.setAttribute("toastMessage", "Email và số điện thoại của cả người giám hộ thứ nhất và người giám hộ thứ hai đã tồn tại.");
         } else if (emailExists && phoneNumberMotherExists) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Email và số điện thoại của mẹ đã tồn tại.");
-        } else if (emailExists && phoneNumberFatherExists) {
+            request.setAttribute("toastMessage", "Email và số điện thoại của người giám hộ thứ nhất đã tồn tại.");
+        } else if (emailExists && phoneNumberSecondGuardianExists) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Email và số điện thoại của bố đã tồn tại.");
+            request.setAttribute("toastMessage", "Email và số điện thoại của người giám hộ thứ hai đã tồn tại.");
         } else if (emailExists) {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Email đã tồn tại.");
-        } else if (phoneNumberMotherExists && phoneNumberFatherExists) {
+        } else if (phoneNumberMotherExists && phoneNumberSecondGuardianExists) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Số điện thoại của cả mẹ và bố đã tồn tại.");
+            request.setAttribute("toastMessage", "Số điện thoại của cả người giám hộ thứ nhất và người giám hộ thứ hai đã tồn tại.");
         } else if (phoneNumberMotherExists) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Số điện thoại của mẹ đã tồn tại.");
-        } else if (phoneNumberFatherExists) {
+            request.setAttribute("toastMessage", "Số điện thoại của người giám hộ thứ nhất đã tồn tại.");
+        } else if (phoneNumberSecondGuardianExists) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Số điện thoại của bố đã tồn tại.");
-        } else if(motherPhone.equals(fatherPhone)){
+            request.setAttribute("toastMessage", "Số điện thoại của người giám hộ thứ hai đã tồn tại.");
+        } else if(firstGuardianPhoneNumber.equals(secondGuardianPhoneNumber)){
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Số điện thoại của bố và mẹ không được trùng nhau");
+            request.setAttribute("toastMessage", "Số điện thoại của người giám hộ thứ hai và người giám hộ thứ nhất không được trùng nhau");
         }
         else {
 
             // Cập nhật thông tin của pupil
-            pupil.setMotherName(motherName);
-            pupil.setMotherPhoneNumber(motherPhone);
-            pupil.setFatherName(fatherName);
-            pupil.setFatherPhoneNumber(fatherPhone);
+            pupil.setfirstGuardianName(firstGuardianName);
+            pupil.setfirstGuardianPhoneNumber(firstGuardianPhoneNumber);
+            pupil.setsecondGuardianName(secondGuardianName);
+            pupil.setsecondGuardianPhoneNumber(secondGuardianPhoneNumber);
             pupil.setEmail(email);
             pupil.setAddress(address);
             pupil.setParentSpecialNote(note);
