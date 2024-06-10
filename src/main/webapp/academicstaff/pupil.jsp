@@ -36,6 +36,7 @@
                     toastr.success(toastMessage);
                 } else if (toastType === 'error') {
                     toastr.error(toastMessage);
+                    $('.create-pupil').modal('show'); // Show the modal if the toast type is fail
                 }
             }
         });
@@ -62,14 +63,14 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".create-pupil">
                                 <i class="fas fa-upload"></i> Thêm học sinh
                             </button>
 
                         </div>
             <div class="card-body">
                 <div class="table-responsive">
-                <table  class="table table-bordered" id="dataTable">
+                    <table  class="table table-bordered" id="dataTable">
                     <thead>
                     <tr class="table" >
                         <th>STT</th>
@@ -92,23 +93,26 @@
                                 <td><span class="badge badge-success">${status}</span></td>
                             </c:if>
                             <c:if test="${status eq 'đã thôi học'}">
-                                <td><span class="badge badge-danger">${status}</span> </td>
+                                <td><span class="badge badge-secondary">${status}</span> </td>
                             </c:if>
                             <c:if test="${status eq 'đang chờ xử lý'}">
                                 <td><span class="badge badge-warning">${status}</span>  </td>
+                            </c:if>
+                            <c:if test="${status eq 'không được duyệt'}">
+                                <td><span class="badge badge-danger">${status}</span>  </td>
                             </c:if>
 
                             <td class="text-center"><a href="pupilprofile?id=${pupil.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Thông tin chi tiết</a></td>
                         </tr>
                     </c:forEach>
                     <tbody>
-                </table>
-                </div>
+                    </table>
             </div>
-                        </div>
+            </div>
+             </div>
 
-                    <!-- New School Year Modal -->
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <!-- New School Pupil Modal -->
+                    <div class="modal fade create-pupil" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="row">
@@ -201,7 +205,7 @@
                                                                 <input type="email" class="form-control" id="email" name="email" required value="${param.email}">
                                                                 <div class="row" style="margin-top: 20px">
                                                                     <button style="margin:0px 10px" class="btn btn-success" type="submit">Lưu lại</button>
-                                                                    <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                                                    <a class="btn btn-danger" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-6">
@@ -224,9 +228,10 @@
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
             <jsp:include page="../footer.jsp"/>
         </div>
+</div>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const birthInput = document.getElementById("birth");
@@ -249,6 +254,21 @@
                 });
             });
         </script>
+<script>
+    document.getElementById('cancel-button').addEventListener('click', function() {
+        document.getElementById('address').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('firstName').value = '';
+        document.getElementById('fatherName').value = '';
+        document.getElementById('motherName').value = '';
+        document.getElementById('fatherPhone').value = '';
+        document.getElementById('motherPhone').value = '';
+        document.getElementById('birth').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('parentNote').value = '';
+
+    });
+</script>
         <!-- Page level plugins -->
         <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>

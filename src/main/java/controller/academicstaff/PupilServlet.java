@@ -78,13 +78,24 @@ public class PupilServlet extends HttpServlet {
                 if (pupilDAO.createPupil(pupil)) {
                     toastMessage = "Xác nhận thành công";
                     toastType = "success";
+                    session.setAttribute("toastMessage", toastMessage);
+                    session.setAttribute("toastType", toastType);
+                    response.sendRedirect("pupil");
                 } else {
                     toastMessage = "Tạo thật bại";
                     toastType = "error";
+                    session.setAttribute("toastMessage", toastMessage);
+                    session.setAttribute("toastType", toastType);
+                    List<Pupil> listPupil = pupilDAO.getAllPupils();
+                    request.setAttribute("listPupil", listPupil);
+                    String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+                    request.setAttribute("newPupilId", newPupilId);
+                    request.getRequestDispatcher("pupil.jsp").forward(request,response);
                 }
-                session.setAttribute("toastMessage", toastMessage);
-                session.setAttribute("toastType", toastType);
-                response.sendRedirect("pupil");
+
+
+
+
             }
         }
     }
