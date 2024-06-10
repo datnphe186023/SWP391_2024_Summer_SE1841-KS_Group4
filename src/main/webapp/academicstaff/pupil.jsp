@@ -170,23 +170,23 @@
                                                                 <input type="text" class="form-control" id="firstName" required name="firstName" value="${param.firstName}" pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)">
                                                             </div>
 
+
                                                             <div class="form-group col-md-6">
-                                                                <label for="secondGuardianName">Họ tên người giám hộ thứ hai <a style="color: red">(*)</a></label>
-                                                                <input type="text" class="form-control" id="secondGuardianName" name="secondGuardianName" required value="${param.secondGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
-                                                            </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label for="secondGuardianPhoneNumber">Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a></label><br>
-                                                            <input style="width: 50%" type="text"  class="form-control" id="secondGuardianPhoneNumber" name="secondGuardianPhoneNumber"  value="${param.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Vui lòng nhập đúng định dạng số điện thoại">
-                                                        </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="firstGuardianName">Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a></label>
+                                                                <label for="firstGuardianName">Họ tên người giám hộ 1<a style="color: red">(*)</a></label>
                                                                 <input type="text" class="form-control" id="firstGuardianName" name="firstGuardianName" required value="${param.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
                                                             </div>
                                                         <div class="form-group col-md-6">
-                                                            <label for="firstGuardianPhoneNumber">Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a></label><br>
-                                                            <input style="width: 50%" type="text" class="form-control" id="firstGuardianPhoneNumber" name="firstGuardianPhoneNumber" value="${param.firstGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Vui lòng nhập đúng định dạng số điện thoại">
+                                                            <label for="firstGuardianPhoneNumber" style="">Số điện thoại người giám hộ 1<a style="color: red">(*)</a></label><br>
+                                                            <input style="width: 50%" type="text" class="form-control" required id="firstGuardianPhoneNumber" name="firstGuardianPhoneNumber" value="${param.firstGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Vui lòng nhập đúng định dạng số điện thoại">
                                                         </div>
-
+                                                        <div class="form-group col-md-6">
+                                                            <label for="secondGuardianName">Họ tên người giám hộ 2<a style="color: red">(*)</a></label>
+                                                            <input type="text" class="form-control" id="secondGuardianName" name="secondGuardianName"  value="${param.secondGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="secondGuardianPhoneNumber">Số điện thoại người giám hộ 2<a style="color: red">(*)</a></label><br>
+                                                            <input style="width: 50%" type="text"  class="form-control" id="secondGuardianPhoneNumber" name="secondGuardianPhoneNumber"  value="${param.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Vui lòng nhập đúng định dạng số điện thoại">
+                                                        </div>
 
                                                                     <div class=" form-group col-md-6">
                                                                         <label for="birth" class="form-label">Ngày sinh<a style="color: red">(*)</a></label><br>
