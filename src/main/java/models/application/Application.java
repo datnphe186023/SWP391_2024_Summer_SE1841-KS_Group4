@@ -6,27 +6,27 @@ import java.util.Date;
 
 public class Application {
     private String id;
-    private Date date;
+    private Date processedAt;
     private ApplicationType type;
     private String details;
     private String status;
-    private Personnel createdBy;
-    private Date created_at;
-    private Personnel processed_by;
+    private String createdBy;
+    private Date createdAt;
+    private Personnel processedBy;
 
     public Application() {
     }
 
-    public Application(String id, Date date, ApplicationType type, String details, String status, Personnel createdBy,
-                       Date created_at, Personnel processed_by) {
+    public Application(String id, Date processedAt, ApplicationType type, String details, String status, String createdBy,
+                       Date createdAt, Personnel processedBy) {
         this.id = id;
-        this.date = date;
+        this.processedAt = processedAt;
         this.type = type;
         this.details = details;
         this.status = status;
         this.createdBy = createdBy;
-        this.created_at = created_at;
-        this.processed_by = processed_by;
+        this.createdAt = createdAt;
+        this.processedBy = processedBy;
     }
 
     public String getId() {
@@ -37,12 +37,12 @@ public class Application {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getProcessedAt() {
+        return processedAt;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setProcessedAt(Date processedAt) {
+        this.processedAt = processedAt;
     }
 
     public String getStatus() {
@@ -53,28 +53,28 @@ public class Application {
         this.status = status;
     }
 
-    public Personnel getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Personnel createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Personnel getProcessed_by() {
-        return processed_by;
+    public Personnel getProcessedBy() {
+        return processedBy;
     }
 
-    public void setProcessed_by(Personnel processed_by) {
-        this.processed_by = processed_by;
+    public void setProcessedBy(Personnel processedBy) {
+        this.processedBy = processedBy;
     }
 
     public ApplicationType getType() {
