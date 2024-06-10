@@ -70,7 +70,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="application">
                 <i class="fas fa-fw fa-envelope"></i>
                 <span>Đơn từ</span></a>
         </li>

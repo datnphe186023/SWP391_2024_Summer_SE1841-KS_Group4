@@ -52,7 +52,6 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
                 
 
@@ -80,7 +79,7 @@
                                         <td>${classes.name}</td>
                                         <td>${classes.grade.name}</td>
                                         <td>${classes.status}</td>
-                                        <td><a href="classdetail?classId=${classes.id}"
+                                        <td class="text-center"><a href="classdetail?classId=${classes.id}"
                                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
                                             tin chi tiết</a></td>
                                     </tr>
