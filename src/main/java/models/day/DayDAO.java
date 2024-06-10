@@ -83,9 +83,9 @@ public class DayDAO extends DBContext {
         }
     }
 
-    public List<Day> getDayByWeek(String weekId) {
+     public List<Day> getDayByWeek(String weekId) {
         List<Day> days = new ArrayList<>();
-        String sql = "SELECT id, week_id, date FROM Days WHERE week_id = ?";
+        String sql = "SELECT id, week_id, date FROM Days WHERE week_id = ? AND DATEPART(WEEKDAY, date) BETWEEN 2 AND 6";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, weekId);
