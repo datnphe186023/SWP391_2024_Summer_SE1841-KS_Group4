@@ -41,10 +41,6 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-lg-6">
-                        <a class="btn btn-primary" href="reviewclass?schoolYearId=${requestScope.selectedSchoolYearId}">
-                            ĐANG CHỜ PHÊ DUYỆT (${requestScope.numberOfPendingClasses})</a>
-                    </div>
                 </div>
                 <div>${requestScope.error}</div>
                 <div class="card shadow mb-4">
