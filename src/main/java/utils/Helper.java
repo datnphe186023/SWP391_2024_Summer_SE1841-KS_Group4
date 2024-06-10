@@ -6,11 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Helper {
-    private String standardiztionString(String word){
+    private static String standardiztionString(String word){
         word = word.toLowerCase();
         return word.substring(0,1).toUpperCase()+word.substring(1).trim();
     }
-    public String formatName(String search){
+    public static String formatName(String search){
         StringBuilder result = new StringBuilder();
         String[] searchArray = search.split("\\s+");
         for(int i=0;i<searchArray.length;i++){
