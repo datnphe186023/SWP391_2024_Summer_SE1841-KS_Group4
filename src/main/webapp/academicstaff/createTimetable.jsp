@@ -23,7 +23,11 @@
         <link href="../css/sb-admin-2.min.css" rel="stylesheet">
         <style>
             #selectWeek {
-                width: 18%;
+                width: 30%;
+            }
+
+            #selectYear {
+                width: 25%;
             }
 
             .btn-container {
@@ -71,6 +75,7 @@
                 color: #858796;
             }
         </style>
+
     </head>
 
     <body id="page-top">
@@ -92,22 +97,49 @@
                         </div>
 
                         <!-- Timetable Form -->
-                        <form action="save_timetable" method="post">
+                        <form id="combinedForm" action="timetable" method="get">
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="selectWeek">Chọn Tuần:</label>
-                                    <select class="form-control" id="selectWeek" name="week">
-                                        <option value="1">Tuần 1</option>
-                                        <option value="2">Tuần 2</option>
-                                        <option value="3">Tuần 3</option>
-                                        <option value="4">Tuần 4</option>
+                                <div class="form-group col-md-4" style="padding-left: 0px; width: 50%;">
+                                    <label for="selectWeek">Chọn tuần:</label>
+                                    <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()">
+                                        <option>Chọn tuần</option>
+                                        <c:forEach var="listWeek" items="${requestScope.listWeek}">
+                                            <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>${listWeek.id}</option>
+                                        </c:forEach>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="academicYear">Năm học:</label>
-                                    <input type="text" class="form-control" id="academicYear" name="academicYear" style="width: 31%" disabled>
+
+                                <div class="form-group col-md-4" >
+                                    <label for="selectGrade">Chọn khối:</label>
+                                    <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 40%">
+                                        <option>Chọn khối</option>
+                                        <c:forEach var="listGrade" items="${requestScope.listGrade}">
+                                            <option value="${listGrade.id}" <c:if test="${param.gradeId == listGrade.id}">selected</c:if>>${listGrade.name}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
+                        </form>
+
+                        <form action="timetable" method="post">
+                            <div class="form-row">
+                                <div class="form-group col-md-4" >
+                                    <label for="selectClass">Chọn lớp:</label>
+                                    <select class="form-control" id="selectClass"  name="classId" style="
+                                            width: 30%;">
+                                        <option>Chọn lớp</option>
+                                        <c:forEach var="classList" items="${requestScope.classList}" >                   
+                                            <option value="${classList.id}">${classList.name}</option> 
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="selectYear">Năm học :</label>
+                                    <input class="form-control" value="${requestScope.newYear.name}" disabled style="width: 40%">
+                                </div>
+
+                            </div>
+
                             <table class="timetable-table table table-bordered text-center">
                                 <thead>
                                     <tr class="bg-light-gray">
@@ -117,21 +149,34 @@
                                         <th class="text-uppercase">Thứ tư</th>
                                         <th class="text-uppercase">Thứ năm</th>
                                         <th class="text-uppercase">Thứ sáu</th>
+                                        <th class="text-uppercase">Thứ bảy</th>
+                                        <th class="text-uppercase">Chủ Nhật</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                         <tr>
                                             <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
-                                            <td><select class="form-control" name="mon"></select></td>
-                                            <td><select class="form-control" name="tue"></select></td>
-                                            <td><select class="form-control" name="wed"></select></td>
-                                            <td><select class="form-control" name="thu"></select></td>
-                                            <td><select class="form-control" name="fri"></select></td>
+                                            <c:forEach var="dayList" items="${requestScope.dayList}">
+                                                <td>
+                                                    <select class="form-control" name="${dayList}">
+                                                        <option>Chọn môn học</option>
+                                                        <c:forEach var="subList" items="${requestScope.subList}">
+                                                            <option>${subList.name}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </td>
+                                            </c:forEach>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
+                            <div class="form-col">
+                                <div class="form-group row-md-4">
+                                    <label for="note">Ghi chú :</label></br>
+                                    <textarea id="noteId" name="note" style=" width: 47%;height: 85px;"></textarea>
+                                </div>
+                            </div>
 
                             <div class="btn-container">
                                 <button type="button" class="btn btn-primary" onclick="addSubjectRow()">Thêm Môn Học Mới</button>
@@ -152,6 +197,11 @@
 
         </div>
         <!-- End of Page Wrapper -->
+        <script>
+            function submitForms() {
+                document.getElementById("combinedForm").submit();
+            }
+        </script>
 
     </body>
 </html>

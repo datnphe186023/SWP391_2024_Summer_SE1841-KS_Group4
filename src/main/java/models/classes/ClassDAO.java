@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClassDAO extends DBContext {
+
     private Class createClass(ResultSet resultSet) throws SQLException {
         Class c = new Class();
         c.setId(resultSet.getString("id"));
@@ -87,8 +88,9 @@ public class ClassDAO extends DBContext {
     public String createNewClass(Class c) {
         String sql = "insert into [Class] values (?,?,?,?,?,?,?)";
         try {
-            if (isSchoolYearInThePast(c.getSchoolYear()))
+            if (isSchoolYearInThePast(c.getSchoolYear())) {
                 return "Không thể tạo lớp ở năm học trong quá khứ";
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, generateId(getLatest().getId()));
             preparedStatement.setString(2, c.getName());
@@ -198,4 +200,22 @@ public class ClassDAO extends DBContext {
         }
         return classes;
     }
+
+    public List<Class> getClassByGradeId(String gradeId) {
+        List<Class> classes = new ArrayList<>();
+        String sql = "SELECT * FROM [BoNo_Kindergarten].[dbo].[Class] WHERE grade_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, gradeId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Class cls = createClass(rs);
+                classes.add(cls);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return classes;
+    }
+
 }

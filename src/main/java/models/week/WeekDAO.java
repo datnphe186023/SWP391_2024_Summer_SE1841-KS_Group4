@@ -15,8 +15,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,4 +120,24 @@ public class WeekDAO extends DBContext {
         }
         return null;
     }
+    
+    public List<Week> getWeeksFromNow() {
+        List<Week> weeks = new ArrayList<>();
+        String sql = "SELECT TOP 3 * FROM Weeks WHERE start_date >= ? ORDER BY start_date";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            LocalDate currentDate = LocalDate.now();
+            Date currentDateSql = Helper.convertLocalNowDateToDate(currentDate);
+            statement.setDate(1, new java.sql.Date(currentDateSql.getTime()));
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Week week = createWeek(rs);
+                weeks.add(week);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return weeks;
+    }
+  
 }
