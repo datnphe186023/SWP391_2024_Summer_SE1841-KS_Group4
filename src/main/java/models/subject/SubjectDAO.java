@@ -48,6 +48,19 @@ public class SubjectDAO extends DBContext {
         }
         return false;
     }
+    public boolean updateStatusById(String id, String status){
+        String sql="update Subjects set status =? where id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,status);
+            preparedStatement.setString(2,id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
   public boolean createSubject(Subject subject){
       String sql="INSERT INTO [dbo].[Subjects] VALUES (?,?,?,?,?)";
       try {
@@ -65,6 +78,7 @@ public class SubjectDAO extends DBContext {
       return false;
   }
 
+
     public List<Subject> getAll() {
         List<Subject> subjects = new ArrayList<>();
         String sql = "Select * from Subjects";
@@ -80,7 +94,22 @@ public class SubjectDAO extends DBContext {
         }
         return subjects;
     }
-
+    public List<Subject> getSubjectsByStatus(String status){
+        List<Subject> subjectList = new ArrayList<>();
+        String sql="select * from Subjects where status = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,status);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Subject subject = createSubject(resultSet);
+                subjectList.add(subject);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return subjectList;
+    }
     public List<Subject> getSubjectsByGradeId(String gradeId) {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT s.id AS subject_id, s.name AS subject_name, g.id AS grade_id, g.name AS grade_name, s.description "

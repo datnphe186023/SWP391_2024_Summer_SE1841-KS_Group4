@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: Anh Quan
@@ -35,7 +34,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <style>
+        .btn-custom-width {
+            width: 120px; /* Adjust the width as needed */
+        }
+    </style>
 
     <%
         String toastMessage = (String) request.getAttribute("toastMessage");
@@ -55,15 +58,15 @@
         });
     </script>
     <script>
-        function confirmAccept() {
-            if (confirm('Bạn chắc chắn muốn phê duyệt học sinh này chứ ?')) {
-                document.getElementById('accept-form').submit();
+        function confirmAccept(formId) {
+            if (confirm('Bạn chắc chắn muốn phê duyệt môn học này chứ ?')) {
+                document.getElementById(formId).submit();
             }
         }
 
-        function confirmDecline() {
-            if (confirm('Bạn không muốn phê duyệt học sinh này ?')) {
-                document.getElementById('decline-form').submit();
+        function confirmDecline(formId) {
+            if (confirm('Bạn không muốn phê duyệt môn học này ?')) {
+                document.getElementById(formId).submit();
             }
         }
     </script>
@@ -109,19 +112,19 @@
                                         <td>${pupil.address}</td>
                                         <td>
                                             <div class="d-flex flex-column align-items-center">
-                                                <form method="post" action="reviewpupil" id="accept-form" class="d-inline mb-2">
+                                                <form method="post" action="reviewpupil" id="accept-form-${pupil.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${pupil.id}">
-                                                    <button type="button" class="btn btn-sm btn-success shadow-sm" onclick="confirmAccept()">Chấp nhận</button>
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${pupil.id}')">Chấp nhận</button>
                                                 </form>
 
-                                                <form method="post" action="reviewpupil" id="decline-form" class="d-inline mb-2">
+                                                <form method="post" action="reviewpupil" id="decline-form-${pupil.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${pupil.id}">
-                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm" onclick="confirmDecline()">Từ chối</button>
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmDecline('decline-form-${pupil.id}')">Từ chối</button>
                                                 </form>
 
-                                                <a href="pupilprofile?id=${pupil.id}" class="btn btn-sm btn-primary shadow-sm">Thông tin chi tiết</a>
+                                                <a href="pupilprofile?id=${pupil.id}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
                                             </div>
                                         </td>
                                         </tr>
