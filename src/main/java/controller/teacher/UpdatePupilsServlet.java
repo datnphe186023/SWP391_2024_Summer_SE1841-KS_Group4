@@ -71,10 +71,10 @@ public class UpdatePupilsServlet extends HttpServlet {
             throws ServletException, IOException {
         Pupil pupil = new Pupil();
         pupil.setId(request.getParameter("id"));
-        pupil.setMotherName(request.getParameter("mother_name"));
-        pupil.setMotherPhoneNumber(request.getParameter("mother_phone"));
-        pupil.setFatherName(request.getParameter("father_name"));
-        pupil.setFatherPhoneNumber(request.getParameter("father_phone"));
+        pupil.setfirstGuardianName(request.getParameter("first_guardian_name"));
+        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber"));
+        pupil.setsecondGuardianName(request.getParameter("second_guardian_name"));
+        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber"));
         pupil.setAddress(request.getParameter("address"));
         pupil.setParentSpecialNote(request.getParameter("note"));
         PupilDAO dao = new PupilDAO();

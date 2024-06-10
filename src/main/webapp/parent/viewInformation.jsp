@@ -96,16 +96,16 @@
                                                     <p><strong>ID học sinh:</strong> ${pupil.id}</p>
                                                 </div>
                                                 <div>
-                                                    <p><strong>Họ tên mẹ:</strong> ${pupil.motherName}</p>
+                                                    <p><strong>Họ tên người giám hộ thứ nhất:</strong> ${pupil.firstGuardianName}</p>
                                                 </div>
                                                 <div>
-                                                    <p><strong>Số điện thoại mẹ:</strong> ${pupil.motherPhoneNumber}</p>
+                                                    <p><strong>Số điện thoại người giám hộ thứ nhất:</strong> ${pupil.firstGuardianPhoneNumber}</p>
                                                 </div>
                                                 <div>
-                                                    <p><strong>Họ tên bố:</strong> ${pupil.fatherName}</p>
+                                                    <p><strong>Họ tên người giám hộ thứ hai:</strong> ${pupil.secondGuardianName}</p>
                                                 </div>
                                                 <div>
-                                                    <p><strong>Số điện thoại bố:</strong> ${pupil.fatherPhoneNumber}</p>
+                                                    <p><strong>Số điện thoại người giám hộ thứ hai:</strong> ${pupil.secondGuardianPhoneNumber}</p>
                                                 </div>
                                             </div>
                                                 <div class="col-md-6">

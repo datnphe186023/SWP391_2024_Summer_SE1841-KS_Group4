@@ -48,8 +48,8 @@ public class PupilServlet extends HttpServlet {
                 String avatar = request.getParameter("avatar");
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
-                String fatherName = request.getParameter("fatherName");
-                String motherName = request.getParameter("motherName");
+                String secondGuardianName = request.getParameter("secondGuardianName");
+                String firstGuardianName = request.getParameter("firstGuardianName");
                 String birth = request.getParameter("birth");
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date birthday = null;
@@ -65,14 +65,14 @@ public class PupilServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 String note = request.getParameter("note");
                 String address = request.getParameter("address");
-                String fatherPhone = request.getParameter("fatherPhone");
-                String motherPhone = request.getParameter("motherPhone");
+                String secondGuardianPhoneNumber = request.getParameter("secondGuardianPhoneNumber");
+                String firstGuardianPhoneNumber = request.getParameter("firstGuardianPhoneNumber");
                 String status = "đang chờ xử lý";
                 user = (User) session.getAttribute("user");
                 Personnel createdBy = personnelDAO.getPersonnelByUserId(user.getId());
 
                 Pupil pupil = new Pupil(null, null, helper.formatName(firstName), helper.formatName(lastName), address, email, status, birthday, gender,
-                        helper.formatName(motherName), motherPhone, avatar, helper.formatName(fatherName), fatherPhone, createdBy,
+                        helper.formatName(firstGuardianName), firstGuardianPhoneNumber, avatar, helper.formatName(secondGuardianName), secondGuardianPhoneNumber, createdBy,
                         note);
                 ////   Stage for create pupil
                 if (pupilDAO.createPupil(pupil)) {

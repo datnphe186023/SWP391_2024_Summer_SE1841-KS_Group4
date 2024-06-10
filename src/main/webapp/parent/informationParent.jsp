@@ -113,18 +113,18 @@
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>Họ tên mẹ : </h5> <input type="text" name="mother_name" value="${pupil.motherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
+                                                                    <h5>Họ tên người giám hộ thứ nhất : </h5> <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
                                                                 </div></td>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>Số điện thoại mẹ :</h5> <input type="text" name="mother_phone" value="${pupil.motherPhoneNumber}" value="${param.fatherPhone}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
+                                                                    <h5>Số điện thoại người giám hộ thứ nhất :</h5> <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" value="${param.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
                                                                 </div></td>
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>Họ tên bố : </h5> <input type="text" name="father_name" value="${pupil.fatherName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
+                                                                    <h5>Họ tên người giám hộ thứ hai : </h5> <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
                                                                 </div></td>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>Số điện thoại bố :</h5> <input type="text" name="father_phone" value="${pupil.fatherPhoneNumber}" value="${param.fatherPhone}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
+                                                                    <h5>Số điện thoại người giám hộ thứ hai :</h5> <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" value="${param.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
                                                                 </div></td>
                                                         </tr>
                                                         <tr>

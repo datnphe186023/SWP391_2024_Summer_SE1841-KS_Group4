@@ -14,18 +14,18 @@ public class Pupil {
     private String status;
     private Date birthday;
     private boolean gender;
-    private String motherName;
-    private String motherPhoneNumber;
+    private String firstGuardianName;
+    private String firstGuardianPhoneNumber;
     private String avatar;
-    private String fatherName;
-    private String fatherPhoneNumber;
+    private String secondGuardianName;
+    private String secondGuardianPhoneNumber;
     private Personnel createdBy;
     private String parentSpecialNote;
 
     public Pupil(String id, String userId, String firstName, String lastName,
                  String address, String email, String status, Date birthday, boolean gender,
-                 String motherName, String motherPhoneNumber, String avatar,
-                 String fatherName, String fatherPhoneNumber, Personnel createdBy,
+                 String firstGuardianName, String firstGuardianPhoneNumber, String avatar,
+                 String secondGuardianName, String secondGuardianPhoneNumber, Personnel createdBy,
                  String parentSpecialNote) {
         this.id = id;
         this.userId = userId;
@@ -36,11 +36,11 @@ public class Pupil {
         this.status = status;
         this.birthday = birthday;
         this.gender = gender;
-        this.motherName = motherName;
-        this.motherPhoneNumber = motherPhoneNumber;
+        this.firstGuardianName = firstGuardianName;
+        this.firstGuardianPhoneNumber = firstGuardianPhoneNumber;
         this.avatar = avatar;
-        this.fatherName = fatherName;
-        this.fatherPhoneNumber = fatherPhoneNumber;
+        this.secondGuardianName = secondGuardianName;
+        this.secondGuardianPhoneNumber = secondGuardianPhoneNumber;
         this.createdBy = createdBy;
         this.parentSpecialNote = parentSpecialNote;
     }
@@ -112,20 +112,20 @@ public class Pupil {
         this.gender = gender;
     }
 
-    public String getMotherName() {
-        return motherName;
+    public String getfirstGuardianName() {
+        return firstGuardianName;
     }
 
-    public void setMotherName(String motherName) {
-        this.motherName = motherName;
+    public void setfirstGuardianName(String firstGuardianName) {
+        this.firstGuardianName = firstGuardianName;
     }
 
-    public String getMotherPhoneNumber() {
-        return motherPhoneNumber;
+    public String getfirstGuardianPhoneNumber() {
+        return firstGuardianPhoneNumber;
     }
 
-    public void setMotherPhoneNumber(String motherPhoneNumber) {
-        this.motherPhoneNumber = motherPhoneNumber;
+    public void setfirstGuardianPhoneNumber(String firstGuardianPhoneNumber) {
+        this.firstGuardianPhoneNumber = firstGuardianPhoneNumber;
     }
 
     public String getAvatar() {
@@ -136,20 +136,20 @@ public class Pupil {
         this.avatar = avatar;
     }
 
-    public String getFatherName() {
-        return fatherName;
+    public String getsecondGuardianName() {
+        return secondGuardianName;
     }
 
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
+    public void setsecondGuardianName(String secondGuardianName) {
+        this.secondGuardianName = secondGuardianName;
     }
 
-    public String getFatherPhoneNumber() {
-        return fatherPhoneNumber;
+    public String getsecondGuardianPhoneNumber() {
+        return secondGuardianPhoneNumber;
     }
 
-    public void setFatherPhoneNumber(String fatherPhoneNumber) {
-        this.fatherPhoneNumber = fatherPhoneNumber;
+    public void setsecondGuardianPhoneNumber(String secondGuardianPhoneNumber) {
+        this.secondGuardianPhoneNumber = secondGuardianPhoneNumber;
     }
 
     public Personnel getCreatedBy() {

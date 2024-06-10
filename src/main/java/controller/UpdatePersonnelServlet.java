@@ -94,8 +94,8 @@ public class UpdatePersonnelServlet extends HttpServlet {
         // Kiểm tra tính duy nhất của email và số điện thoại
         boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
         boolean phoneNumberExists = (dao.checkPhoneNumberExists(phoneNumber)
-                || pupilDAO.checkMotherPhoneNumberExists(phoneNumber)
-                || pupilDAO.checkFatherPhoneNumberExists(phoneNumber))
+                || pupilDAO.checkfirstGuardianPhoneNumberExists(phoneNumber)
+                || pupilDAO.checksecondGuardianPhoneNumberExists(phoneNumber))
                 && !phoneNumber.equals(person.getPhoneNumber());
 
         if (emailExists && phoneNumberExists) {
