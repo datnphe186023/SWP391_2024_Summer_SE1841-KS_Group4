@@ -74,11 +74,6 @@
                             </div>
                         </form>
                     </div>
-
-                    <!-- Button section aligned to the right -->
-                    <div class="col-lg-4 d-flex justify-content-end">
-                        <a class="add-button btn btn-primary mb-4" href="reviewpupil">ĐANG CHỜ PHÊ DUYỆT (${requestScope.numOfPendingPupils})</a>
-                    </div>
                 </div>
 
 

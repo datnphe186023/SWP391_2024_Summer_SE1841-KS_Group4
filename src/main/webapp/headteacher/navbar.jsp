@@ -1,3 +1,4 @@
+<%@ page import="models.pupil.PupilDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -71,9 +72,18 @@
 
         <!-- Nav Item -->
         <li class="nav-item">
-            <a class="nav-link" href="listpupil">
-                <i class="fas fa-fw fa-graduation-cap"></i>
-                <span>Quản lý học sinh</span></a>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePupil"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Quản lý học sinh</span>
+            </a>
+            <div id="collapsePupil" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="listpupil">Danh Sách Học Sinh</a>
+                                                                        <% PupilDAO pupilDAO = new PupilDAO(); %>
+                    <a class="collapse-item" href="reviewpupil">Học Sinh Cần Phê Duyệt(<%=pupilDAO.getPupilByStatus("đang chờ xử lý").size()%>)</a>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item">

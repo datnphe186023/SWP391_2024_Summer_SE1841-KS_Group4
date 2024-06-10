@@ -81,7 +81,7 @@ public class CategoryRoleManagerServlet extends HttpServlet {
             request.setAttribute("list", list);
             request.setAttribute("roleMap", roleMap);
             request.setAttribute("roleDis", roleDis);
-            request.getRequestDispatcher("../admin/categoryManager.jsp").forward(request, response);
+            request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
         }
     }
 
