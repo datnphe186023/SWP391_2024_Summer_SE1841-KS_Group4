@@ -27,13 +27,9 @@ public class AddPupilToClass extends HttpServlet {
         /// This variable to display the schoolyear of this class
         String schoolYear =classes.getSchoolYear().getStartDate().toString();
         List<Pupil> listPupil = pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear);
-        String search = request.getParameter("information");
-        if(search!=null){
-            listPupil = pupilDAO.searchPupilWithoutClassByGrade(classes.getGrade().getId(),schoolYear, Helper.formatString(search));
-        }
         request.setAttribute("classId",classId);
-        request.setAttribute("listPupil",listPupil);
-        request.getRequestDispatcher("addPupilToClass.jsp").forward(request,response);
+        request.setAttribute("listPupilWithoutClass",listPupil);
+        request.getRequestDispatcher("classDetail.jsp").forward(request,response);
     }
 
     @Override
