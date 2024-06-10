@@ -78,8 +78,6 @@ public class SchoolYearDAO extends DBContext {
                 statement.setString(5, schoolYear.getDescription());
                 statement.setString(6, schoolYear.getCreatedBy().getId());
                 statement.execute();
-                WeekDAO weekDAO = new WeekDAO();
-                weekDAO.generateWeeks(getSchoolYear(newSchoolYearId));
             } else {
                 return "Tạo mới thất bại! " + validateSchoolYear(schoolYear);
             }
