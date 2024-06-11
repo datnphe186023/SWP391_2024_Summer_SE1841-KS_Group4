@@ -63,15 +63,42 @@ public class SubjectDAO extends DBContext {
                 grade.setId(rs.getString("grade_id"));
                 grade.setName(rs.getString("grade_name"));
 
-            subject.setGrade(grade);
-            subject.setDescription(rs.getString("description"));
-            subjects.add(subject);
+                subject.setGrade(grade);
+                subject.setDescription(rs.getString("description"));
+                subjects.add(subject);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
         return subjects;
     }
 
-    
+    public Subject getSubjectBySubjectId(String subjectId) {
+        String sql = "SELECT s.id AS subject_id, s.name AS subject_name, g.id AS grade_id, g.name AS grade_name, s.description "
+                + "FROM Subjects s "
+                + "JOIN Grades g ON s.grade_id = g.id "
+                + "WHERE s.id = ?";
+        Subject subject = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, subjectId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                subject = new Subject();
+                subject.setId(rs.getString("subject_id"));
+                subject.setName(rs.getString("subject_name"));
+
+                Grade grade = new Grade();
+                grade.setId(rs.getString("grade_id"));
+                grade.setName(rs.getString("grade_name"));
+
+                subject.setGrade(grade);
+                subject.setDescription(rs.getString("description"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return subject;
+    }
+
 }

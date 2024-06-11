@@ -60,6 +60,10 @@
         <servlet-name>CreateTimetableServlet</servlet-name>
         <servlet-class>controller.academicstaff.CreateTimetableServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TimetableServlet</servlet-name>
+        <servlet-class>controller.headteacher.TimetableServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>CreateTimetableServlet</servlet-name>
         <url-pattern>/academicstaff/timetable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimetableServlet</servlet-name>
+        <url-pattern>/headteacher/timetable</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
