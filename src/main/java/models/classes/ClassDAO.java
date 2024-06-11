@@ -217,5 +217,28 @@ public class ClassDAO extends DBContext {
         }
         return classes;
     }
+    public boolean moveOutClassForPupil(String pupilId1, String pupilId2, String classId1,String classId2 ){
+        String sql="update classDetails set pupil_id = ? where pupil_id= ? and class_id= ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,pupilId1);
+            preparedStatement.setString(2,pupilId2);
+            preparedStatement.setString(3,classId2);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            PreparedStatement preparedStatement2 = connection.prepareStatement(sql);
+            preparedStatement2.setString(1,pupilId2);
+            preparedStatement2.setString(2,pupilId1);
+            preparedStatement2.setString(3,classId1);
+            preparedStatement2.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 
 }
