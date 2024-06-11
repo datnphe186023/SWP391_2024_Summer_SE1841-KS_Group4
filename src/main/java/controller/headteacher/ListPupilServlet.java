@@ -12,7 +12,6 @@ import models.personnel.PersonnelDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.schoolYear.SchoolYearDAO;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -53,6 +52,6 @@ public class ListPupilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        
     }
 }
