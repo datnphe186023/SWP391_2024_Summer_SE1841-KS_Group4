@@ -4,6 +4,7 @@ import models.day.Day;
 import models.personnel.Personnel;
 import models.subject.Subject;
 import models.timeslot.Timeslot;
+import models.classes.Class;
 
 public class Timetable {
     private String id;

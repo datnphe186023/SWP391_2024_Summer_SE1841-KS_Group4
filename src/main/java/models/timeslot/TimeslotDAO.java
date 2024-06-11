@@ -17,7 +17,6 @@ import utils.DBContext;
  */
 public class TimeslotDAO extends DBContext {
 
-
     public List<Timeslot> getAllTimeslots() {
         String sql = "SELECT * FROM Timeslots";
         List<Timeslot> listTimeslot = new ArrayList<>();
@@ -38,5 +37,27 @@ public class TimeslotDAO extends DBContext {
             throw new RuntimeException(e);
         }
         return listTimeslot;
+    }
+
+    public Timeslot getTimeslotById(String timeslotId) {
+        String sql = "SELECT * FROM Timeslots WHERE id = ?";
+        Timeslot timeslot = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, timeslotId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                timeslot = new Timeslot();
+                timeslot.setId(resultSet.getString("id"));
+                timeslot.setName(resultSet.getString("name"));
+                timeslot.setStartTime(resultSet.getString("start_time"));
+                timeslot.setEndTime(resultSet.getString("end_time"));
+                timeslot.setSlotNumber(resultSet.getString("slot_number"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return timeslot;
     }
 }

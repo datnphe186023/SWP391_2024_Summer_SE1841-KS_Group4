@@ -123,21 +123,19 @@
 
                         <form action="timetable" method="post">
                             <div class="form-row">
-                                <div class="form-group col-md-4" >
+                                <div class="form-group col-md-4">
                                     <label for="selectClass">Chọn lớp:</label>
-                                    <select class="form-control" id="selectClass"  name="classId" style="
-                                            width: 30%;">
+                                    <select class="form-control" id="selectClass" name="classId" style="width: 30%;">
                                         <option>Chọn lớp</option>
-                                        <c:forEach var="classList" items="${requestScope.classList}" >                   
-                                            <option value="${classList.id}">${classList.name}</option> 
+                                        <c:forEach var="classList" items="${requestScope.classList}">
+                                            <option value="${classList.id}">${classList.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="selectYear">Năm học :</label>
-                                    <input class="form-control" value="${requestScope.newYear.name}" disabled style="width: 40%">
+                                    <input class="form-control" name="year" value="${requestScope.newYear.name}" disabled style="width: 40%">
                                 </div>
-
                             </div>
 
                             <table class="timetable-table table table-bordered text-center">
@@ -149,8 +147,6 @@
                                         <th class="text-uppercase">Thứ tư</th>
                                         <th class="text-uppercase">Thứ năm</th>
                                         <th class="text-uppercase">Thứ sáu</th>
-                                        <th class="text-uppercase">Thứ bảy</th>
-                                        <th class="text-uppercase">Chủ Nhật</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -159,10 +155,10 @@
                                             <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                             <c:forEach var="dayList" items="${requestScope.dayList}">
                                                 <td>
-                                                    <select class="form-control" name="${dayList}">
-                                                        <option>Chọn môn học</option>
+                                                    <select class="form-control" name="${timeslot.startTime}_${dayList}">
+                                                        <option value="">Chọn môn học</option>
                                                         <c:forEach var="subList" items="${requestScope.subList}">
-                                                            <option>${subList.name}</option>
+                                                            <option value="${subList.id}">${subList.name}</option>
                                                         </c:forEach>
                                                     </select>
                                                 </td>
@@ -171,12 +167,7 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <div class="form-col">
-                                <div class="form-group row-md-4">
-                                    <label for="note">Ghi chú :</label></br>
-                                    <textarea id="noteId" name="note" style=" width: 47%;height: 85px;"></textarea>
-                                </div>
-                            </div>
+                            
 
                             <div class="btn-container">
                                 <button type="button" class="btn btn-primary" onclick="addSubjectRow()">Thêm Môn Học Mới</button>
@@ -186,6 +177,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                     <!-- /.container-fluid -->
                 </div>

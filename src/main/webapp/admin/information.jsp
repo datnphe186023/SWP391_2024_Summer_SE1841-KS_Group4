@@ -138,7 +138,7 @@
                                                                     <h5>Email:</h5> <input type="email" name="email" value="${personnel.email}" style="width: 170%"/><br />
                                                                 </div></td>
                                                             <td><div class="form-group col-md-6">
-                                                                   <h5>Số điện thoại:</h5> <input type="text" id="phone_number" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." required /><br />
+                                                                    <h5>Số điện thoại:</h5> <input type="text" id="phone_number" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." required /><br />
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -184,9 +184,6 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
-
-
-
 
         <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
