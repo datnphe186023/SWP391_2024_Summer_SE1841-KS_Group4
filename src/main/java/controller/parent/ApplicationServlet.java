@@ -17,7 +17,7 @@ public class ApplicationServlet extends HttpServlet {
         ApplicationDAO applicationDAO = new ApplicationDAO();
         List<ApplicationType> applicationTypes = applicationDAO.getAllApplicationTypes("pupil");
         request.setAttribute("applicationTypes", applicationTypes);
-        request.getRequestDispatcher("application.jsp").forward(request, response);
+        request.getRequestDispatcher("sendApplication.jsp").forward(request, response);
     }
 
     @Override

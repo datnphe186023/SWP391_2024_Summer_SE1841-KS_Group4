@@ -8,8 +8,14 @@ import utils.Helper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.sql.Types.NULL;
 
 public class ApplicationDAO extends DBContext {
 
@@ -27,7 +33,7 @@ public class ApplicationDAO extends DBContext {
         return app;
     }
 
-    private ApplicationType getById(String id) {
+    public ApplicationType getById(String id) {
         ApplicationType app = new ApplicationType();
         String sql = "select * from [Application_Types] where id = ?";
         try {
@@ -99,5 +105,55 @@ public class ApplicationDAO extends DBContext {
             e.printStackTrace();
         }
         return app;
+    }
+
+    public String addApplication(Application application) {
+        String sql = "insert into [Applications] values (?,?,?,?,?,?,?,?)";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            if(getLatest()==null){
+                preparedStatement.setString(1, "APP000001");
+            } else {
+                preparedStatement.setString(1, generateId(getLatest().getId()));
+            }
+            preparedStatement.setNull(2, Types.VARCHAR);
+            preparedStatement.setString(3, application.getType().getId());
+            preparedStatement.setString(4, application.getDetails());
+            preparedStatement.setString(5, application.getStatus());
+            preparedStatement.setString(6, application.getCreatedBy());
+            preparedStatement.setString(7, Helper.convertDateToLocalDate(application.getCreatedAt()).toString());
+            preparedStatement.setNull(8, Types.VARCHAR);
+            preparedStatement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Gửi đơn thất bại! Vui lòng thử lại sau";
+        }
+        return "success";
+    }
+
+    private Application getLatest(){
+        String sql = "SELECT TOP 1 * FROM [Applications] ORDER BY ID DESC";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return createApplication(rs);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String generateId(String latestId){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "APP" + result;
     }
 }
