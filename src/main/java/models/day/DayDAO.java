@@ -85,7 +85,7 @@ public class DayDAO extends DBContext {
 
     public List<Day> getDayByWeek(String weekId) {
         List<Day> days = new ArrayList<>();
-        String sql = "SELECT id, week_id, date FROM Days WHERE week_id = ?";
+        String sql = "SELECT id, week_id, date FROM Days WHERE week_id = ? AND DATEPART(WEEKDAY, date) BETWEEN 2 AND 6";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, weekId);
@@ -102,5 +102,26 @@ public class DayDAO extends DBContext {
             e.printStackTrace();
         }
         return days;
+    }
+
+    public Day getDayByID(String dateId) {
+        String sql = "SELECT * FROM Days WHERE id = ?";
+        Day day = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, dateId);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                day = new Day();
+                day.setId(rs.getString("id"));
+                WeekDAO weekDAO = new WeekDAO();
+                day.setWeek(weekDAO.getWeek(rs.getString("week_id")));
+                day.setDate(rs.getDate("date"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return day;
     }
 }

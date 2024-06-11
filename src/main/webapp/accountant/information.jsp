@@ -37,6 +37,7 @@
                 }
             });
         </script>
+
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -71,13 +72,13 @@
     </head>
 
     <body id="page-top">
-
         <div id="wrapper">
             <jsp:include page="navbar.jsp"/>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
+                        <!-- Head Teacher Information Section -->
                         <main>
                             <div class="app-title">
                                 <div>
@@ -105,10 +106,10 @@
                                                     <tbody>
                                                         <tr>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>ID người dùng:</h5><input placeholder="User Id" type="text" name="userId" value="${personnel.userId}" disabled/>
+                                                                    <h5>ID người dùng :</h5><input placeholder="User Id" type="text" name="userId" value="${personnel.userId}" disabled/>
                                                                 </div></td>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>Tên:</h5> <input placeholder="First Name" type="text" name="first_name" value="${personnel.firstName}" pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)"/><br />
+                                                                    <h5>Tên:</h5> <input placeholder="First Name" type="text" name="first_name" value="${personnel.firstName}" pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)" /><br />
                                                                 </div></td>
                                                         </tr>
                                                         <tr>
@@ -137,8 +138,9 @@
                                                                     <h5>Email:</h5> <input type="email" name="email" value="${personnel.email}" style="width: 170%"/><br />
                                                                 </div></td>
                                                             <td><div class="form-group col-md-6">
-                                                                    <h5>Số điện thoại:</h5> <input type="text" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/><br />
-                                                                </div></td>
+                                                                    <h5>Số điện thoại:</h5> <input type="text" id="phone_number" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." required /><br />
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -182,8 +184,6 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
-        <!-- Head Teacher Information Section -->
-
 
         <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
@@ -194,6 +194,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
     </body>
 
 </html>
