@@ -181,4 +181,21 @@ public class ApplicationDAO extends DBContext {
         }
         return "success";
     }
+
+    public List<Application> getSentApplications(String senderUserId){
+        String sql = "select * from [Applications] where created_by = ?";
+        List<Application> applications = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, senderUserId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Application application = createApplication(resultSet);
+                applications.add(application);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return applications;
+    }
 }

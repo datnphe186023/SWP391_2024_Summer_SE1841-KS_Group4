@@ -26,6 +26,13 @@
         }
     });
 </script>
+<%--confirm message of processing application--%>
+<script>
+    function confirmAction(action) {
+        var actionName = (action === 'approve') ? 'duyệt' : 'từ chối';
+        return confirm('Bạn có chắc chắn muốn ' + actionName + ' đơn này không?');
+    }
+</script>
 <html>
 <head>
     <title>Chi Tiết Đơn Từ</title>
@@ -87,13 +94,17 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form action="applicationdetails" method="post">
+                    <form action="applicationdetails" method="post" id="applicationForm">
                         <label for="note">Ghi chú</label>
                          <textarea class="form-control mb-5" type="text" placeholder="${requestScope.application.processNote}"
                                    name="note" id="note" rows="5" required></textarea>
                         <input name="id" value="${requestScope.applicationId}" hidden/>
-                        <button type="submit" name="action" value="approve" class="btn btn-success">Duyệt</button>
-                        <button type="submit" name="action" value="reject" class="btn btn-danger">Từ chối</button>
+                        <button type="submit" name="action" value="approve" class="btn btn-success" onclick="return confirmAction('approve')">
+                            Duyệt
+                        </button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger" onclick="return confirmAction('reject')">
+                            Từ chối
+                        </button>
                     </form>
                 </div>
         </div>
