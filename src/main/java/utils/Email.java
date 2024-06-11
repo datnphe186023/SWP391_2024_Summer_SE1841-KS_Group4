@@ -40,12 +40,12 @@ public class Email {
             message.setSentDate(new Date());
             //message.setReplyTo(InternetAddress.parse(from, false));
             message.setText(content, "UTF-8");
-
             Transport.send(message);
-
         } catch (MessagingException e) {
             System.out.println("SendEmail " + e);
         }
     }
-
+    public static void main(String[] args) {
+        sendEmail("tuannnahe176267@fpt.edu.vn", "Đêm qua em tuyệt lắm", "abcxyz 696969");
+    }
 }
