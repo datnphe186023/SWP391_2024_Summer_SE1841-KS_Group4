@@ -159,19 +159,18 @@ public class PupilDAO extends DBContext {
         }
         return listPupils;
     }
-
-    public Pupil searchPupilById(String id) {
+    public Pupil searchPupilById(String id){
         String sql = "Select * from Pupils where id = ? and status = N'đang theo học' and user_id is null";
-        try {
+        try{
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            if(rs.next()) {
                 Pupil pupil = new Pupil();
                 pupil = createPupil(rs);
                 return pupil;
             }
-        } catch (SQLException e) {
+        }catch(SQLException e){
             e.printStackTrace();
         }
         return null;
@@ -373,8 +372,8 @@ public class PupilDAO extends DBContext {
     }
 
     public void updatePupil(String lastName, String firstName, Date birthday, String firstGuardianName,
-            String firstGuardianPhoneNumber, String secondGuardianName, String secondGuardianPhoneNumber,
-            String address, String parentSpecialNote) {
+                            String firstGuardianPhoneNumber, String secondGuardianName, String secondGuardianPhoneNumber,
+                            String address, String parentSpecialNote) {
         String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -426,7 +425,7 @@ public class PupilDAO extends DBContext {
             stmt.setString(4, pupil.getsecondGuardianPhoneNumber());
             stmt.setString(5, pupil.getEmail());
             stmt.setString(6, pupil.getAddress());
-            stmt.setString(7, pupil.getParentSpecialNote());
+            stmt.setString(7,pupil.getParentSpecialNote());
             stmt.setString(8, pupil.getUserId());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -485,6 +484,7 @@ public class PupilDAO extends DBContext {
     public List<Pupil> getPupilNonUserId() {
         List<Pupil> list = new ArrayList<>();
         String sql = "SELECT * FROM Pupils WHERE user_id IS NULL AND status = N'đang theo học'";
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -498,14 +498,14 @@ public class PupilDAO extends DBContext {
         return list;
     }
 
-    public List<Pupil> searchPupilWithoutClassByGrade(String gradeId, String date, String search) {
+    public List<Pupil> searchPupilWithoutClassByGrade(String gradeId, String date, String search){
         int ageOfPupil = 0;
         List<Pupil> listPupil = new ArrayList<>();
-        String sql = "SELECT *\n"
-                + "                FROM  Pupils left  JOIN\n"
-                + "               classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n"
-                + "                Class ON Class.id = classDetails.class_id\n"
-                + "              where  (DATEDIFF(YEAR,birthday,?) = ? and class_id is null and Pupils.status= N'đang theo học') and (last_name+' '+ first_name like N'%" + search + "%' or Pupils.id like '%" + search + "%')";
+        String sql="SELECT *\n" +
+                "                FROM  Pupils left  JOIN\n" +
+                "               classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n" +
+                "                Class ON Class.id = classDetails.class_id\n" +
+                "              where  (DATEDIFF(YEAR,birthday,?) = ? and class_id is null and Pupils.status= N'đang theo học') and (last_name+' '+ first_name like N'%"+search+"%' or Pupils.id like '%"+search+"%')";
         if (gradeId.equals("G000001")) {
             ageOfPupil = 3;
         } else if (gradeId.equals("G000002")) {
@@ -526,13 +526,9 @@ public class PupilDAO extends DBContext {
         }
         return listPupil;
     }
-    
+
     public boolean checkfirstGuardianPhoneNumberExists(String phoneNumber) {
         String sql = "SELECT COUNT(*) FROM [Pupils] WHERE first_guardian_phone_number = ?";
-
-
-    public boolean checkMotherPhoneNumberExists(String phoneNumber) {
-        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE mother_phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, phoneNumber);
             try (ResultSet rs = ps.executeQuery()) {
@@ -545,12 +541,9 @@ public class PupilDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean checksecondGuardianPhoneNumberExists(String phoneNumber) {
         String sql = "SELECT COUNT(*) FROM [Pupils] WHERE second_guardian_phone_number = ?";
-
-    public boolean checkFatherPhoneNumberExists(String phoneNumber) {
-        String sql = "SELECT COUNT(*) FROM [Pupils] WHERE father_phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, phoneNumber);
             try (ResultSet rs = ps.executeQuery()) {
