@@ -119,35 +119,7 @@ public class CreateTimetableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String classId = request.getParameter("classId");
-        String note = request.getParameter("note");
-        TimetableDAO timetableDAO = new TimetableDAO();
-        
-        // Lấy tất cả các tham số từ request
-        Enumeration<String> parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String paramName = parameterNames.nextElement();
-            String paramValue = request.getParameter(paramName);
-            
-            // Kiểm tra và xử lý các tham số liên quan đến thời khóa biểu
-            if (paramValue != null && !paramValue.isEmpty()) {
-                if (paramName.matches("^\\d{2}:\\d{2}_\\w+$")) {
-                    String[] parts = paramName.split("_");
-                    String timeslotId = parts[0];
-                    String dateId = parts[1];
-                    String subjectId = paramValue;
-                    
-                    try {
-                        // Chèn dữ liệu vào bảng Timetables
-                        timetableDAO.insertTimetable(classId, timeslotId, dateId, subjectId, "created_by_value", "status_value", note, "teacher_id_value");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CreateTimetableServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }
-        
-        
+             
     }
 
     /**
