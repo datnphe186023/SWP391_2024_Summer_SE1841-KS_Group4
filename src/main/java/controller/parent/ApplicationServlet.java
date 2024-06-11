@@ -22,14 +22,6 @@ public class ApplicationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String type = request.getParameter("type");
-        String details = request.getParameter("details");
-        ApplicationDAO applicationDAO = new ApplicationDAO();
-        try{
-            Application application = new Application();
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

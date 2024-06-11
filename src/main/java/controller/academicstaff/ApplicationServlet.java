@@ -33,7 +33,7 @@ public class ApplicationServlet extends HttpServlet {
 
         //get application list
         ApplicationDAO applicationDAO = new ApplicationDAO();
-        List<Application> applications = applicationDAO.getBySchoolYear(schoolYearDAO.getSchoolYear(schoolYearId));
+        List<Application> applications = applicationDAO.getForStaff(schoolYearDAO.getSchoolYear(schoolYearId));
         request.setAttribute("applications", applications);
 
         request.getRequestDispatcher("applicationList.jsp").forward(request, response);
