@@ -31,7 +31,6 @@ public class ClassServlet extends HttpServlet {
             }
             request.setAttribute("selectedSchoolYearId", schoolYearId);
             request.setAttribute("classes", classes);
-            request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ duyệt", schoolYearId).size());
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();

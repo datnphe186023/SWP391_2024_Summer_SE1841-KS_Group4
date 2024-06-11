@@ -1,4 +1,6 @@
 <%@ page import="models.pupil.PupilDAO" %>
+<%@ page import="models.classes.ClassDAO" %>
+<%@ page import="models.schoolYear.SchoolYearDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -50,7 +52,9 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="class">Danh Sách Lớp</a>
-                        <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">Lớp Chờ Phê Duyệt (${requestScope.numberOfPendingClasses})</a>
+                        <% ClassDAO classDAO = new ClassDAO(); %>
+                        <% SchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
+                        <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)</a>
                     </div>
                 </div>
             </li>
@@ -72,9 +76,18 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="listpupil">
-                    <i class="fas fa-fw fa-graduation-cap"></i>
-                    <span>Quản lý học sinh</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePupil"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Quản lý học sinh</span>
+                </a>
+                <div id="collapsePupil" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="listpupil">Danh Sách Học Sinh</a>
+                        <% PupilDAO pupilDAO = new PupilDAO(); %>
+                        <a class="collapse-item" href="reviewpupil">Học Sinh Cần Phê Duyệt(<%=pupilDAO.getPupilByStatus("đang chờ xử lý").size()%>)</a>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item">
