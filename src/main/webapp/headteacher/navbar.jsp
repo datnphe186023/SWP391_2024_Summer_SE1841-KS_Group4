@@ -54,7 +54,9 @@
                         <a class="collapse-item" href="class">Danh Sách Lớp</a>
                         <% ClassDAO classDAO = new ClassDAO(); %>
                         <% SchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
-                        <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)</a>
+                        <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">
+                            Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)
+                        </a>
                     </div>
                 </div>
             </li>

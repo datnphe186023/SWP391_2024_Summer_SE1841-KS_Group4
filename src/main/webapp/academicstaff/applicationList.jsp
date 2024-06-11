@@ -68,7 +68,16 @@
                                         <td>${application.type.name}</td>
                                         <td>${application.createdBy}</td>
                                         <td>${application.createdAt}</td>
-                                        <td>${application.status}</td>
+                                        <c:set value="${application.status}" var="s"/>
+                                        <c:if test="${s eq 'đã duyệt'}">
+                                            <td><span class="badge badge-success">${s}</span></td>
+                                        </c:if>
+                                        <c:if test="${s eq 'đang xử lý'}">
+                                            <td><span class="badge badge-warning">${s}</span>  </td>
+                                        </c:if>
+                                        <c:if test="${s eq 'đã từ chối'}">
+                                            <td><span class="badge badge-danger">${s}</span>  </td>
+                                        </c:if>
                                         <td class="text-center"><a href="applicationdetails?id=${application.id}"
                                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
                                     </tr>
