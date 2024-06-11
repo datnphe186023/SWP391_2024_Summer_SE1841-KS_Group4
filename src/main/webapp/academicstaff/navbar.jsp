@@ -68,6 +68,11 @@
                 <i class="fas fa-fw fa-school"></i>
                 <span>Quản lý năm học</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="subject">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Quản lý môn học</span></a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link" href="application">

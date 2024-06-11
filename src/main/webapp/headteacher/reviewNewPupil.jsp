@@ -60,13 +60,13 @@
     </style>
     <script>
         function confirmAccept(formId) {
-            if (confirm('Bạn chắc chắn muốn phê duyệt môn học này chứ ?')) {
+            if (confirm('Bạn chắc chắn muốn phê duyệt học sinh này chứ ?')) {
                 document.getElementById(formId).submit();
             }
         }
 
         function confirmDecline(formId) {
-            if (confirm('Bạn không muốn phê duyệt môn học này ?')) {
+            if (confirm('Bạn không muốn phê duyệt học sinh này ?')) {
                 document.getElementById(formId).submit();
             }
         }
