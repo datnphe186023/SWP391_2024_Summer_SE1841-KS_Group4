@@ -34,11 +34,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <style>
-        .btn-custom-width {
-            width: 120px; /* Adjust the width as needed */
-        }
-    </style>
+
 
     <%
         String toastMessage = (String) request.getAttribute("toastMessage");
@@ -57,6 +53,11 @@
             }
         });
     </script>
+    <style>
+        .btn-custom-width {
+            width: 120px; /* Adjust the width as needed */
+        }
+    </style>
     <script>
         function confirmAccept(formId) {
             if (confirm('Bạn chắc chắn muốn phê duyệt môn học này chứ ?')) {
