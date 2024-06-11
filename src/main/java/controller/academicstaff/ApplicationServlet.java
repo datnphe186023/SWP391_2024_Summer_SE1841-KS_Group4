@@ -11,7 +11,7 @@ import models.schoolYear.SchoolYearDAO;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ApplicationServlet", value = "/academicstaff/application")
+@WebServlet(name = "academicstaff/ApplicationServlet", value = "/academicstaff/application")
 public class ApplicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

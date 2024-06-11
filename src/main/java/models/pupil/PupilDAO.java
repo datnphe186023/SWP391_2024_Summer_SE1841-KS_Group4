@@ -372,8 +372,8 @@ public class PupilDAO extends DBContext {
     }
 
     public void updatePupil(String lastName, String firstName, Date birthday, String firstGuardianName,
-            String firstGuardianPhoneNumber, String secondGuardianName, String secondGuardianPhoneNumber,
-            String address, String parentSpecialNote) {
+                            String firstGuardianPhoneNumber, String secondGuardianName, String secondGuardianPhoneNumber,
+                            String address, String parentSpecialNote) {
         String sql = "update dbo.[Pupils] set last_name=?, first_name=?, birthday=?, first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -489,7 +489,7 @@ public class PupilDAO extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                PupilDAO dao = new PupilDAO();               
+                PupilDAO dao = new PupilDAO();
                 list.add(dao.createPupil(rs));
             }
         } catch (SQLException e) {
@@ -526,7 +526,7 @@ public class PupilDAO extends DBContext {
         }
         return listPupil;
     }
-    
+
     public boolean checkfirstGuardianPhoneNumberExists(String phoneNumber) {
         String sql = "SELECT COUNT(*) FROM [Pupils] WHERE first_guardian_phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -541,7 +541,7 @@ public class PupilDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean checksecondGuardianPhoneNumberExists(String phoneNumber) {
         String sql = "SELECT COUNT(*) FROM [Pupils] WHERE second_guardian_phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -8,7 +8,7 @@ import models.application.ApplicationDAO;
 
 import java.io.IOException;
 
-@WebServlet(name = "ApplicationDetailsServlet", value = "/academicstaff/applicationdetails")
+@WebServlet(name = "academicstaff/ApplicationDetailsServlet", value = "/academicstaff/applicationdetails")
 public class ApplicationDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

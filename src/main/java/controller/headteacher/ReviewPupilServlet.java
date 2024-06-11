@@ -22,7 +22,6 @@ public class ReviewPupilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
         PupilDAO pupilDAO = new PupilDAO();
         String action = request.getParameter("action");
         String pupilId = request.getParameter("id");

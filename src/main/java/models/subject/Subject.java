@@ -7,15 +7,24 @@ public class Subject {
     private String name;
     private Grade grade;
     private String description;
-
-    public Subject(String id, String name, Grade grade, String description) {
+    private String status;
+    public Subject(String id, String name, Grade grade, String description,String status) {
         this.id = id;
         this.name = name;
         this.grade = grade;
         this.description = description;
+        this.status = status;
     }
 
     public Subject() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getId() {

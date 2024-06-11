@@ -1,3 +1,4 @@
+<%@ page import="models.pupil.PupilDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -141,6 +142,83 @@
         <script src="../js/demo/chart-area-demo.js"></script>
         <script src="../js/demo/chart-pie-demo.js"></script>
 
+<<<<<<< HEAD
     </body>
+=======
+        <!-- Nav Item -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePupil"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Quản lý học sinh</span>
+            </a>
+            <div id="collapsePupil" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="listpupil">Danh Sách Học Sinh</a>
+                                                                        <% PupilDAO pupilDAO = new PupilDAO(); %>
+                    <a class="collapse-item" href="reviewpupil">Học Sinh Cần Phê Duyệt(<%=pupilDAO.getPupilByStatus("đang chờ xử lý").size()%>)</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="listpersonnel">
+                <i class="fas fa-fw fa-user-friends"></i>
+                <span>Quản lý nhân sự</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-cheese"></i>
+                <span>Quản lý thực đơn</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-calendar-plus"></i>
+                <span>Quản lý sự kiện</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-bars"></i>
+                <span>Tổng kết khen thưởng học sinh</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../js/demo/chart-area-demo.js"></script>
+<script src="../js/demo/chart-pie-demo.js"></script>
+
+</body>
+>>>>>>> 93852116f9e5f681aaafd1e134bc7cc8436c95ef
 
 </html>

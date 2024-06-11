@@ -45,7 +45,13 @@
             }
         });
     </script>
-
+    <script>
+        function confirmAccept() {
+            if (confirm('Bạn chắc chắn muốn phê duyệt các học sinh này vào lớp chứ ?')) {
+                document.getElementById('accept-form').submit();
+            }
+        }
+    </script>
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
@@ -95,7 +101,7 @@
                     </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered"  width="100%" cellspacing="0">
                             <thead>
                             <tr>
                                 <th>STT</th>
@@ -137,22 +143,26 @@
                                 <div class="form-group col-md-12">
                             <span class="thong-tin-thanh-toan">
                                 <h5 style="margin: 14px">Thêm học sinh mới vào lớp</h5>
+
                             </span>
+                                    <div class="d-flex justify-content-end mt-3 mr-2">
+                                        <button class="btn btn-primary" onclick="toggleCheckboxes()">Chọn / Bỏ 10 học sinh</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card shadow mb-4">
-                                <form method="post" action="classdetail?action=addPupil">
+                                <form method="post" action="classdetail?action=addPupil" id="accept-form">
                                     <input hidden="" value="${requestScope.classId}" name="classId">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
-                                    <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                    <button type="submit" class="btn btn-outline-success" onclick="confirmAccept()" >
                                         <i class="fas fa-plus"></i> Thêm học sinh
                                     </button>
 
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered"  width="100%" cellspacing="0">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                             <tr>
                                                 <th>STT</th>
@@ -179,7 +189,7 @@
                                                     <td>${pupil.address}</td>
                                                     <td class="align-middle text-center">
                                                         <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
-                                                            <input style="cursor: pointer;" class="form-check-input" type="checkbox" value="${pupil.id}" id="checkbox1" name="pupilSelected">
+                                                            <input style="cursor: pointer;" class="form-check-input" type="checkbox" value="${pupil.id}" id="myCheckbox" name="pupilSelected">
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -200,6 +210,24 @@
         <jsp:include page="../footer.jsp"/>
     </div>
 </div>
+<script>
+    // Variable to track the current state (true: checked, false: unchecked)
+    var areChecked = false;
+
+    // Function to toggle the first 30 checkboxes
+    function toggleCheckboxes() {
+        // Get all checkboxes with the class 'myCheckbox'
+        var checkboxes = document.querySelectorAll('#myCheckbox');
+
+        // Loop through the first 30 checkboxes and toggle their checked state
+        for (var i = 0; i < 10 && i < checkboxes.length; i++) {
+            checkboxes[i].checked = !areChecked;
+        }
+
+        // Toggle the state variable
+        areChecked = !areChecked;
+    }
+</script>
 <!-- Page level plugins -->
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>

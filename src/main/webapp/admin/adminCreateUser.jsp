@@ -1,84 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-        <title>Title</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Main CSS-->
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-        <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css"
-              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <style>
-            .search-container {
-                width: 70%;
-                margin: 0 auto 20px;
-                display: flex;
-                justify-content: space-evenly;
-                align-items: center; /* Thêm dòng này để căn chỉnh nút theo chiều dọc */
-            }
-            .search-container select,
-            .search-container input[type="text"],
-            .search-container button {
-                margin-right: 10px;
-                height: 40px; /* Đặt chiều cao cho các phần tử là 40px */
-                box-sizing: border-box; /* Đảm bảo kích thước bao gồm cả padding và border */
-            }
-            .search-icon-btn {
-                height: 100%; /* Đặt chiều cao của nút là 100% của phần tử cha */
-                padding: 0 15px; /* Khoảng cách nút với biên là 0 15px */
-                background-color: #007bff; /* Màu nền cho nút */
-                color: #fff; /* Màu chữ cho nút */
-                border: none; /* Loại bỏ đường viền của nút */
-                border-radius: 4px; /* Định hình góc của nút */
-                cursor: pointer; /* Biểu tượng con trỏ khi di chuột vào nút */
-            }
-            .search-icon-btn i {
-                font-size: 20px; /* Kích thước của biểu tượng tìm kiếm */
-            }
-            table {
-                width: 70%;
-                margin: 50px auto;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 10px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            h1 {
-                text-align: center;
-                margin-top: 50px;
-            }
-            .app-sidebar__user-avatar {
-                width: 150px;
-                height: 150px;
-                border-radius: 50%;
-                cursor: pointer;
-                object-fit: cover;
-            }
-            .avatar-input {
-                display: none;
-            }
-
-        </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <title>Tạo tài khoản</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
         <script>
             $(document).ready(function () {
                 var toastMessage = '<%= request.getAttribute("toastMessage") %>';
@@ -92,163 +21,158 @@
                 }
             });
         </script>
+        <script>
+            function submitForm() {
+                document.getElementById("myForm").submit();
+            }
+        </script>
+        <!-- Custom styles for this page -->
+        <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     </head>
 
-    <body onload="time()" class="app sidebar-mini rtl">
-        <!-- Navbar-->
-        <header class="app-header">
-            <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-                                            aria-label="Hide Sidebar"></a>
-            <!-- Navbar Right Menu-->
-            <ul class="app-nav">
-                <!-- User Menu-->
-                <li><a class="app-nav__item" href="../logout"><i class='bx bx-log-out bx-rotate-180'></i> Logout </a>
-                </li>
-            </ul>
-        </header>
-        <!-- Sidebar menu-->
-        <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
-            <div class="app-sidebar__user">
-                <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${sessionScope.personnel.avatar}" alt="User Image" onclick="redirectToInfoPage()">
-                <input class="avatar-input" id="avatarInput" type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)">
-                <div>
-                    <p class="app-sidebar__user-name"><b>${personnel.lastName} ${personnel.firstName}</b></p>
-                    <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+    <body id="page-top">
+        <div id="wrapper">
+            <jsp:include page="navbar.jsp"/>
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    <jsp:include page="../header.jsp"/>
+                    <form id="createAccountForm" action="registeraccount" method="POST">
+                        <div class="container-fluid">
+                            <h1 class="h3 mb-4 text-gray-800 text-center">TẠO TÀI KHOẢN</h1>
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">                            
+                                    <div>
+                                        <label >VAI TRÒ</label>
+                                        <select class="form-control-sm" name="role" id="roleSelect" onchange="redirectToServlet()">
+                                            <option value="6">ALL (ROLE)</option>
+                                            <option value="0">ADMIN</option>
+                                            <option value="1">HEADTEACHER</option>
+                                            <option value="2">ACADEMIC STAFF</option>
+                                            <option value="3">ACCOUNTANT</option>
+                                            <option value="4">TEACHER</option>
+                                            <option value="5">PARENT</option>
+                                        </select>  
+                                    </div>
+                                    <div class="d-flex justify-content-lg-between">
+                                        <button type="button" onclick="selectAll()" class="btn btn-success btn-sm mb-1">CHỌN TẤT CẢ</button>
+                                        <button type="button" onclick="deselectAll()" class="btn btn-danger btn-sm">BỎ CHỌN TẤT CẢ</button>
+                                        <button type="submit" class="btn btn-primary btn-sm mb-1">TẠO TÀI KHOẢN</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">DANH SÁCH NGƯỜI DÙNG CHƯA CÓ TÀI KHOẢN</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">                              
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                        <th>STT</th>
+                                        <th>HỌ VÀ TÊN</th>
+                                        <th>ID</th>
+                                        <th>EMAIL</th>
+                                        <th>VAI TRÒ</th>
+                                        <th>TRẠNG THÁI</th>
+                                        <th>HÀNH ĐỘNG</th>
+                                        </thead>
+                                        <tbody>
+                                        <div style="color: red">${requestScope.error}</div>
+                                        <c:set var="count" value="1" />
+                                        <c:forEach var="personnel" items="${requestScope.listPersonnel}" varStatus="status">
+                                            <tr>
+                                                <th scope="row">${count}</th>
+                                                <td>${personnel.getLastName()} ${personnel.getFirstName()}</td>
+                                                <td>${personnel.getId()}</td>
+                                                <td>${personnel.getEmail()}</td>
+                                                <td>${roleMap[personnel.getRoleId()]}</td>
+                                                <td>${personnel.getStatus()}</td>
+                                                <td>
+                                                    <input type="checkbox" name="user_checkbox" value="${personnel.getId()}">
+                                                </td>
+                                            </tr>
+                                            <c:set var="count" value="${count + 1}" />
+                                        </c:forEach>
+                                        <c:forEach var="pupil" items="${requestScope.listPupils}" varStatus="status">
+                                            <tr>
+                                                <th scope="row">${count}</th>
+                                                <td>${pupil.getLastName()} ${pupil.getFirstName()}</td>
+                                                <td>${pupil.getId()}</td>
+                                                <td>${pupil.getEmail()}</td>
+                                                <td>Parent</td>
+                                                <td>${pupil.getStatus()}</td>
+                                                <td>
+                                                    <input type="checkbox" name="user_checkbox" value="${pupil.getId()}">
+                                                </td>
+                                            </tr>
+                                            <c:set var="count" value="${count + 1}" />
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-around">
+                            <div>
+                                <button type="button" onclick="Back()" class="btn btn-danger btn-sm">QUAY LẠI</button>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-sm mb-1">TẠO TÀI KHOẢN</button>
+                            </div>
+                        </div>
+                    </form>  
                 </div>
             </div>
-            <hr>
-
-            <!-- Admin homepage start-->
-            <ul class="app-menu">
-                <li><a class="app-menu__item" href="createuser"><i class='app-menu__icon bx bx-user-plus'></i><span
-                            class="app-menu__label">Tạo tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="manageruser"><i class='app-menu__icon bx bx-user-voice'></i><span
-                            class="app-menu__label">Quản lý tài khoản</span></a></li>
-                <li><a class="app-menu__item" href="view-information"><i class='app-menu__icon bx bx-user-voice'></i><span
-                            class="app-menu__label">Thông tin cá nhân</span></a></li>
-            </ul>
-            <!-- Admin homepage end-->
-
-
-            <!--  teacher dashboard end-->
-
-
-
-
-        </aside>
-
-
-        <div>
-            <h1 style="text-align: center; margin-top:  50px">Danh sách người dùng chưa có tài khoản</h1>
-            <div class="search-container">
-                <select name="role" id="roleSelect" onchange="redirectToServlet()">
-                    <option value="personnels">Personnels</option>
-                    <option value="5">Pupils</option>
-                </select>
-
-                <div>
-                    <button onclick="selectAll()" class="btn-add">Chọn tất cả</button>
-                    <button onclick="deselectAll()" class="btn-danger">Bỏ chọn tất cả</button>
-                </div>
-            </div>
-            <form id="createAccountForm" action="registeraccount" method="POST">
-                <table style="width: 70%; margin-left: 300px">
-                    <thead>
-                    <th>STT</th>
-                    <th>Họ Và Tên</th>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Vai Trò</th>
-                    <th>Trạng Thái</th>
-                    <th>Hành Động</th>
-                    </thead>
-                    <tbody>
-                        <c:set var="counter" value="1" />
-                        <c:forEach items="${requestScope.list}" var="p" >
-                            <tr>
-                                <td>${counter}</td>
-                                <td>${p.getLastName()} ${p.getFirstName()}</td>
-                                <td>${p.getId()}</td>
-                                <td>${p.getEmail()}</td>
-                                <td>${roleMap[p.getRoleId()]}</td>
-                                <td>${p.getStatus()}</td>
-                                <td>
-                                    <input type="checkbox" name="user_checkbox" value="${p.getId()}">
-                                </td>
-                            </tr>
-                            <c:set var="counter" value="${counter + 1}" />
-                        </c:forEach>
-                    </tbody>
-                </table>
         </div>
-        <div style="text-align: right; margin-right: 150px; margin-bottom: 20px;">
-            <button type="submit" class="btn-add">Tạo tài khoản</button>
-        </div>
-    </form>
-
+        <jsp:include page="../footer.jsp"/>
+    </div>
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script>
+                                    function Back() {
+                                        window.location.href = '${pageContext.request.contextPath}/admin/manageruser';
+                                    }
+                                    function redirectToServlet() {
+                                        var selectedRole = document.getElementById("roleSelect").value;
+                                        if (selectedRole !== "") {
+                                            window.location.href = "categoryRole?role=" + selectedRole;
+                                        }
+                                    }
+                                    function selectAll() {
+                                        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                        checkboxes.forEach(function (checkbox) {
+                                            checkbox.checked = true;
+                                        });
+                                    }
 
-        function redirectToServlet() {
-            var selectedRole = document.getElementById("roleSelect").value;
-            if (selectedRole !== "") {
-                window.location.href = "categoryRole?role=" + selectedRole;
-            }
-        }
-        // Function to get query parameter value
-        function getQueryParam(param) {
-            var urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+                                    function deselectAll() {
+                                        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                        checkboxes.forEach(function (checkbox) {
+                                            checkbox.checked = false;
+                                        });
+                                    }
+                                    // Function to get query parameter value
+                                    function getQueryParam(param) {
+                                        var urlParams = new URLSearchParams(window.location.search);
+                                        return urlParams.get(param);
+                                    }
 
-        // Set the selected value on page load
-        document.addEventListener('DOMContentLoaded', (event) => {
-            var selectedRole = getQueryParam('role');
-            if (selectedRole) {
-                document.getElementById('roleSelect').value = selectedRole;
-            }
-        });
-        function selectAll() {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = true;
-            });
-        }
-
-        function deselectAll() {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = false;
-            });
-        }
-
+                                    // Set the selected value on page load
+                                    document.addEventListener('DOMContentLoaded', (event) => {
+                                        var selectedRole = getQueryParam('role');
+                                        if (selectedRole) {
+                                            document.getElementById('roleSelect').value = selectedRole;
+                                        }
+                                    });
     </script>
-    <script>
-        function previewAvatar(event) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                const output = document.getElementById('avatarDisplay');
-                output.src = reader.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        function redirectToInfoPage() {
-            window.location.href = '${pageContext.request.contextPath}/admin/information';
-        }
-    </script>
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="js/popper.min.js"></script>
-    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-    <!--===============================================================================================-->
-    <script src="js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="js/main.js"></script>
-    <!--===============================================================================================-->
-    <script src="js/plugins/pace.min.js"></script>
-    <!--===============================================================================================-->
-    <!--===============================================================================================-->
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
 </body>
-
 </html>

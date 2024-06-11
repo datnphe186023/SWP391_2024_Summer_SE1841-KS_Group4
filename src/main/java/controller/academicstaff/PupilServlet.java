@@ -65,14 +65,15 @@ public class PupilServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 String note = request.getParameter("note");
                 String address = request.getParameter("address");
-                String secondGuardianPhoneNumber = request.getParameter("secondGuardianPhoneNumber");
+                String secondGuardianPhoneNumber = request.getParameter("secondGuardianPhoneNumber").trim();
                 String firstGuardianPhoneNumber = request.getParameter("firstGuardianPhoneNumber");
+
                 String status = "đang chờ xử lý";
                 user = (User) session.getAttribute("user");
                 Personnel createdBy = personnelDAO.getPersonnelByUserId(user.getId());
 
-                Pupil pupil = new Pupil(null, null, helper.formatName(firstName), helper.formatName(lastName), address, email, status, birthday, gender,
-                        helper.formatName(firstGuardianName), firstGuardianPhoneNumber, avatar, helper.formatName(secondGuardianName), secondGuardianPhoneNumber, createdBy,
+                Pupil pupil = new Pupil(null, null, Helper.formatName(firstName), Helper.formatName(lastName), address, email, status, birthday, gender,
+                        Helper.formatName(firstGuardianName), firstGuardianPhoneNumber, avatar, secondGuardianName.isBlank()?null:Helper.formatName(secondGuardianName), secondGuardianPhoneNumber.isBlank()?null:secondGuardianPhoneNumber, createdBy,
                         note);
                 ////   Stage for create pupil
                 if (pupilDAO.createPupil(pupil)) {
