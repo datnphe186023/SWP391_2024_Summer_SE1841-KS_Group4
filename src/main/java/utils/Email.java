@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.Properties;
 
 public class Email {
-    public static void sendEmail(String to, String subject, String content){
+
+    public static void sendEmail(String to, String subject, String content) {
         final String from = "hoangthhek17@gmail.com";
         final String password = "ghvl eyfe jmiq lwzt";
 
@@ -44,8 +45,5 @@ public class Email {
         } catch (MessagingException e) {
             System.out.println("SendEmail " + e);
         }
-    }
-    public static void main(String[] args) {
-        sendEmail("tuannnahe176267@fpt.edu.vn", "Đêm qua em tuyệt lắm", "abcxyz 696969");
     }
 }
