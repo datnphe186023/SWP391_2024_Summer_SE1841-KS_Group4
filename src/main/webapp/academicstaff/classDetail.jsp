@@ -155,7 +155,7 @@
                                     <input hidden="" value="${requestScope.classId}" name="classId">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
-                                    <button type="submit" class="btn btn-outline-success" onclick="confirmAccept()" >
+                                    <button id="add-button" type="button" class="btn btn-outline-success" onclick="confirmAccept()" >
                                         <i class="fas fa-plus"></i> Thêm học sinh
                                     </button>
 
