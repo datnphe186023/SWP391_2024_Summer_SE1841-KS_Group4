@@ -9,6 +9,7 @@ public class Application {
     private Date processedAt;
     private ApplicationType type;
     private String details;
+    private String processNote;
     private String status;
     private String createdBy;
     private Date createdAt;
@@ -17,16 +18,25 @@ public class Application {
     public Application() {
     }
 
-    public Application(String id, Date processedAt, ApplicationType type, String details, String status, String createdBy,
-                       Date createdAt, Personnel processedBy) {
+    public Application(String id, Date processedAt, ApplicationType type, String details, String processNote,
+                       String status, String createdBy, Date createdAt, Personnel processedBy) {
         this.id = id;
         this.processedAt = processedAt;
         this.type = type;
         this.details = details;
+        this.processNote = processNote;
         this.status = status;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.processedBy = processedBy;
+    }
+
+    public String getProcessNote() {
+        return processNote;
+    }
+
+    public void setProcessNote(String processNote) {
+        this.processNote = processNote;
     }
 
     public String getId() {

@@ -101,7 +101,7 @@ public class ClassDAO extends DBContext {
                 preparedStatement.setNull(4, java.sql.Types.VARCHAR);
             }
             preparedStatement.setString(5, c.getSchoolYear().getId());
-            preparedStatement.setString(6, "đang chờ duyệt");
+            preparedStatement.setString(6, "đang chờ xử lý");
             preparedStatement.setString(7, c.getCreatedBy().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {

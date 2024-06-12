@@ -25,6 +25,7 @@ public class ApplicationDAO extends DBContext {
         app.setProcessedAt(rs.getDate("processed_at"));
         app.setType(getById(rs.getString("application_type")));
         app.setDetails(rs.getString("details"));
+        app.setProcessNote(rs.getString("process_note"));
         app.setStatus(rs.getString("status"));
         app.setCreatedBy(rs.getString("created_by"));
         app.setCreatedAt(rs.getDate("created_at"));
@@ -54,7 +55,7 @@ public class ApplicationDAO extends DBContext {
 
     public List<ApplicationType> getAllApplicationTypes(String role) {
         List<ApplicationType> applicationTypes = new ArrayList<ApplicationType>();
-        String sql = "select id, name, description from [Application_Types] where role = ?";
+        String sql = "select id, name, description from [Application_Types] where sender_role = ?";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, role);
@@ -73,18 +74,24 @@ public class ApplicationDAO extends DBContext {
     }
 
 
-    public List<Application> getBySchoolYear(SchoolYear schoolYear){
+    public List<Application> getForStaff(SchoolYear schoolYear){
         List<Application> applications = new ArrayList<>();
-        String sql = "select * from [Applications] where created_at between ? and ?";
+        String sql = "SELECT a.*\n" +
+                "FROM Applications a\n" +
+                "JOIN Application_Types at\n" +
+                "ON a.application_type = at.id\n" +
+                "WHERE at.receiver_role = ?\n" +
+                "AND a.created_at between ? and ?";
         try{
-             PreparedStatement statement = connection.prepareStatement(sql);
-             statement.setString(1, Helper.convertDateToLocalDate(schoolYear.getStartDate()).toString());
-             statement.setString(2, Helper.convertDateToLocalDate(schoolYear.getEndDate()).toString());
-             ResultSet resultSet = statement.executeQuery();
-             while (resultSet.next()) {
-                 Application application = createApplication(resultSet);
-                 applications.add(application);
-             }
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "academic staff");
+            statement.setString(2, Helper.convertDateToLocalDate(schoolYear.getStartDate()).toString());
+            statement.setString(3, Helper.convertDateToLocalDate(schoolYear.getEndDate()).toString());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Application application = createApplication(resultSet);
+                applications.add(application);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -108,7 +115,7 @@ public class ApplicationDAO extends DBContext {
     }
 
     public String addApplication(Application application) {
-        String sql = "insert into [Applications] values (?,?,?,?,?,?,?,?)";
+        String sql = "insert into [Applications] values (?,?,?,?,?,?,?,?,?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             if(getLatest()==null){
@@ -119,10 +126,11 @@ public class ApplicationDAO extends DBContext {
             preparedStatement.setNull(2, Types.VARCHAR);
             preparedStatement.setString(3, application.getType().getId());
             preparedStatement.setString(4, application.getDetails());
-            preparedStatement.setString(5, application.getStatus());
-            preparedStatement.setString(6, application.getCreatedBy());
-            preparedStatement.setString(7, Helper.convertDateToLocalDate(application.getCreatedAt()).toString());
-            preparedStatement.setNull(8, Types.VARCHAR);
+            preparedStatement.setNull(5, Types.NVARCHAR);
+            preparedStatement.setString(6, application.getStatus());
+            preparedStatement.setString(7, application.getCreatedBy());
+            preparedStatement.setString(8, Helper.convertDateToLocalDate(application.getCreatedAt()).toString());
+            preparedStatement.setNull(9, Types.VARCHAR);
             preparedStatement.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
@@ -155,5 +163,39 @@ public class ApplicationDAO extends DBContext {
         DecimalFormat decimalFormat = new DecimalFormat("000000");
         String result = decimalFormat.format(number);
         return "APP" + result;
+    }
+
+    public String processApplication(Application application) {
+        String sql = "update [Applications] set status = ?, process_note = ?, processed_at = ?, processed_by = ? where id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, application.getStatus());
+            preparedStatement.setString(2, application.getProcessNote());
+            preparedStatement.setString(3, Helper.convertDateToLocalDate(application.getProcessedAt()).toString());
+            preparedStatement.setString(4, application.getProcessedBy().getId());
+            preparedStatement.setString(5, application.getId());
+            preparedStatement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Xử lý đơn thất bại! Vui lòng thử lại sau";
+        }
+        return "success";
+    }
+
+    public List<Application> getSentApplications(String senderUserId){
+        String sql = "select * from [Applications] where created_by = ?";
+        List<Application> applications = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, senderUserId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Application application = createApplication(resultSet);
+                applications.add(application);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return applications;
     }
 }

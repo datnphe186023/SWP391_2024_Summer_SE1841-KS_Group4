@@ -72,6 +72,27 @@
                 cursor: not-allowed;      /* Con trỏ chỉ vào trường readonly */
                 border: 1px solid #ced4da; /* Viền của trường readonly */
             }
+            /*            button */
+            .btn-custom-danger {
+                background-color: #dc3545;
+                border-color: #dc3545;
+                color: #fff;
+            }
+            .btn-custom-danger:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+                color: #fff;
+            }
+            .btn-custom-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: #fff;
+            }
+            .btn-custom-primary:hover {
+                background-color: #0069d9;
+                border-color: #0062cc;
+                color: #fff;
+            }
         </style>
 
     </head>
@@ -137,37 +158,10 @@
                                                     </tbody>
                                                 </table>
                                                 <div class="form-buttons">
-                                                    <button type="button" class="cancel-btn" onclick="cancelAction()">Quay Lại</button>
-                                                    <button type="submit" class="update-btn">Chỉnh Sửa</button></a>
+                                                    <button type="button" class="btn btn-danger btn-lg" onclick="cancelAction()">Quay Lại</button>
+                                                    <button type="submit" class="btn btn-primary btn-lg">Chỉnh Sửa</button></a>
                                                 </div>
                                             </form>
-                                            <!-- Password Change Modal -->
-                                            <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-body">
-                                                            <form action="${pageContext.request.contextPath}/new-password" method="post">
-                                                                <div class="form-group">
-                                                                    <label for="oldPassword">Mật khẩu cũ:</label>
-                                                                    <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="newPassword">Mật khẩu mới:</label>
-                                                                    <input type="password" id="newPassword" name="newPassword" class="form-control" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="confirmPassword">Xác nhận mật khẩu:</label>
-                                                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
-                                                                </div>
-                                                                <input type="submit" value="Đổi mật khẩu" class="btn btn-primary">
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Password Change Modal -->
-
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +175,11 @@
 
 
 
-
+        <script>
+            function cancelAction() {
+                window.location.href = '${pageContext.request.contextPath}/admin/manageruser';
+            }
+        </script>
         <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>

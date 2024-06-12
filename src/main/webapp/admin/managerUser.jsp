@@ -84,7 +84,7 @@
                                                     <td>${roleDis[u.getIsDisabled()]}</td>
                                                     <td>
                                                         <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn btn-success btn-sm mb-1">CHỈNH SỬA</button></a></br>
-                                                        <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn btn-danger btn-sm">ĐẶT LẠI MẬT KHẨU</button></a>
+                                                        <a class="detail-button" href="resetpassword?email=${u.getEmail()}"><button class="btn btn-danger btn-sm">ĐẶT LẠI MẬT KHẨU</button></a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

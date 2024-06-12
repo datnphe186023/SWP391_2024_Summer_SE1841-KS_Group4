@@ -78,7 +78,16 @@
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${classes.name}</td>
                                         <td>${classes.grade.name}</td>
-                                        <td>${classes.status}</td>
+                                        <c:set value="${classes.status}" var="s"/>
+                                        <c:if test="${s eq 'đã được duyệt'}">
+                                            <td><span class="badge badge-success">${s}</span></td>
+                                        </c:if>
+                                        <c:if test="${s eq 'đang chờ xử lý'}">
+                                            <td><span class="badge badge-warning">${s}</span>  </td>
+                                        </c:if>
+                                        <c:if test="${s eq 'đã từ chối'}">
+                                            <td><span class="badge badge-danger">${s}</span>  </td>
+                                        </c:if>
                                         <td class="text-center"><a href="classdetail?classId=${classes.id}"
                                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
                                             tin chi tiết</a></td>
