@@ -1,6 +1,7 @@
 <%@ page import="models.pupil.PupilDAO" %>
 <%@ page import="models.classes.ClassDAO" %>
 <%@ page import="models.schoolYear.SchoolYearDAO" %>
+<%@ page import="models.timetable.TimetableDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -69,7 +70,8 @@
                 <div id="collapseTimetable" class="collapse" aria-labelledby="headingTimetable" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="timetable">Danh Sách Thời Khóa Biểu</a>
-                        <a class="collapse-item" href="#">Đang Chờ Phê Duyệt</a>
+                        <% TimetableDAO timetableDAO = new TimetableDAO(); %>
+                        <a class="collapse-item" href="reviewtimetable">Đang Chờ Phê Duyệt(<%=timetableDAO.getTimetableByStatus("chưa xét duyệt").size()%>)</a>
                     </div>
                 </div>
             </li>
