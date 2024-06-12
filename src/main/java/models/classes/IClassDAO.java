@@ -10,4 +10,6 @@ public interface IClassDAO {
     List<Class> getByStatus(String status, String schoolYearId);
     String reviewClass(String newStatus, String id);
     List<Class> getClassByGradeId(String gradeId);
+    boolean moveOutClassForPupil(String oldClassId, String newClassId, String pupilId);
+    boolean moveOutClassForTeacher(String teacherId, String classId);
 }

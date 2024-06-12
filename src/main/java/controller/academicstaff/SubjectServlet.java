@@ -25,6 +25,7 @@ public class SubjectServlet extends HttpServlet {
         request.setAttribute("listAllSubject",subjectDAO.getAll());
         request.setAttribute("listGrade",gradeDAO.getAll());
         request.getRequestDispatcher("subject.jsp").forward(request,response);
+
     }
 
     @Override
@@ -33,14 +34,13 @@ public class SubjectServlet extends HttpServlet {
         IGradeDAO gradeDAO = new GradeDAO();
         ISubjectDAO subjectDAO = new SubjectDAO();
         HttpSession session = request.getSession();
-        Helper helper = new Helper();
         String toastMessage = "";
         String toastType = "error";
-        if(action.equals("create")){
+        if (action.equals("create")) {
             String name = request.getParameter("name");
             String grade = request.getParameter("grade");
             String description = request.getParameter("description");
-            Subject subject = new Subject(null,helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ phê duyệt");
+            Subject subject = new Subject(null,Helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ phê duyệt");
             if(Helper.formatString(description).length()>1000){
                  toastMessage = "Tạo thất bại! Đã quá 1000 kí tự";
                  toastType = "error";
@@ -52,27 +52,27 @@ public class SubjectServlet extends HttpServlet {
             }else if(subjectDAO.checkSubjectExist(name,grade)){
                 toastMessage = "Tạo thất bại! Đã tồn tại môn học này";
                 toastType = "error";
-                request.setAttribute("listAllSubject",subjectDAO.getAll());
-                request.setAttribute("listGrade",gradeDAO.getAll());
-                session.setAttribute("toastMessage",toastMessage);
-                session.setAttribute("toastType",toastType);
-                request.getRequestDispatcher("subject.jsp").forward(request,response);
-            }else if(subjectDAO.createSubject(subject)){
+                request.setAttribute("listAllSubject", subjectDAO.getAll());
+                request.setAttribute("listGrade", gradeDAO.getAll());
+                session.setAttribute("toastMessage", toastMessage);
+                session.setAttribute("toastType", toastType);
+                request.getRequestDispatcher("subject.jsp").forward(request, response);
+            } else if (subjectDAO.createSubject(subject)) {
                 toastMessage = "Tạo thành công";
                 toastType = "success";
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType", toastType);
                 response.sendRedirect("subject");
-            }else {
+            } else {
                 toastMessage = "Tạo thật bại";
                 toastType = "error";
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType", toastType);
-                request.setAttribute("listAllSubject",subjectDAO.getAll());
-                request.setAttribute("listGrade",gradeDAO.getAll());
-                session.setAttribute("toastMessage",toastMessage);
-                session.setAttribute("toastType",toastType);
-                request.getRequestDispatcher("subject.jsp").forward(request,response);
+                request.setAttribute("listAllSubject", subjectDAO.getAll());
+                request.setAttribute("listGrade", gradeDAO.getAll());
+                session.setAttribute("toastMessage", toastMessage);
+                session.setAttribute("toastType", toastType);
+                request.getRequestDispatcher("subject.jsp").forward(request, response);
             }
 
         }
