@@ -1,6 +1,8 @@
 package models.week;
 
 import models.day.DayDAO;
+import models.day.IDayDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import utils.DBContext;
@@ -23,17 +25,18 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WeekDAO extends DBContext {
+public class WeekDAO extends DBContext implements IWeekDAO {
     private Week createWeek(ResultSet rs) throws SQLException {
         Week week = new Week();
         week.setId(rs.getString("id"));
         week.setStartDate(rs.getDate("start_date"));
         week.setEndDate(rs.getDate("end_date"));
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         week.setSchoolYear(schoolYearDAO.getSchoolYear(rs.getString("school_year_id")));
         return week;
     }
 
+    @Override
     public void generateWeeks(SchoolYear schoolYear) {
         try{
             Date startDate = schoolYear.getStartDate();
@@ -54,7 +57,7 @@ public class WeekDAO extends DBContext {
                 week.setEndDate(Helper.convertLocalDateToDate(currentEndDate));
                 week.setSchoolYear(schoolYear);
                 addWeekToDatabase(week);
-                DayDAO dayDAO = new DayDAO();
+                IDayDAO dayDAO = new DayDAO();
                 dayDAO.generateDays(getWeek(newWeekId));
                 currentStartDate = currentStartDate.plusWeeks(1);
             }
@@ -106,6 +109,7 @@ public class WeekDAO extends DBContext {
         return "W" + result;
     }
 
+    @Override
     public Week getWeek(String id){
         String sql = "select * from Weeks where id = ?";
         try{
@@ -120,7 +124,8 @@ public class WeekDAO extends DBContext {
         }
         return null;
     }
-    
+
+    @Override
     public List<Week> getWeeksFromNow() {
         List<Week> weeks = new ArrayList<>();
         String sql = "SELECT TOP 3 * FROM Weeks WHERE start_date >= ? ORDER BY start_date";

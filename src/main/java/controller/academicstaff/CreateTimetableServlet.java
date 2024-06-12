@@ -10,20 +10,26 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
+
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
+import models.day.IDayDAO;
 import models.grade.Grade;
 import models.grade.GradeDAO;
+import models.grade.IGradeDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
+import models.subject.ISubjectDAO;
 import models.subject.Subject;
 import models.subject.SubjectDAO;
+import models.timeslot.ITimeslotDAO;
 import models.timeslot.Timeslot;
 import models.timeslot.TimeslotDAO;
+import models.timetable.ITimetableDAO;
+import models.week.IWeekDAO;
 import models.week.Week;
 import models.week.WeekDAO;
 import models.classes.Class;
@@ -77,12 +83,12 @@ public class CreateTimetableServlet extends HttpServlet {
             throws ServletException, IOException {
         
         SchoolYearDAO yearDAO = new SchoolYearDAO();
-        TimeslotDAO timeslotDAO = new TimeslotDAO();
-        WeekDAO weekDAO = new WeekDAO();
-        GradeDAO gradeDAO = new GradeDAO();
-        ClassDAO classDAO = new ClassDAO();
-        SubjectDAO subDAO = new SubjectDAO();
-        DayDAO dayDAO = new DayDAO();
+        ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        IWeekDAO weekDAO = new WeekDAO();
+        IGradeDAO gradeDAO = new GradeDAO();
+        IClassDAO classDAO = new ClassDAO();
+        ISubjectDAO subjectDAO = new SubjectDAO();
+        IDayDAO dayDAO = new DayDAO();
         
         String selectedGradeId = request.getParameter("gradeId");
         String weekId = request.getParameter("weekId");
@@ -91,7 +97,7 @@ public class CreateTimetableServlet extends HttpServlet {
         List<Week> listWeek = weekDAO.getWeeksFromNow();
         List<Timeslot> listTimeslot = timeslotDAO.getAllTimeslots();
         SchoolYear newYear = yearDAO.getLatest();
-        List<Subject> subList = subDAO.getSubjectsByGradeId(selectedGradeId);
+        List<Subject> subList = subjectDAO.getSubjectsByGradeId(selectedGradeId);
         List<Class> classList = classDAO.getClassByGradeId(selectedGradeId);
         List<Day> dayList = dayDAO.getDayByWeek(weekId);
         
@@ -121,7 +127,7 @@ public class CreateTimetableServlet extends HttpServlet {
             throws ServletException, IOException {
         String classId = request.getParameter("classId");
         String note = request.getParameter("note");
-        TimetableDAO timetableDAO = new TimetableDAO();
+        ITimetableDAO timetableDAO = new TimetableDAO();
         
         // Lấy tất cả các tham số từ request
         Enumeration<String> parameterNames = request.getParameterNames();
@@ -136,13 +142,9 @@ public class CreateTimetableServlet extends HttpServlet {
                     String timeslotId = parts[0];
                     String dateId = parts[1];
                     String subjectId = paramValue;
-                    
-                    try {
-                        // Chèn dữ liệu vào bảng Timetables
-                        timetableDAO.insertTimetable(classId, timeslotId, dateId, subjectId, "created_by_value", "status_value", note, "teacher_id_value");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CreateTimetableServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
+                    // Chèn dữ liệu vào bảng Timetables
+                    timetableDAO.insertTimetable(classId, timeslotId, dateId, subjectId, "created_by_value", "status_value", note, "teacher_id_value");
                 }
             }
         }

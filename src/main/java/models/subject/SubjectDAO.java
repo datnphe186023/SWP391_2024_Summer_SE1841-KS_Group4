@@ -15,15 +15,16 @@ import java.util.regex.Pattern;
 
 import models.grade.Grade;
 import models.grade.GradeDAO;
+import models.grade.IGradeDAO;
 import utils.DBContext;
 
 /**
  *
  * @author Admin
  */
-public class SubjectDAO extends DBContext {
-    public Subject createSubject(ResultSet resultSet) throws SQLException{
-        GradeDAO gradeDAO = new GradeDAO();
+public class SubjectDAO extends DBContext implements ISubjectDAO{
+    private Subject createSubject(ResultSet resultSet) throws SQLException{
+        IGradeDAO gradeDAO = new GradeDAO();
         Subject subject = new Subject();
         subject.setId(resultSet.getString("id"));
         subject.setName(resultSet.getString("name"));
@@ -33,6 +34,8 @@ public class SubjectDAO extends DBContext {
         subject.setDescription(resultSet.getString("description"));
         return subject;
     }
+
+    @Override
     public boolean checkSubjectExist(String name, String gradeId){
         String sql="select * from Subjects where [name] = ? and grade_id= ?";
         try {
@@ -48,6 +51,8 @@ public class SubjectDAO extends DBContext {
         }
         return false;
     }
+
+    @Override
     public boolean updateStatusById(String id, String status){
         String sql="update Subjects set status =? where id = ?";
         try {
@@ -61,7 +66,9 @@ public class SubjectDAO extends DBContext {
         }
         return false;
     }
-  public boolean createSubject(Subject subject){
+
+    @Override
+    public boolean createSubject(Subject subject){
       String sql="INSERT INTO [dbo].[Subjects] VALUES (?,?,?,?,?)";
       try {
           PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -78,7 +85,7 @@ public class SubjectDAO extends DBContext {
       return false;
   }
 
-
+    @Override
     public List<Subject> getAll() {
         List<Subject> subjects = new ArrayList<>();
         String sql = "Select * from Subjects";
@@ -94,6 +101,8 @@ public class SubjectDAO extends DBContext {
         }
         return subjects;
     }
+
+    @Override
     public List<Subject> getSubjectsByStatus(String status){
         List<Subject> subjectList = new ArrayList<>();
         String sql="select * from Subjects where status = ?";
@@ -110,6 +119,8 @@ public class SubjectDAO extends DBContext {
         }
         return subjectList;
     }
+
+    @Override
     public List<Subject> getSubjectsByGradeId(String gradeId) {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT s.id AS subject_id, s.name AS subject_name, g.id AS grade_id, g.name AS grade_name, s.description "
@@ -139,6 +150,7 @@ public class SubjectDAO extends DBContext {
         return subjects;
     }
 
+    @Override
     public Subject getLastest(){
         String sql="Select top 1 * from Subjects order by id desc";
         try {
@@ -152,7 +164,8 @@ public class SubjectDAO extends DBContext {
         }
         return null;
     }
-    public String generateId(String latestId) {
+
+    private String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
         int number = 0;
@@ -163,7 +176,8 @@ public class SubjectDAO extends DBContext {
         String result = decimalFormat.format(number);
         return "S" + result;
     }
-    
+
+    @Override
     public Subject getSubjectBySubjectId(String subjectId) {
         String sql = "SELECT s.id AS subject_id, s.name AS subject_name, g.id AS grade_id, g.name AS grade_name, s.description "
                 + "FROM Subjects s "

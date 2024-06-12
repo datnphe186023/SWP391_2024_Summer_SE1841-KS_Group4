@@ -3,8 +3,10 @@ package controller.academicstaff;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
@@ -22,7 +24,7 @@ import java.util.List;
 public class SchoolYearServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         List<SchoolYear> schoolYears = schoolYearDAO.getAll();
         HttpSession session = request.getSession();
         String toastType = "", toastMessage = "";
@@ -40,7 +42,7 @@ public class SchoolYearServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         try{
             String action = request.getParameter("action");
             if (action == null){
@@ -63,7 +65,7 @@ public class SchoolYearServlet extends HttpServlet {
                 schoolYear.setEndDate(endDate);
                 schoolYear.setDescription(description);
                 //therefore created id is also their id
-                PersonnelDAO personnelDAO = new PersonnelDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
                 Personnel personnel = personnelDAO.getPersonnel(username);
                 schoolYear.setCreatedBy(personnel);
                 String result = schoolYearDAO.createNewSchoolYear(schoolYear);

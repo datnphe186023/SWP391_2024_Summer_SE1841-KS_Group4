@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.*;
 import models.application.Application;
 import models.application.ApplicationDAO;
 import models.application.ApplicationType;
+import models.application.IApplicationDAO;
 import models.user.User;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class SendApplicationServlet extends HttpServlet {
         session.removeAttribute("toastMessage");
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
-        ApplicationDAO applicationDAO = new ApplicationDAO();
+        IApplicationDAO applicationDAO = new ApplicationDAO();
         List<ApplicationType> applicationTypes = applicationDAO.getAllApplicationTypes("pupil");
         request.setAttribute("applicationTypes", applicationTypes);
         request.getRequestDispatcher("sendApplication.jsp").forward(request, response);
@@ -37,7 +38,7 @@ public class SendApplicationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
         String details = request.getParameter("details");
-        ApplicationDAO applicationDAO = new ApplicationDAO();
+        IApplicationDAO applicationDAO = new ApplicationDAO();
         Application application = new Application();
         application.setType(applicationDAO.getById(type));
         application.setDetails(details);

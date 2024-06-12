@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
@@ -58,25 +59,25 @@ public class WaitlistPersonnelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PersonnelDAO pdao = new PersonnelDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
         String action = request.getParameter("action");
         String personId = request.getParameter("id");
         String message ="";
         String type = "";
         if(action!=null){
             if(action.equals("accept")){
-                pdao.updatePersonnelStatus(personId,"đã duyệt - chưa có tài khoản");
+                personnelDAO.updatePersonnelStatus(personId,"đã duyệt - chưa có tài khoản");
                 message="Đã duyệt thành công";
                 type = "success";
             }else if(action.equals("decline")){
-                pdao.updatePersonnelStatus(personId,"không được duyệt");
+                personnelDAO.updatePersonnelStatus(personId,"không được duyệt");
                 message="Đã từ chối";
                 type = "fail";
             }
         }
         request.setAttribute("message",message);
         request.setAttribute("type",type);
-        request.setAttribute("waitlistpersonnel",pdao.getPersonnelByStatus("đang chờ xử lý"));
+        request.setAttribute("waitlistpersonnel",personnelDAO.getPersonnelByStatus("đang chờ xử lý"));
         request.getRequestDispatcher("waitlistPersonnel.jsp").forward(request,response);
     } 
 
@@ -94,18 +95,18 @@ public class WaitlistPersonnelServlet extends HttpServlet {
         session.removeAttribute("message");
         session.removeAttribute("type");
 
-        PersonnelDAO pdao = new PersonnelDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
         String action = request.getParameter("action");
         String personId = request.getParameter("id");
         String message ="";
         String type = "";
         if(action!=null){
             if(action.equals("accept")){
-                pdao.updatePersonnelStatus(personId,"đang làm việc");
+                personnelDAO.updatePersonnelStatus(personId,"đang làm việc");
                 message="Đã duyệt thành công";
                 type = "success";
             }else if(action.equals("decline")){
-                pdao.updatePersonnelStatus(personId,"không được duyệt");
+                personnelDAO.updatePersonnelStatus(personId,"không được duyệt");
                 message="Đã từ chối";
                 type = "fail";
             }

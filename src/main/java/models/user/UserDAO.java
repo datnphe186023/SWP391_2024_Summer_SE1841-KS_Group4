@@ -16,7 +16,7 @@ import utils.*;
 /**
  * UserDAO class provides CRUD operations for User entities.
  */
-public class UserDAO extends DBContext {
+public class UserDAO extends DBContext implements IUserDAO {
 
     private User createUser(ResultSet rs) throws SQLException {
         User newUser = new User();
@@ -28,6 +28,7 @@ public class UserDAO extends DBContext {
         return newUser;
     }
 
+    @Override
     public List<User> getListUser() {
         List<User> list = new ArrayList<>();
 
@@ -62,11 +63,12 @@ public class UserDAO extends DBContext {
         return salt;
     }
 
-    public boolean checkPassword(String password, String username) throws Exception {
-        byte[] salt = getUserSalt(username);
-        byte[] expectedHashPassword = PasswordUtil.hashPassword(password.toCharArray(), salt);
-        String sql = "select [hashed_password] from [User] where user_name = ?";
+    @Override
+    public boolean checkPassword(String password, String username){
         try{
+            byte[] salt = getUserSalt(username);
+            byte[] expectedHashPassword = PasswordUtil.hashPassword(password.toCharArray(), salt);
+            String sql = "select [hashed_password] from [User] where user_name = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
@@ -95,6 +97,7 @@ public class UserDAO extends DBContext {
         return hexString.toString();
     }
 
+    @Override
     public User getUserByUsernamePassword(String userName, String password) {
         String sql = "SELECT * FROM [dbo].[User] WHERE user_name = ? AND hashed_password = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -118,6 +121,7 @@ public class UserDAO extends DBContext {
         return null;  // Return null if no record is found or an exception occurs
     }
 
+    @Override
     public User getUserById(String id) {
         String sql = "select * from [User] where id=?";
         try {
@@ -139,6 +143,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    @Override
     public void updateUser(User user) {
         String sql = "Update dbo.[User] set email=? , role_id=?, isDisabled=? where id=?";
         try {
@@ -153,6 +158,7 @@ public class UserDAO extends DBContext {
         }
     }
 
+    @Override
     public boolean resetPassword(String key) {
         try{
             String newPassword = generatePassword();
@@ -190,6 +196,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    @Override
     public boolean updateNewPassword(String newPassword, String userId) {
         String sql = "UPDATE [User]\n" +
                 "SET [salt] = ? \n" +
@@ -210,6 +217,7 @@ public class UserDAO extends DBContext {
         return false;
     }
 
+    @Override
     public void createNewUser(String user_name, String email, int role_id, byte isDisable) {
         String sql = "insert into [User] values(?,?,?,?,?,?,?) ";
         try {
@@ -302,6 +310,7 @@ public class UserDAO extends DBContext {
         }
     }
 
+    @Override
     public List<User> getUserByRole(int id) {
         List<User> list = new ArrayList<>();
         String sql = "Select * from dbo.[User] where role_id=?";
@@ -319,6 +328,7 @@ public class UserDAO extends DBContext {
         return list;
     }
 
+    @Override
     public User getByUsernameOrEmail(String key) {
         String sql = "SELECT * FROM dbo.[User] WHERE user_name = ? OR email = ?";
         try {
@@ -334,7 +344,8 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-  
+
+    @Override
     public boolean updateUserById(User user) {
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET [email] = ?\n"
@@ -349,7 +360,8 @@ public class UserDAO extends DBContext {
             return false;
         }
     }
-    
+
+    @Override
     public boolean checkEmailExists(String email) {
         String sql = "SELECT COUNT(*) FROM [User] WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

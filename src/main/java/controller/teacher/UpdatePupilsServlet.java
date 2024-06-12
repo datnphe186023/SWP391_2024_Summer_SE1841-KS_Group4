@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 
@@ -77,8 +78,8 @@ public class UpdatePupilsServlet extends HttpServlet {
         pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber"));
         pupil.setAddress(request.getParameter("address"));
         pupil.setParentSpecialNote(request.getParameter("note"));
-        PupilDAO dao = new PupilDAO();
-        dao.updatePupil(pupil);
+        IPupilDAO pupilDAO = new PupilDAO();
+        pupilDAO.updatePupil(pupil);
         request.getRequestDispatcher("pupilprofile").forward(request, response);
     }
 

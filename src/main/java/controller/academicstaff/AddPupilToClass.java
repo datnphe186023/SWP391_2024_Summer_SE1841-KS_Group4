@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
 import models.grade.GradeDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import utils.Helper;
@@ -20,8 +22,8 @@ import java.util.List;
 public class AddPupilToClass extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
-        ClassDAO classDAO = new ClassDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
+        IClassDAO classDAO = new ClassDAO();
         String classId = request.getParameter("classId");
         Class classes = classDAO.getClassById(classId);
         /// This variable to display the schoolyear of this class
@@ -34,7 +36,7 @@ public class AddPupilToClass extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
         HttpSession session = request.getSession();
         String toastMessage ="";
         String toastType="";
