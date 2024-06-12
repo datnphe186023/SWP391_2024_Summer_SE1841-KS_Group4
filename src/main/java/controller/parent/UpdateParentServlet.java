@@ -11,9 +11,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -48,9 +51,9 @@ public class UpdateParentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PersonnelDAO dao = new PersonnelDAO();
-        UserDAO userDAO = new UserDAO();
-        PupilDAO pupilDAO = new PupilDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        IUserDAO userDAO = new UserDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
         // Lấy thông tin pupil từ session
         HttpSession session = request.getSession();
         Pupil pupil = (Pupil) session.getAttribute("pupil");
@@ -67,9 +70,9 @@ public class UpdateParentServlet extends HttpServlet {
 
         // Kiểm tra tính duy nhất của email và số điện thoại
         boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
-        boolean phoneNumberMotherExists = (dao.checkPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checkfirstGuardianPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checksecondGuardianPhoneNumberExists(firstGuardianPhoneNumber)) 
+        boolean phoneNumberMotherExists = (personnelDAO.checkPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checkFirstGuardianPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checkSecondGuardianPhoneNumberExists(firstGuardianPhoneNumber))
                 && (!firstGuardianPhoneNumber.equals(pupil.getfirstGuardianPhoneNumber()));
-        boolean phoneNumberSecondGuardianExists = (dao.checkPhoneNumberExists(secondGuardianPhoneNumber) || pupilDAO.checkfirstGuardianPhoneNumberExists(secondGuardianPhoneNumber) || pupilDAO.checksecondGuardianPhoneNumberExists(firstGuardianPhoneNumber))
+        boolean phoneNumberSecondGuardianExists = (personnelDAO.checkPhoneNumberExists(secondGuardianPhoneNumber) || pupilDAO.checkFirstGuardianPhoneNumberExists(secondGuardianPhoneNumber) || pupilDAO.checkSecondGuardianPhoneNumberExists(firstGuardianPhoneNumber))
                 && (!secondGuardianPhoneNumber.equals(pupil.getsecondGuardianPhoneNumber()));
         if (emailExists && phoneNumberMotherExists && phoneNumberSecondGuardianExists) {
             request.setAttribute("toastType", "error");

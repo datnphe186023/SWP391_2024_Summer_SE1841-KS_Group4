@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.user.IUserDAO;
 import models.user.UserDAO;
 
 /**
@@ -23,7 +24,7 @@ public class ValidatePassword extends HttpServlet {
         String currentPassword = request.getParameter("currentPassword").trim();
 
         RequestDispatcher dispatcher = null;
-        UserDAO userDAO = new UserDAO();
+        IUserDAO userDAO = new UserDAO();
         HttpSession session = request.getSession();
         // Check if user enter new password correct
         try {

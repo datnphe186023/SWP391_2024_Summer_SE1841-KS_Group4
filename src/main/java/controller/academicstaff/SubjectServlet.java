@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.grade.GradeDAO;
+import models.grade.IGradeDAO;
+import models.subject.ISubjectDAO;
 import models.subject.Subject;
 import models.subject.SubjectDAO;
 import utils.Helper;
@@ -18,8 +20,8 @@ import utils.Helper;
 public class SubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SubjectDAO subjectDAO = new SubjectDAO();
-        GradeDAO gradeDAO = new GradeDAO();
+        ISubjectDAO subjectDAO = new SubjectDAO();
+        IGradeDAO gradeDAO = new GradeDAO();
         request.setAttribute("listAllSubject",subjectDAO.getAll());
         request.setAttribute("listGrade",gradeDAO.getAll());
         request.getRequestDispatcher("subject.jsp").forward(request,response);
@@ -28,8 +30,8 @@ public class SubjectServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        GradeDAO gradeDAO = new GradeDAO();
-        SubjectDAO subjectDAO = new SubjectDAO();
+        IGradeDAO gradeDAO = new GradeDAO();
+        ISubjectDAO subjectDAO = new SubjectDAO();
         HttpSession session = request.getSession();
         Helper helper = new Helper();
         String toastMessage = "";
@@ -38,7 +40,7 @@ public class SubjectServlet extends HttpServlet {
             String name = request.getParameter("name");
             String grade = request.getParameter("grade");
             String description = request.getParameter("description");
-            Subject subject = new Subject(subjectDAO.generateId(subjectDAO.getLastest().getId()),helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ phê duyệt");
+            Subject subject = new Subject(null,helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ phê duyệt");
             if(Helper.formatString(description).length()>1000){
                  toastMessage = "Tạo thất bại! Đã quá 1000 kí tự";
                  toastType = "error";

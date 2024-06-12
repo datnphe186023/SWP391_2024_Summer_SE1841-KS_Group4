@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -75,9 +77,9 @@ public class CategoryRoleManagerServlet extends HttpServlet {
         if (id.equals("6")) {
             response.sendRedirect("manageruser");
         } else {
-            UserDAO da = new UserDAO();
+            IUserDAO userDAO = new UserDAO();
 
-            List<User> list = da.getUserByRole(Integer.parseInt(id));
+            List<User> list = userDAO.getUserByRole(Integer.parseInt(id));
             request.setAttribute("list", list);
             request.setAttribute("roleMap", roleMap);
             request.setAttribute("roleDis", roleDis);

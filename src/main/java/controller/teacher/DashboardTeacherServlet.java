@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYearDAO;
 
 /**
@@ -32,7 +33,7 @@ public class DashboardTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         request.setAttribute("schoolYearLastest",schoolYearDAO.getLatest().getId());
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 

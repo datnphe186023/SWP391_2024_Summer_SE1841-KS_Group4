@@ -5,6 +5,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.application.Application;
 import models.application.ApplicationDAO;
+import models.application.IApplicationDAO;
+import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
 import models.user.User;
 
@@ -30,8 +32,8 @@ public class ApplicationDetailsServlet extends HttpServlet {
 
         String applicationId = request.getParameter("id");
         request.setAttribute("applicationId", applicationId);
-        ApplicationDAO appDAO = new ApplicationDAO();
-        Application application = appDAO.getApplicationById(applicationId);
+        IApplicationDAO applicationDAO = new ApplicationDAO();
+        Application application = applicationDAO.getApplicationById(applicationId);
         request.setAttribute("application", application);
         request.getRequestDispatcher("applicationDetails.jsp").forward(request, response);
     }
@@ -42,7 +44,7 @@ public class ApplicationDetailsServlet extends HttpServlet {
         String action = request.getParameter("action");
         //this is process note
         String note = request.getParameter("note");
-        ApplicationDAO appDAO = new ApplicationDAO();
+        IApplicationDAO applicationDAO = new ApplicationDAO();
         //creating application object for further update in database
         Application application = new Application();
         application.setId(request.getParameter("id"));
@@ -54,12 +56,12 @@ public class ApplicationDetailsServlet extends HttpServlet {
             application.setStatus("đã từ chối");
         }
         //get personnel id of personnel who process this application
-        PersonnelDAO personnelDAO = new PersonnelDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         application.setProcessedBy(personnelDAO.getPersonnelByUserId(user.getId()));
         //update application status in database and get result
-        String result = appDAO.processApplication(application);
+        String result = applicationDAO.processApplication(application);
         //sending result to JSP
         if (result.equals("success")) {
             session.setAttribute("toastType", "success");

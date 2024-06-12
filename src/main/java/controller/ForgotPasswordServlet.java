@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -36,7 +37,7 @@ public class ForgotPasswordServlet extends HttpServlet {
         String key = request.getParameter("email");
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
-        UserDAO userDAO = new UserDAO();
+        IUserDAO userDAO = new UserDAO();
         User user = userDAO.getByUsernameOrEmail(key);
         if(user == null){
             request.setAttribute("error", "Email bạn nhập không tồn tại vui lòng nhập lại!");

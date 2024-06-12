@@ -11,9 +11,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -76,9 +79,9 @@ public class UpdatePersonnelServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Cập nhật thông tin của pupil,user trong cơ sở dữ liệu
-        PersonnelDAO dao = new PersonnelDAO();
-        UserDAO userDAO = new UserDAO();
-        PupilDAO pupilDAO = new PupilDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        IUserDAO userDAO = new UserDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
         // Lấy thông tin pupil từ session
         HttpSession session = request.getSession();
         Personnel person = (Personnel) session.getAttribute("personnel");
@@ -93,9 +96,9 @@ public class UpdatePersonnelServlet extends HttpServlet {
 
         // Kiểm tra tính duy nhất của email và số điện thoại
         boolean emailExists = userDAO.checkEmailExists(email) && !email.equals(user.getEmail());
-        boolean phoneNumberExists = (dao.checkPhoneNumberExists(phoneNumber)
-                || pupilDAO.checkfirstGuardianPhoneNumberExists(phoneNumber)
-                || pupilDAO.checksecondGuardianPhoneNumberExists(phoneNumber))
+        boolean phoneNumberExists = (personnelDAO.checkPhoneNumberExists(phoneNumber)
+                || pupilDAO.checkFirstGuardianPhoneNumberExists(phoneNumber)
+                || pupilDAO.checkSecondGuardianPhoneNumberExists(phoneNumber))
                 && !phoneNumber.equals(person.getPhoneNumber());
 
         if (emailExists && phoneNumberExists) {
@@ -119,7 +122,7 @@ public class UpdatePersonnelServlet extends HttpServlet {
             person.setPhoneNumber(phoneNumber);
             user.setEmail(email);
             boolean successUser = userDAO.updateUserById(user);
-            boolean successPerson = dao.updatePerson(person);
+            boolean successPerson = personnelDAO.updatePerson(person);
             if (successPerson && successUser) {
                 session.setAttribute("toastType", "success");
                 session.setAttribute("toastMessage", "Đã cập nhật thành công !");

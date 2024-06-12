@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.user.IUserDAO;
 import models.user.UserDAO;
 
 @WebServlet("/newPassword")
@@ -20,7 +21,7 @@ public class NewPassword extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
+        IUserDAO userDAO = new UserDAO();
         // Get the current session
         HttpSession session = request.getSession();
 

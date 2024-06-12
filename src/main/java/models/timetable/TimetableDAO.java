@@ -11,12 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import models.classes.ClassDAO;
 import models.classes.Class;
+import models.classes.IClassDAO;
 import models.day.Day;
 import models.day.DayDAO;
+import models.day.IDayDAO;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.subject.ISubjectDAO;
 import models.subject.Subject;
 import models.subject.SubjectDAO;
+import models.timeslot.ITimeslotDAO;
 import models.timeslot.Timeslot;
 import models.timeslot.TimeslotDAO;
 import utils.DBContext;
@@ -25,10 +30,11 @@ import utils.DBContext;
  *
  * @author Admin
  */
-public class TimetableDAO extends DBContext {
+public class TimetableDAO extends DBContext implements ITimetableDAO{
 
+    @Override
     public void insertTimetable(String classId, String timeslotId, String dateId, String subjectId,
-            String createdBy, String status, String note, String teacherId) throws SQLException {
+            String createdBy, String status, String note, String teacherId) {
         String sql = "INSERT INTO Timetables (class_id, timeslot_id, date_id, subject_id, created_by, status, note, teacher_id) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -41,10 +47,13 @@ public class TimetableDAO extends DBContext {
             statement.setString(7, note);
             statement.setString(8, teacherId);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Timetable> getAllTimetable() throws SQLException {
+    @Override
+    public List<Timetable> getAllTimetable() {
         List<Timetable> timetables = new ArrayList<>();
         String sql = "SELECT * FROM Timetables";
         try (PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
@@ -59,22 +68,24 @@ public class TimetableDAO extends DBContext {
                 String status = resultSet.getString("status");
                 String note = resultSet.getString("note");
                 String teacherId = resultSet.getString("teacher_id");
-                ClassDAO classDAO = new ClassDAO();
-                TimeslotDAO slotDAO = new TimeslotDAO();
-                DayDAO dayDAO = new DayDAO();
-                SubjectDAO subDAO = new SubjectDAO();
-                PersonnelDAO personnelDAO = new PersonnelDAO();
+                IClassDAO classDAO = new ClassDAO();
+                ITimeslotDAO timeslotDAO = new TimeslotDAO();
+                IDayDAO dayDAO = new DayDAO();
+                ISubjectDAO subjectDAO = new SubjectDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
                 // Assuming you have DAO methods to fetch Class, Timeslot, Day, Subject, and Personnel by ID
                 Class classs = classDAO.getClassById(classId);
-                Timeslot timeslot = slotDAO.getTimeslotById(timeslotId);
+                Timeslot timeslot = timeslotDAO.getTimeslotById(timeslotId);
                 Day day = dayDAO.getDayByID(dateId);
-                Subject subject = subDAO.getSubjectBySubjectId(subjectId);
+                Subject subject = subjectDAO.getSubjectBySubjectId(subjectId);
                 Personnel createdBy = personnelDAO.getPersonnel(createdById);
                 Personnel teacher = personnelDAO.getPersonnel(teacherId);
 
                 Timetable timetable = new Timetable(id, classs, timeslot, day, subject, createdBy, status, note, teacher);
                 timetables.add(timetable);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return timetables;
     }

@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GradeDAO extends DBContext {
-    public Grade createGrade(ResultSet resultSet) throws SQLException {
+public class GradeDAO extends DBContext implements IGradeDAO{
+    private Grade createGrade(ResultSet resultSet) throws SQLException {
         Grade grade = new Grade();
         grade.setId(resultSet.getString("id"));
         grade.setName(resultSet.getString("name"));
@@ -17,6 +17,7 @@ public class GradeDAO extends DBContext {
         return grade;
     }
 
+    @Override
     public Grade getGrade(String gradeId) {
         String sql = "select * from Grades where id = ?";
         try{
@@ -36,6 +37,7 @@ public class GradeDAO extends DBContext {
         return null;
     }
 
+    @Override
     public List<Grade> getAll() {
         String sql = "select * from Grades";
         List<Grade> grades = new ArrayList<>();

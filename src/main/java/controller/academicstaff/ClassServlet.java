@@ -5,10 +5,14 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
 import models.grade.Grade;
 import models.grade.GradeDAO;
+import models.grade.IGradeDAO;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
@@ -22,8 +26,8 @@ import java.util.List;
 public class ClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ClassDAO classDAO = new ClassDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        IClassDAO classDAO = new ClassDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         try{
             HttpSession session = request.getSession();
             String toastType = "", toastMessage = "";
@@ -49,9 +53,9 @@ public class ClassServlet extends HttpServlet {
             List<SchoolYear> schoolYears = schoolYearDAO.getAll();
             request.setAttribute("schoolYears", schoolYears);
             request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
-            GradeDAO gradeDAO = new GradeDAO();
+            IGradeDAO gradeDAO = new GradeDAO();
             request.setAttribute("grades", gradeDAO.getAll());
-            PersonnelDAO personnelDAO = new PersonnelDAO();
+            IPersonnelDAO personnelDAO = new PersonnelDAO();
             request.setAttribute("teachers", personnelDAO.getAvailableTeachers(schoolYearId));
             request.getRequestDispatcher("class.jsp").forward(request, response);
         }catch (Exception e){
@@ -72,11 +76,11 @@ public class ClassServlet extends HttpServlet {
                 String teacherId = request.getParameter("teacher");
                 Class c = new Class();
                 c.setName(name);
-                GradeDAO gradeDAO = new GradeDAO();
+                IGradeDAO gradeDAO = new GradeDAO();
                 c.setGrade(gradeDAO.getGrade(gradeId));
-                SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+                ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
                 c.setSchoolYear(schoolYearDAO.getSchoolYear(schoolYearId));
-                PersonnelDAO personnelDAO = new PersonnelDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
                 if (!teacherId.isEmpty()) {
                     Personnel teacher = personnelDAO.getPersonnel(teacherId);
                     c.setTeacher(teacher);
@@ -84,7 +88,7 @@ public class ClassServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 User user = (User) session.getAttribute("user");
                 c.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
-                ClassDAO classDAO = new ClassDAO();
+                IClassDAO classDAO = new ClassDAO();
                 String result = classDAO.createNewClass(c);
                 //return result of creation to user
                 if (result.equals("success")) {

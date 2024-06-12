@@ -1,7 +1,10 @@
 package models.classes;
 
 import models.grade.GradeDAO;
+import models.grade.IGradeDAO;
+import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import utils.DBContext;
@@ -17,23 +20,24 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClassDAO extends DBContext {
+public class ClassDAO extends DBContext implements IClassDAO{
 
     private Class createClass(ResultSet resultSet) throws SQLException {
         Class c = new Class();
         c.setId(resultSet.getString("id"));
         c.setName(resultSet.getString("name"));
-        GradeDAO gradeDAO = new GradeDAO();
+        IGradeDAO gradeDAO = new GradeDAO();
         c.setGrade(gradeDAO.getGrade(resultSet.getString("grade_id")));
-        PersonnelDAO personnelDAO = new PersonnelDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
         c.setTeacher(personnelDAO.getPersonnel(resultSet.getString("teacher_id")));
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         c.setSchoolYear(schoolYearDAO.getSchoolYear(resultSet.getString("school_year_id")));
         c.setStatus(resultSet.getString("status"));
         c.setCreatedBy(personnelDAO.getPersonnel(resultSet.getString("created_by")));
         return c;
     }
 
+    @Override
     public List<Class> getBySchoolYear(String schoolYearId) {
         List<Class> classes = new ArrayList<>();
         String sql = "select * from Class where school_year_id = ?";
@@ -51,6 +55,7 @@ public class ClassDAO extends DBContext {
         return classes;
     }
 
+    @Override
     public Class getClassById(String id) {
         String sql = "select * from [Class] where id = ?";
         try {
@@ -66,9 +71,10 @@ public class ClassDAO extends DBContext {
         return null;
     }
 
+    @Override
     public Class getTeacherClassByYear(String year, String teacherId) {
         String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where teacher_id= ?  and school_year_id= ?";
-        ClassDAO classDAO = new ClassDAO();
+        IClassDAO classDAO = new ClassDAO();
         String classId = "";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -85,6 +91,7 @@ public class ClassDAO extends DBContext {
         return classes;
     }
 
+    @Override
     public String createNewClass(Class c) {
         String sql = "insert into [Class] values (?,?,?,?,?,?,?)";
         try {
@@ -146,6 +153,7 @@ public class ClassDAO extends DBContext {
         return "C" + result;
     }
 
+    @Override
     public List<Class> getByStatus(String status, String schoolYearId) {
         String sql = " Select * from Class where [status] = N'" + status + "'  and school_year_id = ?";
         try {
@@ -164,6 +172,7 @@ public class ClassDAO extends DBContext {
         return null;
     }
 
+    @Override
     public String reviewClass(String newStatus, String id) {
         String sql = "update [Class] set [status]= ? where [id] = ?";
         try {
@@ -183,24 +192,7 @@ public class ClassDAO extends DBContext {
         return "success";
     }
 
-    public List<Class> getByName(String name, String schoolYearId) {
-        List<Class> classes = new ArrayList<>();
-        String sql = "select * from [Class] where [name] like ? and [school_year_id] = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "%" + name + "%");
-            preparedStatement.setString(2, schoolYearId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Class c = createClass(resultSet);
-                classes.add(c);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return classes;
-    }
-
+    @Override
     public List<Class> getClassByGradeId(String gradeId) {
         List<Class> classes = new ArrayList<>();
         String sql = "SELECT * FROM [BoNo_Kindergarten].[dbo].[Class] WHERE grade_id = ?";
@@ -216,29 +208,6 @@ public class ClassDAO extends DBContext {
             e.printStackTrace();
         }
         return classes;
-    }
-    public boolean moveOutClassForPupil(String pupilId1, String pupilId2, String classId1,String classId2 ){
-        String sql="update classDetails set pupil_id = ? where pupil_id= ? and class_id= ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,pupilId1);
-            preparedStatement.setString(2,pupilId2);
-            preparedStatement.setString(3,classId2);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        try {
-            PreparedStatement preparedStatement2 = connection.prepareStatement(sql);
-            preparedStatement2.setString(1,pupilId2);
-            preparedStatement2.setString(2,pupilId1);
-            preparedStatement2.setString(3,classId1);
-            preparedStatement2.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return false;
     }
 
 }

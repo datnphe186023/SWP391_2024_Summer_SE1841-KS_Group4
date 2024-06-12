@@ -15,8 +15,9 @@ import utils.DBContext;
  *
  * @author Admin
  */
-public class TimeslotDAO extends DBContext {
+public class TimeslotDAO extends DBContext implements ITimeslotDAO{
 
+    @Override
     public List<Timeslot> getAllTimeslots() {
         String sql = "SELECT * FROM Timeslots";
         List<Timeslot> listTimeslot = new ArrayList<>();
@@ -39,6 +40,7 @@ public class TimeslotDAO extends DBContext {
         return listTimeslot;
     }
 
+    @Override
     public Timeslot getTimeslotById(String timeslotId) {
         String sql = "SELECT * FROM Timeslots WHERE id = ?";
         Timeslot timeslot = null;

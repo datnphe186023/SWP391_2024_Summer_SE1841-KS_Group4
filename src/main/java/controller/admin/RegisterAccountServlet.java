@@ -12,8 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
+import models.user.IUserDAO;
 import models.user.UserDAO;
 
 /**
@@ -83,9 +86,9 @@ public class RegisterAccountServlet extends HttpServlet {
             session.setAttribute("error", "error");
             response.sendRedirect("createuser");
         } else {
-            UserDAO userDAO = new UserDAO();
-            PersonnelDAO personnelDAO = new PersonnelDAO();
-            PupilDAO pupilDAO = new PupilDAO();
+            IUserDAO userDAO = new UserDAO();
+            IPersonnelDAO personnelDAO = new PersonnelDAO();
+            IPupilDAO pupilDAO = new PupilDAO();
             for (String username : selectedUserIds) {
                 System.out.println(username);
                 switch (username.substring(0, 2)) {

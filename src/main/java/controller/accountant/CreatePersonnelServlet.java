@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
 
 /**
@@ -80,7 +81,7 @@ public class CreatePersonnelServlet extends HttpServlet {
        String message="";
        String type= "fail";
        
-       PersonnelDAO pdao = new PersonnelDAO();
+       IPersonnelDAO personnelDAO = new PersonnelDAO();
        if(action.equalsIgnoreCase("create")){
        String xfirstname = request.getParameter("firstname");
        String xlastname = request.getParameter("lastname");
@@ -99,17 +100,17 @@ public class CreatePersonnelServlet extends HttpServlet {
            session.setAttribute("firstname", xfirstname);
 
        }
-       else if(!pdao.checkPersonnelPhone(xphone)&&!pdao.checkPersonnelEmail(xemail)){
-       pdao.insertPersonnel(id.trim(), xfirstname.trim(), xlastname.trim(), gender, xbirthday.trim(), xaddress.trim(), xemail.trim(), xphone.trim(), role, xavatar.trim());
+       else if(!personnelDAO.checkPersonnelPhone(xphone)&&!personnelDAO.checkPersonnelEmail(xemail)){
+            personnelDAO.insertPersonnel(id.trim(), xfirstname.trim(), xlastname.trim(), gender, xbirthday.trim(), xaddress.trim(), xemail.trim(), xphone.trim(), role, xavatar.trim());
        message="Thêm nhân viên thành công";
        type = "success" ;
-       }else if(pdao.checkPersonnelPhone(xphone)&&pdao.checkPersonnelEmail(xemail)){
+       }else if(personnelDAO.checkPersonnelPhone(xphone)&&personnelDAO.checkPersonnelEmail(xemail)){
          message="Thêm nhân viên thất bại!Trùng dữ liệu email và số điện thoại";
 
-       }else if(pdao.checkPersonnelPhone(xphone)){
+       }else if(personnelDAO.checkPersonnelPhone(xphone)){
         message="Thêm nhân viên thất bại!Trùng dữ liệu số điện thoại ";
 
-       }else if(pdao.checkPersonnelEmail(xemail)){
+       }else if(personnelDAO.checkPersonnelEmail(xemail)){
         message="Thêm nhân viên thất bại!Trùng dữ liệu email ";
 
        }
@@ -137,8 +138,8 @@ public class CreatePersonnelServlet extends HttpServlet {
     private String generateId(int role){
         String id ;
         int newid ;
-        PersonnelDAO pdao = new PersonnelDAO();
-        newid= pdao.getNumberOfPersonByRole(role)+1;
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        newid= personnelDAO.getNumberOfPersonByRole(role)+1;
         DecimalFormat decimalFormat = new DecimalFormat("000000");
         id= decimalFormat.format(newid);
         if (role == 0) {

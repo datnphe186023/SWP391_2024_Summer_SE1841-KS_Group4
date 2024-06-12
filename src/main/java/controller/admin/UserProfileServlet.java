@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -82,8 +83,8 @@ public class UserProfileServlet extends HttpServlet {
         user.setEmail(email);
         user.setIsDisabled(active);
         user.setRoleId(role);
-        UserDAO dao = new UserDAO();
-        dao.updateUser(user);
+        IUserDAO userDAO = new UserDAO();
+        userDAO.updateUser(user);
         request.getRequestDispatcher("manageruser").forward(request, response);
     }
 

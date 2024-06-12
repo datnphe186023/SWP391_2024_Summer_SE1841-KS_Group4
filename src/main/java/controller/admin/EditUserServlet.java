@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -73,8 +75,8 @@ public class EditUserServlet extends HttpServlet {
         roleDis.put((byte) 0, "Active");
         roleDis.put((byte) 1, "Disable");
         String id = request.getParameter("id");
-        UserDAO dao = new UserDAO();
-        User user = dao.getUserById(id);
+        IUserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserById(id);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
         request.setAttribute("user", user);

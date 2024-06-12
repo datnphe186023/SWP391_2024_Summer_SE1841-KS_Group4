@@ -12,7 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.classes.ClassDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYearDAO;
 
 /**
@@ -34,8 +36,8 @@ public class DashboardHeadTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         request.setAttribute("numOfPendingPupils",pupilDAO.getPupilByStatus("đang chờ xử lý").size());
         request.setAttribute("schoolYearId", schoolYearDAO.getLatest().getId());
         request.getRequestDispatcher("navbar.jsp").forward(request, response);

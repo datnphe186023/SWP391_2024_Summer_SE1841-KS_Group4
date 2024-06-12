@@ -6,8 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.user.User;
@@ -24,7 +26,7 @@ import java.util.List;
 public class PupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
         List<Pupil> listPupil = pupilDAO.getAllPupils();
         String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
         request.setAttribute("newPupilId", newPupilId);
@@ -37,8 +39,8 @@ public class PupilServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equals("create")) {
             HttpSession session = request.getSession();
-            PersonnelDAO personnelDAO = new PersonnelDAO();
-            PupilDAO pupilDAO = new PupilDAO();
+            IPersonnelDAO personnelDAO = new PersonnelDAO();
+            IPupilDAO pupilDAO = new PupilDAO();
             Helper helper = new Helper();
             User user = null;
             boolean gender = true;
