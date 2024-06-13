@@ -53,7 +53,10 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3 font-weight-bold">Người gửi:</div>
-                            <div class="col-sm-9" id="createdBy">${bean.getPupilByUserId(requestScope.application.createdBy).id}</div>
+                            <div class="col-sm-9" id="createdBy">
+                                ${bean.getPupilByUserId(requestScope.application.createdBy).id} -
+                                ${bean.getPupilByUserId(requestScope.application.createdBy).lastName} ${bean.getPupilByUserId(requestScope.application.createdBy).firstName}
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3 font-weight-bold">Thời gian gửi:</div>
@@ -63,13 +66,13 @@
                             <div class="col-sm-3 font-weight-bold">Trạng thái đơn:</div>
                             <c:set value="${requestScope.application.status}" var="s"/>
                             <c:if test="${s eq 'đã duyệt'}">
-                                <div class="col-sm-9 text-success" id="createdAt">${s}</div>
+                                <div class="col-sm-9 text-success" id="status">${s}</div>
                             </c:if>
                             <c:if test="${s eq 'đang xử lý'}">
-                                <div class="col-sm-9 text-warning" id="createdAt">${s}</div>
+                                <div class="col-sm-9 text-warning" id="status">${s}</div>
                             </c:if>
                             <c:if test="${s eq 'đã từ chối'}">
-                                <div class="col-sm-9 text-danger" id="createdAt">${s}</div>
+                                <div class="col-sm-9 text-danger" id="status">${s}</div>
                             </c:if>
                         </div>
                     </div>

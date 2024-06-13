@@ -54,8 +54,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="class">Danh Sách Lớp</a>
-                        <% ClassDAO classDAO = new ClassDAO(); %>
-                        <% SchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
+                        <% IClassDAO classDAO = new ClassDAO(); %>
+                        <% ISchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
                         <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">
                             Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)
                         </a>
@@ -87,7 +87,7 @@
                 <div id="collapseSubject" class="collapse" aria-labelledby="headingSubject" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listsubject">Danh Sách Môn Học</a>
-                        <%SubjectDAO subjectDAO = new SubjectDAO();%>
+                        <%ISubjectDAO subjectDAO = new SubjectDAO();%>
                         <a class="collapse-item" href="reviewsubject">Đang Chờ Phê Duyệt(<%=subjectDAO.getSubjectsByStatus("đang chờ phê duyệt").size()%>)</a>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                 <div id="collapsePupil" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listpupil">Danh Sách Học Sinh</a>
-                        <% PupilDAO pupilDAO = new PupilDAO(); %>
+                        <% IPupilDAO pupilDAO = new PupilDAO(); %>
                         <a class="collapse-item" href="reviewpupil">Học Sinh Cần Phê Duyệt(<%=pupilDAO.getPupilByStatus("đang chờ xử lý").size()%>)</a>
                     </div>
                 </div>

@@ -8,12 +8,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
 import models.grade.Grade;
 import models.grade.GradeDAO;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
@@ -26,10 +30,10 @@ import java.util.List;
 public class ListPupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
-        PersonnelDAO personnelDAO = new PersonnelDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        ClassDAO classDAO = new ClassDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        IClassDAO classDAO = new ClassDAO();
 
         HttpSession session = request.getSession();
 

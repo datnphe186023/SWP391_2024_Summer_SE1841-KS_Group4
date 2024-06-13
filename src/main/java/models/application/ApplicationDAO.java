@@ -1,5 +1,6 @@
 package models.application;
 
+import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import utils.DBContext;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 
 import static java.sql.Types.NULL;
 
-public class ApplicationDAO extends DBContext {
+public class ApplicationDAO extends DBContext implements IApplicationDAO{
 
     private Application createApplication(ResultSet rs) throws SQLException {
         Application app = new Application();
@@ -29,11 +30,12 @@ public class ApplicationDAO extends DBContext {
         app.setStatus(rs.getString("status"));
         app.setCreatedBy(rs.getString("created_by"));
         app.setCreatedAt(rs.getDate("created_at"));
-        PersonnelDAO personnelDAO = new PersonnelDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
         app.setProcessedBy(personnelDAO.getPersonnel(rs.getString("processed_by")));
         return app;
     }
 
+    @Override
     public ApplicationType getById(String id) {
         ApplicationType app = new ApplicationType();
         String sql = "select * from [Application_Types] where id = ?";
@@ -53,6 +55,7 @@ public class ApplicationDAO extends DBContext {
         return null;
     }
 
+    @Override
     public List<ApplicationType> getAllApplicationTypes(String role) {
         List<ApplicationType> applicationTypes = new ArrayList<ApplicationType>();
         String sql = "select id, name, description from [Application_Types] where sender_role = ?";
@@ -73,8 +76,8 @@ public class ApplicationDAO extends DBContext {
         return applicationTypes;
     }
 
-
-    public List<Application> getForStaff(SchoolYear schoolYear){
+    @Override
+    public List<Application> getForPersonnel(SchoolYear schoolYear, String role){
         List<Application> applications = new ArrayList<>();
         String sql = "SELECT a.*\n" +
                 "FROM Applications a\n" +
@@ -84,7 +87,7 @@ public class ApplicationDAO extends DBContext {
                 "AND a.created_at between ? and ?";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "academic staff");
+            statement.setString(1, role);
             statement.setString(2, Helper.convertDateToLocalDate(schoolYear.getStartDate()).toString());
             statement.setString(3, Helper.convertDateToLocalDate(schoolYear.getEndDate()).toString());
             ResultSet resultSet = statement.executeQuery();
@@ -98,6 +101,7 @@ public class ApplicationDAO extends DBContext {
         return applications;
     }
 
+    @Override
     public Application getApplicationById(String id){
         Application app = new Application();
         String sql = "select * from [Applications] where id = ?";
@@ -114,6 +118,7 @@ public class ApplicationDAO extends DBContext {
         return app;
     }
 
+    @Override
     public String addApplication(Application application) {
         String sql = "insert into [Applications] values (?,?,?,?,?,?,?,?,?)";
         try{
@@ -165,6 +170,7 @@ public class ApplicationDAO extends DBContext {
         return "APP" + result;
     }
 
+    @Override
     public String processApplication(Application application) {
         String sql = "update [Applications] set status = ?, process_note = ?, processed_at = ?, processed_by = ? where id = ?";
         try{
@@ -182,6 +188,7 @@ public class ApplicationDAO extends DBContext {
         return "success";
     }
 
+    @Override
     public List<Application> getSentApplications(String senderUserId){
         String sql = "select * from [Applications] where created_by = ?";
         List<Application> applications = new ArrayList<>();

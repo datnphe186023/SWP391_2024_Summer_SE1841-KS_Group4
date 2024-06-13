@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 
@@ -58,8 +59,8 @@ public class PulpilsProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        PupilDAO dao = new PupilDAO();
-        Pupil pupil = dao.getPupilsById(id);
+        IPupilDAO pupilDAO = new PupilDAO();
+        Pupil pupil = pupilDAO.getPupilsById(id);
         request.setAttribute("pupil", pupil);
         request.getRequestDispatcher("/academicstaff/informationPupils.jsp").forward(request, response);
     }
@@ -76,8 +77,8 @@ public class PulpilsProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        PupilDAO dao = new PupilDAO();
-        Pupil pupil = dao.getPupilsById(id);
+        IPupilDAO pupilDAO = new PupilDAO();
+        Pupil pupil = pupilDAO.getPupilsById(id);
         request.setAttribute("pupil", pupil);
         request.getRequestDispatcher("/academicstaff/informationPupils.jsp").forward(request, response);
     }

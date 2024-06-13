@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
@@ -59,8 +60,8 @@ public class ViewPersonnelServlet extends HttpServlet {
     throws ServletException, IOException {
            String xid = request.getParameter("id");
         Personnel person ;
-        PersonnelDAO pdao = new PersonnelDAO();  
-        person = pdao.getPersonnel(xid);
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        person = personnelDAO.getPersonnel(xid);
        request.setAttribute("person", person);
         request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
     } 
@@ -78,8 +79,8 @@ public class ViewPersonnelServlet extends HttpServlet {
         String xid = request.getParameter("id");
 
         Personnel person ;
-        PersonnelDAO pdao = new PersonnelDAO();
-       person = pdao.getPersonnel(xid);
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+       person = personnelDAO.getPersonnel(xid);
        request.setAttribute("person", person);
         request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
     }

@@ -1,8 +1,8 @@
 package models.schoolYear;
 
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
-import models.week.WeekDAO;
 import utils.DBContext;
 
 import java.sql.PreparedStatement;
@@ -17,10 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.sql.*;
-import utils.Helper;
 
-public class SchoolYearDAO extends DBContext {
+public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
     private SchoolYear createNewSchoolYear(ResultSet rs) throws SQLException {
         SchoolYear schoolYear = new SchoolYear();
         schoolYear.setId(rs.getString("id"));
@@ -28,12 +26,13 @@ public class SchoolYearDAO extends DBContext {
         schoolYear.setStartDate(rs.getDate("start_date"));
         schoolYear.setEndDate(rs.getDate("end_date"));
         schoolYear.setDescription(rs.getString("description"));
-        PersonnelDAO personnelDAO = new PersonnelDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
         Personnel personnel = personnelDAO.getPersonnel(rs.getString("created_by"));
         schoolYear.setCreatedBy(personnel);
         return schoolYear;
     }
 
+    @Override
     public List<SchoolYear> getAll() {
         List<SchoolYear> schoolYears = new ArrayList<SchoolYear>();
         String sql = "select * from schoolYears";
@@ -50,6 +49,7 @@ public class SchoolYearDAO extends DBContext {
         return schoolYears;
     }
 
+    @Override
     public SchoolYear getLatest() {
         String sql = "SELECT TOP 1 * FROM SchoolYears ORDER BY ID DESC";
         try{
@@ -64,6 +64,7 @@ public class SchoolYearDAO extends DBContext {
         return null;
     }
 
+    @Override
     public String createNewSchoolYear(SchoolYear schoolYear) {
         String sql = "insert into SchoolYears values(?,?,?,?,?,?)";
         try{
@@ -126,6 +127,7 @@ public class SchoolYearDAO extends DBContext {
         return "SY" + result;
     }
 
+    @Override
     public SchoolYear getSchoolYear(String id) {
         String sql = "select * from schoolYears where id = ?";
         try{

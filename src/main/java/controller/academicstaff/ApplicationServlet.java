@@ -5,6 +5,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.application.Application;
 import models.application.ApplicationDAO;
+import models.application.IApplicationDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public class ApplicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
 
         //get school year list for dropdown select in JSP
         List<SchoolYear> schoolYears= schoolYearDAO.getAll();
@@ -32,11 +34,11 @@ public class ApplicationServlet extends HttpServlet {
         request.setAttribute("selectedSchoolYear", schoolYearDAO.getSchoolYear(schoolYearId));
 
         //get application list
-        ApplicationDAO applicationDAO = new ApplicationDAO();
-        List<Application> applications = applicationDAO.getForStaff(schoolYearDAO.getSchoolYear(schoolYearId));
+        IApplicationDAO applicationDAO = new ApplicationDAO();
+        List<Application> applications = applicationDAO.getForPersonnel(schoolYearDAO.getSchoolYear(schoolYearId), "academic staff");
         request.setAttribute("applications", applications);
 
-        request.getRequestDispatcher("applicationList.jsp").forward(request, response);
+        request.getRequestDispatcher("applications.jsp").forward(request, response);
     }
 
     @Override

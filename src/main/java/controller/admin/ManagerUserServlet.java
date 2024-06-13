@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
 
@@ -72,9 +74,9 @@ public class ManagerUserServlet extends HttpServlet {
 
         roleDis.put((byte) 0, "Active");
         roleDis.put((byte) 1, "Disable");
-        UserDAO dao = new UserDAO();
+        IUserDAO userDAO = new UserDAO();
         List<User> list = new ArrayList<>();
-        list = dao.getListUser();
+        list = userDAO.getListUser();
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
@@ -103,9 +105,9 @@ public class ManagerUserServlet extends HttpServlet {
 
         roleDis.put((byte) 0, "Active");
         roleDis.put((byte) 1, "Disable");
-        UserDAO dao = new UserDAO();
-        List<User> list = new ArrayList<>();
-        list = dao.getListUser();
+        IUserDAO userDAO = new UserDAO();
+        List<User> list;
+        list = userDAO.getListUser();
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);

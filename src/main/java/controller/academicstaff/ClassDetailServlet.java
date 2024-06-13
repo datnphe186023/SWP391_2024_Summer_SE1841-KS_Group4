@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import utils.Helper;
@@ -20,9 +23,9 @@ import java.util.List;
 public class ClassDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
-        ClassDAO classDAO = new ClassDAO();
-        PersonnelDAO personnelDAO = new PersonnelDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
+        IClassDAO classDAO = new ClassDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
 
         String classId = request.getParameter("classId");
         List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
@@ -54,7 +57,7 @@ public class ClassDetailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if(action.equals("addPupil")){
-            PupilDAO pupilDAO = new PupilDAO();
+            IPupilDAO pupilDAO = new PupilDAO();
             HttpSession session = request.getSession();
             String toastMessage ="";
             String toastType="";

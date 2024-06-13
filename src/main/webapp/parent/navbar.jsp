@@ -76,7 +76,7 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="application">Xem Đơn</a>
+                    <a class="collapse-item" href="sentapplications">Xem Đơn</a>
                     <a class="collapse-item" href="sendapplication">Gửi Đơn</a>
                 </div>
             </div>

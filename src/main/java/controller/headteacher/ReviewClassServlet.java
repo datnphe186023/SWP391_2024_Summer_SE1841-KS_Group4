@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
 import models.schoolYear.SchoolYearDAO;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class ReviewClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        ClassDAO classDAO = new ClassDAO();
+        IClassDAO classDAO = new ClassDAO();
         String schoolYearId = request.getParameter("schoolYearId");
         try{
             if (action==null) {

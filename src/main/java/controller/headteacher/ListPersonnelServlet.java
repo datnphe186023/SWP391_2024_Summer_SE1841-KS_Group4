@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+
+import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 import models.role.Role;
@@ -70,11 +72,11 @@ public class ListPersonnelServlet extends HttpServlet {
         List<Role> roles = new ArrayList<>();
         List<String> statuss = new ArrayList<>();
         List<Personnel> waitlist = new ArrayList<>();
-        PersonnelDAO pdao = new PersonnelDAO();
-        persons = pdao.getPersonnelByStatus("đang làm việc");
-        roles = pdao.getAllPersonnelRole();
-        statuss = pdao.getAllStatus();
-        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        persons = personnelDAO.getPersonnelByStatus("đang làm việc");
+        roles = personnelDAO.getAllPersonnelRole();
+        statuss = personnelDAO.getAllStatus();
+        waitlist = personnelDAO.getPersonnelByStatus("đang chờ xử lý");
         request.setAttribute("message", message);
         request.setAttribute("type", type);
         request.setAttribute("persons", persons);
@@ -110,35 +112,35 @@ public class ListPersonnelServlet extends HttpServlet {
         System.out.println(search);
         List<Personnel> persons = new ArrayList<Personnel>();
         List<Role> roles = new ArrayList<>();
-        PersonnelDAO pdao = new PersonnelDAO();
-        roles = pdao.getAllPersonnelRole();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        roles = personnelDAO.getAllPersonnelRole();
         if ((role != null || status != null)&& search == null) {
             if(status.equalsIgnoreCase("all")&& role.equalsIgnoreCase("all")){
-                 persons = pdao.getAllPersonnels();
+                 persons = personnelDAO.getAllPersonnels();
              }
             else if(!status.equalsIgnoreCase("all") && role.equalsIgnoreCase("all")){
-                  persons =pdao.getPersonnelByStatus(status);
+                  persons =personnelDAO.getPersonnelByStatus(status);
                  
              }else if(!role.equalsIgnoreCase("all") && status.equalsIgnoreCase("all")){
                  try{
                  int xrole = Integer.parseInt(role);
-                 persons = pdao.getPersonnelByRole(xrole);
+                 persons = personnelDAO.getPersonnelByRole(xrole);
                  }catch (NumberFormatException e){
-                     persons = pdao.getPersonnelByRole(-1);
+                     persons = personnelDAO.getPersonnelByRole(-1);
                  }
                  
                 
              } else{
-            persons = pdao.getPersonnelByIdNameRoleStatus(status, role);
+            persons = personnelDAO.getPersonnelByIdNameRoleStatus(status, role);
              }
         }else if(search != null){
-            persons = pdao.getPersonnelByNameOrId(Helper.formatString(search));
+            persons = personnelDAO.getPersonnelByNameOrId(Helper.formatString(search));
         } 
         List<String> statuss = new ArrayList<>();
-        statuss = pdao.getAllStatus();
+        statuss = personnelDAO.getAllStatus();
         request.setAttribute("statuss", statuss);
         List<Personnel> waitlist = new ArrayList<>();
-        waitlist = pdao.getPersonnelByStatus("đang chờ xử lý");
+        waitlist = personnelDAO.getPersonnelByStatus("đang chờ xử lý");
         request.setAttribute("searchdata", search);
         request.setAttribute("selectedstatus", status);
         request.setAttribute("selectedrole", role);

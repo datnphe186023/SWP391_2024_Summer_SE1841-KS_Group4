@@ -16,7 +16,7 @@ import utils.DBContext;
  *
  * @author asus
  */
-public class PersonnelDAO extends DBContext {
+public class PersonnelDAO extends DBContext implements IPersonnelDAO{
 
     private Personnel createPersonnel(ResultSet resultSet) throws SQLException {
         Personnel person = new Personnel();
@@ -35,6 +35,7 @@ public class PersonnelDAO extends DBContext {
         return person;
     }
 
+    @Override
     // Get all personnel infomation
     public List<Personnel> getAllPersonnels() {
         String sql = "select * from [Personnels] ";
@@ -65,6 +66,7 @@ public class PersonnelDAO extends DBContext {
         return persons;
     }
 
+    @Override
     public List<Personnel> getPersonnelByRole(int role) {
         String sql = "select * from [Personnels] where role_id = ?";
         List<Personnel> persons = new ArrayList<>();
@@ -94,6 +96,7 @@ public class PersonnelDAO extends DBContext {
         return persons;
     }
 
+    @Override
     public List<Personnel> getPersonnelByNameOrId(String search) {
         String sql = "select * from [Personnels] where (last_name+' '+ first_name like N'%" + search + "%' or id like '%" + search + "%' ) ";
         List<Personnel> persons = new ArrayList<>();
@@ -123,6 +126,7 @@ public class PersonnelDAO extends DBContext {
         return persons;
     }
 
+    @Override
     public Personnel getPersonnel(String id) {
         String sql = "select * from [Personnels] where id like ? ";
         Personnel person = new Personnel();
@@ -153,6 +157,7 @@ public class PersonnelDAO extends DBContext {
         return person;
     }
 
+    @Override
     public int getNumberOfPersonByRole(int id) {
         String sql = "select count(id) as numberofpersonbyrole\n"
                 + "from Personnels where role_id = ? ";
@@ -170,6 +175,7 @@ public class PersonnelDAO extends DBContext {
         return number;
     }
 
+    @Override
     public void insertPersonnel(String id, String firstname, String lastname, int gender, String birthday, String address, String email, String phone, int role, String avatar) {
         String sql = "insert into Personnels values (?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
@@ -193,6 +199,7 @@ public class PersonnelDAO extends DBContext {
         }
     }
 
+    @Override
     public Personnel getPersonnelByUserId(String userId) {
         String sql = "select * from [User] u join Personnels p on u.id=p.user_id \n"
                 + "where u.id = ?";
@@ -221,7 +228,8 @@ public class PersonnelDAO extends DBContext {
         return personnel;
     }
 
-    public List<Personnel> getPersonelNonUserId() {
+    @Override
+    public List<Personnel> getPersonnelNonUserId() {
         List<Personnel> list = new ArrayList<>();
         String sql = "SELECT * \n"
                 + "FROM Personnels \n"
@@ -252,56 +260,8 @@ public class PersonnelDAO extends DBContext {
         return list;
     }
 
-    public Personnel searchById(String id) {
-        Personnel p = null;
-        String sql = "SELECT * FROM Personnels where id like ? and status = N'đang làm việc' and [user_id] is null";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                p = new Personnel();
-                p.setId(rs.getString(1));
-                p.setFirstName(rs.getString(2));
-                p.setLastName(rs.getString(3));
-                p.setGender(rs.getBoolean(4));
-                p.setBirthday(rs.getDate(5));
-                p.setAddress(rs.getString(6));
-                p.setEmail(rs.getString(7));
-                p.setPhoneNumber(rs.getString(8));
-                p.setRoleId(rs.getInt(9));
-                p.setStatus(rs.getString(10));
-                p.setAvatar(rs.getString(11));
-                p.setUserId(rs.getString(12));
-                return p;
-            } else {
-                p = null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return p;
-    }
-
-    public List<Personnel> getPersonnelByNameOrEmail(String search) {
-        String sql = "select * from [Personnels] where (last_name+' '+ first_name like N'%" + search + "%' or [email] like '%" + search + "%' ) ";
-        List<Personnel> persons = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Personnel person = createPersonnel(resultSet);
-                persons.add(person);
-            }
-        } catch (Exception e) {
-            System.out.println("error in function");
-        }
-        return persons;
-    }
-
-
-    public List<Personnel> getPersonelByRoleandNonUserId(int id) {
+    @Override
+    public List<Personnel> getPersonnelByRoleAndNonUserId(int id) {
         List<Personnel> list = new ArrayList<>();
         String sql = "SELECT * FROM Personnels where role_id=? and user_id is null and status = N'đang làm việc'";
         try {
@@ -330,6 +290,7 @@ public class PersonnelDAO extends DBContext {
         return list;
     }
 
+    @Override
     public List<Personnel> getPersonnelByStatus(String status) {
         String sql = " Select * from Personnels where [status] = N'" + status + "'";
         List<Personnel> persons = new ArrayList<>();
@@ -359,6 +320,7 @@ public class PersonnelDAO extends DBContext {
         return persons;
     }
 
+    @Override
     public boolean updatePersonnelStatus(String pId, String status) {
         String sql = "UPDATE [dbo].[Personnels]\n"
                 + "   SET [status] = ? \n"
@@ -375,6 +337,7 @@ public class PersonnelDAO extends DBContext {
         return false;
     }
 
+    @Override
     public List<Role> getAllPersonnelRole() {
         String sql = "select DISTINCT r.id,r.description from Roles r join Personnels p on r.id= p.role_id";
         List<Role> roles = new ArrayList<>();
@@ -394,6 +357,7 @@ public class PersonnelDAO extends DBContext {
         return roles;
     }
 
+    @Override
     public boolean updatePerson(Personnel person) {
         String sql = "UPDATE Personnels SET first_name = ?, last_name = ?, gender = ?, address = ?, email = ?, phone_number = ? WHERE user_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -412,6 +376,7 @@ public class PersonnelDAO extends DBContext {
         }
     }
 
+    @Override
     public List<Personnel> getAvailableTeachers(String schoolYearId) {
         String sql = "SELECT *\n"
                 + "FROM Personnels t\n"
@@ -432,6 +397,7 @@ public class PersonnelDAO extends DBContext {
         return teachers;
     }
 
+    @Override
     public List<String> getAllStatus() {
         String sql = "select distinct status from Personnels";
         List<String> status = new ArrayList<>();
@@ -447,8 +413,9 @@ public class PersonnelDAO extends DBContext {
         return status;
     }
 
-    public boolean checkPersonnelPhone(String phonenumber) {
-        String sql = "select phone_number  from  Personnels where phone_number='" + phonenumber + "'";
+    @Override
+    public boolean checkPersonnelPhone(String phoneNumber) {
+        String sql = "select phone_number  from  Personnels where phone_number='" + phoneNumber + "'";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -462,6 +429,7 @@ public class PersonnelDAO extends DBContext {
         return false;
     }
 
+    @Override
     public boolean checkPersonnelEmail(String email) {
         String sql = "select email from  Personnels where email='" + email + "'";
 
@@ -477,6 +445,7 @@ public class PersonnelDAO extends DBContext {
         return false;
     }
 
+    @Override
     public List<Personnel> getPersonnelByIdNameRoleStatus(String status, String role) {
         String sql = " Select * from Personnels where 1=1";
 
@@ -514,23 +483,7 @@ public class PersonnelDAO extends DBContext {
         return persons;
     }
 
-    public List<Personnel> getPersonnelsByRoleRangeandUserIdNull(int start, int end) {
-        List<Personnel> personnels = new ArrayList<>();
-        // Thêm logic kết nối cơ sở dữ liệu và truy vấn ở đây
-        String query = "SELECT * FROM Personnels WHERE role_id BETWEEN ? AND ? and user_id is null";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, start);
-            ps.setInt(2, end);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    personnels.add(createPersonnel(rs));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return personnels;
-    }
+    @Override
     public boolean checkPhoneNumberExists(String phoneNumber) {
         String sql = "SELECT COUNT(*) FROM [Personnels] WHERE phone_number = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -546,6 +499,7 @@ public class PersonnelDAO extends DBContext {
         return false;
     }
 
+    @Override
     public Personnel getTeacherByClassAndSchoolYear(String classId, String schoolYearId){
         String sql="Select teacher_id from class where id= ? and school_year_id = ?";
         try {

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.classes.ClassDAO;
+import models.timetable.ITimetableDAO;
 import models.timetable.Timetable;
 import models.timetable.TimetableDAO;
 
@@ -63,25 +64,7 @@ public class TimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        TimetableDAO timetableDAO = new TimetableDAO();
-        try {
-            List<Timetable> listTimetable = timetableDAO.getAllTimetable();
-            List<Timetable> approvedTimetables = new ArrayList<>();
 
-            for (Timetable timetable : listTimetable) {
-                if (timetable.getStatus().equals("đã được xét duyệt") || timetable.getStatus().equals("đã từ chối")) {
-                    approvedTimetables.add(timetable);
-                }
-            }
-
-            request.setAttribute("listTimetable", approvedTimetables);
-            request.getRequestDispatcher("timetable.jsp").forward(request, response);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(TimetableServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
     }
 
     /**

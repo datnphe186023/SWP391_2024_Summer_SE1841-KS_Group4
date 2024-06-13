@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
 
 import java.io.IOException;
@@ -15,14 +16,14 @@ import java.io.IOException;
 public class ReviewPupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
         request.setAttribute("listPupil",pupilDAO.getPupilByStatus("đang chờ xử lý"));
         request.getRequestDispatcher("reviewNewPupil.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PupilDAO pupilDAO = new PupilDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
         String action = request.getParameter("action");
         String pupilId = request.getParameter("id");
         String toastMessage ="";

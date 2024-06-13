@@ -5,6 +5,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.classes.Class;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
+import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 
@@ -16,8 +18,8 @@ public class ClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
-            SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-            ClassDAO classDAO = new ClassDAO();
+            ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+            IClassDAO classDAO = new ClassDAO();
             //send list of all schoolYear to jsp
             request.setAttribute("schoolYears", schoolYearDAO.getAll());
             String schoolYearId = request.getParameter("schoolYearId");

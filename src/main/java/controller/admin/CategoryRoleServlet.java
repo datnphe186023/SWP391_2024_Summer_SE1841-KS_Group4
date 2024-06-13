@@ -75,31 +75,31 @@ public class CategoryRoleServlet extends HttpServlet {
         roleMap.put(5, "Parent");
         switch (role_id) {
             case "0":
-                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(0);
+                listPersonnel = new PersonnelDAO().getPersonnelByRoleAndNonUserId(0);
                 request.setAttribute("roleMap", roleMap);
                 request.setAttribute("listPersonnel", listPersonnel);
                 request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
                 break;
             case "1":
-                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(1);
+                listPersonnel = new PersonnelDAO().getPersonnelByRoleAndNonUserId(1);
                 request.setAttribute("roleMap", roleMap);
                 request.setAttribute("listPersonnel", listPersonnel);
                 request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
                 break;
             case "2":
-                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(2);
+                listPersonnel = new PersonnelDAO().getPersonnelByRoleAndNonUserId(2);
                 request.setAttribute("roleMap", roleMap);
                 request.setAttribute("listPersonnel", listPersonnel);
                 request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
                 break;
             case "3":
-                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(3);
+                listPersonnel = new PersonnelDAO().getPersonnelByRoleAndNonUserId(3);
                 request.setAttribute("roleMap", roleMap);
                 request.setAttribute("listPersonnel", listPersonnel);
                 request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);
                 break;
             case "4":
-                listPersonnel = new PersonnelDAO().getPersonelByRoleandNonUserId(4);
+                listPersonnel = new PersonnelDAO().getPersonnelByRoleAndNonUserId(4);
                 request.setAttribute("roleMap", roleMap);
                 request.setAttribute("listPersonnel", listPersonnel);
                 request.getRequestDispatcher("adminCreateUser.jsp").forward(request, response);

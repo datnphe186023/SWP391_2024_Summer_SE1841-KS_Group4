@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DayDAO extends DBContext {
+public class DayDAO extends DBContext implements IDayDAO{
 
     private Day getLatest() {
         String sql = "SELECT TOP 1 * FROM Days ORDER BY ID DESC";
@@ -51,6 +51,7 @@ public class DayDAO extends DBContext {
         return "D" + result;
     }
 
+    @Override
     public void generateDays(Week week) {
         try {
             LocalDate currentDate = Helper.convertDateToLocalDate(week.getStartDate());
@@ -83,6 +84,7 @@ public class DayDAO extends DBContext {
         }
     }
 
+    @Override
     public List<Day> getDayByWeek(String weekId) {
         List<Day> days = new ArrayList<>();
         String sql = "SELECT id, week_id, date FROM Days WHERE week_id = ? AND DATEPART(WEEKDAY, date) BETWEEN 2 AND 6";
@@ -104,6 +106,7 @@ public class DayDAO extends DBContext {
         return days;
     }
 
+    @Override
     public Day getDayByID(String dateId) {
         String sql = "SELECT * FROM Days WHERE id = ?";
         Day day = null;
