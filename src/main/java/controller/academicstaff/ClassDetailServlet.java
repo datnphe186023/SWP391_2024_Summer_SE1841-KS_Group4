@@ -15,9 +15,12 @@ import models.personnel.PersonnelDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.schoolYear.SchoolYear;
 import utils.Helper;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @WebServlet(name = "academicstaff/ClassDetailServlet", value = "/academicstaff/classdetail")
 public class ClassDetailServlet extends HttpServlet {
@@ -29,17 +32,17 @@ public class ClassDetailServlet extends HttpServlet {
         String classId = request.getParameter("classId");
         List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
         Class classes = classDAO.getClassById(classId);
-        /// This variable to display the schoolyear of this class
-        String schoolYear =classes.getSchoolYear().getStartDate().toString();
-        /// Get Pupil that not have class and the age is valid for this class (This code use for add pupil to class modal)
-        List<Pupil> listPupilWithoutClass = pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear);
+        List<Pupil> listPupilWithoutClass = pupilDAO.getPupilsWithoutClass(classes.getSchoolYear().getId());
+
+        /// This request for add pupil to class
+        request.setAttribute("checkedDate", isSchoolYearInThePast(classes.getSchoolYear()));
         request.setAttribute("listPupilWithoutClass",listPupilWithoutClass);
         request.setAttribute("teacherName",classes.getTeacher().getLastName()+" "+classes.getTeacher().getFirstName());
         request.setAttribute("grade",classes.getGrade().getName());
         request.setAttribute("classes",classes.getName());
         request.setAttribute("classId",classId);
+        /// End request for add pupil to class
         request.setAttribute("listPupil",listPupil);
-        request.setAttribute("numberOfPupilsPending",pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear).size());
         request.getRequestDispatcher("classDetail.jsp").forward(request,response);
     }
 
@@ -52,7 +55,7 @@ public class ClassDetailServlet extends HttpServlet {
             String toastMessage ="";
             String toastType="";
             boolean addResult = false;
-
+            /// Get all pupils that be selected
             String [] pupilSelected = request.getParameterValues("pupilSelected");
             String classId = request.getParameter("classId");
             if(pupilSelected!=null){
@@ -71,7 +74,10 @@ public class ClassDetailServlet extends HttpServlet {
             session.setAttribute("toastType",toastType);
             response.sendRedirect("classdetail?classId="+classId);
         }
+    }
 
-
+    private boolean isSchoolYearInThePast(SchoolYear schoolYear){
+        Date currentDate = new Date();
+        return schoolYear.getEndDate().before(currentDate);
     }
 }

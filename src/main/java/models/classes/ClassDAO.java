@@ -226,19 +226,5 @@ public class ClassDAO extends DBContext implements IClassDAO{
         return false;
     }
 
-    @Override
-    public boolean moveOutClassForTeacher(String teacherId, String classId){
-        String sql="update class set teacher_id = ? where id = ? ";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,teacherId);
-            preparedStatement.setString(2,classId);
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return false;
-    }
 
 }
