@@ -50,6 +50,9 @@
                 document.getElementById('accept-form').submit();
             }
         }
+        function alertMessage(){
+            alert("Bạn không thể thêm học sinh ở năm học trong quá khứ!!")
+        }
     </script>
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -71,11 +74,13 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
+                <c:set value="${requestScope.checkedDate}" var="checkedDateInThePast"/>
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Học Sinh</h1>
                 <div class="row align-items-center">
                     <!-- Form section with select elements -->
                     <div class="me-3 mb-4 mr-3 ml-3">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addPupilToClass">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="${checkedDateInThePast ? "": "#addPupilToClass"}" onclick="${checkedDateInThePast ? "alertMessage()": ""}" >
                             Thêm Học Sinh Vào Lớp
                         </button>
                     </div>
@@ -135,7 +140,7 @@
                 </div>
 
             <%--    Add Pupil To Class Modal            --%>
-                <div class="modal fade addPupilToClass" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal fade addPupilToClass" id="addPupilToClass" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="row">
@@ -184,7 +189,7 @@
                                                              style="width:100px; height:100px; object-fit: cover;">
                                                     </td>
                                                     <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
                                                     <td>${pupil.address}</td>
                                                     <td class="align-middle text-center">
                                                         <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">

@@ -20,7 +20,7 @@ public interface IPupilDAO {
     Pupil getLatest();
     String generateId(String latestId);
     boolean updateParent(Pupil pupil);
-    List<Pupil> getPupilsWithoutClass(String gradeId, String date);
+    List<Pupil> getPupilsWithoutClass(String schoolYearId);
     void updatePupil(Pupil pupil);
     List<Pupil> getPupilNonUserId();
     boolean checkFirstGuardianPhoneNumberExists(String phoneNumber);
