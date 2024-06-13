@@ -90,7 +90,6 @@ public class RegisterAccountServlet extends HttpServlet {
             IPersonnelDAO personnelDAO = new PersonnelDAO();
             IPupilDAO pupilDAO = new PupilDAO();
             for (String username : selectedUserIds) {
-                System.out.println(username);
                 switch (username.substring(0, 2)) {
                     case "HS":
                         userDAO.createNewUser(username, pupilDAO.getPupilsById(username).getEmail(), 5, (byte) 0);
