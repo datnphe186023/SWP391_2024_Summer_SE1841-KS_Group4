@@ -2,6 +2,10 @@
 <%@ page import="models.classes.ClassDAO" %>
 <%@ page import="models.schoolYear.SchoolYearDAO" %>
 <%@ page import="models.subject.SubjectDAO" %>
+<%@ page import="models.classes.IClassDAO" %>
+<%@ page import="models.schoolYear.ISchoolYearDAO" %>
+<%@ page import="models.subject.ISubjectDAO" %>
+<%@ page import="models.pupil.IPupilDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>

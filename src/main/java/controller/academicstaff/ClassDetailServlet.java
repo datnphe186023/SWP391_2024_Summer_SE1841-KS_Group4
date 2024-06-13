@@ -25,28 +25,18 @@ public class ClassDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IPupilDAO pupilDAO = new PupilDAO();
         IClassDAO classDAO = new ClassDAO();
-        IPersonnelDAO personnelDAO = new PersonnelDAO();
 
         String classId = request.getParameter("classId");
         List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
         Class classes = classDAO.getClassById(classId);
         /// This variable to display the schoolyear of this class
         String schoolYear =classes.getSchoolYear().getStartDate().toString();
-        /// Get Teacher name of this class
-        Personnel teacher = personnelDAO.getTeacherByClassAndSchoolYear(classId,classes.getSchoolYear().getId());
-        if(teacher!=null){
-            request.setAttribute("teacherName",teacher.getLastName()+" "+teacher.getFirstName());
-        }
-
-
         /// Get Pupil that not have class and the age is valid for this class (This code use for add pupil to class modal)
         List<Pupil> listPupilWithoutClass = pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear);
-
-        request.setAttribute("classId",classId);
         request.setAttribute("listPupilWithoutClass",listPupilWithoutClass);
-        request.setAttribute("schoolYear",classes.getSchoolYear().getId());
-        request.setAttribute("teacherClass",classes.getName());
-        request.setAttribute("teacherGrade",classes.getGrade().getName());
+        request.setAttribute("teacherName",classes.getTeacher().getLastName()+" "+classes.getTeacher().getFirstName());
+        request.setAttribute("grade",classes.getGrade().getName());
+        request.setAttribute("classes",classes.getName());
         request.setAttribute("classId",classId);
         request.setAttribute("listPupil",listPupil);
         request.setAttribute("numberOfPupilsPending",pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear).size());
