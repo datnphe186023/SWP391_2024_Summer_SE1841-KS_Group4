@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +22,22 @@
 
         <!-- Custom styles for this template-->
         <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
         <style>
             #selectWeek {
                 width: 30%;
@@ -107,6 +124,13 @@
                                             <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>${listWeek.id}</option>
                                         </c:forEach>
                                     </select>
+                                    <c:if test="${not empty requestScope.dateWeek}">
+                                        <div style="margin-top: 20px;">
+                                            <p>Ngày bắt đầu: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" /></p>
+                                            <p>Ngày kết thúc: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
+                                        </div>
+                                    </c:if>
+
                                 </div>
 
                                 <div class="form-group col-md-4" >
@@ -121,7 +145,7 @@
                             </div>
                         </form>
 
-                        <form action="timetable" method="post">
+                        <form action="timetable?action=create-timetable" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="selectClass">Chọn lớp:</label>
@@ -133,8 +157,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="selectYear">Năm học :</label>
+                                    <label>Năm học :</label>
                                     <input class="form-control" name="year" value="${requestScope.newYear.name}" disabled style="width: 40%">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label>Mã thời khóa biểu :</label>
+                                    <input class="form-control" name="timetableId" pattern="TB\d{3}" title="Mã thời khóa biểu không hợp lệ" style="width: 40%">
                                 </div>
                             </div>
 
@@ -150,34 +179,82 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
-                                        <tr>
-                                            <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
-                                            <c:forEach var="dayList" items="${requestScope.dayList}">
-                                                <td>
-                                                    <select class="form-control" name="${timeslot.startTime}_${dayList}">
-                                                        <option value="">Chọn môn học</option>
-                                                        <c:forEach var="subList" items="${requestScope.subList}">
-                                                            <option value="${subList.id}">${subList.name}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </td>
-                                            </c:forEach>
-                                        </tr>
-                                    </c:forEach>
+                                    <c:if test="${not empty requestScope.dayList}">
+                                        <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                            <tr>
+                                                <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                                <c:forEach var="dayList" items="${requestScope.dayList}">
+                                                    <td>
+                                                        <select class="form-control" name="timeslotId_${dayList.id}_${timeslot.id}">
+                                                            <option value="">Chọn môn học</option>
+                                                            <c:forEach var="subList" items="${requestScope.subList}">
+                                                                <option value="${subList.id}" name="subjectId_${dayList.id}_${timeslot.id}_${subList.id}">${subList.name}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </td>
+                                                </c:forEach>
+                                            </tr>
+                                        </c:forEach>
+
+                                    </c:if>
+
+
+
                                 </tbody>
                             </table>
-                            
+
 
                             <div class="btn-container">
-                                <button type="button" class="btn btn-primary" onclick="addSubjectRow()">Thêm Môn Học Mới</button>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newWeekModal">
+                                        Tạo tuần học mới
+                                    </button>
+                                </div>
                                 <div class="btn-group-right">
                                     <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
                                     <button type="reset" class="btn btn-danger" style="width: 100px">Hủy</button>
                                 </div>
                             </div>
                         </form>
+                        <!-- New School Year Modal -->
+                        <div class="modal fade" id="newWeekModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                            <form action="timetable?action=create-week" method="POST">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <span class="thong-tin-thanh-toan">
+                                                        <h5>Tạo tuần học mới</h5>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">Ngày bắt đầu</label>
+                                                    <input class="form-control" type="date" name="startDate" required>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">Ngày kết thúc</label>
+                                                    <input class="form-control" type="date" name="endDate" required>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Mã tuần học</label>
+                                                    <input class="form-control" type="text" placeholder="Không được vượt quá 8 kí tự" name="weekID" rows="5" pattern="W\d{6}" title="Mã tuần học không hợp lệ" required maxlength="8">
+                                                    <p style="display: none" id="charCount">8 characters remaining</p>
+                                                    <p style="display: none" class="alert-warning" id="warning">Không được vượt quá 8 kí tự.</p>
+                                                </div>
 
+                                            </div>
+                                            <br>
+                                            <button class="btn btn-success" type="submit">Lưu lại</button>
+                                            <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <!-- /.container-fluid -->
                 </div>
@@ -194,6 +271,21 @@
                 document.getElementById("combinedForm").submit();
             }
         </script>
+        <script>
+            const input = document.querySelector('input[name="description"]');
+            const charCount = document.getElementById('charCount');
+            const warning = document.getElementById('warning');
 
+            input.addEventListener('input', () => {
+                const remaining = 8 - input.value.length;
+                charCount.textContent = `${remaining} characters remaining`;
+
+                if (remaining <= 0) {
+                    warning.style.display = 'block';
+                } else {
+                    warning.style.display = 'none';
+                }
+            });
+        </script>
     </body>
 </html>
