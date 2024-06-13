@@ -1,4 +1,4 @@
-package controller.teacher;
+package controller.accountant;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -13,12 +13,11 @@ import models.user.User;
 import java.io.IOException;
 import java.util.Date;
 
-//this shows details of application, for teacher to view detail and process application from pupil
-@WebServlet(name = "teacher/ApplicationDetailsServlet", value = "/teacher/applicationdetails")
+@WebServlet(name = "accountant/ApplicationDetailsServlet", value = "/accountant/applicationdetails")
 public class ApplicationDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//getting toast message, if exist
+        //getting toast message, if exist
         HttpSession session = request.getSession();
         String toastType = "", toastMessage = "";
         if (session.getAttribute("toastType") != null) {

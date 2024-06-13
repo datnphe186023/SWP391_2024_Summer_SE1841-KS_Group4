@@ -7,7 +7,7 @@ import java.util.List;
 public interface IApplicationDAO {
     ApplicationType getById(String id);
     List<ApplicationType> getAllApplicationTypes(String role);
-    List<Application> getForStaff(SchoolYear schoolYear);
+    List<Application> getForPersonnel(SchoolYear schoolYear, String role);
     Application getApplicationById(String id);
     String addApplication(Application application);
     String processApplication(Application application);

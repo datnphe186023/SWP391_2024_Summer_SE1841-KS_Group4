@@ -77,7 +77,7 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
     }
 
     @Override
-    public List<Application> getForStaff(SchoolYear schoolYear){
+    public List<Application> getForPersonnel(SchoolYear schoolYear, String role){
         List<Application> applications = new ArrayList<>();
         String sql = "SELECT a.*\n" +
                 "FROM Applications a\n" +
@@ -87,7 +87,7 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
                 "AND a.created_at between ? and ?";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "academic staff");
+            statement.setString(1, role);
             statement.setString(2, Helper.convertDateToLocalDate(schoolYear.getStartDate()).toString());
             statement.setString(3, Helper.convertDateToLocalDate(schoolYear.getEndDate()).toString());
             ResultSet resultSet = statement.executeQuery();

@@ -1,4 +1,4 @@
-package controller.teacher;
+package controller.accountant;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -11,9 +11,8 @@ import models.user.User;
 import java.io.IOException;
 import java.util.List;
 
-//this shows sent application from the teacher themselves
-@WebServlet(name = "teacher/SentApplicationsServlet", value = "/teacher/sentapplications")
-public class SentApplicationsServlet extends HttpServlet {
+@WebServlet(name = "accountant/SentApplications", value = "/accountant/sentapplications")
+public class SentApplications extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IApplicationDAO applicationDAO = new ApplicationDAO();

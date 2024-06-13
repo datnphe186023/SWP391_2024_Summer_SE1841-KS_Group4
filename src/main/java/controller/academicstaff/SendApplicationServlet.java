@@ -1,4 +1,4 @@
-package controller.teacher;
+package controller.academicstaff;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-//this servlet serves send application function for teacher
-@WebServlet(name = "teacher/SendApplicationServlet", value = "/teacher/sendapplication")
+@WebServlet(name = "academicstaff/SendApplicationServlet", value = "/academicstaff/sendapplication")
 public class SendApplicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

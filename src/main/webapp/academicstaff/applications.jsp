@@ -11,6 +11,12 @@
 <html lang="en">
 <head>
     <title>Đơn Từ</title>
+
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+    </script>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -21,7 +27,22 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
-                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Đơn Đã Gửi</h1>
+                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Đơn Từ</h1>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <form action="application"  id="myForm">
+                            <div>
+                                <label >Chọn năm học</label>
+                                <select class="custom-select" style="width: 25%"  aria-label="Default select example" onchange="submitForm()" name="schoolYearId">
+                                    <c:forEach items="${requestScope.schoolYears}" var="year">
+                                        <option ${requestScope.selectedSchoolYear.id eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Danh Sách Đơn Từ</h6>
@@ -33,22 +54,20 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Loại đơn</th>
-                                    <th>Chi tiết</th>
+                                    <th>Người gửi</th>
                                     <th>Ngày gửi</th>
-                                    <th>Ghi chú của người xử lý đơn</th>
                                     <th>Trạng thái</th>
-                                    <th>Ngày xử lý đơn</th>
+                                    <th>Chi tiết</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <div style="color: red">${requestScope.error}</div>
-                                <c:forEach var="application" items="${requestScope.sentApplications}" varStatus="status">
+                                <c:forEach var="application" items="${requestScope.applications}" varStatus="status">
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${application.type.name}</td>
-                                        <td>${application.details}</td>
+                                        <td>${application.createdBy}</td>
                                         <td>${application.createdAt}</td>
-                                        <td>${application.processNote}</td>
                                         <c:set value="${application.status}" var="s"/>
                                         <c:if test="${s eq 'đã duyệt'}">
                                             <td><span class="badge badge-success">${s}</span></td>
@@ -59,7 +78,8 @@
                                         <c:if test="${s eq 'đã từ chối'}">
                                             <td><span class="badge badge-danger">${s}</span>  </td>
                                         </c:if>
-                                        <td>${application.processedAt}</td>
+                                        <td class="text-center"><a href="applicationdetails?id=${application.id}"
+                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

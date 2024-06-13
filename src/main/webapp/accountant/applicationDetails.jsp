@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<jsp:useBean id="bean" class="models.pupil.PupilDAO"/>
+<jsp:useBean id="bean" class="models.personnel.PersonnelDAO"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -54,8 +54,8 @@
                         <div class="row mb-3">
                             <div class="col-sm-3 font-weight-bold">Người gửi:</div>
                             <div class="col-sm-9" id="createdBy">
-                                ${bean.getPupilByUserId(requestScope.application.createdBy).id} -
-                                ${bean.getPupilByUserId(requestScope.application.createdBy).lastName} ${bean.getPupilByUserId(requestScope.application.createdBy).firstName}
+                                ${bean.getPersonnelByUserId(requestScope.application.createdBy).id} -
+                                    ${bean.getPersonnelByUserId(requestScope.application.createdBy).lastName} ${bean.getPersonnelByUserId(requestScope.application.createdBy).firstName}
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -99,8 +99,8 @@
                 <div class="col-md-6">
                     <form action="applicationdetails" method="post" id="applicationForm">
                         <label for="note">Ghi chú</label>
-                         <textarea class="form-control mb-5" type="text" placeholder="${requestScope.application.processNote}"
-                                   name="note" id="note" rows="5" required></textarea>
+                        <textarea class="form-control mb-5" type="text" placeholder="${requestScope.application.processNote}"
+                                  name="note" id="note" rows="5" required></textarea>
                         <input name="id" value="${requestScope.applicationId}" hidden/>
                         <button type="submit" name="action" value="approve" class="btn btn-success" onclick="return confirmAction('approve')">
                             Duyệt
@@ -110,31 +110,31 @@
                         </button>
                     </form>
                 </div>
+            </div>
+            <jsp:include page="../footer.jsp"/>
         </div>
-        <jsp:include page="../footer.jsp"/>
     </div>
-</div>
 
-<%--        this checks for application status and let staff process or not--%>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Get the application status from the JSP
-                var applicationStatus = '${requestScope.application.status}';
+    <%--        this checks for application status and let staff process or not--%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the application status from the JSP
+            var applicationStatus = '${requestScope.application.status}';
 
-                // Get the form elements
-                var noteTextarea = document.getElementById('note');
-                var approveButton = document.querySelector('button[name="action"][value="approve"]');
-                var rejectButton = document.querySelector('button[name="action"][value="reject"]');
+            // Get the form elements
+            var noteTextarea = document.getElementById('note');
+            var approveButton = document.querySelector('button[name="action"][value="approve"]');
+            var rejectButton = document.querySelector('button[name="action"][value="reject"]');
 
-                // Check the status and modify the form accordingly
-                if (applicationStatus !== 'đang xử lý') {
-                    // Make the textarea read-only
-                    noteTextarea.readOnly = true;
-                    // Hide the submit buttons
-                    approveButton.style.display = 'none';
-                    rejectButton.style.display = 'none';
-                }
-            });
-        </script>
+            // Check the status and modify the form accordingly
+            if (applicationStatus !== 'đang xử lý') {
+                // Make the textarea read-only
+                noteTextarea.readOnly = true;
+                // Hide the submit buttons
+                approveButton.style.display = 'none';
+                rejectButton.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
