@@ -1,5 +1,6 @@
 package models.schoolYear;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ISchoolYearDAO {
@@ -7,4 +8,5 @@ public interface ISchoolYearDAO {
     SchoolYear getLatest();
     String createNewSchoolYear(SchoolYear schoolYear);
     SchoolYear getSchoolYear(String id);
+    SchoolYear getSchoolYearByDate(Date date);
 }

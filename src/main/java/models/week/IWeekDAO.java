@@ -8,4 +8,5 @@ public interface IWeekDAO {
     public void generateWeeks(SchoolYear schoolYear);
     public Week getWeek(String id);
     public List<Week> getWeeksFromNow();
+    String createTimetableWeek(Week week);
 }

@@ -68,6 +68,10 @@
         <servlet-name>ResetPasswordServlet</servlet-name>
         <servlet-class>controller.admin.ResetPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReviewTimetableServlet</servlet-name>
+        <servlet-class>controller.headteacher.ReviewTimetableServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
@@ -107,6 +111,10 @@
     <servlet-mapping>
         <servlet-name>ResetPasswordServlet</servlet-name>
         <url-pattern>/admin/resetpassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewTimetableServlet</servlet-name>
+        <url-pattern>/headteacher/reviewtimetable</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>

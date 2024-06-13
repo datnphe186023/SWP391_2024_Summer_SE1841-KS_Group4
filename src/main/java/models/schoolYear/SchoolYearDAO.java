@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
+public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
+
     private SchoolYear createNewSchoolYear(ResultSet rs) throws SQLException {
         SchoolYear schoolYear = new SchoolYear();
         schoolYear.setId(rs.getString("id"));
@@ -36,14 +37,14 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
     public List<SchoolYear> getAll() {
         List<SchoolYear> schoolYears = new ArrayList<SchoolYear>();
         String sql = "select * from schoolYears";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 SchoolYear schoolYear = createNewSchoolYear(rs);
                 schoolYears.add(schoolYear);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return schoolYears;
@@ -52,13 +53,13 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
     @Override
     public SchoolYear getLatest() {
         String sql = "SELECT TOP 1 * FROM SchoolYears ORDER BY ID DESC";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return createNewSchoolYear(rs);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -67,8 +68,8 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
     @Override
     public String createNewSchoolYear(SchoolYear schoolYear) {
         String sql = "insert into SchoolYears values(?,?,?,?,?,?)";
-        try{
-            if (validateSchoolYear(schoolYear).equals("success")){
+        try {
+            if (validateSchoolYear(schoolYear).equals("success")) {
                 PreparedStatement statement = connection.prepareStatement(sql);
                 String newSchoolYearId = generateId(getLatest().getId());
                 statement.setString(1, newSchoolYearId);
@@ -115,7 +116,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    private String generateId(String latestId){
+    private String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
         int number = 0;
@@ -130,7 +131,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
     @Override
     public SchoolYear getSchoolYear(String id) {
         String sql = "select * from schoolYears where id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
@@ -138,10 +139,30 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO{
                 SchoolYear schoolYear = createNewSchoolYear(rs);
                 return schoolYear;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
+    @Override
+    public SchoolYear getSchoolYearByDate(Date date) {
+        String sql = "SELECT * FROM SchoolYears WHERE ? BETWEEN start_date AND end_date";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, new java.sql.Date(date.getTime()));
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                SchoolYear schoolYear = new SchoolYear();
+                schoolYear.setId(resultSet.getString("id"));
+                schoolYear.setStartDate(resultSet.getDate("start_date"));
+                schoolYear.setEndDate(resultSet.getDate("end_date"));
+                return schoolYear;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
