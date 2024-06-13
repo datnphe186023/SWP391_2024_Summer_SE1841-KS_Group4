@@ -5,11 +5,10 @@
   Time: 9:05 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
@@ -95,9 +94,9 @@
                 </div>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Danh sách học sinh</h6>
-                        <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a>${requestScope.teacherName == null ?"Chưa được phân công":requestScope.teacherName}</a></h6>
-                        <h6 class="m-0 font-weight-bold text-primary">Lớp : <a style="margin-right: 60px" >${requestScope.teacherClass == null ?"Chưa được phân công":requestScope.teacherClass}</a>    Khối : <a>${requestScope.teacherGrade == null ?"Chưa được phân công":requestScope.teacherGrade}</a></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a style="color: red">${requestScope.teacherName eq 'null null' ?"Chưa được phân công":requestScope.teacherName}</a></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Lớp : <a style="margin-right: 60px; color: red" >${requestScope.classes}</a></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Khối : <a style="color: red">${requestScope.grade}</a></h6>
                     </div>
                 <div class="card-body">
                     <div class="table-responsive">
