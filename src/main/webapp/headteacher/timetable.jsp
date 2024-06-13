@@ -15,8 +15,26 @@
                 document.getElementById("myForm").submit();
             }
         </script>
+        <style>
+            .btn-custom-width {
+                width: 120px; /* Adjust the width as needed */
+            }
+        </style>
+        <!-- Custom fonts for this template-->
+        <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+        <!-- Custom styles for this template-->
+        <link href="../css/sb-admin-2.min.css" rel="stylesheet">
         <!-- Custom styles for this page -->
         <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -37,29 +55,74 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+
                                                 <th>Mã</th>
                                                 <th>Tên lớp</th>
                                                 <th>Ca</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Môn học</th>
                                                 <th>Tạo Bởi</th>
-                                                <th>Trạng Thái</th>
+                                                    <c:if test="${not empty requestScope.listTimetable and requestScope.listTimetable[0].status eq 'đã được xét duyệt'}">
+                                                    <th>Trạng Thái</th>
+                                                    </c:if>
+
                                                 <th>Ghi Chú</th>
                                                 <th>Giáo Viên</th>
+                                                <th>Hành động</th>
+
                                             </tr>
+
+
                                         </thead>
                                         <tbody>
                                             <c:forEach var="listTimetable" items="${requestScope.listTimetable}">
                                                 <tr>
-                                                    <th>${listTimetable.id}</th>
-                                                    <th>${listTimetable.aClass.name}</th>
-                                                    <th>${listTimetable.timeslot.name}</th>
-                                                    <th>${listTimetable.day.date}</th>
-                                                    <th>${listTimetable.subject.name}</th>
-                                                    <th>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</th>
-                                                    <th>${listTimetable.status}</th>
-                                                    <th>${listTimetable.note}</th>
-                                                    <th>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</th>
+                                                    <td>${listTimetable.id}</td>
+                                                    <td>${listTimetable.aClass.name}</td>
+                                                    <td>${listTimetable.timeslot.name}</td>
+                                                    <td>${listTimetable.day.date}</td>
+                                                    <td>${listTimetable.subject.name}</td>
+                                                    <td>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</td>
+                                                    <c:if test="${listTimetable.status eq 'đã được xét duyệt'}">
+                                                        <td style="
+                                                            color: #23dd23;
+                                                            ">${listTimetable.status}</td>
+                                                    </c:if>
+                                                    <c:if test="${listTimetable.status eq 'đã từ chối'}">
+                                                        <td style="
+                                                            color: red;
+                                                            ">${listTimetable.status}</td>
+                                                    </c:if>
+
+                                                    <td>${listTimetable.note}</td>
+                                                    <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
+                                                    <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
+                                                        <td>
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <form method="post" action="#" class="d-inline mb-2">
+                                                                    <input type="hidden" name="action" value="accept">
+                                                                    <input type="hidden" name="id" >
+                                                                    <button type="submit" class="btn btn-sm btn-success shadow-sm btn-custom-width">Chấp nhận</button>
+                                                                </form>
+
+                                                                <form method="post" action="#" class="d-inline mb-2">
+                                                                    <input type="hidden" name="action" value="decline">
+                                                                    <input type="hidden" name="id">
+                                                                    <button type="submit" class="btn btn-sm btn-danger shadow-sm btn-custom-width">Từ chối</button>
+                                                                </form>
+
+                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                            </div>
+                                                        </td>
+
+                                                    </c:if>
+                                                    <c:if test="${listTimetable.status eq 'đã được xét duyệt' or listTimetable.status eq 'đã từ chối'}">
+                                                        <td>
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                            </div>
+                                                        </td>
+                                                    </c:if>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
