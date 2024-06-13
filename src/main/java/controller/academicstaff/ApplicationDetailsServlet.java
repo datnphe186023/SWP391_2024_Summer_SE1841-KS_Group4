@@ -65,7 +65,7 @@ public class ApplicationDetailsServlet extends HttpServlet {
         //sending result to JSP
         if (result.equals("success")) {
             session.setAttribute("toastType", "success");
-            session.setAttribute("toastMessage", "Gửi đơn thành công");
+            session.setAttribute("toastMessage", "Xử lý đơn thành công");
         } else {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", result);

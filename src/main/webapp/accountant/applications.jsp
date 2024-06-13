@@ -54,7 +54,7 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Loại đơn</th>
-                                    <th>Tên người gửi</th>
+                                    <th>Người gửi</th>
                                     <th>Ngày gửi</th>
                                     <th>Trạng thái</th>
                                     <th>Chi tiết</th>
@@ -79,7 +79,7 @@
                                             <td><span class="badge badge-danger">${s}</span>  </td>
                                         </c:if>
                                         <td class="text-center"><a href="applicationdetails?id=${application.id}"
-                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
+                                                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

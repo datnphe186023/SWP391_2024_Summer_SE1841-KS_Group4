@@ -1,4 +1,4 @@
-package controller.academicstaff;
+package controller.accountant;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -13,7 +13,7 @@ import models.schoolYear.SchoolYearDAO;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "academicstaff/ApplicationServlet", value = "/academicstaff/application")
+@WebServlet(name = "accountant/ApplicationServlet", value = "/accountant/application")
 public class ApplicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class ApplicationServlet extends HttpServlet {
 
         //get application list
         IApplicationDAO applicationDAO = new ApplicationDAO();
-        List<Application> applications = applicationDAO.getForPersonnel(schoolYearDAO.getSchoolYear(schoolYearId), "academic staff");
+        List<Application> applications = applicationDAO.getForPersonnel(schoolYearDAO.getSchoolYear(schoolYearId), "accountant");
         request.setAttribute("applications", applications);
 
         request.getRequestDispatcher("applications.jsp").forward(request, response);
