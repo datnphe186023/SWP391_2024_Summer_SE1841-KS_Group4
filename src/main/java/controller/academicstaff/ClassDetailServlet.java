@@ -81,7 +81,23 @@ public class ClassDetailServlet extends HttpServlet {
             response.sendRedirect("classdetail?classId="+classId);
 
         }else if (action.equals("moveOutClassForPupil")){
-
+            IClassDAO classDAO = new ClassDAO();
+            String oldClassId = request.getParameter("classId");
+            String pupilId = request.getParameter("pupil");
+            String newClassId = request.getParameter("classes");
+            if(!pupilId.isBlank() && !newClassId.isBlank()){
+                if(classDAO.moveOutClassForPupil(oldClassId,newClassId,pupilId)){
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Thao tác thành công");
+                }else{
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", "Thao tác thất bại");
+                }
+            }else{
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Thao tác thất bại");
+            }
+            response.sendRedirect("classdetail?classId="+oldClassId);
         } else if (action.equals("assignTeacher")) {
             String teacherId = request.getParameter("teacher");
             String classId = request.getParameter("classId");

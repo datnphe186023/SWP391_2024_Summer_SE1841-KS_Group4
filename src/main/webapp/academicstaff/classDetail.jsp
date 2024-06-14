@@ -267,7 +267,7 @@
                                                         <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
                                                             <input style="cursor: pointer;" class="form-check-input" type="checkbox" value="${pupil.id}" id="myCheckbox" name="pupilSelected">
                                                         </div>
-                                                    </td
+                                                    </td>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -310,6 +310,7 @@
                 <%-- Begin modal for move out class for pupil--%>
                 <div class="modal fade" id="moveOutPupil" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <form action="classdetail?action=moveOutClassForPupil" method="POST" id="moveOutForm">
+                        <input hidden="" name="classId" value="${requestScope.classes.id}">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
