@@ -226,5 +226,26 @@ public class ClassDAO extends DBContext implements IClassDAO{
         return false;
     }
 
+    @Override
+    public List<Class> getClassesByGradeAndSchoolYear(String classId,String gradeId, String schoolYearId){
+        List<Class> list = new ArrayList<>();
+        String sql=" select * from class where school_year_id= ? and grade_id= ?";
+        if (classId!=null){
+            sql+= " and id != '"+classId+"'";
+        }
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,schoolYearId);
+            preparedStatement.setString(2,gradeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                list.add(createClass(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
 
 }

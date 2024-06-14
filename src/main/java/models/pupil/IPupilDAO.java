@@ -9,7 +9,7 @@ public interface IPupilDAO {
     IPersonnelDAO personnelDAO = new PersonnelDAO();
     boolean createPupil(Pupil pupil);
     List<Pupil> getAllPupils();
-    List<Pupil> getListPupilsByClass(String classId);
+    List<Pupil> getListPupilsByClass(String pupilId,String classId);
     Pupil getPupilsById(String id);
     boolean updatePupilStatus(String pupilId, String status);
     boolean addPupilToClass(String pupilId, String classId);
