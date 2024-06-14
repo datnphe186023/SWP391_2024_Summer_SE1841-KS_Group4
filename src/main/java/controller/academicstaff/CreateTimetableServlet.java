@@ -147,7 +147,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 String result = weekDAO.createTimetableWeek(week);
                 if (result.equals("success")) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Tạo mới thành công");
+                    session.setAttribute("toastMessage", "Thao tác thành công");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", result);
