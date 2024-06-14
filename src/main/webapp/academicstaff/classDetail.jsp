@@ -23,6 +23,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 
     <%
@@ -58,18 +64,25 @@
             alert("Lớp chưa được duyệt!!!");
         }
 
-        function confirmAssign(formId, msg){
-            if (confirm(msg)) {
-                const teacherName = '<%=request.getAttribute("teacherName")%>';
-                if (teacherName === 'null null') {
-                    document.getElementById(formId).submit();
-                } else {
-                    if (confirm('Lớp này đã được phân công giáo viên. Bạn có chắc muốn phân công giáo viên đã chọn không?')){
-                        document.getElementById(formId).submit();
-                    }
-                }
-            }
+        function confirmAssign(formId, msg) {
+            formIdToSubmit = formId;
+            additionalConfirmationNeeded = '<%= request.getAttribute("teacherName") %>' !== 'null null';
+
+            document.getElementById('confirmationMessage').innerText = msg;
+            $('#confirmationModal').modal('show');
         }
+
+        $(document).ready(function() {
+            $('#confirmButton').click(function() {
+                if (additionalConfirmationNeeded) {
+                    additionalConfirmationNeeded = false;
+                    document.getElementById('confirmationMessage').innerText = 'Lớp này đã được phân công giáo viên. Bạn có chắc muốn phân công giáo viên đã chọn không?';
+                    $('#confirmationModal').modal('show');
+                } else {
+                    document.getElementById(formIdToSubmit).submit();
+                }
+            });
+        });
     </script>
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -397,6 +410,27 @@
                 </div>
                 <%-- End modal for assign teacher to class--%>
             </div>
+                <%-- Begin confirmation modal--%>
+            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmationMessage">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <%-- End confirmation modal--%>
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>
