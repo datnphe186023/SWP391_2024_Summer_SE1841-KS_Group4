@@ -30,7 +30,7 @@ public class ClassDetailServlet extends HttpServlet {
         IClassDAO classDAO = new ClassDAO();
 
         String classId = request.getParameter("classId");
-        List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
+        List<Pupil> listPupil = pupilDAO.getListPupilsByClass(null,classId);
         Class classes = classDAO.getClassById(classId);
         List<Pupil> listPupilWithoutClass = pupilDAO.getPupilsWithoutClass(classes.getSchoolYear().getId());
 
@@ -38,10 +38,11 @@ public class ClassDetailServlet extends HttpServlet {
         request.setAttribute("checkedDate", isSchoolYearInThePast(classes.getSchoolYear()));
         request.setAttribute("listPupilWithoutClass",listPupilWithoutClass);
         request.setAttribute("teacherName",classes.getTeacher().getLastName()+" "+classes.getTeacher().getFirstName());
-        request.setAttribute("grade",classes.getGrade().getName());
-        request.setAttribute("classes",classes.getName());
-        request.setAttribute("classId",classId);
+        request.setAttribute("classes", classes);
         /// End request for add pupil to class
+        /// Thís request for move out class for pupil
+        request.setAttribute("moveOutClass",classDAO.getClassesByGradeAndSchoolYear(classId,classes.getGrade().getId(),classes.getSchoolYear().getId()));
+        /// End request for move out class for pupil
         request.setAttribute("listPupil",listPupil);
         request.getRequestDispatcher("classDetail.jsp").forward(request,response);
     }
@@ -73,6 +74,8 @@ public class ClassDetailServlet extends HttpServlet {
             session.setAttribute("toastMessage",toastMessage);
             session.setAttribute("toastType",toastType);
             response.sendRedirect("classdetail?classId="+classId);
+        }else if (action.equals("moveOutClassForPupil")){
+
         }
     }
 

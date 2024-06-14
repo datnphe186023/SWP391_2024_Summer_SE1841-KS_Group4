@@ -32,7 +32,7 @@
         session.removeAttribute("toastType");
     %>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var toastMessage = '<%= toastMessage %>';
             var toastType = '<%= toastType %>';
             if (toastMessage) {
@@ -45,13 +45,17 @@
         });
     </script>
     <script>
-        function confirmAccept() {
-            if (confirm('Bạn chắc chắn muốn phê duyệt các học sinh này vào lớp chứ ?')) {
-                document.getElementById('accept-form').submit();
+        function confirmAccept(formId) {
+            if (confirm('Bạn chắc chắn muốn phê duyệt ?')) {
+                document.getElementById(formId).submit();
             }
         }
-        function alertMessage(){
+
+        function alertMessage() {
             alert("Bạn không thể thêm học sinh ở năm học trong quá khứ!!")
+        }
+        function notReadyMessage(){
+            alert("Lớp chưa được duyệt!!!")
         }
     </script>
     <!-- Custom fonts for this template-->
@@ -74,73 +78,112 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
+                <c:set var="classes" value="${requestScope.classes}"/>
                 <c:set value="${requestScope.checkedDate}" var="checkedDateInThePast"/>
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Học Sinh</h1>
                 <div class="row align-items-center">
                     <!-- Form section with select elements -->
                     <div class="me-3 mb-4 mr-3 ml-3">
+                        <c:choose>
+                            <c:when test="${classes.status eq 'đã được duyệt'}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="${checkedDateInThePast ? '' : '#addPupilToClass'}"
+                                        onclick="${checkedDateInThePast ? 'alertMessage()' : ''}">
+                                    Thêm Học Sinh Vào Lớp
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Code for the else condition goes here -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target=""
+                                        onclick="notReadyMessage()">
+                                    Thêm Học Sinh Vào Lớp
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="mb-4 mr-3">
+                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Phân Công Giáo
+                            Viên</a>
+                    </div>
+                    <div class="mb-4 mr-3">
                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="${checkedDateInThePast ? "": "#addPupilToClass"}" onclick="${checkedDateInThePast ? "alertMessage()": ""}" >
-                            Thêm Học Sinh Vào Lớp
+                                data-target="#moveOutPupil">
+                            Đổi Lớp Cho Học Sinh
                         </button>
                     </div>
                     <div class="mb-4 mr-3">
-                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Phân Công Giáo Viên</a>
+                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Thời khóa
+                            biểu</a>
                     </div>
                     <div class="mb-4 mr-3">
-                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Điểm Danh</a>
-                    </div>
-                    <div class="mb-4 mr-3">
-                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Thời khóa biểu</a>
-                    </div>
-                    <div class="mb-4 mr-3">
-                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Báo Cáo Học tập</a>
+                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Báo Cáo Học
+                            tập</a>
                     </div>
                 </div>
                 <div class="card shadow mb-4">
+
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a style="color: red">${requestScope.teacherName eq 'null null' ?"Chưa được phân công":requestScope.teacherName}</a></h6>
-                        <h6 class="m-0 font-weight-bold text-primary">Lớp : <a style="margin-right: 60px; color: red" >${requestScope.classes}</a></h6>
-                        <h6 class="m-0 font-weight-bold text-primary">Khối : <a style="color: red">${requestScope.grade}</a></h6>
+                        <c:choose>
+                            <c:when test="${requestScope.teacherName eq 'null null'}">
+                                <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a
+                                        style="color: red">Chưa được phân công</a>
+                                </h6>
+                            </c:when>
+                            <c:otherwise>
+                                <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a
+                                        >${requestScope.teacherName}</a>
+                                </h6>
+                            </c:otherwise>
+                        </c:choose>
+                        <h6 class="m-0 font-weight-bold text-primary">Lớp : <a
+                                style="margin-right: 60px;">${classes.name}</a></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Khối : <a
+                                >${classes.grade.name}</a></h6>
                     </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered"  width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã học sinh</th>
-                                <th>Ảnh</th>
-                                <th>Họ và tên</th>
-                                <th>Ngày sinh</th>
-                                <th>Địa chỉ</th>
-                                <th>Hành động</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="pupil" items="${requestScope.listPupil}" varStatus="status">
-                             <tr>
-                            <th scope="row">${status.index + 1}</th>
-                                 <td>${pupil.id}</td>
-                                 <td style="width: 20%;"><img src="../images/${pupil.avatar}"
-                                                              class="mx-auto d-block"
-                                                              style="width:100px; height:100px; object-fit: cover;"></td>
-                                 <td>${pupil.lastName} ${pupil.firstName}</td>
-                                 <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
-                                 <td>${pupil.address}</td>
-                                 <td class="d-flex justify-content-center align-items-center" style="height: 150px;">
-                                     <a href="pupilprofile?id=${pupil.id}"
-                                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông tin chi tiết</a>
-                                 </td>                            </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã học sinh</th>
+                                    <th>Ảnh</th>
+                                    <th>Họ và tên</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="pupil" items="${requestScope.listPupil}" varStatus="status">
+                                    <tr>
+                                        <th scope="row">${status.index + 1}</th>
+                                        <td>${pupil.id}</td>
+                                        <td style="width: 20%;"><img src="../images/${pupil.avatar}"
+                                                                     class="mx-auto d-block"
+                                                                     style="width:100px; height:100px; object-fit: cover;">
+                                        </td>
+                                        <td>${pupil.lastName} ${pupil.firstName}</td>
+                                        <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy"/></td>
+                                        <td>${pupil.address}</td>
+                                        <td class="d-flex justify-content-center align-items-center"
+                                            style="height: 150px;">
+                                            <a href="pupilprofile?id=${pupil.id}"
+                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
+                                                tin chi tiết</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
                 </div>
 
-            <%--    Add Pupil To Class Modal            --%>
-                <div class="modal fade addPupilToClass" id="addPupilToClass" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <%--    Add Pupil To Class Modal            --%>
+                <div class="modal fade addPupilToClass" id="addPupilToClass" tabindex="-1" role="dialog"
+                     aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="row">
@@ -150,66 +193,121 @@
 
                             </span>
                                     <div class="d-flex justify-content-end mt-3 mr-2">
-                                        <button class="btn btn-primary" onclick="toggleCheckboxes()">Chọn / Bỏ 10 học sinh</button>
+                                        <button class="btn btn-primary" onclick="toggleCheckboxes()">Chọn / Bỏ 10 học
+                                            sinh
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                             <div class="card shadow mb-4">
                                 <form method="post" action="classdetail?action=addPupil" id="accept-form">
-                                    <input hidden="" value="${requestScope.classId}" name="classId">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
-                                    <button id="add-button" type="button" class="btn btn-outline-success" onclick="confirmAccept()" >
-                                        <i class="fas fa-plus"></i> Thêm học sinh
-                                    </button>
+                                    <input hidden="" value="${classes.id}" name="classId">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                                        <button id="add-button" type="button" class="btn btn-outline-success"
+                                                onclick="confirmAccept('accept-form')">
+                                            <i class="fas fa-plus"></i> Thêm học sinh
+                                        </button>
 
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                            <tr>
-                                                <th>STT</th>
-                                                <th>Mã học sinh</th>
-                                                <th>Ảnh</th>
-                                                <th>Họ và tên</th>
-                                                <th>Ngày sinh</th>
-                                                <th>Địa chỉ</th>
-                                                <th>Hành động</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach var="pupil" items="${requestScope.listPupilWithoutClass}" varStatus="status">
-                                                <tr>
-                                                    <th scope="row">${status.index + 1}</th>
-                                                    <td>${pupil.id}</td>
-                                                    <td style="width: 20%;">
-                                                        <img src="../images/${pupil.avatar}"
-                                                             class="mx-auto d-block"
-                                                             style="width:100px; height:100px; object-fit: cover;">
-                                                    </td>
-                                                    <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
-                                                    <td>${pupil.address}</td>
-                                                    <td class="align-middle text-center">
-                                                        <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
-                                                            <input style="cursor: pointer;" class="form-check-input" type="checkbox" value="${pupil.id}" id="myCheckbox" name="pupilSelected">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
                                     </div>
-                                </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                                   cellspacing="0">
+                                                <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>Mã học sinh</th>
+                                                    <th>Ảnh</th>
+                                                    <th>Họ và tên</th>
+                                                    <th>Ngày sinh</th>
+                                                    <th>Địa chỉ</th>
+                                                    <th>Hành động</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="pupil" items="${requestScope.listPupilWithoutClass}"
+                                                           varStatus="status">
+                                                    <tr>
+                                                        <th scope="row">${status.index + 1}</th>
+                                                        <td>${pupil.id}</td>
+                                                        <td style="width: 20%;">
+                                                            <img src="../images/${pupil.avatar}"
+                                                                 class="mx-auto d-block"
+                                                                 style="width:100px; height:100px; object-fit: cover;">
+                                                        </td>
+                                                        <td>${pupil.lastName} ${pupil.firstName}</td>
+                                                        <td><fmt:formatDate value="${pupil.birthday}"
+                                                                            pattern="yyyy/MM/dd"/></td>
+                                                        <td>${pupil.address}</td>
+                                                        <td class="align-middle text-center">
+                                                            <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
+                                                                <input style="cursor: pointer;" class="form-check-input"
+                                                                       type="checkbox" value="${pupil.id}"
+                                                                       id="myCheckbox" name="pupilSelected">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <%-- End modal Add pupil to class --%>
+                <%-- Begin modal for move out class for pupil--%>
+                <div class="modal fade" id="moveOutPupil" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <form action="classdetail?action=moveOutClassForPupil" method="POST" id="moveOutForm">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Đổi lớp cho học sinh</h5>
+                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">là thông tin bắt buộc phải nhập</a></p>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <label class="control-label" for="pupil">Mã - Tên học sinh<a style="color: red">(*)</a></label>
+                                                <select class="form-control" id="pupil" name="pupil" required>
+                                                    <option value="">-- Chọn Học Sinh --</option>
+                                                    <c:forEach var="pupil" items="${requestScope.listPupil}">
+                                                        <option value="${pupil.id}" ${param.pupil eq pupil.id ? "selected":""}>${pupil.id} - ${pupil.lastName} ${pupil.firstName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="classes">Lớp<a style="color: red">(*)</a></label>
+                                                <select class="form-control" id="classes" name="classes" required>
+                                                    <option value="">-- Chọn Lớp --</option>
+                                                    <c:forEach var="classes" items="${requestScope.moveOutClass}">
+                                                        <option value="${classes.id}" ${param.classes eq classes.id ? "selected":""}>${classes.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <button class="btn btn-success" type="button" onclick="confirmAccept('moveOutForm')">Lưu lại</button>
+                                    <a class="btn btn-danger" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+                <%-- End modal for move out class for pupil--%>
+            </div>
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>
@@ -222,22 +320,20 @@
     function toggleCheckboxes() {
         // Get all checkboxes with the class 'myCheckbox'
         var checkboxes = document.querySelectorAll('#myCheckbox');
-
         // Loop through the first 30 checkboxes and toggle their checked state
         for (var i = 0; i < 10 && i < checkboxes.length; i++) {
             checkboxes[i].checked = !areChecked;
         }
-
         // Toggle the state variable
         areChecked = !areChecked;
     }
 </script>
 <!-- Page level plugins -->
-    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <!-- Page level custom scripts -->
-    <script src="../js/demo/datatables-demo.js"></script>
+<script src="../js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
