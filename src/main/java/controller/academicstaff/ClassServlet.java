@@ -70,7 +70,7 @@ public class ClassServlet extends HttpServlet {
             //create new class
             if (action.equals("create")) {
                 String name = request.getParameter("name");
-                name = Helper.formatString(name);
+                name = Helper.formatName(name);
                 String gradeId = request.getParameter("grade");
                 String schoolYearId = request.getParameter("schoolYear");
                 String teacherId = request.getParameter("teacher");
@@ -93,7 +93,7 @@ public class ClassServlet extends HttpServlet {
                 //return result of creation to user
                 if (result.equals("success")) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Tạo mới thành công");
+                    session.setAttribute("toastMessage", "Thao tác thành công");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", result);

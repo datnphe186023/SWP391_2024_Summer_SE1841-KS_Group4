@@ -154,7 +154,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
             ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
             SchoolYear currentSchoolYear = schoolYearDAO.getSchoolYearByDate(week.getStartDate());
             if (currentSchoolYear == null) {
-                return "Tạo mới thất bại! Năm học mới chưa được tạo.";
+                return "Thao tác thất bại! Năm học mới chưa được tạo.";
             }
             week.setSchoolYear(currentSchoolYear);
             if (validateWeekTimetable(week).equals("success")) {
@@ -168,13 +168,13 @@ public class WeekDAO extends DBContext implements IWeekDAO {
                 IDayDAO dayDAO = new DayDAO();
                 dayDAO.generateDays(week);
             } else {
-                return "Tạo mới thất bại! " + validateWeekTimetable(week);
+                return "Thao tác thất bại! " + validateWeekTimetable(week);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return "Tạo mới thất bại! " + sqlException.getMessage();
+            return "Thao tác thất bại! " + sqlException.getMessage();
         } catch (Exception e) {
-            return "Tạo mới thất bại! " + e.getMessage();
+            return "Thao tác thất bại! " + e.getMessage();
         }
         return "success";
     }
@@ -196,7 +196,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         SchoolYear currentSchoolYear = schoolYearDAO.getSchoolYearByDate(week.getStartDate());
         if (currentSchoolYear == null) {
-            return "Tạo mới thất bại! Năm học bạn chọn chưa được tạo.";
+            return "Thao tác thất bại! Năm học bạn chọn chưa được tạo.";
         }
         week.setSchoolYear(currentSchoolYear);
 
