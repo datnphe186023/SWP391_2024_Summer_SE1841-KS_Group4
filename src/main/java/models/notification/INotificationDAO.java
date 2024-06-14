@@ -4,8 +4,7 @@
  */
 package models.notification;
 
-import java.util.Date;
-import models.personnel.Personnel;
+import java.sql.ResultSet;
 
 /**
  *
@@ -13,7 +12,7 @@ import models.personnel.Personnel;
  */
 public interface INotificationDAO {
 
-    Notification createNoti(String id, String heading, String details, Personnel create_by, Date create_at);
+    Notification createNoti(ResultSet rs);
 
     Notification getLatest();
 

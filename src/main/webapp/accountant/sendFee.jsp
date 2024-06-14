@@ -48,7 +48,7 @@
                                                     <input> VNĐ
                                                 </div>
                                                 <div style="margin-top: 10px">
-                                                    <button class="btn-success" type="button" onclick="submitForm()">XÁC NHẬN</button>
+                                                    <button class="btn btn-success" type="button" onclick="submitForm()">XÁC NHẬN</button>
                                                 </div>
                                             </div>
                                         </div>

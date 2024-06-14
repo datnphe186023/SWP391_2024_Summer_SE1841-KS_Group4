@@ -58,20 +58,22 @@
 
                             <h1 class="h3 mb-4 text-gray-800 text-center">TẠO THÔNG BÁO</h1>
                             <div class="card shadow mb-4">
-                                <form>
+                                <form action="listnotifi" method="post">
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <h5>TIÊU ĐỀ : </h5>
-                                            <input style="width: 100%"></input>
+                                            <input name="heading" style="width: 100%" maxlength="50"></input>
                                                 <h5 style="margin-top: 10px">NỘI DUNG : </h5>
                                                 <div>
-                                                    <textarea id="id" name="content" rows="10" cols="131"></textarea>
+                                                    <textarea style="resize: none" id="id" name="content" rows="10" cols="131"></textarea>
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" id="submitDate" name="submitDate">
+                                        <input type="hidden" id="submitTime" name="submitTime">
                                         <div class="d-flex justify-content-around">
-                                            <button class="btn btn-danger">QUAY LẠI</button>
-                                            <button type="submit" class="btn btn-success">XÁC NHẬN</button>
+                                            <button onclick="goBack()" type="button" class="btn btn-danger">QUAY LẠI</button>
+                                            <button onclick="submitForm()" type="button" class="btn btn-success">XÁC NHẬN</button>
                                         </div>
                                     </form>
                                 </div>        
@@ -88,25 +90,42 @@
                 <!-- Page level custom scripts -->
                 <script src="../js/demo/datatables-demo.js"></script>
                 <script>
-            function redirectToServlet() {
-                var selectedRole = document.getElementById("roleSelect").value;
-                if (selectedRole !== "") {
-                    window.location.href = "categoryRoleManager?role=" + selectedRole;
-                }
-            }
-            // Function to get query parameter value
-            function getQueryParam(param) {
-                var urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
+                                                function redirectToServlet() {
+                                                    var selectedRole = document.getElementById("roleSelect").value;
+                                                    if (selectedRole !== "") {
+                                                        window.location.href = "categoryRoleManager?role=" + selectedRole;
+                                                    }
+                                                }
+                                                // Function to get query parameter value
+                                                function getQueryParam(param) {
+                                                    var urlParams = new URLSearchParams(window.location.search);
+                                                    return urlParams.get(param);
+                                                }
 
-            // Set the selected value on page load
-            document.addEventListener('DOMContentLoaded', (event) => {
-                var selectedRole = getQueryParam('role');
-                if (selectedRole) {
-                    document.getElementById('roleSelect').value = selectedRole;
-                }
-            });
+                                                // Set the selected value on page load
+                                                document.addEventListener('DOMContentLoaded', (event) => {
+                                                    var selectedRole = getQueryParam('role');
+                                                    if (selectedRole) {
+                                                        document.getElementById('roleSelect').value = selectedRole;
+                                                    }
+                                                });
+                                                function goBack() {
+                                                    window.history.back();
+                                                }
+                                                function submitForm() {
+                                                    var now = new Date();
+
+                                                    // Lấy ngày hiện tại theo định dạng yyyy-mm-dd
+                                                    document.getElementById('submitDate').value = now.toISOString().split('T')[0];
+
+                                                    // Lấy giờ và phút hiện tại theo định dạng hh:mm
+                                                    var hours = now.getHours().toString().padStart(2, '0');
+                                                    var minutes = now.getMinutes().toString().padStart(2, '0');
+                                                    var timeString = hours + ':' + minutes;
+
+                                                    document.getElementById('submitTime').value = timeString;
+                                                    document.getElementById("myForm").submit();
+                                                }
                 </script>
             </body>
         </html>

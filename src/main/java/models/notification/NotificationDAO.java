@@ -6,11 +6,12 @@ package models.notification;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import models.personnel.Personnel;
 import utils.DBContext;
 
 /**
@@ -48,14 +49,11 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     }
 
     @Override
-    public Notification createNoti(ResultSet resultSet) {
+    public Notification createNoti(ResultSet rs) {
         Notification notifi = new Notification();
-        notifi.setId(resultSet.getString(1));
-        notifi.setHeading(resultSet.getString(2));
-        notifi.setDetails(resultSet.getString(3));
-        notifi.setCreatedBy(resultSet.getObject();
-        notifi.setCreatedAt();
+        notifi.setId(rs.getString(1));
+        notifi.setHeading(rs.getString(2));
+
         return notifi;
     }
-
 }
