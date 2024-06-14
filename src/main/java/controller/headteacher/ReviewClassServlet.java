@@ -37,7 +37,6 @@ public class ReviewClassServlet extends HttpServlet {
                     //get all processing classes
                     request.setAttribute("classes", classDAO.getByStatus("đang chờ xử lý", schoolYearId));
                     request.setAttribute("schoolYearId", schoolYearId);
-                    request.setAttribute("numberOfPendingClasses", classDAO.getByStatus("đang chờ xử lý", schoolYearId).size());
                     request.getRequestDispatcher("reviewClass.jsp").forward(request, response);
                 }
             } else if (action.equals("accept") || action.equals("decline")) {
