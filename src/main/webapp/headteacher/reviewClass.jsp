@@ -86,13 +86,13 @@
                                                 <form method="post" action="class" id="accept-form-${classes.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${classes.id}">
-                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${pupil.id}')">Chấp nhận</button>
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${classes.id}')">Chấp nhận</button>
                                                 </form>
 
                                                 <form method="post" action="class" id="decline-form-${classes.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${classes.id}">
-                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmDecline('decline-form-${pupil.id}')">Từ chối</button>
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmDecline('decline-form-${classes.id}')">Từ chối</button>
                                                 </form>
                                             </div>
                                         </td>

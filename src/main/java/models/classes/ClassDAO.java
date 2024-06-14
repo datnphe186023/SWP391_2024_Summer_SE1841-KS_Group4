@@ -219,11 +219,11 @@ public class ClassDAO extends DBContext implements IClassDAO{
             preparedStatement.setString(2,pupilId);
             preparedStatement.setString(3,oldClassId);
             preparedStatement.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
