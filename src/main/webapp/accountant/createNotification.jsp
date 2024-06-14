@@ -70,7 +70,6 @@
                                             </div>
                                         </div>
                                         <input type="hidden" id="submitDate" name="submitDate">
-                                        <input type="hidden" id="submitTime" name="submitTime">
                                         <div class="d-flex justify-content-around">
                                             <button onclick="goBack()" type="button" class="btn btn-danger">QUAY LẠI</button>
                                             <button onclick="submitForm()" type="button" class="btn btn-success">XÁC NHẬN</button>
@@ -114,16 +113,8 @@
                                                 }
                                                 function submitForm() {
                                                     var now = new Date();
-
                                                     // Lấy ngày hiện tại theo định dạng yyyy-mm-dd
                                                     document.getElementById('submitDate').value = now.toISOString().split('T')[0];
-
-                                                    // Lấy giờ và phút hiện tại theo định dạng hh:mm
-                                                    var hours = now.getHours().toString().padStart(2, '0');
-                                                    var minutes = now.getMinutes().toString().padStart(2, '0');
-                                                    var timeString = hours + ':' + minutes;
-
-                                                    document.getElementById('submitTime').value = timeString;
                                                     document.getElementById("myForm").submit();
                                                 }
                 </script>

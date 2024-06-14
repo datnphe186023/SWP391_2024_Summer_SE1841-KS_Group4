@@ -5,6 +5,10 @@
 package models.notification;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import models.personnel.Personnel;
 
 /**
  *
@@ -12,7 +16,11 @@ import java.sql.ResultSet;
  */
 public interface INotificationDAO {
 
-    Notification createNoti(ResultSet rs);
+    Notification createNotifi(ResultSet resultSet) throws SQLException;
+
+    List<Notification> getListNotifi();
+
+    void createNoti(Notification notification) throws SQLException;
 
     Notification getLatest();
 

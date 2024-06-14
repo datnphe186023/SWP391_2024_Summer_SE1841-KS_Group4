@@ -45,6 +45,15 @@
                     padding: 10px;
                     border-radius: 8px;
                 }
+                .notification input {
+                    background-color: transparent;
+                    border: none;
+                    font-size: inherit;
+                    font-weight: bold;
+                    color: inherit;
+                    width: auto;
+                    outline: none;
+                }
             </style>
         </head>
 
@@ -71,14 +80,16 @@
 
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <div class="notification">
-                                                <button class="btn-detail">XEM CHI TIẾT</button>
-                                                <div>
-                                                    <div>THÔNG BÁO: KẾ HOẠCH KỲ HỌC MỚI</div>
-                                                </div>
-                                                <div>
-                                                    <div>Time: 22:30</div>
-                                                    <div>30/11/2024</div>
-                                                </div>
+                                                <c:forEach items="${notifi}" var="notifi">
+                                                    <button class="btn-detail">XEM CHI TIẾT</button>
+                                                    <div>
+                                                        THÔNG BÁO: ${notifi.getHeading()}
+                                                    </div>
+                                                    <div>
+                                                        <div>Date: ${notifi.getCreatedAt()}</div>
+                                                        <div></div>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
                                         </table>
                                     </div>
