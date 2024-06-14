@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin;
+package controller.accountant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,20 +11,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import models.personnel.IPersonnelDAO;
-import models.personnel.PersonnelDAO;
-import models.pupil.IPupilDAO;
-import models.pupil.PupilDAO;
-import models.user.IUserDAO;
-import models.user.UserDAO;
+import java.util.List;
+import models.notification.Notification;
+import models.notification.NotificationDAO;
 
 /**
  *
  * @author TuyenCute
  */
-@WebServlet(name = "RegisterAccountServlet", urlPatterns = {"/admin/registeraccount"})
-public class RegisterAccountServlet extends HttpServlet {
+@WebServlet(name = "ListNotificationServlet", urlPatterns = {"/accountant/listnotification"})
+public class ListNotificationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +39,10 @@ public class RegisterAccountServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterAccountServlet</title>");
+            out.println("<title>Servlet ListNotificationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterAccountServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListNotificationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,7 +60,11 @@ public class RegisterAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        NotificationDAO notifiDAO = new NotificationDAO();
+        List<Notification> notifi = notifiDAO.getListNotifi();
+        request.setAttribute("notifi", notifi);
+        request.getRequestDispatcher("listNotification.jsp").forward(request, response);
+
     }
 
     /**
@@ -78,44 +78,7 @@ public class RegisterAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy giá trị của các checkbox được chọn từ request
-        String[] selectedUserIds = request.getParameterValues("user_checkbox");
-        HttpSession session = request.getSession();
-        // Kiểm tra nếu không có checkbox nào được chọn
-        if (selectedUserIds == null || selectedUserIds.length == 0) {
-            session.setAttribute("error", "error");
-            response.sendRedirect("createuser");
-        } else {
-            IUserDAO userDAO = new UserDAO();
-            IPersonnelDAO personnelDAO = new PersonnelDAO();
-            IPupilDAO pupilDAO = new PupilDAO();
-            for (String username : selectedUserIds) {
-                switch (username.substring(0, 2)) {
-                    case "HS":
-                        userDAO.createNewUser(username, pupilDAO.getPupilsById(username).getEmail(), 5, (byte) 0);
-                        break;
-                    case "AC":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 3, (byte) 0);
-                        break;
-                    case "HT":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 1, (byte) 0);
-                        break;
-                    case "TE":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 4, (byte) 0);
-                        break;
-                    case "AS":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 2, (byte) 0);
-                        break;
-                    case "AD":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 0, (byte) 0);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            session.setAttribute("success", "success");
-            response.sendRedirect("createuser");
-        }
+        processRequest(request, response);
     }
 
     /**

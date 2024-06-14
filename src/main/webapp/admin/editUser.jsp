@@ -129,7 +129,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-12">
-                                                                    <h5>VAI TRÒ : ${roleMap[user.getRoleId()]}</h5> 
+                                                                    <h5>VAI TRÒ * : ${roleMap[user.getRoleId()]}</h5> 
                                                                     <select name="role">
                                                                         <option value="0">Admin</option>
                                                                         <option value="1">Head Teacher</option>
@@ -141,13 +141,13 @@
                                                                 </div></td>
                                                             <td>
                                                                 <div class="form-group col-md-12">
-                                                                    <h5>Email :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}" /><br />
+                                                                    <h5>EMAIL * :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}" required=""/><br />
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-12">
-                                                                    <h5>Trạng Thái : ${roleDis[user.getIsDisabled()]} </h5> 
+                                                                    <h5>TRẠNG THÁI * : ${roleDis[user.getIsDisabled()]} </h5> 
                                                                     <select name="active">
                                                                         <option value="0">Active</option>
                                                                         <option value="1">Disable</option>

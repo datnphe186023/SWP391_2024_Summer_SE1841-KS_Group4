@@ -98,7 +98,6 @@
                             <a href="createuser"> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
                                     TẠO TÀI KHOẢN MỚI
                                 </button></a>
-
                         </div>   
                     </div>
 
