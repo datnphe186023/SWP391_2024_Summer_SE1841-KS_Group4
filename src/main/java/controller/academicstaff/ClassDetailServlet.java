@@ -74,10 +74,12 @@ public class ClassDetailServlet extends HttpServlet {
             session.setAttribute("toastMessage",toastMessage);
             session.setAttribute("toastType",toastType);
             response.sendRedirect("classdetail?classId="+classId);
+
         }else if (action.equals("moveOutClassForPupil")){
 
         }
     }
+
 
     private boolean isSchoolYearInThePast(SchoolYear schoolYear){
         Date currentDate = new Date();

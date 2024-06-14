@@ -181,9 +181,9 @@
                     </div>
                 </div>
 
-                <%--    Add Pupil To Class Modal            --%>
-                <div class="modal fade addPupilToClass" id="addPupilToClass" tabindex="-1" role="dialog"
-                     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+            <%--    Add Pupil To Class Modal            --%>
+                <div class="modal fade addPupilToClass" id="addPupilToClass" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="row">
@@ -216,6 +216,7 @@
                                                    cellspacing="0">
                                                 <thead>
                                                 <tr>
+
                                                     <th>STT</th>
                                                     <th>Mã học sinh</th>
                                                     <th>Ảnh</th>
@@ -223,6 +224,22 @@
                                                     <th>Ngày sinh</th>
                                                     <th>Địa chỉ</th>
                                                     <th>Hành động</th>
+
+                                                    <th scope="row">${status.index + 1}</th>
+                                                    <td>${pupil.id}</td>
+                                                    <td style="width: 20%;">
+                                                        <img src="../images/${pupil.avatar}"
+                                                             class="mx-auto d-block"
+                                                             style="width:100px; height:100px; object-fit: cover;">
+                                                    </td>
+                                                    <td>${pupil.lastName} ${pupil.firstName}</td>
+                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
+                                                    <td>${pupil.address}</td>
+                                                    <td class="align-middle text-center">
+                                                        <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
+                                                            <input style="cursor: pointer;" class="form-check-input" type="checkbox" value="${pupil.id}" id="myCheckbox" name="pupilSelected">
+                                                        </div>
+                                                    </td
                                                 </tr>
                                                 </thead>
                                                 <tbody>
