@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,13 +84,13 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
                 statement.setString(6, schoolYear.getCreatedBy().getId());
                 statement.execute();
             } else {
-                return "Tạo mới thất bại! " + validateSchoolYear(schoolYear);
+                return "Thao tác thất bại! " + validateSchoolYear(schoolYear);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return "Tạo mới thất bại! " + sqlException.getMessage();
+            return "Thao tác thất bại! " + sqlException.getMessage();
         } catch (Exception e) {
-            return "Tạo mới thất bại! " + e.getMessage();
+            return "Thao tác thất bại! " + e.getMessage();
         }
         return "success";
     }
@@ -105,9 +106,9 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         LocalDate startLocalDate = convertToLocalDate(schoolYear.getStartDate());
         LocalDate endLocalDate = convertToLocalDate(schoolYear.getEndDate());
 
-        // Validate that the years are exactly one year apart
-        if (endLocalDate.getYear() - startLocalDate.getYear() != 1) {
-            return "Ngày kết thúc phải cách ngày bắt đầu đúng một năm";
+        // Validate that the years are at least 10 months long
+        if (ChronoUnit.MONTHS.between(startLocalDate, endLocalDate) < 10) {
+            return "Năm học phải kéo dài ít nhất 10 tháng";
         }
         return "success";
     }

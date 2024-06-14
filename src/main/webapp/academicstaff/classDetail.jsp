@@ -45,17 +45,30 @@
         });
     </script>
     <script>
-        function confirmAccept(formId) {
-            if (confirm('Bạn chắc chắn muốn phê duyệt ?')) {
+        function confirmAccept(formId, msg) {
+            if (confirm(msg)) {
                 document.getElementById(formId).submit();
             }
         }
 
         function alertMessage() {
-            alert("Bạn không thể thêm học sinh ở năm học trong quá khứ!!")
+            alert("Thao tác không khả dụng với năm học trong quá khứ!!");
         }
         function notReadyMessage(){
-            alert("Lớp chưa được duyệt!!!")
+            alert("Lớp chưa được duyệt!!!");
+        }
+
+        function confirmAssign(formId, msg){
+            if (confirm(msg)) {
+                const teacherName = '<%=request.getAttribute("teacherName")%>';
+                if (teacherName === 'null null') {
+                    document.getElementById(formId).submit();
+                } else {
+                    if (confirm('Lớp này đã được phân công giáo viên. Bạn có chắc muốn phân công giáo viên đã chọn không?')){
+                        document.getElementById(formId).submit();
+                    }
+                }
+            }
         }
     </script>
     <!-- Custom fonts for this template-->
@@ -103,8 +116,23 @@
                         </c:choose>
                     </div>
                     <div class="mb-4 mr-3">
-                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Phân Công Giáo
-                            Viên</a>
+                        <c:choose>
+                            <c:when test="${classes.status eq 'đã được duyệt'}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="${checkedDateInThePast ? '' : '#assignTeacher'}"
+                                        onclick="${checkedDateInThePast ? 'alertMessage()' : ''}">
+                                    Phân Công Giáo Viên
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Code for the else condition goes here -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target=""
+                                        onclick="notReadyMessage()">
+                                    Phân Công Giáo Viên
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="mb-4 mr-3">
                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -205,7 +233,7 @@
                                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                         <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
                                         <button id="add-button" type="button" class="btn btn-outline-success"
-                                                onclick="confirmAccept('accept-form')">
+                                                onclick="confirmAccept('accept-form', 'Bạn có chắc chắn muốn thêm những học sinh này vào lớp?')">
                                             <i class="fas fa-plus"></i> Thêm học sinh
                                         </button>
 
@@ -276,6 +304,9 @@
                     </div>
                 </div>
                 <%-- End modal Add pupil to class --%>
+
+
+
                 <%-- Begin modal for move out class for pupil--%>
                 <div class="modal fade" id="moveOutPupil" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <form action="classdetail?action=moveOutClassForPupil" method="POST" id="moveOutForm">
@@ -315,7 +346,7 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <button class="btn btn-success" type="button" onclick="confirmAccept('moveOutForm')">Lưu lại</button>
+                                    <button class="btn btn-success" type="button" onclick="confirmAccept('moveOutForm', 'Bạn có chắc chắn muốn đổi lớp học sinh này?')">Lưu lại</button>
                                     <a class="btn btn-danger" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
                                     <br>
                                 </div>
@@ -324,6 +355,46 @@
                     </form>
                 </div>
                 <%-- End modal for move out class for pupil--%>
+
+
+                <%-- Begin modal for assign teacher to class --%>
+                <div class="modal fade" id="assignTeacher" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <form action="classdetail?action=assignTeacher" method="POST" id="assignTeacherForm">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Phân công giáo viên vào lớp</h5>
+                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">là thông tin bắt buộc phải nhập</a></p>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <label class="control-label" for="pupil">Mã - Tên giáo viên<a style="color: red">(*)</a></label>
+                                                <select class="form-control" id="teacher" name="teacher" required>
+                                                    <option value="">-- Chọn Giáo Viên --</option>
+                                                    <c:forEach var="teacher" items="${requestScope.teachers}">
+                                                        <option value="${teacher.id}" ${param.teacher eq teacher.id ? "selected":""}>${teacher.id} - ${teacher.lastName} ${teacher.firstName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <input hidden value="${requestScope.classes.id}" name="classId">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <button class="btn btn-success" type="button" onclick="confirmAssign('assignTeacherForm', 'Bạn có chắc chắn muốn phân công giáo viên này vào lớp?')">Lưu lại</button>
+                                    <a class="btn btn-danger" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <%-- End modal for assign teacher to class--%>
             </div>
         </div>
         <jsp:include page="../footer.jsp"/>

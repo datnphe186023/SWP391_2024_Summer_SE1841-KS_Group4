@@ -60,7 +60,7 @@
                         <a class="collapse-item" href="class">Danh Sách Lớp</a>
                         <% IClassDAO classDAO = new ClassDAO(); %>
                         <% ISchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
-                        <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">
+                        <a class="collapse-item" href="reviewclass?schoolYearId=<%=schoolYearDAO.getLatest().getId()%>">
                             Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)
                         </a>
                     </div>

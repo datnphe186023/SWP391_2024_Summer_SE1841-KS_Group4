@@ -12,6 +12,6 @@ public interface IClassDAO {
     List<Class> getClassByGradeId(String gradeId);
     boolean moveOutClassForPupil(String oldClassId, String newClassId, String pupilId);
     List<Class> getClassesByGradeAndSchoolYear(String classId,String gradeId, String schoolYearId);
-
+    String assignTeacherToClass(String teacherId, String classId);
 
 }

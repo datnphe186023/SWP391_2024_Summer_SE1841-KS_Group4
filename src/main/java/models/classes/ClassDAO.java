@@ -113,7 +113,7 @@ public class ClassDAO extends DBContext implements IClassDAO{
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return "Tạo mới thất bại. Lớp đã tồn tại";
+            return "Thao tác thất bại. Lớp đã tồn tại";
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
@@ -245,6 +245,21 @@ public class ClassDAO extends DBContext implements IClassDAO{
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    @Override
+    public String assignTeacherToClass(String teacherId, String classId) {
+        String sql = "update [Class] set teacher_id = ? where id = ?";
+        try{
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, teacherId);
+                statement.setString(2, classId);
+                statement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Phân công giáo viên vào lớp thất bại! Vui lòng thử lại sau!";
+        }
+        return "success";
     }
 
 

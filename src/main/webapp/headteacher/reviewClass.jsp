@@ -26,6 +26,25 @@
             }
         });
     </script>
+    <style>
+        .btn-custom-width {
+            width: 120px; /* Adjust the width as needed */
+        }
+    </style>
+
+    <script>
+        function confirmAccept(formId) {
+            if (confirm('Bạn chắc chắn muốn phê duyệt lớp này ?')) {
+                document.getElementById(formId).submit();
+            }
+        }
+
+        function confirmDecline(formId) {
+            if (confirm('Bạn không muốn phê duyệt lớp này ?')) {
+                document.getElementById(formId).submit();
+            }
+        }
+    </script>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -63,8 +82,19 @@
                                         <td>${classes.teacher.lastName} ${classes.teacher.firstName}</td>
                                         <td>${classes.createdBy.lastName} ${classes.createdBy.firstName}</td>
                                         <td>
-                                            <a href="reviewclass?id=${classes.id}&action=accept&schoolYearId=${requestScope.schoolYearId}" class="btn btn-success">Duyệt</a>
-                                            <a href="reviewclass?id=${classes.id}&action=decline&schoolYearId=${requestScope.schoolYearId}" class="btn btn-danger">Huỷ Bỏ</a>
+                                            <div class="d-flex flex-column align-items-center">
+                                                <form method="post" action="class" id="accept-form-${classes.id}" class="d-inline mb-2">
+                                                    <input type="hidden" name="action" value="accept">
+                                                    <input type="hidden" name="id" value="${classes.id}">
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${pupil.id}')">Chấp nhận</button>
+                                                </form>
+
+                                                <form method="post" action="class" id="decline-form-${classes.id}" class="d-inline mb-2">
+                                                    <input type="hidden" name="action" value="decline">
+                                                    <input type="hidden" name="id" value="${classes.id}">
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmDecline('decline-form-${pupil.id}')">Từ chối</button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 </c:forEach>

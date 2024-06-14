@@ -28,6 +28,7 @@ public class ClassDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IPupilDAO pupilDAO = new PupilDAO();
         IClassDAO classDAO = new ClassDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
 
         String classId = request.getParameter("classId");
         List<Pupil> listPupil = pupilDAO.getListPupilsByClass(null,classId);
@@ -40,19 +41,23 @@ public class ClassDetailServlet extends HttpServlet {
         request.setAttribute("teacherName",classes.getTeacher().getLastName()+" "+classes.getTeacher().getFirstName());
         request.setAttribute("classes", classes);
         /// End request for add pupil to class
-        /// Thís request for move out class for pupil
+
+        /// This request for move out class for pupil
         request.setAttribute("moveOutClass",classDAO.getClassesByGradeAndSchoolYear(classId,classes.getGrade().getId(),classes.getSchoolYear().getId()));
         /// End request for move out class for pupil
         request.setAttribute("listPupil",listPupil);
+
+        //This request for assign teacher to class, sending a list of available teacher
+        request.setAttribute("teachers", personnelDAO.getAvailableTeachers(classDAO.getClassById(classId).getSchoolYear().getId()));
         request.getRequestDispatcher("classDetail.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
         if(action.equals("addPupil")){
             IPupilDAO pupilDAO = new PupilDAO();
-            HttpSession session = request.getSession();
             String toastMessage ="";
             String toastType="";
             boolean addResult = false;
@@ -77,12 +82,24 @@ public class ClassDetailServlet extends HttpServlet {
 
         }else if (action.equals("moveOutClassForPupil")){
 
+        } else if (action.equals("assignTeacher")) {
+            String teacherId = request.getParameter("teacher");
+            String classId = request.getParameter("classId");
+            IClassDAO classDAO = new ClassDAO();
+            String result = classDAO.assignTeacherToClass(teacherId, classId);
+            if (result.equals("success")) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Thao tác thành công");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", result);
+            }
+            response.sendRedirect("classdetail?classId="+classId);
         }
     }
 
 
     private boolean isSchoolYearInThePast(SchoolYear schoolYear){
-        Date currentDate = new Date();
-        return schoolYear.getEndDate().before(currentDate);
+        return schoolYear.getEndDate().before(new Date());
     }
 }
