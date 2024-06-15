@@ -80,7 +80,7 @@ public class UserProfileServlet extends HttpServlet {
         byte active = Byte.parseByte(request.getParameter("active"));
         User user = new User();
         user.setId(user_id);
-        user.setEmail(email);
+        user.setEmail(email.trim());
         user.setIsDisabled(active);
         user.setRoleId(role);
         IUserDAO userDAO = new UserDAO();

@@ -9,7 +9,7 @@ public interface IPupilDAO {
     IPersonnelDAO personnelDAO = new PersonnelDAO();
     boolean createPupil(Pupil pupil);
     List<Pupil> getAllPupils();
-    List<Pupil> getListPupilsByClass(String classId);
+    List<Pupil> getListPupilsByClass(String pupilId,String classId);
     Pupil getPupilsById(String id);
     boolean updatePupilStatus(String pupilId, String status);
     boolean addPupilToClass(String pupilId, String classId);
@@ -20,7 +20,7 @@ public interface IPupilDAO {
     Pupil getLatest();
     String generateId(String latestId);
     boolean updateParent(Pupil pupil);
-    List<Pupil> getPupilsWithoutClass(String gradeId, String date);
+    List<Pupil> getPupilsWithoutClass(String schoolYearId);
     void updatePupil(Pupil pupil);
     List<Pupil> getPupilNonUserId();
     boolean checkFirstGuardianPhoneNumberExists(String phoneNumber);

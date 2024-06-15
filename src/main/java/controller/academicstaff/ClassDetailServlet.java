@@ -15,9 +15,12 @@ import models.personnel.PersonnelDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.schoolYear.SchoolYear;
 import utils.Helper;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @WebServlet(name = "academicstaff/ClassDetailServlet", value = "/academicstaff/classdetail")
 public class ClassDetailServlet extends HttpServlet {
@@ -28,41 +31,37 @@ public class ClassDetailServlet extends HttpServlet {
         IPersonnelDAO personnelDAO = new PersonnelDAO();
 
         String classId = request.getParameter("classId");
-        List<Pupil> listPupil = pupilDAO.getListPupilsByClass(classId);
+        List<Pupil> listPupil = pupilDAO.getListPupilsByClass(null,classId);
         Class classes = classDAO.getClassById(classId);
-        /// This variable to display the schoolyear of this class
-        String schoolYear =classes.getSchoolYear().getStartDate().toString();
-        /// Get Teacher name of this class
-        Personnel teacher = personnelDAO.getTeacherByClassAndSchoolYear(classId,classes.getSchoolYear().getId());
-        if(teacher!=null){
-            request.setAttribute("teacherName",teacher.getLastName()+" "+teacher.getFirstName());
-        }
+        List<Pupil> listPupilWithoutClass = pupilDAO.getPupilsWithoutClass(classes.getSchoolYear().getId());
 
-
-        /// Get Pupil that not have class and the age is valid for this class (This code use for add pupil to class modal)
-        List<Pupil> listPupilWithoutClass = pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear);
-
-        request.setAttribute("classId",classId);
+        /// This request for add pupil to class
+        request.setAttribute("checkedDate", isSchoolYearInThePast(classes.getSchoolYear()));
         request.setAttribute("listPupilWithoutClass",listPupilWithoutClass);
-        request.setAttribute("schoolYear",classes.getSchoolYear().getId());
-        request.setAttribute("teacherClass",classes.getName());
-        request.setAttribute("teacherGrade",classes.getGrade().getName());
-        request.setAttribute("classId",classId);
+        request.setAttribute("teacherName",classes.getTeacher().getLastName()+" "+classes.getTeacher().getFirstName());
+        request.setAttribute("classes", classes);
+        /// End request for add pupil to class
+
+        /// This request for move out class for pupil
+        request.setAttribute("moveOutClass",classDAO.getClassesByGradeAndSchoolYear(classId,classes.getGrade().getId(),classes.getSchoolYear().getId()));
+        /// End request for move out class for pupil
         request.setAttribute("listPupil",listPupil);
-        request.setAttribute("numberOfPupilsPending",pupilDAO.getPupilsWithoutClass(classes.getGrade().getId(),schoolYear).size());
+
+        //This request for assign teacher to class, sending a list of available teacher
+        request.setAttribute("teachers", personnelDAO.getAvailableTeachers(classDAO.getClassById(classId).getSchoolYear().getId()));
         request.getRequestDispatcher("classDetail.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
         if(action.equals("addPupil")){
             IPupilDAO pupilDAO = new PupilDAO();
-            HttpSession session = request.getSession();
             String toastMessage ="";
             String toastType="";
             boolean addResult = false;
-
+            /// Get all pupils that be selected
             String [] pupilSelected = request.getParameterValues("pupilSelected");
             String classId = request.getParameter("classId");
             if(pupilSelected!=null){
@@ -80,8 +79,43 @@ public class ClassDetailServlet extends HttpServlet {
             session.setAttribute("toastMessage",toastMessage);
             session.setAttribute("toastType",toastType);
             response.sendRedirect("classdetail?classId="+classId);
+
+        }else if (action.equals("moveOutClassForPupil")){
+            IClassDAO classDAO = new ClassDAO();
+            String oldClassId = request.getParameter("classId");
+            String pupilId = request.getParameter("pupil");
+            String newClassId = request.getParameter("classes");
+            if(!pupilId.isBlank() && !newClassId.isBlank()){
+                if(classDAO.moveOutClassForPupil(oldClassId,newClassId,pupilId)){
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Thao tác thành công");
+                }else{
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", "Thao tác thất bại");
+                }
+            }else{
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Thao tác thất bại");
+            }
+            response.sendRedirect("classdetail?classId="+oldClassId);
+        } else if (action.equals("assignTeacher")) {
+            String teacherId = request.getParameter("teacher");
+            String classId = request.getParameter("classId");
+            IClassDAO classDAO = new ClassDAO();
+            String result = classDAO.assignTeacherToClass(teacherId, classId);
+            if (result.equals("success")) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Thao tác thành công");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", result);
+            }
+            response.sendRedirect("classdetail?classId="+classId);
         }
+    }
 
 
+    private boolean isSchoolYearInThePast(SchoolYear schoolYear){
+        return schoolYear.getEndDate().before(new Date());
     }
 }

@@ -3,6 +3,10 @@
 <%@ page import="models.schoolYear.SchoolYearDAO" %>
 <%@ page import="models.timetable.TimetableDAO" %>
 <%@ page import="models.subject.SubjectDAO" %>
+<%@ page import="models.classes.IClassDAO" %>
+<%@ page import="models.schoolYear.ISchoolYearDAO" %>
+<%@ page import="models.subject.ISubjectDAO" %>
+<%@ page import="models.pupil.IPupilDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -56,7 +60,7 @@
                         <a class="collapse-item" href="class">Danh Sách Lớp</a>
                         <% IClassDAO classDAO = new ClassDAO(); %>
                         <% ISchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
-                        <a class="collapse-item" href="reviewclass?schoolYearId=${requestScope.schoolYearId}">
+                        <a class="collapse-item" href="reviewclass?schoolYearId=<%=schoolYearDAO.getLatest().getId()%>">
                             Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)
                         </a>
                     </div>

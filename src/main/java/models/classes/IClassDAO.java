@@ -11,5 +11,7 @@ public interface IClassDAO {
     String reviewClass(String newStatus, String id);
     List<Class> getClassByGradeId(String gradeId);
     boolean moveOutClassForPupil(String oldClassId, String newClassId, String pupilId);
-    boolean moveOutClassForTeacher(String teacherId, String classId);
+    List<Class> getClassesByGradeAndSchoolYear(String classId,String gradeId, String schoolYearId);
+    String assignTeacherToClass(String teacherId, String classId);
+
 }

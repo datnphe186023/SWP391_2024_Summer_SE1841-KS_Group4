@@ -113,7 +113,7 @@ public class ClassDAO extends DBContext implements IClassDAO{
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return "Tạo mới thất bại. Lớp đã tồn tại";
+            return "Thao tác thất bại. Lớp đã tồn tại";
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
@@ -219,26 +219,48 @@ public class ClassDAO extends DBContext implements IClassDAO{
             preparedStatement.setString(2,pupilId);
             preparedStatement.setString(3,oldClassId);
             preparedStatement.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
-    public boolean moveOutClassForTeacher(String teacherId, String classId){
-        String sql="update class set teacher_id = ? where id = ? ";
+    public List<Class> getClassesByGradeAndSchoolYear(String classId,String gradeId, String schoolYearId){
+        List<Class> list = new ArrayList<>();
+        String sql=" select * from class where school_year_id= ? and grade_id= ?";
+        if (classId!=null){
+            sql+= " and id != '"+classId+"'";
+        }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,teacherId);
-            preparedStatement.setString(2,classId);
-            preparedStatement.executeUpdate();
-            return true;
+            preparedStatement.setString(1,schoolYearId);
+            preparedStatement.setString(2,gradeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                list.add(createClass(resultSet));
+            }
         } catch (SQLException e) {
-            System.out.println(e);
+            throw new RuntimeException(e);
         }
-        return false;
+        return list;
     }
+
+    @Override
+    public String assignTeacherToClass(String teacherId, String classId) {
+        String sql = "update [Class] set teacher_id = ? where id = ?";
+        try{
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, teacherId);
+                statement.setString(2, classId);
+                statement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Phân công giáo viên vào lớp thất bại! Vui lòng thử lại sau!";
+        }
+        return "success";
+    }
+
 
 }
