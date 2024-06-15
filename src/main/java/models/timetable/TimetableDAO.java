@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import models.classes.ClassDAO;
 import models.classes.Class;
@@ -57,26 +59,6 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         Personnel teacher = personnelDAO.getPersonnel(teacherId);
 
         return new Timetable(id, classs, timeslot, day, subject, createdBy, status, note, teacher);
-    }
-
-    @Override
-    public void insertTimetable(String classId, String timeslotId, String dateId, String subjectId,
-            String createdBy, String status, String note, String teacherId) {
-        String sql = "INSERT INTO Timetables (class_id, timeslot_id, date_id, subject_id, created_by, status, note, teacher_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, classId);
-            statement.setString(2, timeslotId);
-            statement.setString(3, dateId);
-            statement.setString(4, subjectId);
-            statement.setString(5, createdBy);
-            statement.setString(6, status);
-            statement.setString(7, note);
-            statement.setString(8, teacherId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -156,4 +138,25 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         return timetables;
     }
 
+    @Override
+    public void createTimetable(Timetable timetable) {
+        String sql = "INSERT INTO Timetables "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, timetable.getId());
+            statement.setString(2, timetable.getaClass().getId());
+            statement.setString(3, timetable.getTimeslot().getId());
+            statement.setString(4, timetable.getDay().getId());
+            statement.setString(5, timetable.getSubject().getId());
+            statement.setString(6, timetable.getCreatedBy().getId());
+            statement.setString(7, timetable.getStatus());
+            statement.setString(8, timetable.getNote());
+            statement.setString(9, timetable.getTeacher().getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error inserting timetable", e);
+        }
+    }
+
+    
 }

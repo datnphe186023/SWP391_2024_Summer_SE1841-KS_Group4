@@ -52,10 +52,16 @@
     </script>
     <script>
         function confirmAccept(formId, msg) {
-            if (confirm(msg)) {
-                document.getElementById(formId).submit();
-            }
+            formIdToSubmit = formId;
+            document.getElementById('confirmationMessage').innerText = msg;
+            $('#confirmationModal').modal('show');
         }
+        $(document).ready(function() {
+            $('#confirmButton').click(function() {
+                document.getElementById(formIdToSubmit).submit();
+
+            });
+        });
 
         function alertMessage() {
             alert("Thao tác không khả dụng với năm học trong quá khứ!!");
@@ -263,24 +269,7 @@
                                                     <th>Ảnh</th>
                                                     <th>Họ và tên</th>
                                                     <th>Ngày sinh</th>
-                                                    <th>Địa chỉ</th>
                                                     <th>Hành động</th>
-
-                                                    <th scope="row">${status.index + 1}</th>
-                                                    <td>${pupil.id}</td>
-                                                    <td style="width: 20%;">
-                                                        <img src="../images/${pupil.avatar}"
-                                                             class="mx-auto d-block"
-                                                             style="width:100px; height:100px; object-fit: cover;">
-                                                    </td>
-                                                    <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
-                                                    <td>${pupil.address}</td>
-                                                    <td class="align-middle text-center">
-                                                        <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
-                                                            <input style="cursor: pointer;" class="form-check-input" type="checkbox" value="${pupil.id}" id="myCheckbox" name="pupilSelected">
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -297,7 +286,6 @@
                                                         <td>${pupil.lastName} ${pupil.firstName}</td>
                                                         <td><fmt:formatDate value="${pupil.birthday}"
                                                                             pattern="yyyy/MM/dd"/></td>
-                                                        <td>${pupil.address}</td>
                                                         <td class="align-middle text-center">
                                                             <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
                                                                 <input style="cursor: pointer;" class="form-check-input"
@@ -415,7 +403,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                            <h5 class="modal-title" id="confirmationModalLabel">Xác nhận thao tác</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -424,8 +412,8 @@
                             <!-- Dynamic message will be inserted here -->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="confirmButton">Xác Nhận</button>
                         </div>
                     </div>
                 </div>

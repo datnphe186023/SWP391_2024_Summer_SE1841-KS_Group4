@@ -76,18 +76,20 @@
                     <div class="container-fluid">
                         <!-- Head Teacher Information Section -->
                         <main>
-                            <div class="app-title">
-                                <div>
-                                    <h1><i class="fa fa-edit"></i> Thông tin tài khoản</h1>
-                                </div>
-                            </div>
+
                             <div class="row justify-content-center">
+
                                 <div class="col-md-6">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h3 class="m-0 font-weight-bold row justify-content-center">Thông tin tài khoản</h3>
+                                        </div>
+                                    </div>
                                     <div class="profile-card">
                                         <img src="${pageContext.request.contextPath}/images/${sessionScope.pupil.avatar}" alt="User Avatar">
                                         <div class="profile-info">
                                             <h3>${pupil.lastName} ${pupil.firstName}</h3>
-                                           
+
                                             <div class="col-md-6">
                                                 <div>
                                                     <p><strong>ID người dùng:</strong> ${pupil.userId}</p>
@@ -108,7 +110,7 @@
                                                     <p><strong>Số điện thoại người giám hộ thứ hai:</strong> ${pupil.secondGuardianPhoneNumber}</p>
                                                 </div>
                                             </div>
-                                                <div class="col-md-6">
+                                            <div class="col-md-6">
                                                 <div>
                                                     <p><strong>Họ tên bé:</strong> ${pupil.lastName} ${pupil.firstName}</p>
                                                 </div>

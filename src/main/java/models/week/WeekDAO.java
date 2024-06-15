@@ -15,11 +15,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -128,6 +125,22 @@ public class WeekDAO extends DBContext implements IWeekDAO {
     }
 
     @Override
+    public String getYearByWeek(String id) {
+        String sql = "SELECT [school_year_id] FROM [dbo].[Weeks] WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("school_year_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public List<Week> getWeeksFromNow() {
         List<Week> weeks = new ArrayList<>();
         String sql = "SELECT TOP 3 * FROM Weeks WHERE start_date >= ? ORDER BY start_date";
@@ -147,74 +160,6 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         return weeks;
     }
 
-    @Override
-    public String createTimetableWeek(Week week) {
-        String sql = "INSERT INTO Weeks (id, start_date, end_date, school_year_id) VALUES (?, ?, ?, ?)";
-        try {
-            ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-            SchoolYear currentSchoolYear = schoolYearDAO.getSchoolYearByDate(week.getStartDate());
-            if (currentSchoolYear == null) {
-                return "Thao tác thất bại! Năm học mới chưa được tạo.";
-            }
-            week.setSchoolYear(currentSchoolYear);
-            if (validateWeekTimetable(week).equals("success")) {
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, week.getId());
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                statement.setString(2, dateFormat.format(week.getStartDate()));
-                statement.setString(3, dateFormat.format(week.getEndDate()));
-                statement.setString(4, week.getSchoolYear().getId());
-                statement.executeUpdate();
-                IDayDAO dayDAO = new DayDAO();
-                dayDAO.generateDays(week);
-            } else {
-                return "Thao tác thất bại! " + validateWeekTimetable(week);
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            return "Thao tác thất bại! " + sqlException.getMessage();
-        } catch (Exception e) {
-            return "Thao tác thất bại! " + e.getMessage();
-        }
-        return "success";
-    }
-
-    private String validateWeekTimetable(Week week) {
-        if (week.getEndDate().before(week.getStartDate())) {
-            return "Ngày kết thúc không thể trước ngày bắt đầu";
-        }
-
-        Week latestWeek = getLatest();
-        if (latestWeek != null) {
-            Date lastEndDate = latestWeek.getEndDate();
-            if (!week.getStartDate().after(lastEndDate)) {
-                return "Ngày bắt đầu tuần học mới phải sau ngày kết thúc tuần học cũ";
-            }
-        }
-
-        // Check if the new week falls within the current school year
-        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        SchoolYear currentSchoolYear = schoolYearDAO.getSchoolYearByDate(week.getStartDate());
-        if (currentSchoolYear == null) {
-            return "Thao tác thất bại! Năm học bạn chọn chưa được tạo.";
-        }
-        week.setSchoolYear(currentSchoolYear);
-
-        // Ensure the new week starts at least one week after the current date
-        LocalDate currentDate = LocalDate.now();
-        LocalDate newStartDateLocal = convertToLocalDate(week.getStartDate());
-        LocalDate oneWeekAfterCurrentDate = currentDate.plus(1, ChronoUnit.WEEKS);
-
-        if (!newStartDateLocal.isAfter(oneWeekAfterCurrentDate.minusDays(1))) {
-            return "Ngày tạo thời khóa biểu phải ít nhất là tuần sau tuần học hiện tại";
-        }
-
-        return "success";
-    }
-
-    private LocalDate convertToLocalDate(Date date) {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
 
     public List<Week> getWeeks(String schoolYearId ) {
         List<Week> weeks = new ArrayList<>();
@@ -232,4 +177,5 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         }
         return weeks;
     }
+
 }
