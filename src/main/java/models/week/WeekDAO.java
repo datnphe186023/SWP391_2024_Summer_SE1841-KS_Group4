@@ -216,20 +216,4 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    public List<Week> getWeeks(String schoolYearId ) {
-        List<Week> weeks = new ArrayList<>();
-        String sql = "SELECT * FROM weeks WHERE school_year_id = ?";
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, schoolYearId ) ;
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                Week week = createWeek(rs);
-                weeks.add(week);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return weeks;
-    }
 }
