@@ -515,5 +515,21 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
         }
         return null;
     }
+    
+    @Override
+    public Personnel getTeacherByClass(String classId){
+        String sql="Select teacher_id from class where id= ?";
+        try {
+         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+         preparedStatement.setString(1,classId);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         if(resultSet.next()){
+             return getPersonnel(resultSet.getString(1));
+         }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
 }

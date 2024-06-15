@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import models.week.IWeekDAO;
+import models.week.WeekDAO;
 
 public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
 
@@ -82,6 +84,8 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
                 statement.setString(5, schoolYear.getDescription());
                 statement.setString(6, schoolYear.getCreatedBy().getId());
                 statement.execute();
+                IWeekDAO weekDAO = new WeekDAO();
+                weekDAO.generateWeeks(getLatest());
             } else {
                 return "Tạo mới thất bại! " + validateSchoolYear(schoolYear);
             }

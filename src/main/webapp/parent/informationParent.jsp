@@ -4,23 +4,15 @@
 <html lang="en">
 
     <head>
-        <title>Title</title>
+        <title>Cập nhật thông tin</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Test CSS-->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/information-style.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-        <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css"
-              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/information-style.css">
+        <link rel="stylesheet" type="text/css" href="../css/information-css.css">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -37,38 +29,8 @@
                 }
             });
         </script>
-        <style>
-            .app-sidebar__user-avatar {
-                width: 150px;
-                height: 150px;
-                border-radius: 50%;
-                cursor: pointer;
-                object-fit: cover;
-            }
 
-            .avatar-input {
-                display: none;
-            }
 
-            .change-password-btn {
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin-top: 10px;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-
-            .change-password-btn:hover {
-                background-color: #0056b3;
-            }
-        </style>
     </head>
 
     <body id="page-top">
@@ -76,137 +38,160 @@
             <jsp:include page="navbar.jsp"/>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <jsp:include page="header.jsp"/>
-                    <div class="container-fluid">
-                        <main>
-                            <div class="app-title">
-                                <div>
-                                    <h1><i class="fa fa-edit"></i> Thông tin tài khoản</h1>
-                                </div>
+                    <jsp:include page="header-parent.jsp"/>
+
+                    <div class="container">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h3 class="m-0 font-weight-bold"><i class="fa fa-edit"></i>Chỉnh sửa thông tin</h3>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="app-sidebar__user">
-                                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${sessionScope.pupil.avatar}" >
-                                        <input class="avatar-input" id="avatarInput" type="file" name="avatar">
-                                        <div>
-                                            <p class="app-sidebar__user-name"><b style="color: #000">${pupil.lastName} ${pupil.firstName}</b></p>
-                                            <button class="change-password-btn" data-toggle="modal" data-target="#changePasswordModal">Đổi mật khẩu</button>
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="account-settings">
+                                            <div class="user-profile">
+                                                <div class="user-avatar">
+                                                    <img src="../images/${sessionScope.pupil.avatar}" alt="Maxwell Admin">
+                                                </div>
+                                                <h5 class="user-name">${pupil.lastName} ${pupil.firstName}</h5>
+                                                <button type="button" id="submit" name="submit" class="btn btn-primary" data-toggle="modal" data-target="#changePasswordModal">Đổi mật khẩu</button>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="tile">
-                                        <div class="tile-body">
-                                            <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                            <form action="update" method="post">
-                                                <input type="hidden" name="id" value="${personnel.userId}"/>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>ID người dùng:</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" disabled/>
-                                                                </div></td>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>ID học sinh: </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" disabled/><br />
-                                                                </div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Họ tên người giám hộ thứ nhất : </h5> <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
-                                                                </div></td>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Số điện thoại người giám hộ thứ nhất :</h5> <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" value="${param.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
-                                                                </div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Họ tên người giám hộ thứ hai : </h5> <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/><br />
-                                                                </div></td>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Số điện thoại người giám hộ thứ hai :</h5> <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" value="${param.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/><br />
-                                                                </div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="form-group col-md-6">    
-                                                                    <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" disabled/><br />
-                                                                </div></td>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" disabled/><br />
-                                                                </div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Email :</h5> <input type="email" name="email" value="${pupil.email}" style="width: 170%"/><br />
-                                                                </div></td>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 170%" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự"/><br />
-                                                                </div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Tình trạng :</h5> <input type="text" name="status" value="${pupil.status}" style="width: 150%" disabled/><br />
-                                                                </div></td>
-                                                            <td><div class="form-group col-md-6">
-                                                                    <h5>Ghi chú : </h5> <input type="text" name="note" value="${pupil.parentSpecialNote}" style="width: 200%"/><br />
-                                                                </div></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                </br>
-                                                <input type="submit" value="Lưu thông tin" style="width: 20%"/>
-                                            </form>
+                            </div>
+                            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
+                                        <form action="update" method="post">
+                                            <div class="row gutters">
 
-                                            <!-- Password Change Modal -->
-                                            <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-body">
-                                                            <form action="${pageContext.request.contextPath}/new-password" method="post">
-                                                                <div class="form-group">
-                                                                    <label for="oldPassword">Mật khẩu cũ:</label>
-                                                                    <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="newPassword">Mật khẩu mới:</label>
-                                                                    <input type="password" id="newPassword" name="newPassword" class="form-control" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="confirmPassword">Xác nhận mật khẩu:</label>
-                                                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
-                                                                </div>
-                                                                <input type="submit" value="Đổi mật khẩu" class="btn btn-primary">
-                                                            </form>
-                                                        </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="id">ID Người dùng * </label>
+                                                        <input class="form-control" placeholder="Mã người dùng" type="text" name="userId" value="${pupil.userId}" disabled style="width: 32%;"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="id">Mã Học Sinh * </label>
+                                                        <input class="form-control" placeholder="Mã học sinh" type="text" name="id" value="${pupil.id}" disabled style="width: 32%;"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="firstName">Họ tên người giám hộ thứ nhất *</label>
+                                                        <input style="width: 70%;" class="form-control" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ nhất *</label>
+                                                        <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="firstName">Họ tên người giám hộ thứ hai </label>
+                                                        <input style="width: 70%;" class="form-control" type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai *</label>
+                                                        <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="lastName">Họ tên bé *</label>
+                                                        <input style="width: 50%;" type="text" class="form-control" placeholder="Họ tên bé" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" disabled/>
+                                                    </div>
+                                                </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="email">Email *</label>
+                                                        <input style="width: 60%;" class="form-control" placeholder="email" type="email" name="email" value="${pupil.email}"/>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- End Password Change Modal -->
+                                            <div class="row gutters">
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="birthDay">Ngày sinh của bé *</label>
+                                                        <input style="width: 50%;" class="form-control" type="date" name="birthday" value="${pupil.birthday}" disabled/>
+                                                    </div>
+                                                </div>
 
+                                                
+
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="address">Địa chỉ *</label>
+                                                        <textarea class="form-control" placeholder="Địa chỉ" name="address" rows="2" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự">${pupil.address}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="lastName">Tình trạng *</label>
+                                                        <input style="width: 50%;" class="form-control" type="text" name="status" value="${pupil.status}" disabled/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="address">Ghi chú *</label>
+                                                        <textarea class="form-control" placeholder="Ghi chú" name="note" rows="2">${pupil.parentSpecialNote}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row gutters">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                    <div class="text-right">
+                                                        <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- Password Change Modal -->
+                                        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-body">
+                                                        <form action="${pageContext.request.contextPath}/new-password" method="post">
+                                                            <div class="form-group">
+                                                                <label for="oldPassword">Mật khẩu cũ:</label>
+                                                                <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="newPassword">Mật khẩu mới:</label>
+                                                                <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="confirmPassword">Xác nhận mật khẩu:</label>
+                                                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                                                            </div>
+                                                            <input type="submit" value="Đổi mật khẩu" class="btn btn-primary">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <!-- End Password Change Modal -->
                                     </div>
                                 </div>
                             </div>
-                        </main>
+                        </div>
                     </div>
                 </div>
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
 
-        <!-- Head Teacher Information Section -->
-
-
-        <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/main.js"></script>
-        <script src="${pageContext.request.contextPath}/js/plugins/pace.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
     </body>
 
