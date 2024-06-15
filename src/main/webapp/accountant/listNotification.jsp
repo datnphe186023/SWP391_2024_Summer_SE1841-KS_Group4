@@ -79,25 +79,24 @@
                                     <div class="table-responsive">
 
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <div class="notification">
-                                                <c:forEach items="${notifi}" var="notifi">
-                                                    <button class="btn-detail">XEM CHI TIẾT</button>
+                                            <c:forEach items="${notifi}" var="notifi"><div class="notification">
+
+                                                    <a href="notificationdetails?id=${notifi.getId()}"><button class="btn-detail">XEM CHI TIẾT</button></a>
                                                     <div>
                                                         THÔNG BÁO: ${notifi.getHeading()}
                                                     </div>
                                                     <div>
                                                         <div>Date: ${notifi.getCreatedAt()}</div>
-                                                        <div></div>
                                                     </div>
-                                                </c:forEach>
-                                            </div>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>        
-                        </div>
 
-                    </div>
+                                                </div></c:forEach>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>        
+                            </div>
+
+                        </div>
                     <jsp:include page="../footer.jsp"/>
                 </div>
             </div>
