@@ -2,6 +2,7 @@ package models.week;
 
 import models.schoolYear.SchoolYear;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Week {
@@ -50,5 +51,12 @@ public class Week {
 
     public void setSchoolYear(SchoolYear schoolYear) {
         this.schoolYear = schoolYear;
+    }
+
+    public String getStartDatetoEndDate (){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String start =  sdf.format(startDate);
+        String end =  sdf.format(endDate);
+        return start+"-"+end;
     }
 }
