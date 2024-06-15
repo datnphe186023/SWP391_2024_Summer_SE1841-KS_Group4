@@ -67,13 +67,14 @@
                 <div class="container-fluid">
                     <!-- Head Teacher Information Section -->
                     <main>
-                        <div class="app-title">
-                            <div>
-                                <h1><i class="fa fa-user"></i>Thông tin giáo viên</h1>
-                            </div>
-                        </div>
+                        
                         <div class="row justify-content-center">
                             <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h3 class="m-0 font-weight-bold row justify-content-center">Thông tin tài khoản</h3>
+                                        </div>
+                                    </div>
                                 <div class="profile-card">
                                     <img src="${pageContext.request.contextPath}/images/${sessionScope.personnel.avatar}" alt="User Avatar">
                                     <div class="profile-info">

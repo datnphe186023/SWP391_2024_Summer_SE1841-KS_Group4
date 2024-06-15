@@ -25,5 +25,5 @@ public interface IPersonnelDAO {
     List<Personnel> getPersonnelByIdNameRoleStatus(String status, String role);
     boolean checkPhoneNumberExists(String phoneNumber);
     Personnel getTeacherByClassAndSchoolYear(String classId, String schoolYearId);
-
+    Personnel getTeacherByClass(String classId);
 }
