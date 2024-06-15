@@ -91,7 +91,7 @@ public class CreateNotificationServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Notification notifi = new Notification(id, heading, heading, new PersonnelDAO().getPersonnel(create_by), create_at);
+        Notification notifi = new Notification(id, heading, content, new PersonnelDAO().getPersonnel(create_by), create_at);
         try {
             notifiDAO.createNoti(notifi);
         } catch (Exception e) {
