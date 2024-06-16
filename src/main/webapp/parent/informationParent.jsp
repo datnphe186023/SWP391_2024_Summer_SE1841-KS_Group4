@@ -102,7 +102,7 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai *</label>
+                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai</label>
                                                         <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/>
                                                     </div>
                                                 </div>

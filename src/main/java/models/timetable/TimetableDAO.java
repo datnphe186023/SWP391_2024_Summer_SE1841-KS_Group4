@@ -123,17 +123,57 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         return timetables;
     }
 
-    public List<Timetable> getTimetableByStatus(String status) throws SQLException {
-        List<Timetable> timetables = new ArrayList<>();
-        String sql = "SELECT * FROM Timetables WHERE status = ?";
+    @Override
+    public List<TimetableDTO> getListTimetableByStatus(String status) {
+        List<TimetableDTO> timetables = new ArrayList<>();
+        String sql = "SELECT DISTINCT "
+                + "    temp.class_id, "
+                + "    w.id AS week_id, "
+                + "    w.start_date, "
+                + "    w.end_date, "
+                + "    temp.created_by, "
+                + "    temp.status, "
+                + "    temp.teacher_id "
+                + "FROM ( "
+                + "    SELECT "
+                + "        t.class_id, "
+                + "        d.week_id, "
+                + "        t.created_by, "
+                + "        t.status, "
+                + "        t.teacher_id, "
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
+                + "    FROM "
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id "
+                + "    WHERE t.status = ? " // Filter by status
+                + ") AS temp "
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id "
+                + "WHERE temp.row_num = 1;";
+
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, status);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Timetable timetable = createTimetable(resultSet);
-                    timetables.add(timetable);
-                }
+            statement.setString(1, status);  // Set status parameter
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String classId = resultSet.getString("class_id");
+                String weekId = resultSet.getString("week_id");
+                Date startDate = resultSet.getDate("start_date");
+                Date endDate = resultSet.getDate("end_date");
+                String createdBy = resultSet.getString("created_by");
+                String statusValue = resultSet.getString("status");
+                String teacherId = resultSet.getString("teacher_id");
+
+                IClassDAO classDAO = new ClassDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+
+                Class classObj = classDAO.getClassById(classId);
+                Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
+                Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
+
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, statusValue, teacherObj);
+                timetables.add(timetable);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving timetables by status", e);
         }
         return timetables;
     }
@@ -158,5 +198,72 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         }
     }
 
-    
+    @Override
+    public boolean existsTimetableForClassInCurrentWeek(String classId, String dayId) {
+        String sql = "SELECT COUNT(*) FROM Timetables WHERE class_id = ? and date_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, classId);
+            stmt.setString(2, dayId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking timetable existence", e);
+        }
+        return false;
+    }
+
+    @Override
+    public List<TimetableDTO> getUniqueClassTimetablesWithWeeks() {
+        List<TimetableDTO> timetables = new ArrayList<>();
+        String sql = "SELECT DISTINCT "
+                + "    temp.class_id, "
+                + "    w.id AS week_id, "
+                + "    w.start_date, "
+                + "    w.end_date, "
+                + "    temp.created_by, "
+                + "    temp.status, "
+                + "    temp.teacher_id "
+                + "FROM ( "
+                + "    SELECT "
+                + "        t.class_id, "
+                + "        d.week_id, "
+                + "        t.created_by, "
+                + "        t.status, "
+                + "        t.teacher_id, "
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
+                + "    FROM "
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id "
+                + ") AS temp "
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id "
+                + "WHERE temp.row_num = 1;";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String classId = resultSet.getString("class_id");
+                String weekId = resultSet.getString("week_id");
+                Date startDate = resultSet.getDate("start_date");
+                Date endDate = resultSet.getDate("end_date");
+                String createdBy = resultSet.getString("created_by");
+                String status = resultSet.getString("status");
+                String teacherId = resultSet.getString("teacher_id");
+
+                IClassDAO classDAO = new ClassDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+
+                Class classObj = classDAO.getClassById(classId);
+                Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
+                Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
+
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, status, teacherObj);
+                timetables.add(timetable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving unique class timetables", e);
+        }
+        return timetables;
+    }
 }

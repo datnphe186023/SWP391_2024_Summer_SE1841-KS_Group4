@@ -61,7 +61,7 @@
                                                 <th>Hiệu lực</th>
                                                 <th>Trạng thái</th>
                                                 <th>Giáo Viên</th>
-                                                
+
                                                 <th>Hành động</th>
                                             </tr>
 
@@ -76,18 +76,30 @@
                                                         ${listTimetable.startDate} đến ${listTimetable.endDate}
                                                     </td>
                                                     <td style="color: <c:choose>
-                                                            <c:when test="${listTimetable.status eq 'đã được xét duyệt'}">#23dd23</c:when>
-                                                            <c:when test="${listTimetable.status eq 'đã từ chối' or listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
+                                                            <c:when test="${listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
                                                         </c:choose>;">
                                                         ${listTimetable.status}
                                                     </td>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
-                                                    <td>
-                                                        <div class="d-flex flex-column align-items-center">
-                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
-                                                        </div>
-                                                    </td>
-                                                    
+                                                    <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
+                                                        <td>
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <form method="post" action="#" class="d-inline mb-2">
+                                                                    <input type="hidden" name="action" value="accept">
+                                                                    <input type="hidden" name="id" >
+                                                                    <button type="submit" class="btn btn-sm btn-success shadow-sm btn-custom-width">Chấp nhận</button>
+                                                                </form>
+
+                                                                <form method="post" action="#" class="d-inline mb-2">
+                                                                    <input type="hidden" name="action" value="decline">
+                                                                    <input type="hidden" name="id">
+                                                                    <button type="submit" class="btn btn-sm btn-danger shadow-sm btn-custom-width">Từ chối</button>
+                                                                </form>
+                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                            </div>
+                                                        </td>
+
+                                                    </c:if>
                                                 </tr>
                                             </c:forEach>
 
