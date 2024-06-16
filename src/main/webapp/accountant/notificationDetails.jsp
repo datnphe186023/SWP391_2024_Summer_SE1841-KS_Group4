@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>TẠO THÔNG BÁO</title>
+        <title>CHI TIẾT THÔNG BÁO</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -45,6 +45,15 @@
                     padding: 10px;
                     border-radius: 8px;
                 }
+                .notification input {
+                    background-color: transparent;
+                    border: none;
+                    font-size: inherit;
+                    font-weight: bold;
+                    color: inherit;
+                    width: auto;
+                    outline: none;
+                }
             </style>
         </head>
 
@@ -55,40 +64,43 @@
                     <div id="content">
                         <jsp:include page="../header.jsp"/>
                         <div class="container-fluid">
-                            <h1 class="h3 mb-4 text-gray-800 text-center">TẠO THÔNG BÁO</h1>
+
+                            <h1 class="h3 mb-4 text-gray-800 text-center">CHI TIẾT THÔNG BÁO</h1>
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                </div>
+                            </div>
                             <div class="card shadow mb-4">
-                                <form action="createnotifi" method="post">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <h5>TIÊU ĐỀ : </h5>
-                                            <input name="heading" style="width: 100%" maxlength="50" required="">
-                                                <h5 style="margin-top: 10px">NỘI DUNG : </h5>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <div class="notification">
                                                 <div>
-                                                    <textarea style="resize: none" id="id" name="content" rows="10" cols="131" required=""></textarea>
+                                                    THÔNG BÁO: ${notifi.getHeading()}
+                                                </div>
+                                                <div>
+                                                    <div>Date: ${notifi.getCreatedAt()}</div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <input type="hidden" name="userid" value="${sessionScope.personnel.id}">
-                                        <input type="hidden" id="submitDate" name="submitDate">
-                                        <div class="d-flex justify-content-around">
-                                            <button onclick="goBack()" type="button" class="btn btn-danger">QUAY LẠI</button>
-                                            <button onclick="submitForm()" type="submit" class="btn btn-success">XÁC NHẬN</button>
-                                        </div>
-                                    </form>
-                                </div>        
-                            </div>
-
+                                            <div class="notification">NỘI DUNG :</br> ${notifi.getDetails()}</div>
+                                            <button class="btn btn-danger" onclick="goBack()">QUAY LẠI</button>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>        
                         </div>
-                        <jsp:include page="../footer.jsp"/>
-                    </div>
-                </div>
-                <!-- Page level plugins -->
-                <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-                <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-                <!-- Page level custom scripts -->
-                <script src="../js/demo/datatables-demo.js"></script>
-                <script>
+                    </div>
+                    <jsp:include page="../footer.jsp"/>
+                </div>
+            </div>
+            <!-- Page level plugins -->
+            <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+            <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="../js/demo/datatables-demo.js"></script>
+            <script>
                                                 function redirectToServlet() {
                                                     var selectedRole = document.getElementById("roleSelect").value;
                                                     if (selectedRole !== "") {
@@ -111,26 +123,6 @@
                                                 function goBack() {
                                                     window.history.back();
                                                 }
-                                                function submitForm() {
-                                                    var now = new Date();
-
-                                                    // Chuyển múi giờ sang múi giờ Việt Nam (GMT+7)
-                                                    now.setHours(now.getHours() + 7);
-
-                                                    // Lấy ngày tháng năm
-                                                    var day = now.getDate();
-                                                    var month = now.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
-                                                    var year = now.getFullYear();
-
-                                                    // Định dạng thành chuỗi YYYY-MM-DD
-                                                    var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
-
-                                                    // Gán giá trị cho input có id là submitDate
-                                                    document.getElementById('submitDate').value = formattedDate;
-
-                                                    // Submit form
-                                                    document.getElementById("myForm").submit();
-                                                }
-                </script>
-            </body>
-        </html>
+            </script>
+        </body>
+    </html>

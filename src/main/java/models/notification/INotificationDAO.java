@@ -6,9 +6,7 @@ package models.notification;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
-import models.personnel.Personnel;
 
 /**
  *
@@ -26,4 +24,5 @@ public interface INotificationDAO {
 
     String generateId(String latestId);
 
+    Notification getNotificationById(String id);
 }
