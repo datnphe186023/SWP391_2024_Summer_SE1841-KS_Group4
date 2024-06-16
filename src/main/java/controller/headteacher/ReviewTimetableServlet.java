@@ -44,7 +44,7 @@ public class ReviewTimetableServlet extends HttpServlet {
         ITimetableDAO timetableDAO = new TimetableDAO();
         List<TimetableDTO> listTimetable = timetableDAO.getListTimetableByStatus("chưa xét duyệt");
         request.setAttribute("listTimetable", listTimetable);
-        request.getRequestDispatcher("timetable.jsp").forward(request, response);
+        request.getRequestDispatcher("reviewTimetable.jsp").forward(request, response);
         
     }
 
