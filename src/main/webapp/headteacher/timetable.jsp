@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
         <title>Quản Lý Lớp Học</title>
@@ -55,21 +56,12 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-
-                                                <th>Mã</th>
                                                 <th>Tên lớp</th>
-                                                <th>Ca</th>
-                                                <th>Ngày tạo</th>
-                                                <th>Môn học</th>
                                                 <th>Tạo Bởi</th>
-                                                    <c:if test="${not empty requestScope.listTimetable and requestScope.listTimetable[0].status eq 'đã được xét duyệt'}">
-                                                    <th>Trạng Thái</th>
-                                                    </c:if>
-
-                                                <th>Ghi Chú</th>
+                                                <th>Hiệu lực</th>
+                                                <th>Trạng thái</th>
                                                 <th>Giáo Viên</th>
                                                 <th>Hành động</th>
-
                                             </tr>
 
 
@@ -77,54 +69,26 @@
                                         <tbody>
                                             <c:forEach var="listTimetable" items="${requestScope.listTimetable}">
                                                 <tr>
-                                                    <td>${listTimetable.id}</td>
                                                     <td>${listTimetable.aClass.name}</td>
-                                                    <td>${listTimetable.timeslot.name}</td>
-                                                    <td>${listTimetable.day.date}</td>
-                                                    <td>${listTimetable.subject.name}</td>
                                                     <td>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</td>
-                                                    <c:if test="${listTimetable.status eq 'đã được xét duyệt'}">
-                                                        <td style="
-                                                            color: #23dd23;
-                                                            ">${listTimetable.status}</td>
-                                                    </c:if>
-                                                    <c:if test="${listTimetable.status eq 'đã từ chối'}">
-                                                        <td style="
-                                                            color: red;
-                                                            ">${listTimetable.status}</td>
-                                                    </c:if>
-
-                                                    <td>${listTimetable.note}</td>
+                                                    <td>
+                                                        ${listTimetable.startDate} đến ${listTimetable.endDate}
+                                                    </td>
+                                                    <td style="color: <c:choose>
+                                                            <c:when test="${listTimetable.status eq 'đã được xét duyệt'}">#23dd23</c:when>
+                                                            <c:when test="${listTimetable.status eq 'đã từ chối' or listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
+                                                        </c:choose>;">
+                                                        ${listTimetable.status}
+                                                    </td>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
-                                                    <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
-                                                        <td>
-                                                            <div class="d-flex flex-column align-items-center">
-                                                                <form method="post" action="#" class="d-inline mb-2">
-                                                                    <input type="hidden" name="action" value="accept">
-                                                                    <input type="hidden" name="id" >
-                                                                    <button type="submit" class="btn btn-sm btn-success shadow-sm btn-custom-width">Chấp nhận</button>
-                                                                </form>
-
-                                                                <form method="post" action="#" class="d-inline mb-2">
-                                                                    <input type="hidden" name="action" value="decline">
-                                                                    <input type="hidden" name="id">
-                                                                    <button type="submit" class="btn btn-sm btn-danger shadow-sm btn-custom-width">Từ chối</button>
-                                                                </form>
-
-                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
-                                                            </div>
-                                                        </td>
-
-                                                    </c:if>
-                                                    <c:if test="${listTimetable.status eq 'đã được xét duyệt' or listTimetable.status eq 'đã từ chối'}">
-                                                        <td>
-                                                            <div class="d-flex flex-column align-items-center">
-                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
-                                                            </div>
-                                                        </td>
-                                                    </c:if>
+                                                    <td>
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
+
                                         </tbody>
                                     </table>
                                 </div>
