@@ -143,7 +143,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
     @Override
     public List<Week> getWeeksFromNow() {
         List<Week> weeks = new ArrayList<>();
-        String sql = "SELECT TOP 3 * FROM Weeks WHERE start_date >= ? ORDER BY start_date";
+        String sql = "SELECT TOP 1 * FROM Weeks WHERE start_date >= ? ORDER BY start_date";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             LocalDate currentDate = LocalDate.now();
@@ -159,6 +159,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         }
         return weeks;
     }
+
 
 
     public List<Week> getWeeks(String schoolYearId ) {
@@ -177,5 +178,4 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         }
         return weeks;
     }
-
 }

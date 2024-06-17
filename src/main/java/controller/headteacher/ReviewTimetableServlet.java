@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.timetable.ITimetableDAO;
 import models.timetable.Timetable;
+import models.timetable.TimetableDAO;
+import models.timetable.TimetableDTO;
 
 /**
  *
@@ -37,7 +40,11 @@ public class ReviewTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+       //classid , date_id(startdate-enddate) , createby , status , teacherid
+        ITimetableDAO timetableDAO = new TimetableDAO();
+        List<TimetableDTO> listTimetable = timetableDAO.getListTimetableByStatus("chưa xét duyệt");
+        request.setAttribute("listTimetable", listTimetable);
+        request.getRequestDispatcher("reviewTimetable.jsp").forward(request, response);
         
     }
 
