@@ -71,7 +71,7 @@
 
         <!-- Nav Item - Thông báo -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="listnotification">
                 <i class='app-menu__icon bx bx-bell'></i>
                 <span>Thông báo</span>
             </a>
