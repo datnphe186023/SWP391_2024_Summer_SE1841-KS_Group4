@@ -13,6 +13,9 @@ import models.day.TimeInDay;
 import models.foodmenu.FoodMenu;
 import models.foodmenu.FoodMenuDAO;
 import models.foodmenu.IFoodMenuDAO;
+
+import models.foodmenu.MenuDetail;
+
 import models.grade.Grade;
 import models.grade.GradeDAO;
 import models.grade.IGradeDAO;
@@ -36,6 +39,12 @@ import models.week.Week;
 import models.week.WeekDAO;
 
 import java.io.IOException;
+
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
+
 import java.util.Enumeration;
 import java.util.List;
 
@@ -66,15 +75,20 @@ public class CreateFoodmenuServlet extends HttpServlet {
 
         String selectedGradeId = request.getParameter("gradeId");
         String weekId = request.getParameter("weekId");
+
+
+        Date currentDate = Date.from(Instant.now());
         // get list grade
         List<Grade> listGrade = gradeDAO.getAll();
         // get list week from now
-        List<Week> listWeek = weekDAO.getWeeksFromNow();
+        List<Week> listWeek = weekDAO.getWeeks(yearDAO.getSchoolYearByDate(currentDate).getId());
+
         // get start date and end date
         Week dateWeek = weekDAO.getWeek(weekId);
 
         //get list of foodmenu
         List<FoodMenu> foodMenuList = foodMenuDAO.getAllFoodMenu();
+
         // get timeslot
         List<Timeslot> listTimeslot = timeslotDAO.getFoodTimeslots();
         // get school year latest
@@ -93,7 +107,9 @@ public class CreateFoodmenuServlet extends HttpServlet {
         request.setAttribute("foodMenuList", foodMenuList);
         request.setAttribute("classList", classList);
         request.setAttribute("listTimeslot", listTimeslot);
-        request.setAttribute("newYear", schoolYear);
+
+        request.setAttribute("newYear", yearDAO.getSchoolYearByDate(currentDate));
+
         request.setAttribute("listWeek", listWeek);
         request.setAttribute("listGrade", listGrade);
         request.setAttribute("selectedGradeId", selectedGradeId);
@@ -107,8 +123,10 @@ public class CreateFoodmenuServlet extends HttpServlet {
         try {
             String action = request.getParameter("action");
             if (action == null) {
-                response.sendRedirect("timetable");
-            } else if (action.equals("create-timetable")) {
+
+                response.sendRedirect("createfoodmenu");
+            } else if (action.equals("create-foodmenu")) {
+
                 HttpSession session = request.getSession();
                 ITimetableDAO timetableDAO = new TimetableDAO();
                 IPersonnelDAO personnelDAO = new PersonnelDAO();
@@ -116,21 +134,17 @@ public class CreateFoodmenuServlet extends HttpServlet {
                 ISubjectDAO subjectDAO = new SubjectDAO();
                 IDayDAO dayDAO = new DayDAO();
                 IClassDAO classDAO = new ClassDAO();
+
+                IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
+                IGradeDAO gradeDAO = new GradeDAO();
                 Timetable timetable = new Timetable();
-
+                MenuDetail menuDetail = new MenuDetail();
                 User user = (User) session.getAttribute("user");
-                // Get the primary form parameters
 
-                String classId = request.getParameter("classId");
-
-                timetable.setaClass(classDAO.getClassById(classId));
-                // Define other required parameters
-                timetable.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
                 String status = "chưa xét duyệt";
-                timetable.setStatus(status);
-                String note = "";
-                timetable.setNote(note);
-                timetable.setTeacher(personnelDAO.getTeacherByClass(classId));
+                String selectedGradeId = request.getParameter("gradeid");
+                System.out.println(selectedGradeId);
+
 
                 // Retrieve all timeslot and subject selections
                 Enumeration<String> parameterNames = request.getParameterNames();
@@ -144,14 +158,18 @@ public class CreateFoodmenuServlet extends HttpServlet {
                             String[] parts = paramName.split("_");
                             String dayId = parts[1];
                             String timeslotId = parts[2];
-                            String subjectId = timeslotIdValue; // The selected subject ID
-                            String timetableId = "TB" + classId + "_" + entryCounter++;
-                            timetable.setId(timetableId);
-                            timetable.setDay(dayDAO.getDayByID(dayId));
-                            timetable.setTimeslot(timeslotDAO.getTimeslotById(timeslotId));
-                            timetable.setSubject(subjectDAO.getSubjectBySubjectId(subjectId));
+
+                            String FoodmenuId = timeslotIdValue; // The selected subject ID
+                            String menuId = genID();
+                            menuDetail.setId(menuId);
+                            menuDetail.setFoodMenu(foodMenuDAO.getFoodMenu(FoodmenuId));
+                            menuDetail.setGrade(gradeDAO.getGrade(selectedGradeId));
+                            menuDetail.setTimeslot(timeslotDAO.getTimeslotById(timeslotId));
+                            menuDetail.setStatus(status);
+                            menuDetail.setDay(dayDAO.getDayByID(dayId));
                             // Insert the timetable entry into the database
-                            timetableDAO.createTimetable(timetable);
+                            foodMenuDAO.createMenuDetail(menuDetail);
+
                             entryCreated = true; // An entry was created
                         }
                     }
@@ -160,17 +178,34 @@ public class CreateFoodmenuServlet extends HttpServlet {
                 if (entryCreated) {
                     session.setAttribute("toastType", "success");
                     session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
-                    response.sendRedirect("timetable");
+
+                    response.sendRedirect("createfoodmenu");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Không có dữ liệu được chọn. Vui lòng không để trống !");
-                    response.sendRedirect("timetable");
+                    response.sendRedirect("createfoodmenu");
+
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+
+          //  request.getRequestDispatcher("error.jsp").forward(request, response);
         }
+
+
+
     }
+    private String genID(){
+        String id ="";
+        int newid = 0 ;
+        IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
+        newid= foodMenuDAO.getTotalID()+1;
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        id= "MD" + decimalFormat.format(newid);
+        return id;
+    }
+
+
 }

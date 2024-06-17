@@ -9,4 +9,5 @@ public interface ISchoolYearDAO {
     String createNewSchoolYear(SchoolYear schoolYear);
     SchoolYear getSchoolYear(String id);
     SchoolYear getSchoolYearByDate(Date date);
+
 }
