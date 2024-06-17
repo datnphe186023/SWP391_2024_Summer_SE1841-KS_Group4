@@ -20,7 +20,7 @@ import models.timetable.TimetableDTO;
  *
  * @author Admin
  */
-public class TimetableServlet extends HttpServlet {
+public class ListTimetable extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,7 +29,7 @@ public class TimetableServlet extends HttpServlet {
         ITimetableDAO timetableDAO = new TimetableDAO();
         List<TimetableDTO> listTimetable = timetableDAO.getUniqueClassTimetablesWithWeeks();
         request.setAttribute("listTimetable", listTimetable);
-        request.getRequestDispatcher("timetable.jsp").forward(request, response);
+        request.getRequestDispatcher("listTimetable.jsp").forward(request, response);
     }
 
     @Override
