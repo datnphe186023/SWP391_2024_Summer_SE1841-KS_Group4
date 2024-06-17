@@ -42,7 +42,7 @@
 
         <!-- Nav Item -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="listnotification">
                 <i class="fas fa-fw fa-solid fa-bell"></i>
                 <span>Thông Báo</span></a>
         </li>
