@@ -159,8 +159,11 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
             if (resultSet.next()) {
                 SchoolYear schoolYear = new SchoolYear();
                 schoolYear.setId(resultSet.getString("id"));
+                schoolYear.setName(resultSet.getString("name"));
                 schoolYear.setStartDate(resultSet.getDate("start_date"));
                 schoolYear.setEndDate(resultSet.getDate("end_date"));
+                schoolYear.setDescription(resultSet.getString("description"));
+
                 return schoolYear;
             } else {
                 return null;
@@ -170,4 +173,6 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
             return null;
         }
     }
+
+
 }
