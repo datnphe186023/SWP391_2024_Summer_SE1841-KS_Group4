@@ -88,6 +88,12 @@
                 </div>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="listevent">
+                <i class="fas fa-fw fa-calendar-check" aria-hidden="true"></i>
+                <span>Danh Sách Sự Kiện</span></a>
+        </li>
+
 
         <li class="nav-item">
             <a class="nav-link" href="#">

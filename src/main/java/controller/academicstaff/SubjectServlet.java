@@ -25,7 +25,6 @@ public class SubjectServlet extends HttpServlet {
         request.setAttribute("listAllSubject",subjectDAO.getAll());
         request.setAttribute("listGrade",gradeDAO.getAll());
         request.getRequestDispatcher("subject.jsp").forward(request,response);
-
     }
 
     @Override

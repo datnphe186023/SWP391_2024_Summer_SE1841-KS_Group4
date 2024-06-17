@@ -69,9 +69,17 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFoodMenu"
+               aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cheese"></i>
-                <span>Thực Đơn</span></a>
+                <span>Thực Đơn</span>
+            </a>
+            <div id="collapseFoodMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="viewfoodmenu">Xem Thực Đơn </a>
+                    <a class="collapse-item" href="createfoodmenu">Tạo Thực Đơn</a>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item">
@@ -93,6 +101,11 @@
                     <a class="collapse-item" href="sentapplications">Xem Đơn Đã Gửi</a>
                 </div>
             </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="listevent">
+                <i class="fas fa-fw fa-calendar-check" aria-hidden="true"></i>
+                <span>Danh Sách Sự Kiện</span></a>
         </li>
 
         <!-- Divider -->
