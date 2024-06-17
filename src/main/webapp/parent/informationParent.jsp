@@ -72,26 +72,26 @@
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="id">ID Người dùng * </label>
+                                                        <label for="id">ID Người dùng</label>
                                                         <input class="form-control" placeholder="Mã người dùng" type="text" name="userId" value="${pupil.userId}" disabled style="width: 32%;"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="id">Mã Học Sinh * </label>
+                                                        <label for="id">Mã Học Sinh</label>
                                                         <input class="form-control" placeholder="Mã học sinh" type="text" name="id" value="${pupil.id}" disabled style="width: 32%;"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <label for="firstName">Họ tên người giám hộ thứ nhất *</label>
-                                                        <input style="width: 70%;" class="form-control" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/>
+                                                        <input style="width: 70%;" class="form-control" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)" required=""/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <label for="phoneNumber">Số điện thoại người giám hộ thứ nhất *</label>
-                                                        <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/>
+                                                        <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại" required=""/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -102,27 +102,27 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai *</label>
+                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai</label>
                                                         <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="lastName">Họ tên bé *</label>
+                                                        <label for="lastName">Họ tên bé</label>
                                                         <input style="width: 50%;" type="text" class="form-control" placeholder="Họ tên bé" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" disabled/>
                                                     </div>
                                                 </div>
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <label for="email">Email *</label>
-                                                        <input style="width: 60%;" class="form-control" placeholder="email" type="email" name="email" value="${pupil.email}"/>
+                                                        <input style="width: 60%;" class="form-control" placeholder="email" type="email" name="email" value="${pupil.email}" required=""/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row gutters">
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="birthDay">Ngày sinh của bé *</label>
+                                                        <label for="birthDay">Ngày sinh của bé</label>
                                                         <input style="width: 50%;" class="form-control" type="date" name="birthday" value="${pupil.birthday}" disabled/>
                                                     </div>
                                                 </div>
@@ -137,7 +137,7 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="lastName">Tình trạng *</label>
+                                                        <label for="lastName">Tình trạng</label>
                                                         <input style="width: 50%;" class="form-control" type="text" name="status" value="${pupil.status}" disabled/>
                                                     </div>
                                                 </div>

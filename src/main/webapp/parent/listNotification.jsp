@@ -62,7 +62,7 @@
                 <jsp:include page="navbar.jsp"/>
                 <div id="content-wrapper" class="d-flex flex-column">
                     <div id="content">
-                        <jsp:include page="../header.jsp"/>
+                        <jsp:include page="header-parent.jsp"/>
                         <div class="container-fluid">
 
                             <h1 class="h3 mb-4 text-gray-800 text-center">QUẢN LÝ THÔNG BÁO</h1>
@@ -73,7 +73,6 @@
                             <div class="card shadow mb-4">
                                 <div class="d-flex justify-content-between card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">DANH SÁCH THÔNG BÁO</h6>
-                                    <a href="createNotification.jsp"><button  class="btn btn-success">TẠO THÔNG BÁO</button></a>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">

@@ -71,7 +71,7 @@
 
         <!-- Nav Item - Thông báo -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="listnotification">
                 <i class='app-menu__icon bx bx-bell'></i>
                 <span>Thông báo</span>
             </a>
@@ -133,10 +133,6 @@
     </ul>
     <!-- End of Sidebar -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>

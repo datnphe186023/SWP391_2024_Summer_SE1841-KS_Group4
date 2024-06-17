@@ -82,7 +82,7 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
             statement.setString(1, id);
             statement.setString(2, notification.getHeading());
             statement.setString(3, notification.getDetails());
-            statement.setObject(4, new Personnel().getId());
+            statement.setObject(4, notification.getCreatedBy().getId());
             Date date = notification.getCreatedAt();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-MM-dd");
             String Create_at = dateFormat.format(date);
@@ -98,7 +98,7 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     @Override
     public List<Notification> getListNotifi() {
         List<Notification> listNoti = new ArrayList<>();
-        String sql = "select * from [Notifications]";
+        String sql = "select * from [Notifications] order by id desc";
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Notification notifi = createNotifi(rs);
@@ -109,8 +109,22 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
         }
         return listNoti;
     }
-    public static void main(String[] args) {
-        List<Notification> list = new NotificationDAO().getListNotifi();
-        System.out.println(list.toString());
+
+    @Override
+    public Notification getNotificationById(String id) {
+        String sql = "select * from [Notifications] where id = ?";
+        Notification notifi = new Notification();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    notifi = createNotifi(rs);
+                    return notifi;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

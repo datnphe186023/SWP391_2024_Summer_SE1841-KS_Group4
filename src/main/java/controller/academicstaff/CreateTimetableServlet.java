@@ -15,7 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
@@ -145,23 +147,44 @@ public class CreateTimetableServlet extends HttpServlet {
                 Timetable timetable = new Timetable();
 
                 User user = (User) session.getAttribute("user");
-                // Get the primary form parameters
-
+                // Lấy các tham số chính từ form
                 String classId = request.getParameter("classId");
 
                 timetable.setaClass(classDAO.getClassById(classId));
-                // Define other required parameters
+                // Định nghĩa các tham số khác
                 timetable.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
-                String status = "chưa xét duyệt";
+                String status = "đã được xét duyệt";
                 timetable.setStatus(status);
                 String note = "";
                 timetable.setNote(note);
                 timetable.setTeacher(personnelDAO.getTeacherByClass(classId));
 
-                // Retrieve all timeslot and subject selections
+                // Thu thập tất cả các `dayId` từ tham số đầu vào
                 Enumeration<String> parameterNames = request.getParameterNames();
+                Set<String> dayIds = new HashSet<>();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    if (paramName.startsWith("timeslotId_")) {
+                        String[] parts = paramName.split("_");
+                        String dayId = parts[1];
+                        dayIds.add(dayId);
+                    }
+                }
+
+                // Kiểm tra thời khóa biểu tồn tại cho tất cả `dayId`
+                for (String dayId : dayIds) {
+                    if (timetableDAO.existsTimetableForClassInCurrentWeek(classId, dayId)) {
+                        session.setAttribute("toastType", "error");
+                        session.setAttribute("toastMessage", "Thời khóa biểu của lớp này đã được tạo!");
+                        response.sendRedirect("timetable");
+                        return; // Dừng lại nếu thời khóa biểu đã tồn tại
+                    }
+                }
+
+                // Tiến hành tạo thời khóa biểu nếu không có mục nào tồn tại
+                parameterNames = request.getParameterNames();
                 int entryCounter = 1;
-                boolean entryCreated = false; // Flag to check if any entries are created
+                boolean entryCreated = false; // Cờ để kiểm tra nếu bất kỳ mục nào được tạo
                 while (parameterNames.hasMoreElements()) {
                     String paramName = parameterNames.nextElement();
                     if (paramName.startsWith("timeslotId_")) {
@@ -170,15 +193,15 @@ public class CreateTimetableServlet extends HttpServlet {
                             String[] parts = paramName.split("_");
                             String dayId = parts[1];
                             String timeslotId = parts[2];
-                            String subjectId = timeslotIdValue; // The selected subject ID
-                            String timetableId = "TB" + classId + "_" + entryCounter++;
+                            String subjectId = timeslotIdValue; // ID môn học được chọn
+                            String timetableId = ("TB" + entryCounter++) + "-" + classId;
                             timetable.setId(timetableId);
                             timetable.setDay(dayDAO.getDayByID(dayId));
                             timetable.setTimeslot(timeslotDAO.getTimeslotById(timeslotId));
                             timetable.setSubject(subjectDAO.getSubjectBySubjectId(subjectId));
-                            // Insert the timetable entry into the database
+                            // Chèn mục thời khóa biểu vào cơ sở dữ liệu
                             timetableDAO.createTimetable(timetable);
-                            entryCreated = true; // An entry was created
+                            entryCreated = true; // Một mục đã được tạo
                         }
                     }
                 }
@@ -186,12 +209,12 @@ public class CreateTimetableServlet extends HttpServlet {
                 if (entryCreated) {
                     session.setAttribute("toastType", "success");
                     session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
-                    response.sendRedirect("timetable");
                 } else {
                     session.setAttribute("toastType", "error");
-                    session.setAttribute("toastMessage", "Không có dữ liệu được chọn. Vui lòng không để trống !");
-                    response.sendRedirect("timetable");
+                    session.setAttribute("toastMessage", "Không có mục thời khóa biểu nào được tạo.");
                 }
+                response.sendRedirect("timetable");
+
             }
 
         } catch (Exception e) {

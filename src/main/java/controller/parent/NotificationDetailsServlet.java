@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.accountant;
+package controller.parent;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
 
@@ -19,8 +18,8 @@ import models.notification.NotificationDAO;
  *
  * @author TuyenCute
  */
-@WebServlet(name = "ListNotificationServlet", urlPatterns = {"/accountant/listnotification"})
-public class ListNotificationServlet extends HttpServlet {
+@WebServlet(name = "/parent/NotificationDetailsServlet", urlPatterns = {"/parent/notificationdetails"})
+public class NotificationDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +38,10 @@ public class ListNotificationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListNotificationServlet</title>");
+            out.println("<title>Servlet NotificationDetailsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListNotificationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet NotificationDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,11 +59,12 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        NotificationDAO notifiDAO = new NotificationDAO();
-        List<Notification> notifi = notifiDAO.getListNotifi();
+        String id = request.getParameter("id");
+        Notification notifi = new Notification();
+        NotificationDAO notificationDAO = new NotificationDAO();
+        notifi = notificationDAO.getNotificationById(id);
         request.setAttribute("notifi", notifi);
-        request.getRequestDispatcher("listNotification.jsp").forward(request, response);
-
+        request.getRequestDispatcher("notificationDetails.jsp").forward(request, response);
     }
 
     /**
@@ -78,10 +78,7 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        NotificationDAO notifiDAO = new NotificationDAO();
-        List<Notification> notifi = notifiDAO.getListNotifi();
-        request.setAttribute("notifi", notifi);
-        request.getRequestDispatcher("listNotification.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -93,5 +90,4 @@ public class ListNotificationServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
