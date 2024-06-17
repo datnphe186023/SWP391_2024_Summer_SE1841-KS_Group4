@@ -62,4 +62,26 @@ public class TimeslotDAO extends DBContext implements ITimeslotDAO{
         }
         return timeslot;
     }
+
+    public List<Timeslot> getFoodTimeslots() {
+        String sql = "SELECT * FROM Timeslots where id = 'TS5' or id = 'TS7'or id = 'TS11' ";
+        List<Timeslot> listTimeslot = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Timeslot timeslot = new Timeslot();
+                timeslot.setId(resultSet.getString("id"));
+                timeslot.setName(resultSet.getString("name"));
+                timeslot.setStartTime(resultSet.getString("start_time"));
+                timeslot.setEndTime(resultSet.getString("end_time"));
+                timeslot.setSlotNumber(resultSet.getString("slot_number"));
+                listTimeslot.add(timeslot);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listTimeslot;
+    }
 }

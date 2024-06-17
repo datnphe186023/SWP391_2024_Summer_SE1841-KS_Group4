@@ -140,7 +140,7 @@
           <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Thực Đơn Theo Tuần</h6>
           </div>
-          <c:set var="timesOfDay" value="${['Trưa', 'Chiều', 'Chiều Phụ']}" />
+          <c:set var="timesOfDay" value="${['Bữa trưa', 'Bữa chiều', 'Bữa chiều phụ']}" />
           <c:set var="daysOfWeek" value="${['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật']}" />
           <div class="card-body">
             <div class="table-responsive">
@@ -162,19 +162,19 @@
                 <c:set value="${requestScope.menuDetailList}" var="menuDetaillist"/>
                 <c:forEach var="timeOfDay" items="${timesOfDay}">
                   <tr>
-                    <c:if test="${timeOfDay == 'Trưa'}" >
+                    <c:if test="${timeOfDay == 'Bữa trưa'}" >
                       <td>Trưa</td>
                     </c:if>
-                    <c:if test="${timeOfDay == 'Chiều'}" >
+                    <c:if test="${timeOfDay == 'Bữa chiều'}" >
                       <td>Chiều</td>
                     </c:if>
-                    <c:if test="${timeOfDay == 'Chiều Phụ'}" >
+                    <c:if test="${timeOfDay == 'Bữa chiều phụ'}" >
                       <td>Chiều Phụ</td>
                     </c:if>
                     <c:forEach var="dayOfWeek" items="${daysOfWeek}">
                       <td>
                         <c:forEach var="menu" items="${requestScope.menuDetailList}">
-                          <c:if test="${menu.getTimeInDay().getName() == timeOfDay && menu.getTimeInDay().getDate().convertToWeekDay() == dayOfWeek}">
+                          <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
                             ${menu.getFoodMenu().getFoodDetails()}
                           </c:if>
                         </c:forEach>
