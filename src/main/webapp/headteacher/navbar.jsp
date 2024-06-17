@@ -127,9 +127,17 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-calendar-plus"></i>
-                    <span>Quản lý sự kiện</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvent"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-calendar-check" aria-hidden="true"></i>
+                    <span>Quản lý Sự Kiện</span>
+                </a>
+                <div id="collapseEvent" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="listevent">Danh Sách Sự Kiện</a>
+                        <a class="collapse-item" href="sendevent">Tạo Sự Kiện</a>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item">

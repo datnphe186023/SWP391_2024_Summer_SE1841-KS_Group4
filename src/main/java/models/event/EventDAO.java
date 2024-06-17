@@ -2,15 +2,15 @@ package models.event;
 
 import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import models.role.IRoleDAO;
+import models.role.RoleDAO;
 import utils.DBContext;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +24,9 @@ public class EventDAO extends DBContext implements IEventDAO {
         event.setDetails(resultSet.getString("details"));
         return event;
     }
-    private Event getLastest(){
+
+    @Override
+    public Event getLastest(){
         String sql="select TOP 1 * from Events order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -51,11 +53,15 @@ public class EventDAO extends DBContext implements IEventDAO {
 
     @Override
     public boolean createEvent(Event event) {
-        String sql = "Insert into [Event] values (?,?,?,?)";
+        String sql = "Insert into [Events] values (?,?,?,?)";
         try {
             PreparedStatement preparedStatement =connection.prepareStatement(sql);
-            preparedStatement.setString(1,generateId(Objects.requireNonNull(getLastest()).getId()));
-            preparedStatement.setString(2,event.getId());
+            if(getLastest()==null){
+                preparedStatement.setString(1, "E000001");
+            } else {
+                preparedStatement.setString(1,event.getId());
+            }
+            preparedStatement.setString(2,event.getCreatedBy().getId());
             preparedStatement.setString(3,event.getHeading());
             preparedStatement.setString(4,event.getDetails());
             preparedStatement.executeUpdate();
@@ -67,12 +73,13 @@ public class EventDAO extends DBContext implements IEventDAO {
     }
 
     @Override
-    public boolean sendEvent(String eventId, String roleId) {
+    public boolean sendEvent(String eventId, int roleId) {
         String sql="insert into eventDetails values (?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,eventId);
-            preparedStatement.setString(2,roleId);
+            preparedStatement.setInt(2,roleId);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -83,7 +90,7 @@ public class EventDAO extends DBContext implements IEventDAO {
     @Override
     public List<Event> getAllEvent() {
         List<Event> list = new ArrayList<>();
-        String sql="Select * from Events";
+        String sql="Select * from Events order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -97,13 +104,13 @@ public class EventDAO extends DBContext implements IEventDAO {
     }
 
     @Override
-    public List<Event> getEventByRole(String roleId) {
+    public List<Event> getEventByRole(int roleId) {
         List<Event> list = new ArrayList<>();
         String sql="select * from Events e join eventDetails ed on e.id = ed.event_id \n" +
                      "where participant = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,roleId);
+            preparedStatement.setInt(1,roleId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 list.add(createEvent(resultSet));
@@ -128,5 +135,40 @@ public class EventDAO extends DBContext implements IEventDAO {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public List<String> getReceiver(String eventId){
+        IRoleDAO roleDAO = new RoleDAO();
+        List<String> list = new ArrayList<>();
+        String sql="select * from Events e join eventDetails ed on e.id = ed.event_id \n" +
+                "where e.id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,eventId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                list.add(roleDAO.getRoleName(resultSet.getInt("participant")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    @Override
+    public boolean checkExistEvent(String heading){
+        String sql="Select * from Events where heading =?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,heading);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return  true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  false;
     }
 }
