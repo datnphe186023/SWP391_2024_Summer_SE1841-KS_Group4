@@ -8,7 +8,9 @@ import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.timeslot.ITimeslotDAO;
 import models.timeslot.TimeslotDAO;
+
 import models.timetable.Timetable;
+
 import models.week.Week;
 import utils.DBContext;
 
@@ -163,6 +165,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
                 "                                join MenuDetails md on d.id = md.date_id\n" +
                 "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and md.status = N'Đã Duyệt' ";
+
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,grade);

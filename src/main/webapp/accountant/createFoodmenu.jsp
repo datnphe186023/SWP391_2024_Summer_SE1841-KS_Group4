@@ -114,7 +114,9 @@
                 </div>
 
                 <!-- Timetable Form -->
+
                 <form id="combinedForm" action="createfoodmenu" method="get">
+
                     <div class="form-row">
 
                         <div class="form-group col-md-3" style="padding-left: 0px; width: 80%;">
@@ -150,6 +152,7 @@
                     </div>
                 </form>
 
+
                 <form action="createfoodmenu?action=create-foodmenu" method="POST">
                     <div class="form-row">
 
@@ -159,6 +162,7 @@
                             <input class="form-control" name="year" value="${requestScope.newYear.getName()}" disabled  style="width: 70%">
                         </div>
                     <input class="form-control" hidden name="gradeid" value="${requestScope.selectedGradeId}">
+
 
                     </div>
 
@@ -183,7 +187,9 @@
                                             <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}">
                                                 <option value="">Chọn môn học</option>
                                                 <c:forEach var="foodMenu" items="${requestScope.foodMenuList}">
+
                                                     <option value="${foodMenu.id}" name="FoodmenuId_${day.id}_${timeslot.id}_${foodMenu.id}">${foodMenu.getFoodDetails()}</option>
+
                                                 </c:forEach>
                                             </select>
                                         </td>
