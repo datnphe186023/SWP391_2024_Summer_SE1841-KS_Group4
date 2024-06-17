@@ -69,19 +69,18 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapse" href="#" data-toggle="collapse" data-target="#collapseFoodmenu"
-               aria-expanded="true" aria-controls="collapseFoodmenu" >
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFoodMenu"
+               aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cheese"></i>
                 <span>Thực Đơn</span>
             </a>
-            <div id="collapseFoodmenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseFoodMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="viewfoodmenu">Xem Thực Đơn </a>
                     <a class="collapse-item" href="createfoodmenu">Tạo Thực Đơn</a>
                 </div>
             </div>
         </li>
-
         <li class="nav-item">
             <a class="nav-link" href="listnotification">
                 <i class="fas fa-fw fa-bell"></i>

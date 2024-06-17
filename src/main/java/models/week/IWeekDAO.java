@@ -10,4 +10,5 @@ public interface IWeekDAO {
     public Week getWeek(String id);
     public List<Week> getWeeksFromNow();
     String getYearByWeek(String id);
+    public List<Week> getWeeks(String schoolYearId );
 }

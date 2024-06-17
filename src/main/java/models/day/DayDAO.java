@@ -1,5 +1,6 @@
 package models.day;
 
+import models.timeslot.Timeslot;
 import models.week.Week;
 import models.week.WeekDAO;
 import utils.DBContext;
@@ -7,6 +8,7 @@ import utils.Helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -126,5 +128,25 @@ public class DayDAO extends DBContext implements IDayDAO{
             e.printStackTrace();
         }
         return day;
+    }
+
+    public List<TimeInDay> getAllTimeInDays(){
+        String sql = "SELECT * FROM TimeInDays";
+        List<TimeInDay> listTimeInDay = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                TimeInDay timeInday = new TimeInDay();
+                timeInday.setId(resultSet.getString("id"));
+                timeInday.setDate(getDayByID(resultSet.getString("date_id")));
+                timeInday.setName(resultSet.getString("name"));
+                listTimeInDay.add(timeInday);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listTimeInDay;
     }
 }
