@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.accountant;
+package controller.teacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,19 +11,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
-import models.personnel.PersonnelDAO;
 
 /**
  *
  * @author TuyenCute
  */
-@WebServlet(name = "CreateNotificationServlet", urlPatterns = {"/accountant/createnotifi"})
-public class CreateNotificationServlet extends HttpServlet {
+@WebServlet(name = "/teacher/NotificationDetailsServlet", urlPatterns = {"/teacher/notificationdetails"})
+public class NotificationDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +38,10 @@ public class CreateNotificationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateNotificationServlet</title>");
+            out.println("<title>Servlet NotificationDetailsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateNotificationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet NotificationDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,8 +59,14 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String id = request.getParameter("id");
+        Notification notifi = new Notification();
+        NotificationDAO notificationDAO = new NotificationDAO();
+        notifi = notificationDAO.getNotificationById(id);
+        request.setAttribute("notifi", notifi);
+        request.getRequestDispatcher("notificationDetails.jsp").forward(request, response);
     }
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -77,26 +79,7 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        NotificationDAO notifiDAO = new NotificationDAO();
-        String id = "";
-        String heading = request.getParameter("heading");
-        String content = request.getParameter("content");
-        String create_by = request.getParameter("userid");
-        String submitDateStr = request.getParameter("submitDate");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày bạn mong muốn
-        Date create_at = null;
-        try {
-            create_at = dateFormat.parse(submitDateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-        try {
-            notifiDAO.createNoti(notifi);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        request.getRequestDispatcher("listnotification").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -108,5 +91,4 @@ public class CreateNotificationServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

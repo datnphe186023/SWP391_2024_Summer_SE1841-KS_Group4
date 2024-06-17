@@ -42,7 +42,7 @@
 
         <!-- Nav Item -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="listnotification">
                 <i class="fas fa-fw fa-solid fa-bell"></i>
                 <span>Thông Báo</span></a>
         </li>
@@ -99,11 +99,6 @@
 
     </ul>
     <!-- End of Sidebar -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../vendor/jquery/jquery.min.js"></script>

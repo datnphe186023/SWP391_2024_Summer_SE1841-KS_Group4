@@ -8,11 +8,13 @@ import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
 import models.timeslot.ITimeslotDAO;
 import models.timeslot.TimeslotDAO;
+import models.timetable.Timetable;
 import models.week.Week;
 import utils.DBContext;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,25 +43,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return foodMenus;
     }
 
-    private TimeInDay getTimeInDay(String time_in_day_id) {
-        TimeInDay timeInDay = new TimeInDay();
-        String sql = "select * from TimeInDays where id=?";
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1,time_in_day_id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                timeInDay = new TimeInDay(
-                        resultSet.getString("id"),
-                        getDay(resultSet.getString("date_id")),
-                        resultSet.getString("name")
-                );
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        return timeInDay;
-    }
+
 
     private Day getDay(String date_id) {
         Day day = new Day();
@@ -178,7 +162,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         List<MenuDetail> menuDetails = new ArrayList<>();
         String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
                 "                                join MenuDetails md on d.id = md.date_id\n" +
-                "                 where md.grade_id = ? and w.id= ? and w.school_year_id =?";
+                "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and md.status = N'Đã Duyệt' ";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,grade);
@@ -200,4 +184,36 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         }
         return menuDetails;
     }
+
+    public void createMenuDetail(MenuDetail menuDetail) {
+        String sql = "INSERT INTO MenuDetails "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, menuDetail.getId());
+            statement.setString(2, menuDetail.getFoodMenu().getId());
+            statement.setString(3, menuDetail.getGrade().getId());
+            statement.setString(4, menuDetail.getTimeslot().getId());
+            statement.setString(5, menuDetail.getStatus());
+            statement.setString(6, menuDetail.getDay().getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error inserting timetable", e);
+        }
+    }
+    public int getTotalID() {
+        int totalID = 0;
+        String sql = " select count(id) as totalid from MenuDetails";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = statement.executeQuery();
+           if (resultSet.next()) {
+                totalID = resultSet.getInt("totalid");
+            }
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+        return totalID;
+    }
+
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.accountant;
+package controller.academicstaff;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +22,7 @@ import models.personnel.PersonnelDAO;
  *
  * @author TuyenCute
  */
-@WebServlet(name = "CreateNotificationServlet", urlPatterns = {"/accountant/createnotifi"})
+@WebServlet(name = "/academicstaff/CreateNotificationServlet", urlPatterns = {"/academicstaff/createnotifi"})
 public class CreateNotificationServlet extends HttpServlet {
 
     /**
