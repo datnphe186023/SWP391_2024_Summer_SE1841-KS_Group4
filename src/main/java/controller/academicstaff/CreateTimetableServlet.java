@@ -5,14 +5,11 @@
 package controller.academicstaff;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -153,7 +150,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 timetable.setaClass(classDAO.getClassById(classId));
                 // Định nghĩa các tham số khác
                 timetable.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
-                String status = "đã được xét duyệt";
+                String status = "chưa xét duyệt";
                 timetable.setStatus(status);
                 String note = "";
                 timetable.setNote(note);
@@ -194,7 +191,7 @@ public class CreateTimetableServlet extends HttpServlet {
                             String dayId = parts[1];
                             String timeslotId = parts[2];
                             String subjectId = timeslotIdValue; // ID môn học được chọn
-                            String timetableId = ("TB" + entryCounter++) + "-" + classId;
+                            String timetableId = timetableDAO.generateTimetableId();
                             timetable.setId(timetableId);
                             timetable.setDay(dayDAO.getDayByID(dayId));
                             timetable.setTimeslot(timeslotDAO.getTimeslotById(timeslotId));
@@ -215,7 +212,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 }
                 response.sendRedirect("timetable");
 
-            }
+            } 
 
         } catch (Exception e) {
             e.printStackTrace();

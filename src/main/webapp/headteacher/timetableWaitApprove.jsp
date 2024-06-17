@@ -36,6 +36,19 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -56,24 +69,30 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th>Số thứ tự</th>
                                                 <th>Tên lớp</th>
+                                                <th>Khối</th>
                                                 <th>Tạo Bởi</th>
                                                 <th>Hiệu lực</th>
                                                 <th>Trạng thái</th>
                                                 <th>Giáo Viên</th>
-
+                                                
                                                 <th>Hành động</th>
                                             </tr>
 
 
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="listTimetable" items="${requestScope.listTimetable}">
+                                            <c:forEach var="listTimetable" items="${requestScope.listTimetable}" varStatus="loop">
                                                 <tr>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${listTimetable.aClass.name}</td>
+                                                    <td>${listTimetable.aClass.grade.name}</td>
                                                     <td>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</td>
                                                     <td>
-                                                        ${listTimetable.startDate} đến ${listTimetable.endDate}
+                                                        <fmt:formatDate value="${listTimetable.startDate}" pattern="dd/MM/yyyy"/> 
+                                                        đến
+                                                        <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
                                                     </td>
                                                     <td style="color: <c:choose>
                                                             <c:when test="${listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
@@ -81,21 +100,12 @@
                                                         ${listTimetable.status}
                                                     </td>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
-                                                    <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
+
+                                                    
+                                                        <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
                                                         <td>
                                                             <div class="d-flex flex-column align-items-center">
-                                                                <form method="post" action="#" class="d-inline mb-2">
-                                                                    <input type="hidden" name="action" value="accept">
-                                                                    <input type="hidden" name="id" >
-                                                                    <button type="submit" class="btn btn-sm btn-success shadow-sm btn-custom-width">Chấp nhận</button>
-                                                                </form>
-
-                                                                <form method="post" action="#" class="d-inline mb-2">
-                                                                    <input type="hidden" name="action" value="decline">
-                                                                    <input type="hidden" name="id">
-                                                                    <button type="submit" class="btn btn-sm btn-danger shadow-sm btn-custom-width">Từ chối</button>
-                                                                </form>
-                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                                <a href="review-detail-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
                                                             </div>
                                                         </td>
 

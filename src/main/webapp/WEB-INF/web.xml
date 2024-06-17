@@ -62,7 +62,7 @@
     </servlet>
     <servlet>
         <servlet-name>TimetableServlet</servlet-name>
-        <servlet-class>controller.headteacher.TimetableServlet</servlet-class>
+        <servlet-class>controller.headteacher.ListTimetable</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ResetPasswordServlet</servlet-name>
@@ -70,7 +70,15 @@
     </servlet>
     <servlet>
         <servlet-name>ReviewTimetableServlet</servlet-name>
-        <servlet-class>controller.headteacher.ReviewTimetableServlet</servlet-class>
+        <servlet-class>controller.headteacher.TimetableWaitApprove</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReviewDetailTimetableServlet</servlet-name>
+        <servlet-class>controller.headteacher.ReviewDetailTimetableServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTimetableServlet</servlet-name>
+        <servlet-class>controller.headteacher.ViewTimetableServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
@@ -115,6 +123,14 @@
     <servlet-mapping>
         <servlet-name>ReviewTimetableServlet</servlet-name>
         <url-pattern>/headteacher/reviewtimetable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewDetailTimetableServlet</servlet-name>
+        <url-pattern>/headteacher/review-detail-timetable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTimetableServlet</servlet-name>
+        <url-pattern>/headteacher/view-timetable</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>

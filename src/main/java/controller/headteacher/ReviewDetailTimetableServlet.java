@@ -5,28 +5,34 @@
 package controller.headteacher;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import models.classes.ClassDAO;
+import models.classes.IClassDAO;
+import models.classes.Class;
+import models.day.Day;
+import models.day.DayDAO;
+import models.day.IDayDAO;
+
+import models.timeslot.ITimeslotDAO;
+import models.timeslot.Timeslot;
+import models.timeslot.TimeslotDAO;
 import models.timetable.ITimetableDAO;
 import models.timetable.Timetable;
 import models.timetable.TimetableDAO;
-import models.timetable.TimetableDTO;
+import models.week.IWeekDAO;
+import models.week.Week;
+import models.week.WeekDAO;
+
 
 /**
  *
  * @author Admin
  */
-public class ReviewTimetableServlet extends HttpServlet {
-
-    
+public class ReviewDetailTimetableServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -40,12 +46,27 @@ public class ReviewTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       //classid , date_id(startdate-enddate) , createby , status , teacherid
+        String classId = request.getParameter("classId");
+        String weekId = request.getParameter("weekId");
         ITimetableDAO timetableDAO = new TimetableDAO();
-        List<TimetableDTO> listTimetable = timetableDAO.getListTimetableByStatus("chưa xét duyệt");
-        request.setAttribute("listTimetable", listTimetable);
-        request.getRequestDispatcher("reviewTimetable.jsp").forward(request, response);
+        IDayDAO dayDAO = new DayDAO();
+        ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        IClassDAO classDAO = new ClassDAO();
+        IWeekDAO weekDAO = new WeekDAO();
         
+        Week week = weekDAO.getWeek(weekId);
+        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId);
+        List<Timeslot> timeslotList = timeslotDAO.getAllTimeslots();
+        List<Day> dayList = dayDAO.getDayByWeek(weekId);
+        Class aClass = classDAO.getClassById(classId);
+        
+        request.setAttribute("week", week);
+        request.setAttribute("aClass", aClass);
+        request.setAttribute("timetable", timetable);
+        request.setAttribute("timeslotList", timeslotList);
+        request.setAttribute("dayList", dayList);
+
+        request.getRequestDispatcher("reviewDetailTimetable.jsp").forward(request, response);
     }
 
     /**

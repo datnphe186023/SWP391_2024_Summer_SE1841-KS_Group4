@@ -24,16 +24,26 @@ public class TimetableDTO {
     private Date endDate;
     private Personnel createdBy;
     private String status;
+    private String note;
     private Personnel teacher;
 
-    public TimetableDTO(Class aClass, String weekId, Date startDate, Date endDate, Personnel createdBy, String status, Personnel teacher) {
+    public TimetableDTO(Class aClass, String weekId, Date startDate, Date endDate, Personnel createdBy, String status,String note, Personnel teacher) {
         this.aClass = aClass;
         this.weekId = weekId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.createdBy = createdBy;
         this.status = status;
+        this.note = note;
         this.teacher = teacher;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     // Getters and setters...
