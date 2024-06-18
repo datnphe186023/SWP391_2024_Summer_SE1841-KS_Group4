@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "ViewFoodMenuServlet", urlPatterns={"/accountant/viewfoodmenu"})
-public class ViewFoodMenuServlet extends HttpServlet {
+@WebServlet(name = "ViewFoodMenuServlet", urlPatterns={"/accountant/viewmealtimetable"})
+public class ViewMealTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FoodMenuDAO foodMenuDAO = new FoodMenuDAO();
@@ -30,7 +30,7 @@ public class ViewFoodMenuServlet extends HttpServlet {
         request.setAttribute("schoolYearList",schoolYearList );
         request.setAttribute("gradeList",gradeList );
 
-        request.getRequestDispatcher("viewFoodmenu.jsp").forward(request, response);
+        request.getRequestDispatcher("viewMealTimetable.jsp").forward(request, response);
 
     }
 
@@ -59,6 +59,6 @@ public class ViewFoodMenuServlet extends HttpServlet {
         request.setAttribute("weekList",weekList);
         request.setAttribute("foodMenuList", foodMenuList);
         request.setAttribute("menuDetailList", menuDetailList);
-        request.getRequestDispatcher("viewFoodmenu.jsp").forward(request, response);
+        request.getRequestDispatcher("viewMealTimetable.jsp").forward(request, response);
     }
 }

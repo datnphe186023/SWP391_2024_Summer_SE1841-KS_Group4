@@ -115,7 +115,7 @@
 
                 <!-- Timetable Form -->
 
-                <form id="combinedForm" action="createfoodmenu" method="get">
+                <form id="combinedForm" action="createmealtimetable" method="get">
 
                     <div class="form-row">
 
@@ -153,7 +153,7 @@
                 </form>
 
 
-                <form action="createfoodmenu?action=create-foodmenu" method="POST">
+                <form action="createmealtimetable?action=create-foodmenu" method="POST">
                     <div class="form-row">
 
                         <div class="form-group col-md-2">

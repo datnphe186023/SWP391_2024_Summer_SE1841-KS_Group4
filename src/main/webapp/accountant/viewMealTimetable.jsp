@@ -95,7 +95,7 @@
           <c:set var="sltedg" value="${requestScope.sltedg}"/>
           <c:set var="sltedw" value="${requestScope.sltedw}"/>
           <c:set var="sltedsy" value="${requestScope.sltedsy}"/>
-          <form action="viewfoodmenu" method="post">
+          <form action="viewmealtimetable" method="post">
             <div style="display: flex; justify-content: space-evenly;">
               <div class="class-form">
                 <label>Khối Lớp
