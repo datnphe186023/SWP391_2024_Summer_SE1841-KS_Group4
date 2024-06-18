@@ -76,8 +76,8 @@
             </a>
             <div id="collapseFoodMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="viewfoodmenu">Xem Thực Đơn </a>
-                    <a class="collapse-item" href="createfoodmenu">Tạo Thực Đơn</a>
+                    <a class="collapse-item" href="viewmealtimetable">Xem Thực Đơn </a>
+                    <a class="collapse-item" href="createmealtimetable">Tạo Thực Đơn</a>
                 </div>
             </div>
         </li>
