@@ -7,10 +7,12 @@ package models.timetable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import models.classes.ClassDAO;
 import models.classes.Class;
 import models.classes.IClassDAO;
@@ -133,6 +135,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 + "    w.end_date, "
                 + "    temp.created_by, "
                 + "    temp.status, "
+                + "    temp.note, " // Thêm trường note vào truy vấn SQL
                 + "    temp.teacher_id "
                 + "FROM ( "
                 + "    SELECT "
@@ -141,6 +144,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 + "        t.created_by, "
                 + "        t.status, "
                 + "        t.teacher_id, "
+                + "        t.note, " // Thêm trường note
                 + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
                 + "    FROM "
                 + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
@@ -160,6 +164,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 Date endDate = resultSet.getDate("end_date");
                 String createdBy = resultSet.getString("created_by");
                 String statusValue = resultSet.getString("status");
+                String note = resultSet.getString("note"); // Lấy giá trị note từ ResultSet
                 String teacherId = resultSet.getString("teacher_id");
 
                 IClassDAO classDAO = new ClassDAO();
@@ -169,7 +174,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
                 Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
 
-                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, statusValue, teacherObj);
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, statusValue, note, teacherObj);
                 timetables.add(timetable);
             }
         } catch (SQLException e) {
@@ -224,6 +229,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 + "    w.end_date, "
                 + "    temp.created_by, "
                 + "    temp.status, "
+                + "    temp.note, " // Thêm trường note vào truy vấn SQL
                 + "    temp.teacher_id "
                 + "FROM ( "
                 + "    SELECT "
@@ -232,6 +238,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 + "        t.created_by, "
                 + "        t.status, "
                 + "        t.teacher_id, "
+                + "        t.note, " // Thêm trường note
                 + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
                 + "    FROM "
                 + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
@@ -249,6 +256,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 Date endDate = resultSet.getDate("end_date");
                 String createdBy = resultSet.getString("created_by");
                 String status = resultSet.getString("status");
+                String note = resultSet.getString("note"); // Lấy giá trị note từ ResultSet
                 String teacherId = resultSet.getString("teacher_id");
 
                 IClassDAO classDAO = new ClassDAO();
@@ -258,7 +266,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
                 Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
 
-                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, status, teacherObj);
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, status, note, teacherObj);
                 timetables.add(timetable);
             }
         } catch (SQLException e) {
@@ -266,4 +274,98 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         }
         return timetables;
     }
+
+    @Override
+    public String generateTimetableId() {
+        String latestId = getLatestTimetableId();
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(latestId);
+        int number = 0;
+        if (matcher.find()) {
+            number = Integer.parseInt(matcher.group()) + 1;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("000000");
+        String result = decimalFormat.format(number);
+        return "TB" + result;
+    }
+
+    // Thêm hàm getLatestTimetableId
+    private String getLatestTimetableId() {
+        String sql = "SELECT TOP 1 id FROM Timetables ORDER BY id DESC";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "TB000000"; // Giá trị mặc định nếu không có bản ghi nào trong bảng
+    }
+
+    
+    
+    @Override
+    public List<Timetable> getTimetableByClassAndWeek(String classId, String weekId) {
+        List<Timetable> timetables = new ArrayList<>();
+        String sql = "SELECT t.id AS timetable_id, "
+                + "       c.id AS class_id, "
+                + "       ts.id AS timeslot_id, "
+                + "       d.id AS date_id, "
+                + "       s.id AS subject_id, "
+                + "       t.created_by, "
+                + "       t.status, "
+                + "       t.note, "
+                + "       p.id AS teacher_id "
+                + "FROM Timetables t "
+                + "JOIN Class c ON t.class_id = c.id "
+                + "JOIN Timeslots ts ON t.timeslot_id = ts.id "
+                + "JOIN Days d ON t.date_id = d.id "
+                + "JOIN Subjects s ON t.subject_id = s.id "
+                + "JOIN Personnels p ON t.teacher_id = p.id "
+                + "JOIN Weeks w ON d.week_id = w.id "
+                + "WHERE c.id = ? AND w.id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, classId);
+            statement.setString(2, weekId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                // Fetching data from the result set and creating Timetable object for each row
+                String timetableId = resultSet.getString("timetable_id");
+                String classIdResult = resultSet.getString("class_id");
+                String timeslotId = resultSet.getString("timeslot_id");
+                String dateId = resultSet.getString("date_id");
+                String subjectId = resultSet.getString("subject_id");
+                String createdBy = resultSet.getString("created_by");
+                String status = resultSet.getString("status");
+                String note = resultSet.getString("note");
+                String teacherId = resultSet.getString("teacher_id");
+
+                // Fetch related entities using DAOs
+                IClassDAO classDAO = new ClassDAO();
+                ITimeslotDAO timeslotDAO = new TimeslotDAO();
+                IDayDAO dayDAO = new DayDAO();
+                ISubjectDAO subjectDAO = new SubjectDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+
+                Class classs = classDAO.getClassById(classIdResult);
+                Timeslot timeslot = timeslotDAO.getTimeslotById(timeslotId);
+                Day day = dayDAO.getDayByID(dateId);
+                Subject subject = subjectDAO.getSubjectBySubjectId(subjectId);
+                Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
+                Personnel teacher = personnelDAO.getPersonnel(teacherId);
+
+                // Create Timetable object
+                Timetable timetable = new Timetable(timetableId, classs, timeslot, day, subject, createdByObj, status, note, teacher);
+                timetables.add(timetable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving timetables by classId and weekId", e);
+        }
+        return timetables;
+    }
+
 }
