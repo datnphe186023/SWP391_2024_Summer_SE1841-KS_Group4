@@ -61,13 +61,13 @@ public class UpdatePupilsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Pupil pupil = new Pupil();
-        pupil.setId(request.getParameter("id"));
-        pupil.setfirstGuardianName(request.getParameter("first_guardian_name"));
-        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber"));
-        pupil.setsecondGuardianName(request.getParameter("second_guardian_name"));
-        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber"));
-        pupil.setAddress(request.getParameter("address"));
-        pupil.setParentSpecialNote(request.getParameter("note"));
+        pupil.setId(request.getParameter("id").trim());
+        pupil.setfirstGuardianName(request.getParameter("first_guardian_name").trim());
+        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber").trim());
+        pupil.setsecondGuardianName(request.getParameter("second_guardian_name").trim());
+        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber").trim());
+        pupil.setAddress(request.getParameter("address").trim());
+        pupil.setParentSpecialNote(request.getParameter("note").trim());
         IPupilDAO pupilDAO = new PupilDAO();
         pupilDAO.updatePupil(pupil);
         request.getRequestDispatcher("pupilprofile").forward(request, response);
@@ -84,17 +84,7 @@ public class UpdatePupilsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Pupil pupil = new Pupil();
-        pupil.setId(request.getParameter("id"));
-        pupil.setfirstGuardianName(request.getParameter("first_guardian_name"));
-        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber"));
-        pupil.setsecondGuardianName(request.getParameter("second_guardian_name"));
-        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber"));
-        pupil.setAddress(request.getParameter("address"));
-        pupil.setParentSpecialNote(request.getParameter("note"));
-        IPupilDAO pupilDAO = new PupilDAO();
-        pupilDAO.updatePupil(pupil);
-        request.getRequestDispatcher("pupilprofile").forward(request, response);
+
     }
 
     /**
