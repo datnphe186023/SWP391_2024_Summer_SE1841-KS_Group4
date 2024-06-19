@@ -1,7 +1,6 @@
 package models.pupil;
 
 import models.personnel.Personnel;
-import models.personnel.PersonnelDAO;
 import utils.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -65,7 +65,7 @@ public class TimeslotDAO extends DBContext implements ITimeslotDAO{
 
     public List<Timeslot> getFoodTimeslots() {
 
-        String sql = " select * from Timeslots where id = 'TS5' or id ='TS7' or id ='TS11' order by start_time";
+        String sql = " select * from Timeslots where id = 'TS005' or id ='TS007' or id ='TS011' order by start_time";
 
         List<Timeslot> listTimeslot = new ArrayList<>();
         try {

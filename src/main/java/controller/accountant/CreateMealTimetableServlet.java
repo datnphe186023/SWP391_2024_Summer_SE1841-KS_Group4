@@ -9,7 +9,6 @@ import models.classes.IClassDAO;
 import models.day.Day;
 import models.day.DayDAO;
 import models.day.IDayDAO;
-import models.day.TimeInDay;
 import models.foodmenu.FoodMenu;
 import models.foodmenu.FoodMenuDAO;
 import models.foodmenu.IFoodMenuDAO;
@@ -42,14 +41,13 @@ import java.io.IOException;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 
 import java.util.Enumeration;
 import java.util.List;
 
-@WebServlet(name = "CreateFoodmenuServlet",urlPatterns={"/accountant/createfoodmenu"})
-public class CreateFoodmenuServlet extends HttpServlet {
+@WebServlet(name = "CreateMealTimetableServlet",urlPatterns={"/accountant/createmealtimetable"})
+public class CreateMealTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -114,7 +112,7 @@ public class CreateFoodmenuServlet extends HttpServlet {
         request.setAttribute("listGrade", listGrade);
         request.setAttribute("selectedGradeId", selectedGradeId);
 
-        request.getRequestDispatcher("createFoodmenu.jsp").forward(request, response);
+        request.getRequestDispatcher("createMealTimetable.jsp").forward(request, response);
     }
 
     @Override
@@ -179,11 +177,11 @@ public class CreateFoodmenuServlet extends HttpServlet {
                     session.setAttribute("toastType", "success");
                     session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
 
-                    response.sendRedirect("createfoodmenu");
+                    response.sendRedirect("createmealtimetable");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Không có dữ liệu được chọn. Vui lòng không để trống !");
-                    response.sendRedirect("createfoodmenu");
+                    response.sendRedirect("createmealtimetable");
 
                 }
             }

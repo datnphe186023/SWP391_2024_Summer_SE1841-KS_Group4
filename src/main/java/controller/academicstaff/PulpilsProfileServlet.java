@@ -62,7 +62,7 @@ public class PulpilsProfileServlet extends HttpServlet {
         IPupilDAO pupilDAO = new PupilDAO();
         Pupil pupil = pupilDAO.getPupilsById(id);
         request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/academicstaff/informationPupils.jsp").forward(request, response);
+        request.getRequestDispatcher("informationPupils.jsp").forward(request, response);
     }
 
     /**
@@ -80,7 +80,7 @@ public class PulpilsProfileServlet extends HttpServlet {
         IPupilDAO pupilDAO = new PupilDAO();
         Pupil pupil = pupilDAO.getPupilsById(id);
         request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/academicstaff/informationPupils.jsp").forward(request, response);
+        request.getRequestDispatcher("editInformationPupil.jsp").forward(request, response);
     }
 
     /**
