@@ -39,7 +39,7 @@ public class SubjectServlet extends HttpServlet {
             String name = request.getParameter("name");
             String grade = request.getParameter("grade");
             String description = request.getParameter("description");
-            Subject subject = new Subject(null,Helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ phê duyệt");
+            Subject subject = new Subject(null,Helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ xử lý");
             if(Helper.formatString(description).length()>1000){
                  toastMessage = "Tạo thất bại! Đã quá 1000 kí tự";
                  toastType = "error";

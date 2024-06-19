@@ -52,8 +52,11 @@ public class EventDAO extends DBContext implements IEventDAO {
     }
 
     @Override
-    public boolean createEvent(Event event) {
+    public String createEvent(Event event) {
         String sql = "Insert into [Events] values (?,?,?,?)";
+        if(checkExistEvent(event.getHeading())) {
+            return "Tạo thất bại! Sự kiện đã được tạo !";
+        }
         try {
             PreparedStatement preparedStatement =connection.prepareStatement(sql);
             if(getLastest()==null){
@@ -67,9 +70,9 @@ public class EventDAO extends DBContext implements IEventDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return "Tạo thất bại!";
         }
-        return true;
+        return "success";
     }
 
     @Override

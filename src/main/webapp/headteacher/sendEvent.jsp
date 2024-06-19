@@ -41,6 +41,11 @@
             });
         });
     </script>
+    <style>
+        input{
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -50,25 +55,48 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h4 class="h3 mb-4 text-gray-800 text-center">Tạo Sự Kiện</h4>'
-                <form action="sendevent" method="post" id="sendEvent">
-                    <div class="form-group">
-                        <h4 class="h4 mb-2 text-gray-800">Đối tượng gửi<a style="color: red">(*)</a></h4>
-                        <input placeholder="Tên sự kiện ( Tối đa 100 kí tự)" id="heading" class="form-control" type="text" name="heading"  required value="${param.heading}">
+                <div class="card w-50 mx-auto">
+                    <div class="card-body">
+                        <form action="sendevent" method="post" id="sendEvent">
+                            <div class="form-group">
+                                <h4 class="h4 mb-2 text-gray-800">Tiêu Đề <span class="text-danger">*</span></h4>
+                                <input placeholder="Tên sự kiện ( Tối đa 100 kí tự)" id="heading" class="form-control" type="text" name="heading" required value="${param.heading}">
+                            </div>
+                            <div class="form-group">
+                                <h4 class="h4 mb-2 text-gray-800">Đối tượng gửi <span class="text-danger">*</span></h4>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="receiver" value="${2}" id="receiver1">
+                                    <label class="form-check-label" for="receiver1">
+                                        Giáo vụ
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="receiver" value="${3}" id="receiver2">
+                                    <label class="form-check-label" for="receiver2">
+                                        Kế toán
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="receiver" value="${4}" id="receiver3">
+                                    <label class="form-check-label" for="receiver3">
+                                        Giáo viên
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="receiver" value="${5}" id="receiver4">
+                                    <label class="form-check-label" for="receiver4">
+                                        Phụ huynh
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h4 class="h4 mb-2 text-gray-800">Chi tiết <span class="text-danger">*</span></h4>
+                                <textarea class="form-control mb-4" type="text" placeholder="Chi tiết sự kiện" name="details" rows="5" required>${param.details}</textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary float-right" onclick="confirmAccept('sendEvent','Bạn có chắc chắn muốn gửi sự kiện này ?')">Gửi</button>
+                        </form>
                     </div>
-                    <h4 class="h4 mb-2 text-gray-800">Đối tượng gửi<a style="color: red">(*)</a></h4>
-                    <select class="form-select dropdown mb-5" aria-label="Default select example" name="receiver">
-                        <option ${param.receiver eq 'all' ? "selected" :""} value="all">Tất cả</option>
-                        <option ${param.receiver eq 'staff' ? "selected" :""} value="staff">Giáo vụ</option>
-                        <option ${param.receiver eq 'teacher' ? "selected" :""} value="teacher">Giáo viên</option>
-                        <option ${param.receiver eq 'accountant' ? "selected" :""}value="accountant">Kế toán</option>
-                        <option ${param.receiver eq 'parent' ? "selected" :""} value="parent">Phụ huynh</option>
-                        <option ${param.receiver eq 'school' ? "selected" :""} value="school">Giáo vụ, Giáo viên, Kế toán</option>
-                    </select>
-                    <h4 class="h4 mb-2 text-gray-800">Chi tiết<a style="color: red">(*)</a></h4>
-                    <textarea class="form-control mb-5" type="text" placeholder="Chi tiết sự kiện"
-                              name="details" rows="5" required>${param.details}</textarea>
-                    <button type="button" class="btn btn-primary float-right" onclick="confirmAccept('sendEvent','Bạn có chắc chắn muốn gửi sự kiện này ?')">Gửi</button>
-                </form>
+                </div>
             </div>
             <%-- Begin confirmation modal--%>
             <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
