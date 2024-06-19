@@ -58,13 +58,13 @@
 
             });
         });
-
         function alertMessage() {
-            alert("Thao tác không khả dụng với năm học trong quá khứ!!");
+            document.getElementById('alertMessage').innerText = 'Thao tác không khả dụng với năm học trong quá khứ!!';
+            $('#alertModal').modal('show');
         }
         function notReadyMessage(){
-            alert("Lớp chưa được duyệt!!!");
-        }
+            document.getElementById('alertMessage').innerText = 'Lớp chưa được duyệt!!';
+            $('#alertModal').modal('show');        }
 
         function confirmAssign(formId, msg) {
             formIdToSubmit = formId;
@@ -150,10 +150,23 @@
                         </c:choose>
                     </div>
                     <div class="mb-4 mr-3">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#moveOutPupil">
-                            Đổi Lớp Cho Học Sinh
-                        </button>
+                        <c:choose>
+                            <c:when test="${classes.status eq 'đã được duyệt'}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="${checkedDateInThePast ? '' : '#moveOutPupil'}"
+                                        onclick="${checkedDateInThePast ? 'alertMessage()' : ''}">
+                                    Đổi lớp cho học sinh
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Code for the else condition goes here -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target=""
+                                        onclick="notReadyMessage()">
+                                    Đổi lớp cho học sinh
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="mb-4 mr-3">
                         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Thời khóa
@@ -415,6 +428,26 @@
                 </div>
             </div>
         <%-- End confirmation modal--%>
+            <%-- Begin alert modal--%>
+            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="alertModals">Thông báo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="alertMessage">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%-- End alert modal--%>
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>
