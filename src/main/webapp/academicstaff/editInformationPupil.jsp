@@ -4,7 +4,7 @@
 <html lang="en">
 
     <head>
-        <title>Title</title>
+        <title>CHỈNH SỬA THÔNG TIN</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,7 +98,35 @@
                 pointer-events: none; /* Ngăn không cho tương tác */
             }
         </style>
-
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        <script>
+            function validateForm() {
+                // Lấy các trường input và textarea cần validate
+                var firstGuardianName = document.getElementsByName("first_guardian_name")[0].value.trim();
+                var firstGuardianPhone = document.getElementsByName("firstGuardianPhoneNumber")[0].value.trim();
+                var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
+                var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
+                var address = document.getElementsByName("address")[0].value.trim();
+                // Kiểm tra nếu các trường bắt buộc không được điền
+                if (firstGuardianName === "" || firstGuardianPhone === "" || address === "") {
+                    alert("Vui lòng điền đầy đủ các trường bắt buộc có (*)");
+                    return false; // Ngăn form submit
+                }
+                // Kiểm tra nếu người giám hộ thứ hai có tên thì số điện thoại thứ hai cũng phải có
+                if (secondGuardianName === "" && secondGuardianPhone !== "") {
+                    alert("Vui lòng nhập họ tên người giám hộ thứ hai");
+                    return false; // Ngăn form submit
+                } else if (secondGuardianName !== "" && secondGuardianPhone === "") {
+                    alert("Vui lòng nhập số điện thoại người giám hộ thứ hai");
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
     <body id="page-top">
         <div id="wrapper">
@@ -106,11 +134,10 @@
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
-
                     <div class="container">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h3 class="m-0 font-weight-bold"><i class="fa fa-edit"></i>CHỈNH SỬA HỌC SINH</h3>
+                                <h3 class="m-0 font-weight-bold"><i class="fa fa-edit"></i>CHỈNH SỬA THÔNG TIN HỌC SINH</h3>
                             </div>
                         </div>
                         <div class="row gutters">
@@ -131,7 +158,6 @@
                             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
                                         <form action="updatepupils" method="get" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
                                             <table>
@@ -146,19 +172,19 @@
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{1,20}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" required=""/><br />
+                                                                <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
-                                                                <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." required=""/><br />
+                                                                <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{30}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" /><br />
+                                                                <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." /><br />
+                                                                <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
@@ -171,7 +197,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">
-                                                                <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%"  title="Địa chỉ không được quá 100 kí tự" required=""></textarea><br />
+                                                                <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" required=""></textarea><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}"></textarea><br/>
@@ -183,7 +209,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="form-buttons">
-                                                <button type="button" class="btn btn-danger" onclick="cancelAction()">Quay Lại</button>
+                                                <button type="button" class="btn btn-danger" onclick="goBack()">Quay Lại</button>
                                                 <button type="submit" class="btn btn-success">Lưu</button>
                                             </div>
                                         </form>
@@ -196,46 +222,5 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
-        <script>
-            function cancelAction() {
-                window.history.back();
-            }
-            function validateForm() {
-                const firstGuardianName = document.getElementsByName('first_guardian_name')[0];
-                const secondGuardianName = document.getElementsByName('second_guardian_name')[0];
-                const address = document.getElementsByName('address')[0];
-                const note = document.getElementsByName('note')[0];
-
-                // Trim leading and trailing whitespace
-                firstGuardianName.value = firstGuardianName.value.trim();
-                secondGuardianName.value = secondGuardianName.value.trim();
-                address.value = address.value.trim();
-                note.value = note.value.trim();
-
-                // Biểu thức chính quy để kiểm tra tên
-                const namePattern = /^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
-                const addressPattern = /^[A-Za-z1-9,ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]{1,100}$/;
-                // Kiểm tra họ tên người giám hộ thứ nhất
-                if (firstGuardianName.value === "" || !namePattern.test(firstGuardianName.value) || firstGuardianName.value.length > 30) {
-                    alert("Họ tên người giám hộ thứ nhất không được bỏ trống và không chứa số hoặc ký tự đặc biệt và không quá 30 kí tự. Vui lòng nhập lại!");
-                    firstGuardianName.focus();
-                    return false;
-                }
-                if (!namePattern.test(secondGuardianName.value) || secondGuardianName.value.length > 30) {
-                    alert("Họ tên người giám hộ thứ hai không chứa số hoặc ký tự đặc biệt và không quá 30 kí tự. Vui lòng nhập lại!");
-                    secondGuardianName.focus();
-                    return false;
-                }
-
-                // Validate address
-                if (address.value === "" || !addressPattern.test(address.value) || address.value.length > 100) {
-                    alert("Địa chỉ không được bỏ trống, không chứa ký tự đặc biệt ngoài dấu phẩy và không quá 100 ký tự. Vui lòng nhập lại!");
-                    address.focus();
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
     </body>
 </html>
