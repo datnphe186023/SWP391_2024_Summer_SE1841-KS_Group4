@@ -47,23 +47,25 @@
         });
     </script>
     <script>
+        //// Begin confirm message javascript for add pupil to class, move out class for pupil function
         function confirmAccept(formId, msg) {
-            formIdToSubmit = formId;
-            document.getElementById('confirmationMessage').innerText = msg;
-            $('#confirmationModal').modal('show');
+            formIdToAccept = formId;
+            document.getElementById('confirmMessageTitle').innerText = msg;
+            $('#confirmMessage').modal('show');
         }
         $(document).ready(function() {
-            $('#confirmButton').click(function() {
-                document.getElementById(formIdToSubmit).submit();
+            $('#confirmMessageButton').click(function() {
+                document.getElementById(formIdToAccept).submit();
 
             });
         });
+        //// End confirm message javascript for add pupil to class, move out class for pupil function
         function alertMessage() {
-            document.getElementById('alertMessage').innerText = 'Thao tác không khả dụng với năm học trong quá khứ!!';
+            document.getElementById('alertMessage').innerText = 'Thao tác không khả dụng với năm học trong quá khứ !!';
             $('#alertModal').modal('show');
         }
         function notReadyMessage(){
-            document.getElementById('alertMessage').innerText = 'Lớp chưa được duyệt!!';
+            document.getElementById('alertMessage').innerText = 'Lớp chưa được duyệt !!';
             $('#alertModal').modal('show');        }
 
         function confirmAssign(formId, msg) {
@@ -428,6 +430,29 @@
                 </div>
             </div>
         <%-- End confirmation modal--%>
+
+            <%-- Begin confirmMessage modal--%>
+            <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" >Xác nhận thao tác</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmMessageTitle">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%-- End confirmMessage modal--%>
+
             <%-- Begin alert modal--%>
             <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
