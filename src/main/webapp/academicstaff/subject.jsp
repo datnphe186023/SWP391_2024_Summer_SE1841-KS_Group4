@@ -19,7 +19,10 @@
     <meta name="author" content="">
 
     <title>Danh sách môn học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <%
         String toastMessage = (String) session.getAttribute("toastMessage");
         String toastType = (String) session.getAttribute("toastType");
@@ -86,6 +89,7 @@
                                     <th>Khối</th>
                                     <th>Trạng thái</th>
                                     <th>Mô tả</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -95,17 +99,18 @@
                                         <td>${subject.name}</td>
                                         <td>${subject.grade.name}</td>
                                         <c:set value="${subject.status}" var="status"/>
-                                        <c:if test="${status eq 'đã được phê duyệt'}">
+                                        <c:if test="${status eq 'đã được duyệt'}">
                                             <td><span class="badge badge-success">${status}</span></td>
                                         </c:if>
-                                        <c:if test="${status eq 'đang chờ phê duyệt'}">
+                                        <c:if test="${status eq 'đang chờ xử lý'}">
                                             <td><span class="badge badge-warning">${status}</span>  </td>
                                         </c:if>
                                         <c:if test="${status eq 'không được duyệt'}">
                                             <td><span class="badge badge-danger">${status}</span>  </td>
                                         </c:if>
                                         <td>${subject.description}</td>
-                                    </tr>
+                                        <td class="text-center"><a href="editsubject?id=${subject.id}"
+                                                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Sửa</a></td>                                    </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>

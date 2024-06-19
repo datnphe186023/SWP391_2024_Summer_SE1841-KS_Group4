@@ -39,33 +39,33 @@ public class SendEventServlet extends HttpServlet {
         String []listReceiver = request.getParameterValues("receiver");
         if (session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
-            if (!(heading.isBlank() || heading.length() > 50) && !details.isBlank() && listReceiver!=null) {
+            if (!(heading.isBlank() || heading.length() > 100) && !(details.isBlank() || details.length()>3000) && listReceiver!=null) {
                 String newId = eventDAO.generateId(eventDAO.getLastest().getId());
-                Event event = new Event(newId, personnelDAO.getPersonnel(user.getUsername()), heading, details);
+                Event event = new Event(newId, personnelDAO.getPersonnel(user.getUsername()), Helper.formatString(heading), details);
                 String result = eventDAO.createEvent(event);
                  if(result.equals("success")){
-                    for(int i=0;i<listReceiver.length;i++){
-                        try {
-                            int receiveId = Integer.parseInt(listReceiver[i]);
-                            if(!eventDAO.sendEvent(newId,receiveId)){
-                                toastMessage = "Tạo thất bại!";
-                                toastType = "error";
-                                request.setAttribute("toastMessage", toastMessage);
-                                request.setAttribute("toastType", toastType);
-                                request.getRequestDispatcher("sendEvent.jsp").forward(request, response);
-                            }
-                        }catch (NullPointerException e){
-                            toastMessage = "Tạo thất bại! Vui lòng chọn đối tượng gửi!";
-                            toastType = "error";
-                            request.setAttribute("toastMessage", toastMessage);
-                            request.setAttribute("toastType", toastType);
-                            request.getRequestDispatcher("sendEvent.jsp").forward(request, response);
-                        }
-                    }
+                     for (String s : listReceiver) {
+                         try {
+                             int receiveId = Integer.parseInt(s);
+                             if (!eventDAO.sendEvent(newId, receiveId)) {
+                                 toastMessage = "Tạo thất bại!";
+                                 toastType = "error";
+                                 request.setAttribute("toastMessage", toastMessage);
+                                 request.setAttribute("toastType", toastType);
+                                 request.getRequestDispatcher("sendEvent.jsp").forward(request, response);
+                             }
+                         } catch (NullPointerException e) {
+                             toastMessage = "Tạo thất bại! Vui lòng chọn đối tượng gửi!";
+                             toastType = "error";
+                             request.setAttribute("toastMessage", toastMessage);
+                             request.setAttribute("toastType", toastType);
+                             request.getRequestDispatcher("sendEvent.jsp").forward(request, response);
+                         }
+                     }
                      toastMessage ="Gửi thành công!";
                      toastType = "success";
-                     request.setAttribute("toastMessage", toastMessage);
-                     request.setAttribute("toastType", toastType);
+                     session.setAttribute("toastMessage", toastMessage);
+                     session.setAttribute("toastType", toastType);
                      response.sendRedirect("listevent");
                  }
                  else{
@@ -77,7 +77,7 @@ public class SendEventServlet extends HttpServlet {
                  }
             }
             else {
-                toastMessage = "Tạo thất bại! Số kí tự không hợp lệ !";
+                toastMessage = "Tạo thất bại ! Tiêu đề không được quá 50 kí tự, chi tiết không quá 2000 kí tự !";
                 toastType = "error";
                 request.setAttribute("toastMessage", toastMessage);
                 request.setAttribute("toastType", toastType);

@@ -40,30 +40,30 @@ public class SubjectServlet extends HttpServlet {
             String grade = request.getParameter("grade");
             String description = request.getParameter("description");
             Subject subject = new Subject(null,Helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ xử lý");
-            if(Helper.formatString(description).length()>1000){
-                 toastMessage = "Tạo thất bại! Đã quá 1000 kí tự";
+            if(Helper.formatString(description).length()>1000 ||Helper.formatString(description).length() <= 0 ){
+                 toastMessage = "Tạo thất bại! Chi tiết trống hoặc đã quá 1000 kí tự";
                  toastType = "error";
                 request.setAttribute("listAllSubject",subjectDAO.getAll());
                 request.setAttribute("listGrade",gradeDAO.getAll());
                  session.setAttribute("toastMessage",toastMessage);
                 session.setAttribute("toastType",toastType);
                 request.getRequestDispatcher("subject.jsp").forward(request,response);
-            }else if(subjectDAO.checkSubjectExist(name,grade)){
-                toastMessage = "Tạo thất bại! Đã tồn tại môn học này";
+            }else if(Helper.formatString(name).length() >=125 || Helper.formatString(name).length()<=0){
+                toastMessage = "Tạo thất bại!Tên môn học trống hoặc quá 125 kí tự";
                 toastType = "error";
                 request.setAttribute("listAllSubject", subjectDAO.getAll());
                 request.setAttribute("listGrade", gradeDAO.getAll());
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType", toastType);
                 request.getRequestDispatcher("subject.jsp").forward(request, response);
-            } else if (subjectDAO.createSubject(subject)) {
+            } else if (subjectDAO.createSubject(subject).equals("success")) {
                 toastMessage = "Tạo thành công";
                 toastType = "success";
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType", toastType);
                 response.sendRedirect("subject");
             } else {
-                toastMessage = "Tạo thật bại";
+                toastMessage = subjectDAO.createSubject(subject);
                 toastType = "error";
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType", toastType);

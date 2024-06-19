@@ -294,7 +294,7 @@
                                                         </td>
                                                         <td>${pupil.lastName} ${pupil.firstName}</td>
                                                         <td><fmt:formatDate value="${pupil.birthday}"
-                                                                            pattern="yyyy/MM/dd"/></td>
+                                                                            pattern="dd/MM/yyyy"/></td>
                                                         <td class="align-middle text-center">
                                                             <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
                                                                 <input style="cursor: pointer;" class="form-check-input"
