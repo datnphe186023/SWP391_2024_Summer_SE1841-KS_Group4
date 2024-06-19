@@ -100,7 +100,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
     }
 
     private String validateSchoolYear(SchoolYear schoolYear) {
-        if (schoolYear.getEndDate().before(schoolYear.getStartDate())) {
+        if (!schoolYear.getEndDate().after(schoolYear.getStartDate())) {
             return "Ngày kết thúc không thể trước ngày bắt đầu";
         }
         Date lastEndDate = getLatest().getEndDate();
