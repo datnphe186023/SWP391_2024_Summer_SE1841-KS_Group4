@@ -32,17 +32,17 @@
         }
     </style>
     <script>
-        function confirmAccept(formId) {
-            if (confirm('Bạn chắc chắn muốn phê duyệt môn học này chứ ?')) {
-                document.getElementById(formId).submit();
-            }
+        function confirmAccept(formId, msg) {
+            formIdToSubmit = formId;
+            document.getElementById('confirmationMessage').innerText = msg;
+            $('#confirmationModal').modal('show');
         }
+        $(document).ready(function() {
+            $('#confirmButton').click(function() {
+                document.getElementById(formIdToSubmit).submit();
 
-        function confirmDecline(formId) {
-            if (confirm('Bạn không muốn phê duyệt môn học này ?')) {
-                document.getElementById(formId).submit();
-            }
-        }
+            });
+        });
     </script>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -54,10 +54,10 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
-                <h1 class="h3 mb-4 text-gray-800 text-center">Danh sách lớp đang chờ duyệt</h1>
+                <h1 class="h3 mb-4 text-gray-800 text-center">Danh sách môn học đang chờ duyệt</h1>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Danh sách lớp đang chờ duyệt</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Danh sách môn học đang chờ duyệt</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -83,13 +83,15 @@
                                                 <form method="post" action="reviewsubject" id="accept-form-${subject.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${subject.id}">
-                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${subject.id}')">Chấp nhận</button>
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width"
+                                                            onclick="confirmAccept('accept-form-${subject.id}','Bạn có chắc chắn phê duyệt môn học này không ?')">Chấp nhận</button>
                                                 </form>
 
                                                 <form method="post" action="reviewsubject" id="decline-form-${subject.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${subject.id}">
-                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmDecline('decline-form-${subject.id}')">Từ chối</button>
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width"
+                                                            onclick="confirmAccept('decline-form-${subject.id}','Bạn có chắc chắn từ chối môn học này không?')">Từ chối</button>
                                                 </form>
                                         </td>
                                     </tr>
@@ -99,6 +101,27 @@
                         </div>
                     </div>
                 </div>
+                <%-- Begin confirmation modal--%>
+                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmationModalLabel">Xác nhận thao tác</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="confirmationMessage">
+                                <!-- Dynamic message will be inserted here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary" id="confirmButton">Xác Nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%-- End confirmation modal--%>
             </div>
         </div>
         <jsp:include page="../footer.jsp"/>

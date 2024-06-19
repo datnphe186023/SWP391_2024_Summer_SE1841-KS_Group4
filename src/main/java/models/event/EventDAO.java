@@ -110,7 +110,7 @@ public class EventDAO extends DBContext implements IEventDAO {
     public List<Event> getEventByRole(int roleId) {
         List<Event> list = new ArrayList<>();
         String sql="select * from Events e join eventDetails ed on e.id = ed.event_id \n" +
-                     "where participant = ?";
+                     "where participant = ? order by e.id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,roleId);
