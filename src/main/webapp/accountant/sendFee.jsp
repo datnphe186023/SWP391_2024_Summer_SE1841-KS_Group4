@@ -11,6 +11,25 @@
             function submitForm() {
                 document.getElementById("myForm").submit();
             }
+            function calculateTotal() {
+                // Lấy giá trị học phí kỳ tiếp theo
+                const nextTermFee = parseFloat(document.getElementById('nextTermFee').value) || 0;
+
+                // Tính tổng các loại phí khác
+                const extraFees = document.getElementsByClassName('extraFee');
+                let extraTotal = 0;
+                for (let i = 0; i < extraFees.length; i++) {
+                    if (extraFees[i].checked) {
+                        extraTotal += parseFloat(extraFees[i].value);
+                    }
+                }
+
+                // Tính tổng học phí
+                const totalFee = nextTermFee + extraTotal;
+
+                // Cập nhật giá trị tổng học phí
+                document.getElementById('totalFee').value = totalFee;
+            }
         </script>
         <!-- Custom styles for this page -->
         <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -30,25 +49,26 @@
 
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <form id="myForm" action="sendFee" method="post">
+                                    <form id="myForm" action="sendfee" method="post">
+                                        <input type="hidden" name="userid" value="${sessionScope.personnel.id}">
+                                        <input type="hidden" id="submitDate" name="submitDate">
                                         <div style="display: flex;">
                                             <div style="flex: 1; padding: 20px;">
                                                 <h2 style="background-color: #3b97e0; padding: 10px; color: white;">HỌC PHÍ KỲ TIẾP THEO</h2>
-                                                <input> VNĐ</br>
+                                                <input name="hocphi" type="number" placeholder="0" id="nextTermFee" oninput="calculateTotal()" required=""> VNĐ</br>
                                                 <label style="margin-top: 10px" for="insuranceFee">CÁC LOẠI PHÍ KHÁC :</label></br>
-                                                <input type="checkbox" value="">PHÍ BẢO HIỂM</br>
-                                                <input type="checkbox" value="">PHÍ CƠ SỞ VẬT CHẤT</br>
-                                                <input type="checkbox" value="">PHÍ ĐỒNG PHỤC</br>
-                                               
+                                                <input name="baohiem" type="checkbox" class="extraFee" value="500000" onclick="calculateTotal()">PHÍ BẢO HIỂM</br>
+                                                <input name="csvatchat" type="checkbox" class="extraFee" value="100000" onclick="calculateTotal()">PHÍ CƠ SỞ VẬT CHẤT</br>
+                                                <input name="dongphuc" type="checkbox" class="extraFee" value="400000" onclick="calculateTotal()">PHÍ ĐỒNG PHỤC</br
                                                 <!-- Add more fields as necessary -->
                                             </div>
                                             <div style="flex: 1; padding: 20px;">
                                                 <h2 style="background-color: #3b97e0; padding: 10px; color: white;">TỔNG</h2>
                                                 <div style="background-color: #d9f1ff; padding: 20px;">
-                                                    <input> VNĐ
+                                                    <input type="number" id="totalFee" value="0" readonly> VNĐ
                                                 </div>
                                                 <div style="margin-top: 10px">
-                                                    <button class="btn btn-success" type="button" onclick="submitForm()">XÁC NHẬN</button>
+                                                    <button class="btn btn-success" type="submit" onclick="submitForm()">XÁC NHẬN</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -61,7 +81,28 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
+        <script>
+            function submitForm() {
+                var now = new Date();
 
+                // Chuyển múi giờ sang múi giờ Việt Nam (GMT+7)
+                now.setHours(now.getHours());
+
+                // Lấy ngày tháng năm
+                var day = now.getDate();
+                var month = now.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
+                var year = now.getFullYear();
+
+                // Định dạng thành chuỗi YYYY-MM-DD
+                var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+
+                // Gán giá trị cho input có id là submitDate
+                document.getElementById('submitDate').value = formattedDate;
+
+                // Submit form
+                document.getElementById("myForm").submit();
+            }
+        </script>
 
         <script src="js/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
@@ -76,9 +117,9 @@
         <!--===============================================================================================-->
         <!--===============================================================================================-->
         <script>
-                                                        document.getElementById('role').addEventListener('change', function () {
-                                                            this.querySelector('option[hidden]').disabled = true;
-                                                        });
+            document.getElementById('role').addEventListener('change', function () {
+                this.querySelector('option[hidden]').disabled = true;
+            });
         </script>
         <script>
 
@@ -95,7 +136,6 @@
             });
         </script>
         <script>
-
             function readURL(input, thumbimage) {
                 if (input.files && input.files[0]) { //Sử dụng  cho Firefox - chrome
                     var reader = new FileReader();
