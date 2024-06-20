@@ -40,7 +40,7 @@
         </script>
         <style>
             #selectWeek {
-                width: 80%;
+                width: 95%;
             }
 
             #selectYear {
@@ -127,20 +127,14 @@
                                                 <fmt:formatDate value="${listWeek.endDate}" pattern="dd/MM/yyyy" />
                                             </option>
                                         </c:forEach>
-
                                     </select>
-                                    <c:if test="${not empty requestScope.dateWeek}">
-                                        <div style="margin-top: 20px;">
-                                            <p>Áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" /></p>
-                                            <p>Đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
-                                        </div>
-                                    </c:if>
+
 
                                 </div>
 
-                                <div class="form-group col-md-2" >
+                                <div class="form-group col-md-2">
                                     <label for="selectGrade">Chọn khối:</label>
-                                    <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 70%">
+                                    <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 87%">
                                         <option>Chọn khối</option>
                                         <c:forEach var="listGrade" items="${requestScope.listGrade}">
                                             <option value="${listGrade.id}" <c:if test="${param.gradeId == listGrade.id}">selected</c:if>>${listGrade.name}</option>
@@ -150,24 +144,29 @@
                             </div>
                         </form>
 
-                        <form action="timetable?action=create-timetable" method="POST">
+                        <form id="createTimetableForm" action="timetable?action=create-timetable" method="POST" onsubmit="return validateTimetableForm()">
                             <div class="form-row">
                                 <div class="form-group col-md-2">
+                                    <label>Năm học :</label>
+                                    <input class="form-control" name="year" value="${requestScope.newYear.name}" disabled style="width: 80%">
+                                </div>
+                                <div class="form-group col-md-2">
                                     <label for="selectClass">Chọn lớp:</label>
-                                    <select class="form-control" id="selectClass" name="classId" style="width: 70%;">
+                                    <select class="form-control" id="selectClass" name="classId" style="width: 80%;">
                                         <option>Chọn lớp</option>
                                         <c:forEach var="classList" items="${requestScope.classList}">
                                             <option value="${classList.id}">${classList.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label>Năm học :</label>
-                                    <input class="form-control" name="year" value="${requestScope.newYear.name}" disabled style="width: 70%">
-                                </div>
-
 
                             </div>
+                            <c:if test="${not empty requestScope.dateWeek}">
+                                <div style="margin-top: 20px;">
+                                    <p>*Thời khóa biểu áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" />
+                                    đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
+                                </div>
+                            </c:if>
 
                             <table class="timetable-table table table-bordered text-center">
                                 <thead>
@@ -201,7 +200,7 @@
                                     <c:if test="${empty requestScope.dayList}">
                                         <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                             <tr>
-                                                <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                                <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                                 <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri']}">
                                                     <td>
                                                         <select class="form-control" name="${day}">
@@ -214,7 +213,6 @@
                                     </c:if>
                                 </tbody>
                             </table>
-                                
 
                             <div class="btn-container">
                                 <div class="d-flex justify-content-end">
@@ -226,39 +224,32 @@
                                 </div>
                             </div>
                         </form>
-
-                        
                     </div>
                     <!-- /.container-fluid -->
                 </div>
                 <!-- End of Main Content -->
-
                 <jsp:include page="../footer.jsp"/>
             </div>
             <!-- End of Content Wrapper -->
-
         </div>
         <!-- End of Page Wrapper -->
+
         <script>
             function submitForms() {
                 document.getElementById("combinedForm").submit();
             }
-        </script>
-        <script>
-            const input = document.querySelector('input[name="description"]');
-            const charCount = document.getElementById('charCount');
-            const warning = document.getElementById('warning');
 
-            input.addEventListener('input', () => {
-                const remaining = 8 - input.value.length;
-                charCount.textContent = `${remaining} characters remaining`;
-
-                if (remaining <= 0) {
-                    warning.style.display = 'block';
-                } else {
-                    warning.style.display = 'none';
+            function validateTimetableForm() {
+                const selects = document.querySelectorAll('#createTimetableForm select[name^="timeslotId_"]');
+                for (const select of selects) {
+                    if (select.value === "") {
+                        toastr.error('Vui lòng chọn tất cả các môn học trước khi lưu.');
+                        return false;
+                    }
                 }
-            });
+                return true;
+            }
         </script>
     </body>
+
 </html>
