@@ -37,6 +37,11 @@
             document.getElementById(formId).submit();
         }
     </script>
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+    </script>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -48,6 +53,22 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh sách lớp đang chờ duyệt</h1>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form action="reviewclass" id="myForm">
+                            <div class="year-form">
+                                <label>Chọn năm học</label>
+                                <select class="custom-select" style="width: 40%" aria-label="Default select example" onchange="submitForm()"
+                                        name="schoolYearId">
+                                    <c:forEach items="${requestScope.schoolYears}" var="year">
+                                        <option ${requestScope.selectedSchoolYearId eq year.id ? "selected" : ""}
+                                                value="${year.id}">${year.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Danh sách lớp đang chờ duyệt</h6>
@@ -75,14 +96,14 @@
                                         <td>${classes.createdBy.lastName} ${classes.createdBy.firstName}</td>
                                         <td>
                                             <div class="d-flex flex-column align-items-center">
-                                                <form method="post" action="class" id="accept-form" class="d-inline mb-2">
+                                                <form method="post" action="reviewclass" id="accept-form" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${classes.id}">
                                                     <input type="hidden" name="schoolYearId" value="${requestScope.schoolYearId}">
                                                     <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmAcceptModal">Chấp nhận</button>
                                                 </form>
 
-                                                <form method="post" action="class" id="decline-form" class="d-inline mb-2">
+                                                <form method="post" action="reviewclass" id="decline-form" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${classes.id}">
                                                     <input type="hidden" name="schoolYearId" value="${requestScope.schoolYearId}">
