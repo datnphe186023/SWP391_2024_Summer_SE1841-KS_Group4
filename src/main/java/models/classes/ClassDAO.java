@@ -95,8 +95,8 @@ public class ClassDAO extends DBContext implements IClassDAO{
     public String createNewClass(Class c) {
         String sql = "insert into [Class] values (?,?,?,?,?,?,?)";
         try {
-            if (isSchoolYearInThePast(c.getSchoolYear())) {
-                return "Không thể tạo lớp ở năm học trong quá khứ";
+            if (!isSchoolYearValid(c.getSchoolYear())) {
+                return "Lớp phải được tạo trước khi năm học bắt đầu 7 ngày";
             }
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, generateId(getLatest().getId()));
@@ -121,10 +121,13 @@ public class ClassDAO extends DBContext implements IClassDAO{
         return "success";
     }
 
-    private boolean isSchoolYearInThePast(SchoolYear schoolYear) {
+    private boolean isSchoolYearValid(SchoolYear schoolYear) {
         LocalDate currentDate = LocalDate.now();
         LocalDate schoolYearEndDate = Helper.convertDateToLocalDate(schoolYear.getEndDate());
-        return schoolYearEndDate.isBefore(currentDate);
+        LocalDate schoolYearStartDate = Helper.convertDateToLocalDate(schoolYear.getStartDate());
+        LocalDate todayPlus7 = LocalDate.now().plusDays(7);
+        if (schoolYearEndDate.isBefore(currentDate) || !schoolYearStartDate.isAfter(todayPlus7)) return false;
+        return true;
     }
 
     private Class getLatest() {
@@ -180,7 +183,7 @@ public class ClassDAO extends DBContext implements IClassDAO{
             if (newStatus.equals("accept")) {
                 newStatus = "đã được duyệt";
             } else {
-                newStatus = "đã từ chối";
+                newStatus = "không được duyệt";
             }
             preparedStatement.setString(1, newStatus);
             preparedStatement.setString(2, id);

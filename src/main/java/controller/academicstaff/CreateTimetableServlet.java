@@ -86,16 +86,16 @@ public class CreateTimetableServlet extends HttpServlet {
         String weekId = request.getParameter("weekId");
         // get list grade
         List<Grade> listGrade = gradeDAO.getAll();
-        // get list week from now
-        List<Week> listWeek = weekDAO.getWeeksFromNow();
+        
         // get start date and end date
         Week dateWeek = weekDAO.getWeek(weekId);
 
         // get timeslot
-        List<Timeslot> listTimeslot = timeslotDAO.getAllTimeslots();
+        List<Timeslot> listTimeslot = timeslotDAO.getTimeslotsForTimetable();
         // get school year latest
-        String newYear = weekDAO.getYearByWeek(weekId);
-        SchoolYear schoolYear = yearDAO.getSchoolYear(newYear);
+        SchoolYear schoolYear = yearDAO.getLatest();
+        // get list week from now
+        List<Week> listWeek = weekDAO.getWeeksFromNowUntilEndOfSchoolYear(schoolYear.getId());
         // get list subject by grade id
         List<Subject> subList = subjectDAO.getSubjectsByGradeId(selectedGradeId);
         // get list class by grade id

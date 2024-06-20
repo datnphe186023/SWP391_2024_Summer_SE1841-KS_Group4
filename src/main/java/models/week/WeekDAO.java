@@ -140,15 +140,12 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         return null;
     }
 
-    @Override
-    public List<Week> getWeeksFromNow() {
+    public List<Week> getWeeks(String schoolYearId) {
         List<Week> weeks = new ArrayList<>();
-        String sql = "SELECT TOP 1 * FROM Weeks WHERE start_date >= ? ORDER BY start_date";
+        String sql = "SELECT * FROM weeks WHERE school_year_id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            LocalDate currentDate = LocalDate.now();
-            Date currentDateSql = Helper.convertLocalNowDateToDate(currentDate);
-            statement.setDate(1, new java.sql.Date(currentDateSql.getTime()));
+            statement.setString(1, schoolYearId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Week week = createWeek(rs);
@@ -160,20 +157,30 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         return weeks;
     }
 
-
-
-    public List<Week> getWeeks(String schoolYearId ) {
+    @Override
+    public List<Week> getWeeksFromNowUntilEndOfSchoolYear(String schoolYearId) {
         List<Week> weeks = new ArrayList<>();
-        String sql = "SELECT * FROM weeks WHERE school_year_id = ?";
-        try{
+        String sql = "SELECT * FROM Weeks WHERE start_date > ? AND school_year_id = ? ORDER BY start_date";
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, schoolYearId ) ;
+
+            // Get the current date
+            LocalDate currentDate = LocalDate.now();
+            Date currentDateSql = Helper.convertLocalNowDateToDate(currentDate);
+
+            // Set the start date parameter to the current date
+            statement.setDate(1, new java.sql.Date(currentDateSql.getTime()));
+
+            // Set the school year ID parameter
+            statement.setString(2, schoolYearId);
+
+            // Execute the query and process the result set
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Week week = createWeek(rs);
                 weeks.add(week);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return weeks;

@@ -3,7 +3,7 @@ package models.event;
 import java.util.List;
 
 public interface IEventDAO {
-    boolean createEvent(Event event);
+    String createEvent(Event event);
     boolean sendEvent(String eventId, int roleId);
     List<Event> getAllEvent();
     List<Event> getEventByRole(int roleId);

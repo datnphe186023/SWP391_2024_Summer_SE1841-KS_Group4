@@ -8,6 +8,9 @@
 <%@ page import="models.schoolYear.ISchoolYearDAO" %>
 <%@ page import="models.subject.ISubjectDAO" %>
 <%@ page import="models.pupil.IPupilDAO" %>
+<%@ page import="models.schoolYear.SchoolYear" %>
+<%@ page import="java.util.List" %>
+<%@ page import="models.classes.Class" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -61,8 +64,16 @@
                         <a class="collapse-item" href="class">Danh Sách Lớp</a>
                         <% IClassDAO classDAO = new ClassDAO(); %>
                         <% ISchoolYearDAO schoolYearDAO = new SchoolYearDAO(); %>
-                        <a class="collapse-item" href="reviewclass?schoolYearId=<%=schoolYearDAO.getLatest().getId()%>">
-                            Lớp Chờ Phê Duyệt (<%=classDAO.getByStatus("đang chờ xử lý", schoolYearDAO.getLatest().getId()).size()%>)
+                        <a class="collapse-item" href="reviewclass">
+                            <%
+                                List<SchoolYear> futureSchoolYears = schoolYearDAO.getFutureSchoolYears();
+                                int totalClasses = 0;
+                                for (SchoolYear schoolYear : futureSchoolYears) {
+                                    String schoolYearId = schoolYear.getId();
+                                    totalClasses += classDAO.getByStatus("đang chờ xử lý", schoolYearId).size();
+                                }
+                            %>
+                            Lớp Chờ Phê Duyệt (<%= totalClasses %>)
                         </a>
                     </div>
                 </div>
@@ -93,7 +104,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listsubject">Danh Sách Môn Học</a>
                         <%ISubjectDAO subjectDAO = new SubjectDAO();%>
-                        <a class="collapse-item" href="reviewsubject">Đang Chờ Phê Duyệt(<%=subjectDAO.getSubjectsByStatus("đang chờ phê duyệt").size()%>)</a>
+                        <a class="collapse-item" href="reviewsubject">Đang Chờ Phê Duyệt(<%=subjectDAO.getSubjectsByStatus("đang chờ xử lý").size()%>)</a>
                     </div>
                 </div>
             </li>
