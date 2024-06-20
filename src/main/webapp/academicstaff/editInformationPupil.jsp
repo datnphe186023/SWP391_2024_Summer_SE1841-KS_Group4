@@ -104,6 +104,19 @@
             }
         </script>
         <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
+        <script>
             function validateForm() {
                 // Lấy các trường input và textarea cần validate
                 var firstGuardianName = document.getElementsByName("first_guardian_name")[0].value.trim();
@@ -111,20 +124,49 @@
                 var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
                 var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
                 var address = document.getElementsByName("address")[0].value.trim();
+
                 // Kiểm tra nếu các trường bắt buộc không được điền
-                if (firstGuardianName === "" || firstGuardianPhone === "" || address === "") {
-                    alert("Vui lòng điền đầy đủ các trường bắt buộc có (*)");
+                if (address === "") {
+                    toastr.error("Địa chỉ không được bỏ trống");
                     return false; // Ngăn form submit
                 }
-                // Kiểm tra nếu người giám hộ thứ hai có tên thì số điện thoại thứ hai cũng phải có
-                if (secondGuardianName === "" && secondGuardianPhone !== "") {
-                    alert("Vui lòng nhập họ tên người giám hộ thứ hai");
-                    return false; // Ngăn form submit
-                } else if (secondGuardianName !== "" && secondGuardianPhone === "") {
-                    alert("Vui lòng nhập số điện thoại người giám hộ thứ hai");
+
+                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ nhất
+                if (firstGuardianName !== '') {
+                    if (!isValidName(firstGuardianName)) {
+                        toastr.error("Họ tên người giám hộ thứ nhất chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                        return false; // Ngăn form submit
+                    }
+                } else {
+                    toastr.error("Họ tên người giám hộ thứ nhất không được để trống");
                     return false;
                 }
+
+                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ hai nếu có
+                if (secondGuardianName !== "") {
+                    if (!isValidName(secondGuardianName)) {
+                        toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                        return false; // Ngăn form submit
+                    }
+                    // Kiểm tra nếu có tên người giám hộ thứ hai thì phải nhập số điện thoại
+                    if (secondGuardianPhone === "") {
+                        toastr.error("Vui lòng nhập số điện thoại người giám hộ thứ hai");
+                        return false; // Ngăn form submit
+                    }
+                } else if (secondGuardianPhone !== "") {
+                    if (secondGuardianName === "") {
+                        if (!isValidName(secondGuardianName)) {
+                            toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                            return false; // Ngăn form submit
+                        }
+                    }
+                }
+
                 return true;
+            }
+
+            function isValidName(name) {
+                return /^[A-Za-z\s'.\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
             }
         </script>
     </head>
@@ -172,35 +214,43 @@
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" required=""/><br />
+                                                                <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> 
+                                                                <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
-                                                                <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số" required=""/><br />
+                                                                <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> 
+                                                                <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}"/><br />
+                                                                <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> 
+                                                                <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số"/><br />
+                                                                <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> 
+                                                                <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">    
-                                                                <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
+                                                                <h5>Họ tên bé :</h5> 
+                                                                <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-12">
-                                                                <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
+                                                                <h5>Ngày sinh của bé : </h5> 
+                                                                <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">
-                                                                <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" required=""></textarea><br />
+                                                                <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
+                                                                <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" required=""></textarea><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
-                                                                <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}"></textarea><br/>
+                                                                <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
+                                                                <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}"></textarea><br/>
                                                             </div></td>
                                                     </tr>
                                                     <tr>

@@ -164,7 +164,7 @@
                             <c:if test="${not empty requestScope.dateWeek}">
                                 <div style="margin-top: 20px;">
                                     <p>*Thời khóa biểu áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" />
-                                    đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
+                                        đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
                                 </div>
                             </c:if>
 
@@ -220,7 +220,7 @@
                                 </div>
                                 <div class="btn-group-right">
                                     <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
-                                    <button type="reset" class="btn btn-danger" style="width: 100px">Hủy</button>
+                                    <button type="button" onclick="goBack()" class="btn btn-danger" style="width: 100px">Hủy</button>
                                 </div>
                             </div>
                         </form>
@@ -238,7 +238,9 @@
             function submitForms() {
                 document.getElementById("combinedForm").submit();
             }
-
+            function goBack() {
+                window.history.back();
+            }
             function validateTimetableForm() {
                 const selects = document.querySelectorAll('#createTimetableForm select[name^="timeslotId_"]');
                 for (const select of selects) {
