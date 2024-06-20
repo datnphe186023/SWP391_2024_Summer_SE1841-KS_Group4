@@ -11,5 +11,6 @@ public interface ITimetableDAO {
     List<TimetableDTO> getUniqueClassTimetablesWithWeeks();
     List<TimetableDTO> getListTimetableByStatus(String status);
     String generateTimetableId();
-    List<Timetable> getTimetableByClassAndWeek(String classId, String weekId);
+    List<Timetable> getTimetableByClassAndWeek(String classId, String weekId,String status);
+    boolean updateTimetableStatus(String classId, String weekId, String status, String note,String oldStatus);
 }

@@ -175,7 +175,7 @@ public class CreateTimetableServlet extends HttpServlet {
                         session.setAttribute("toastMessage", "Thời khóa biểu của lớp này đã được tạo!");
                         response.sendRedirect("timetable");
                         return; // Dừng lại nếu thời khóa biểu đã tồn tại
-                    }
+                    } 
                 }
 
                 // Tiến hành tạo thời khóa biểu nếu không có mục nào tồn tại

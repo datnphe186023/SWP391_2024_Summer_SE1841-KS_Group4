@@ -47,6 +47,7 @@ public class ViewTimetableServlet extends HttpServlet {
             throws ServletException, IOException {
         String classId = request.getParameter("classId");
         String weekId = request.getParameter("weekId");
+        String status = request.getParameter("status");
         ITimetableDAO timetableDAO = new TimetableDAO();
         IDayDAO dayDAO = new DayDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
@@ -54,8 +55,8 @@ public class ViewTimetableServlet extends HttpServlet {
         IWeekDAO weekDAO = new WeekDAO();
         
         Week week = weekDAO.getWeek(weekId);
-        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId);
-        List<Timeslot> timeslotList = timeslotDAO.getAllTimeslots();
+        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId,status);
+        List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
         List<Day> dayList = dayDAO.getDayByWeek(weekId);
         models.classes.Class aClass = classDAO.getClassById(classId);
         

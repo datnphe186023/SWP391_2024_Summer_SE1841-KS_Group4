@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
@@ -26,7 +27,6 @@ import models.timetable.TimetableDAO;
 import models.week.IWeekDAO;
 import models.week.Week;
 import models.week.WeekDAO;
-
 
 /**
  *
@@ -46,20 +46,37 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String toastType = "", toastMessage = "";
+        if (session.getAttribute("toastType") != null) {
+            toastType = session.getAttribute("toastType").toString();
+            toastMessage = session.getAttribute("toastMessage").toString();
+        }
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        request.setAttribute("toastType", toastType);
+        request.setAttribute("toastMessage", toastMessage);
+
         String classId = request.getParameter("classId");
         String weekId = request.getParameter("weekId");
+        String status = request.getParameter("status");
+
+        session.setAttribute("classId", classId);
+        session.setAttribute("weekId", weekId);
+        session.setAttribute("status", status);
+
         ITimetableDAO timetableDAO = new TimetableDAO();
         IDayDAO dayDAO = new DayDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         IClassDAO classDAO = new ClassDAO();
         IWeekDAO weekDAO = new WeekDAO();
-        
+
         Week week = weekDAO.getWeek(weekId);
-        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId);
-        List<Timeslot> timeslotList = timeslotDAO.getAllTimeslots();
+        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId, status);
+        List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
         List<Day> dayList = dayDAO.getDayByWeek(weekId);
         Class aClass = classDAO.getClassById(classId);
-        
+
         request.setAttribute("week", week);
         request.setAttribute("aClass", aClass);
         request.setAttribute("timetable", timetable);
@@ -80,6 +97,53 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        try {
+            ITimetableDAO timetableDAO = new TimetableDAO();
+            String action = request.getParameter("action");
+            String note = request.getParameter("note");
+            HttpSession session = request.getSession();
+            String classId = (String) session.getAttribute("classId");
+            String weekId = (String) session.getAttribute("weekId");
+            String oldStatus = (String) session.getAttribute("status");
+            boolean success;
+
+            if (action == null) {
+                response.sendRedirect("timetable");
+            } else if (action.equals("approve")) {
+                String newStatus = "đã được xét duyệt";
+                success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
+                if (success) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Thời khóa biểu đã được phê duyệt.");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", "Duyệt thất bại");
+                }
+
+            } else if (action.equals("reject")) {
+                String newStatus = "đã từ chối";
+                success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
+                if (success) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Đã từ chối thời khóa biểu.");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", "Duyệt thất bại");
+                }
+
+            }
+            response.sendRedirect("timetable");
+
+            // Xóa các thuộc tính phiên sau khi sử dụng
+            session.removeAttribute("classId");
+            session.removeAttribute("weekId");
+            session.removeAttribute("status");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Error processing timetable approval/rejection", e);
+        }
     }
 
     /**
