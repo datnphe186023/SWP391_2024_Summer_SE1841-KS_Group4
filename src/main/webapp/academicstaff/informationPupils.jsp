@@ -179,7 +179,6 @@
                                                     <td><div class="form-group col-md-6">
                                                             <h5>Ghi chú :</h5> <textarea type="text" name="note" style="width: 200%" readonly>${pupil.parentSpecialNote}</textarea><br/>
                                                         </div></td>
-
                                                 </tr>
                                                 </tbody>
                                             </table>

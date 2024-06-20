@@ -78,6 +78,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="viewmealtimetable">Xem Thực Đơn </a>
                     <a class="collapse-item" href="createmealtimetable">Tạo Thực Đơn</a>
+                    <a class="collapse-item" href="foodmenus">Danh Sách Món Ăn</a>
+
                 </div>
             </div>
         </li>

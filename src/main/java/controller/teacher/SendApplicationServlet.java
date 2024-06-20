@@ -8,6 +8,7 @@ import models.application.ApplicationDAO;
 import models.application.ApplicationType;
 import models.application.IApplicationDAO;
 import models.user.User;
+import utils.Helper;
 
 import java.io.IOException;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class SendApplicationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
-        String details = request.getParameter("details");
+        String details = Helper.formatString(request.getParameter("details"));
         IApplicationDAO applicationDAO = new ApplicationDAO();
         Application application = new Application();
         application.setType(applicationDAO.getById(type));

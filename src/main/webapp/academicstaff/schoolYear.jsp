@@ -92,7 +92,8 @@
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label class="control-label">Mô Tả</label>
-                                            <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự" name="description" rows="5" required maxlength="255"></textarea>
+                                            <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự"
+                                                      name="description" rows="5" required maxlength="255"></textarea>
                                             <p style="display: none" id="charCount">255 characters remaining</p>
                                             <p style="display: none" class="alert-warning" id="warning">Không được vượt quá 255 kí tự.</p>
                                         </div>

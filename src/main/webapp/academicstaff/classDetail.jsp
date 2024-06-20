@@ -47,24 +47,26 @@
         });
     </script>
     <script>
+        //// Begin confirm message javascript for add pupil to class, move out class for pupil function
         function confirmAccept(formId, msg) {
-            formIdToSubmit = formId;
-            document.getElementById('confirmationMessage').innerText = msg;
-            $('#confirmationModal').modal('show');
+            formIdToAccept = formId;
+            document.getElementById('confirmMessageTitle').innerText = msg;
+            $('#confirmMessage').modal('show');
         }
         $(document).ready(function() {
-            $('#confirmButton').click(function() {
-                document.getElementById(formIdToSubmit).submit();
+            $('#confirmMessageButton').click(function() {
+                document.getElementById(formIdToAccept).submit();
 
             });
         });
-
+        //// End confirm message javascript for add pupil to class, move out class for pupil function
         function alertMessage() {
-            alert("Thao tác không khả dụng với năm học trong quá khứ!!");
+            document.getElementById('alertMessage').innerText = 'Thao tác không khả dụng với năm học trong quá khứ !!';
+            $('#alertModal').modal('show');
         }
         function notReadyMessage(){
-            alert("Lớp chưa được duyệt!!!");
-        }
+            document.getElementById('alertMessage').innerText = 'Lớp chưa được duyệt !!';
+            $('#alertModal').modal('show');        }
 
         function confirmAssign(formId, msg) {
             formIdToSubmit = formId;
@@ -150,10 +152,23 @@
                         </c:choose>
                     </div>
                     <div class="mb-4 mr-3">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#moveOutPupil">
-                            Đổi Lớp Cho Học Sinh
-                        </button>
+                        <c:choose>
+                            <c:when test="${classes.status eq 'đã được duyệt'}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="${checkedDateInThePast ? '' : '#moveOutPupil'}"
+                                        onclick="${checkedDateInThePast ? 'alertMessage()' : ''}">
+                                    Đổi lớp cho học sinh
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Code for the else condition goes here -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target=""
+                                        onclick="notReadyMessage()">
+                                    Đổi lớp cho học sinh
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="mb-4 mr-3">
                         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Thời khóa
@@ -281,7 +296,7 @@
                                                         </td>
                                                         <td>${pupil.lastName} ${pupil.firstName}</td>
                                                         <td><fmt:formatDate value="${pupil.birthday}"
-                                                                            pattern="yyyy/MM/dd"/></td>
+                                                                            pattern="dd/MM/yyyy"/></td>
                                                         <td class="align-middle text-center">
                                                             <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
                                                                 <input style="cursor: pointer;" class="form-check-input"
@@ -415,6 +430,49 @@
                 </div>
             </div>
         <%-- End confirmation modal--%>
+
+            <%-- Begin confirmMessage modal--%>
+            <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" >Xác nhận thao tác</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmMessageTitle">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%-- End confirmMessage modal--%>
+
+            <%-- Begin alert modal--%>
+            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="alertModals">Thông báo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="alertMessage">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%-- End alert modal--%>
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>

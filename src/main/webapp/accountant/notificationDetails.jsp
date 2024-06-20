@@ -79,7 +79,7 @@
                                                     THÔNG BÁO: ${notifi.getHeading()}
                                                 </div>
                                                 <div>
-                                                    <div>Date: ${notifi.getCreatedAt()}</div>
+                                                    <div>NGÀY TẠO: ${notifi.getCreatedAt()}</div>
                                                 </div>
                                             </div>
                                             <div class="notification">NỘI DUNG :</br> ${notifi.getDetails()}</div>

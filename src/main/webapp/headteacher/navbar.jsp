@@ -93,7 +93,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listsubject">Danh Sách Môn Học</a>
                         <%ISubjectDAO subjectDAO = new SubjectDAO();%>
-                        <a class="collapse-item" href="reviewsubject">Đang Chờ Phê Duyệt(<%=subjectDAO.getSubjectsByStatus("đang chờ phê duyệt").size()%>)</a>
+                        <a class="collapse-item" href="reviewsubject">Đang Chờ Phê Duyệt(<%=subjectDAO.getSubjectsByStatus("đang chờ xử lý").size()%>)</a>
                     </div>
                 </div>
             </li>

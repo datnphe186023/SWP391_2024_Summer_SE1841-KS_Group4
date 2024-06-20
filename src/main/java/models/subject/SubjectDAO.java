@@ -68,8 +68,11 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
     }
 
     @Override
-    public boolean createSubject(Subject subject){
+    public String createSubject(Subject subject){
       String sql="INSERT INTO [dbo].[Subjects] VALUES (?,?,?,?,?)";
+      if(checkSubjectExist(subject.getName(),subject.getGrade().getId())){
+          return "Tạo thất bại!! Môn học đã tồn tại!";
+      }
       try {
           PreparedStatement preparedStatement = connection.prepareStatement(sql);
           preparedStatement.setString(1,generateId(getLastest().getId()));
@@ -77,12 +80,11 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
           preparedStatement.setString(3,subject.getGrade().getId());
           preparedStatement.setString(4,subject.getDescription());
           preparedStatement.setString(5,subject.getStatus());
-          preparedStatement.executeUpdate();
-          return true;
+          preparedStatement.executeUpdate();;
       } catch (SQLException e) {
-          System.out.println(e);
+          return "Tạo môn học thất bại!";
       }
-      return false;
+      return "success";
   }
 
     @Override
