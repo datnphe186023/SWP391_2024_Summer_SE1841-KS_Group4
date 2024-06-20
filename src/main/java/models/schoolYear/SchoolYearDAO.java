@@ -114,6 +114,11 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         if (ChronoUnit.MONTHS.between(startLocalDate, endLocalDate) < 10) {
             return "Năm học phải kéo dài ít nhất 10 tháng";
         }
+
+        LocalDate todayPlus7 = LocalDate.now().plusDays(7);
+        if (!startLocalDate.isAfter(todayPlus7)) {
+            return "Năm học phải được tạo trước khi bắt đầu ít nhất 7 ngày";
+        }
         return "success";
     }
 
@@ -172,6 +177,23 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<SchoolYear> getFutureSchoolYears() {
+        String sql = "select * from schoolYears where start_date > CAST(GETDATE() AS DATE)";
+        List<SchoolYear> schoolYears = new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                SchoolYear schoolYear = createNewSchoolYear(resultSet);
+                schoolYears.add(schoolYear);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return schoolYears;
     }
 
 
