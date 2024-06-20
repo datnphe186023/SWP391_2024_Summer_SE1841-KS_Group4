@@ -65,7 +65,7 @@
                 </a>
                 <div id="collapsetime" class="collapse" aria-labelledby="headingtime" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="listtimetable">Danh sách thời khóa biểu</a>
+                        <a class="collapse-item" href="listtimetable?id=${sessionScope.personnel.id}">Danh sách thời khóa biểu</a>
                         <a class="collapse-item" href="timetable">Tạo thời khóa biểu</a>
                     </div>
                 </div>

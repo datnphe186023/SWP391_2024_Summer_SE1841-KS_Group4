@@ -33,8 +33,6 @@ import models.week.WeekDAO;
 @WebServlet(name = "/academicstaff/ViewTimetableServlet", urlPatterns = {"/academicstaff/view-timetable"})
 public class ViewTimetableServlet extends HttpServlet {
 
-    
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -55,13 +53,13 @@ public class ViewTimetableServlet extends HttpServlet {
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         IClassDAO classDAO = new ClassDAO();
         IWeekDAO weekDAO = new WeekDAO();
-        
+
         Week week = weekDAO.getWeek(weekId);
-        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId,status);
+        List<Timetable> timetable = timetableDAO.getTimetableByClassAndWeek(classId, weekId, status);
         List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
         List<Day> dayList = dayDAO.getDayByWeek(weekId);
         models.classes.Class aClass = classDAO.getClassById(classId);
-        
+
         request.setAttribute("week", week);
         request.setAttribute("aClass", aClass);
         request.setAttribute("timetable", timetable);

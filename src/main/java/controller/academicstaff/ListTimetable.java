@@ -26,8 +26,9 @@ public class ListTimetable extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //classid , date_id(startdate-enddate) , createby , status , teacherid
+        String id = request.getParameter("id");
         ITimetableDAO timetableDAO = new TimetableDAO();
-        List<TimetableDTO> listTimetable = timetableDAO.getUniqueClassTimetablesWithWeeks();
+        List<TimetableDTO> listTimetable = timetableDAO.getTimetableByClassAndWeekAndCreateBy(id);
         request.setAttribute("listTimetable", listTimetable);
         request.getRequestDispatcher("listTimetable.jsp").forward(request, response);
     }
