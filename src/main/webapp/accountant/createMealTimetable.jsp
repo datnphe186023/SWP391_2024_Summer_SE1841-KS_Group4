@@ -91,6 +91,12 @@
             font-size: 0.875rem;
             color: #858796;
         }
+
+             /* Hide the placeholder in the dropdown options */
+         option[hidden] {
+             display: none;
+         }
+
     </style>
 
 </head>
@@ -121,11 +127,11 @@
 
                         <div class="form-group col-md-3" style="padding-left: 0px; width: 80%;">
                             <label for="selectWeek">Chọn tuần:</label>
-                            <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()">
-                                <option>Chọn tuần</option>
-                                <c:forEach var="listWeek" items="${requestScope.listWeek}">
+                            <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()" required>
+                                <option value ="none">Chọn tuần</option>
+                                <c:forEach var="listWeek" items="${requestScope.listWeek}" >
                                     <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>
-                                        <fmt:formatDate value="${listWeek.startDate}" pattern="dd/MM/yyyy" /> đến
+                                        <fmt:formatDate value="${listWeek.startDate}" pattern="dd/MM/yyyy" /> -
                                         <fmt:formatDate value="${listWeek.endDate}" pattern="dd/MM/yyyy" />
                                     </option>
                                 </c:forEach>
@@ -142,8 +148,8 @@
 
                         <div class="form-group col-md-2" >
                             <label for="selectGrade">Chọn khối:</label>
-                            <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 70%">
-                                <option>Chọn khối</option>
+                            <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 70%" required>
+                                <option value="none">Chọn khối</option>
                                 <c:forEach var="listGrade" items="${requestScope.listGrade}">
                                     <option value="${listGrade.id}" <c:if test="${param.gradeId == listGrade.id}">selected</c:if>>${listGrade.name}</option>
                                 </c:forEach>
@@ -161,67 +167,139 @@
 
                             <input class="form-control" name="year" value="${requestScope.newYear.getName()}" disabled  style="width: 70%">
                         </div>
-                    <input class="form-control" hidden name="gradeid" value="${requestScope.selectedGradeId}">
-
+                        <c:if test="${requestScope.enable == 'false'}">
+                            <div class="form-group col-md-2">
+                                <label>Trạng thái :</label>
+                                <c:if test="${requestScope.status == 'đang chờ xử lý'}">
+                                <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width: 70%; color: #4c67ff  ">
+                                 </c:if>
+                                <c:if test="${requestScope.status == 'đã được duyệt'}">
+                                    <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width: 70%; color: #5bff36">
+                                </c:if>
+                            </div>
+                        </c:if>
+                        <input class="form-control" hidden name="gradeid" value="${requestScope.selectedGradeId}">
+                        <input class="form-control" hidden name="weekId" value="${requestScope.weekId}">
 
                     </div>
+                    <c:if test="${requestScope.enable == 'true'}">
+                        <table class="timetable-table table table-bordered text-center">
+                            <thead>
+                            <tr class="bg-light-gray">
+                                <th class="text-uppercase">Thời gian</th>
+                                <th class="text-uppercase">Thứ hai</th>
+                                <th class="text-uppercase">Thứ ba</th>
+                                <th class="text-uppercase">Thứ tư</th>
+                                <th class="text-uppercase">Thứ năm</th>
+                                <th class="text-uppercase">Thứ sáu</th>
+                                <th class="text-uppercase">Thứ bảy</th>
+                                <th class="text-uppercase">Chủ nhật</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:if test="${not empty requestScope.dayList}">
+                                <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                    <tr>
+                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <c:forEach var="day" items="${requestScope.dayList}">
+                                            <td>
+                                                <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}" required >
+                                                    <option value="" hidden>Chọn thức đơn</option>
+                                                    <c:forEach var="foodMenu" items="${requestScope.foodMenuList}">
 
-                    <table class="timetable-table table table-bordered text-center">
-                        <thead>
-                        <tr class="bg-light-gray">
-                            <th class="text-uppercase">Thời gian</th>
-                            <th class="text-uppercase">Thứ hai</th>
-                            <th class="text-uppercase">Thứ ba</th>
-                            <th class="text-uppercase">Thứ tư</th>
-                            <th class="text-uppercase">Thứ năm</th>
-                            <th class="text-uppercase">Thứ sáu</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:if test="${not empty requestScope.dayList}">
-                            <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
-                                <tr>
-                                    <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
-                                    <c:forEach var="day" items="${requestScope.dayList}">
-                                        <td>
-                                            <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}">
-                                                <option value="">Chọn môn học</option>
-                                                <c:forEach var="foodMenu" items="${requestScope.foodMenuList}">
+                                                        <option value="${foodMenu.id}" name="FoodmenuId_${day.id}_${timeslot.id}_${foodMenu.id}">${foodMenu.getFoodDetails()}</option>
 
-                                                    <option value="${foodMenu.id}" name="FoodmenuId_${day.id}_${timeslot.id}_${foodMenu.id}">${foodMenu.getFoodDetails()}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </td>
+                                        </c:forEach>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${empty requestScope.dayList }">
+                                <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                    <tr>
+                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri' , 'sta', 'sun']}">
+                                            <td>
+                                                <select class="form-control" name="${day}">
+                                                    <option value="">Chọn thức đơn</option>
+                                                </select>
+                                            </td>
+                                        </c:forEach>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            </tbody>
+                        </table>
+                    </c:if>
+                    <c:if test="${requestScope.enable == 'false'}">
+                        <table class="timetable-table table table-bordered text-center"  readonly>
+                            <thead>
+                            <tr class="bg-light-gray">
+                                <th class="text-uppercase">Thời gian</th>
+                                <th class="text-uppercase">Thứ hai</th>
+                                <th class="text-uppercase">Thứ ba</th>
+                                <th class="text-uppercase">Thứ tư</th>
+                                <th class="text-uppercase">Thứ năm</th>
+                                <th class="text-uppercase">Thứ sáu</th>
+                                <th class="text-uppercase">Thứ bảy</th>
+                                <th class="text-uppercase">Chủ nhật</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:if test="${not empty requestScope.dayList}">
+                                <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                    <tr>
+                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <c:forEach var="day" items="${requestScope.dayList}">
+                                            <td style="text-align: left;">
+                                              <!--  <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}" disabled > -->
 
-                                                </c:forEach>
-                                            </select>
-                                        </td>
-                                    </c:forEach>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        <c:if test="${empty requestScope.dayList}">
-                            <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
-                                <tr>
-                                    <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
-                                    <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri']}">
-                                        <td>
-                                            <select class="form-control" name="${day}">
-                                                <option value="">-</option>
-                                            </select>
-                                        </td>
-                                    </c:forEach>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        </tbody>
-                    </table>
+                                                    <c:forEach var="menuDetail" items="${requestScope.menuDetails}">
+                                                        <c:if test="${menuDetail.getTimeslot().getId() == timeslot.id && menuDetail.getDay().getId()  == day.id}">
+                                                            <!--    <option value="${menuDetail.getFoodMenu().getId()}" name="FoodmenuId_${day.id}_${timeslot.id}_${menuDetail.getFoodMenu().getId()}" selected> -->
+                                                                    ${menuDetail.getFoodMenu().getFoodDetails()}
+                                                            <!-- </option>-->
+                                                        </c:if>
+                                                    </c:forEach>
+                                             <!--   </select>-->
+                                            </td>
+                                        </c:forEach>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${empty requestScope.dayList }">
+                                <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                    <tr>
+                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri' , 'sta', 'sun']}">
+                                            <td>
+                                                <select class="form-control" name="${day}">
+                                                    <option value="">Chọn thức đơn</option>
+                                                </select>
+                                            </td>
+                                        </c:forEach>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            </tbody>
+                        </table>
 
-
+                </c:if>
                     <div class="btn-container">
                         <div class="d-flex justify-content-end">
-                            <p>Ghi chú*: (-) không có dữ liệu</p>
+
                         </div>
                         <div class="btn-group-right">
+                    <c:if test="${requestScope.enable == 'true' && requestScope.weekId != 'none' && requestScope.selectedGradeId != 'none'  && requestScope.weekId != null && requestScope.selectedGradeId != null}">
                             <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
                             <button type="reset" class="btn btn-danger" style="width: 100px">Hủy</button>
+                    </c:if>
+                            <c:if test="${requestScope.enable == 'false'|| requestScope.weekId == 'none' || requestScope.selectedGradeId == 'none'}">
+                                <button type="submit" class="btn btn-success" style="width: 100px" disabled >Lưu</button>
+                                <button type="reset" class="btn btn-danger" style="width: 100px" disabled >Hủy</button>
+                            </c:if>
                         </div>
                     </div>
                 </form>

@@ -8,5 +8,6 @@ public interface IFoodMenuDAO {
     public List<MenuDetail> getMenuDetails(String grade, String week ,String school_year_id );
     public void createMenuDetail(MenuDetail menuDetail);
     public int getTotalID();
-
+    public boolean existsMealTimetableForGradeInCurrentWeek(String gradeId, String dayId) ;
+    public List<MenuDetail> getMenuDetailsforCreate(String grade, String week ,String school_year_id );
 }
