@@ -41,10 +41,7 @@ import java.io.IOException;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
-import java.util.Date;
-
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "CreateMealTimetableServlet",urlPatterns={"/accountant/createmealtimetable"})
 public class CreateMealTimetableServlet extends HttpServlet {
@@ -97,8 +94,23 @@ public class CreateMealTimetableServlet extends HttpServlet {
         // get list class by grade id
         List<Class> classList = classDAO.getClassByGradeId(selectedGradeId);
         // get list day by week
-        List<Day> dayList = dayDAO.getDayByWeek(weekId);
-
+        List<Day> dayList = dayDAO.getFullDayOfWeek(weekId);
+        boolean enable = true ;
+        for (Day day : dayList) {
+            if ( foodMenuDAO.existsMealTimetableForGradeInCurrentWeek(selectedGradeId, day.getId())) {
+                enable = false;
+                break;
+            }
+        }
+        List<MenuDetail> menuDetails = new ArrayList<>();
+        String status = "";
+        if (enable == false){
+           menuDetails = foodMenuDAO.getMenuDetailsforCreate(selectedGradeId,weekId,yearDAO.getSchoolYearByDate(currentDate).getId());
+           status = menuDetails.get(0).getStatus();
+           request.setAttribute("menuDetails", menuDetails);
+           request.setAttribute("status", status);
+        }
+        System.out.println(enable);
         request.setAttribute("dateWeek", dateWeek);
         request.setAttribute("dayList", dayList);
         request.setAttribute("subList", subList);
@@ -111,7 +123,8 @@ public class CreateMealTimetableServlet extends HttpServlet {
         request.setAttribute("listWeek", listWeek);
         request.setAttribute("listGrade", listGrade);
         request.setAttribute("selectedGradeId", selectedGradeId);
-
+        request.setAttribute("weekId", weekId);
+        request.setAttribute("enable",enable );
         request.getRequestDispatcher("createMealTimetable.jsp").forward(request, response);
     }
 
@@ -122,7 +135,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
             String action = request.getParameter("action");
             if (action == null) {
 
-                response.sendRedirect("createfoodmenu");
+                response.sendRedirect("createmealtimetable");
             } else if (action.equals("create-foodmenu")) {
 
                 HttpSession session = request.getSession();
@@ -139,13 +152,34 @@ public class CreateMealTimetableServlet extends HttpServlet {
                 MenuDetail menuDetail = new MenuDetail();
                 User user = (User) session.getAttribute("user");
 
-                String status = "chưa xét duyệt";
+                String status = "đang chờ xử lý";
                 String selectedGradeId = request.getParameter("gradeid");
-                System.out.println(selectedGradeId);
+                String weekId = request.getParameter("weekId");
 
+                // Thu thập tất cả các `dayId` từ tham số đầu vào
+                Enumeration<String> parameterNames = request.getParameterNames();
+                Set<String> dayIds = new HashSet<>();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    if (paramName.startsWith("timeslotId_")) {
+                        String[] parts = paramName.split("_");
+                        String dayId = parts[1];
+                        dayIds.add(dayId);
+                    }
+                }
+
+                // Kiểm tra thời khóa biểu tồn tại cho tất cả `dayId`
+                for (String dayId : dayIds) {
+                    if ( foodMenuDAO.existsMealTimetableForGradeInCurrentWeek(selectedGradeId, dayId)) {
+                        session.setAttribute("toastType", "error");
+                        session.setAttribute("toastMessage", "Thực đơn của khối này đã được tạo!");
+                        response.sendRedirect("createmealtimetable");
+                        return; // Dừng lại nếu thời khóa biểu đã tồn tại
+                    }
+                }
 
                 // Retrieve all timeslot and subject selections
-                Enumeration<String> parameterNames = request.getParameterNames();
+                 parameterNames = request.getParameterNames();
                 int entryCounter = 1;
                 boolean entryCreated = false; // Flag to check if any entries are created
                 while (parameterNames.hasMoreElements()) {
@@ -177,12 +211,12 @@ public class CreateMealTimetableServlet extends HttpServlet {
                     session.setAttribute("toastType", "success");
                     session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
 
-                    response.sendRedirect("createmealtimetable");
+                    response.sendRedirect("createmealtimetable?weekId="+weekId+"&gradeId="+selectedGradeId);
                 } else {
+
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Không có dữ liệu được chọn. Vui lòng không để trống !");
                     response.sendRedirect("createmealtimetable");
-
                 }
             }
 

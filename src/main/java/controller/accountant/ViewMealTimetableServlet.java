@@ -17,12 +17,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "ViewFoodMenuServlet", urlPatterns={"/accountant/viewmealtimetable"})
+@WebServlet(name = "accountant/ViewFoodMenuServlet", urlPatterns={"/accountant/viewmealtimetable"})
 public class ViewMealTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FoodMenuDAO foodMenuDAO = new FoodMenuDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+
         GradeDAO gradeDAO = new GradeDAO();
 
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
@@ -36,6 +37,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String grade = request.getParameter("grade");
         String week = request.getParameter("week");
         GradeDAO gradeDAO = new GradeDAO();
@@ -48,6 +50,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
         List<Week> weekList = weekDAO.getWeeks(schoolyear);
         List<FoodMenu> foodMenuList = foodMenuDAO.getAllFoodMenu();
         List<MenuDetail> menuDetailList = new ArrayList<>();
+
         if(grade!=null && week!=null && schoolyear!=null){
              menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear);
         }

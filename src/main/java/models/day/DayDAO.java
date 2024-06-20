@@ -130,23 +130,25 @@ public class DayDAO extends DBContext implements IDayDAO{
         return day;
     }
 
-    public List<TimeInDay> getAllTimeInDays(){
-        String sql = "SELECT * FROM TimeInDays";
-        List<TimeInDay> listTimeInDay = new ArrayList<>();
+    public List<Day> getFullDayOfWeek(String weekId) {
+        List<Day> days = new ArrayList<>();
+        String sql = "SELECT id, week_id, date FROM Days WHERE week_id = ? ";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                TimeInDay timeInday = new TimeInDay();
-                timeInday.setId(resultSet.getString("id"));
-                timeInday.setDate(getDayByID(resultSet.getString("date_id")));
-                timeInday.setName(resultSet.getString("name"));
-                listTimeInDay.add(timeInday);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, weekId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Day day = new Day();
+                day.setId(rs.getString("id"));
+                WeekDAO weekDAO = new WeekDAO();
+                day.setWeek(weekDAO.getWeek(rs.getString("week_id")));
+                day.setDate(rs.getDate("date"));
+                days.add(day);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return listTimeInDay;
+        return days;
     }
+
 }

@@ -5,6 +5,7 @@ import models.day.Day;
 import models.grade.GradeDAO;
 import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
+import models.schoolYear.SchoolYearDAO;
 import models.timeslot.ITimeslotDAO;
 import models.timeslot.TimeslotDAO;
 import models.week.Week;
@@ -33,7 +34,6 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
 
     @Override
     public List<FoodMenu> getAllFoodMenu() {
-        ClassDAO cdao = new ClassDAO();
         List<FoodMenu> foodMenus = new ArrayList<>();
         String sql = "select * from FoodMenus";
         try {
@@ -72,6 +72,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
 
     private Week getWeek(String id) {
         Week week = new Week();
+        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         String sql = "select * from Weeks where id=?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -86,6 +87,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         }
         return week;
     }
+
 
     private SchoolYear getSchoolYear(String school_year_id) {
         SchoolYear schoolYear = new SchoolYear();
@@ -103,6 +105,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         }
         return schoolYear;
     }
+
 
 
     public List<MenuDetail> getAllMenuDetails() {
@@ -151,7 +154,11 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         GradeDAO gradeDAO = new GradeDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         List<MenuDetail> menuDetails = new ArrayList<>();
-        String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" + "                                join MenuDetails md on d.id = md.date_id\n" + "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and md.status = N'Đã Duyệt' ";
+
+        String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
+                "                                join MenuDetails md on d.id = md.date_id\n" +
+                "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and  md.status = N'đã được duyệt'  ";
+
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -205,6 +212,54 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         }
         return totalID;
     }
+
+
+    public boolean existsMealTimetableForGradeInCurrentWeek(String gradeId, String dayId) {
+        String sql = "SELECT COUNT(*) FROM MenuDetails WHERE grade_id = ? and date_id = ? and (status = N'đang chờ xử lý'or status = N'đã được duyệt' )";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, gradeId);
+            stmt.setString(2, dayId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking timetable existence", e);
+        }
+        return false;
+    }
+
+    public List<MenuDetail> getMenuDetailsforCreate(String grade, String week ,String school_year_id ) {
+        GradeDAO gradeDAO = new GradeDAO();
+        ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        List<MenuDetail> menuDetails = new ArrayList<>();
+        String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
+                "                                join MenuDetails md on d.id = md.date_id\n" +
+                "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and (md.status = N'đang chờ xử lý'or md.status = N'đã được duyệt' ) ";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,grade);
+            statement.setString(2,week);
+            statement.setString(3,school_year_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                MenuDetail menuDetail = new MenuDetail();
+                menuDetail.setId(resultSet.getString("id"));
+                menuDetail.setFoodMenu(getFoodMenu(resultSet.getString("food_menu_id")));
+                menuDetail.setGrade(gradeDAO.getGrade(resultSet.getString("grade_id")));
+                menuDetail.setDay(getDay(resultSet.getString("date_id")));
+                menuDetail.setStatus(resultSet.getString("status"));
+                menuDetail.setTimeslot(timeslotDAO.getTimeslotById(resultSet.getString("timeslot_id")));
+                menuDetails.add(menuDetail);
+            }
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+        return menuDetails;
+    }
+
+
 
     @Override
     public String createFoodMenu(FoodMenu foodMenu) {
