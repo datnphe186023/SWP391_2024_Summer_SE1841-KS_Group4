@@ -57,6 +57,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
+
                 
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsetime"
                    aria-expanded="true" aria-controls="collapsetime">
@@ -69,6 +70,7 @@
                         <a class="collapse-item" href="timetable">Tạo thời khóa biểu</a>
                     </div>
                 </div>
+
             </li>
 
             <!-- Nav Item -->

@@ -90,6 +90,19 @@
                                             <label class="control-label">Ngày kết thúc</label>
                                             <input class="form-control" type="date" name="endDate" required>
                                         </div>
+<%--                                        //new school year must be created before start date 7 days--%>
+                                        <script>
+                                            // Get today's date
+                                            const today = new Date();
+                                            // Calculate the date 7 days from today
+                                            const sevenDaysFromToday = new Date(today);
+                                            sevenDaysFromToday.setDate(today.getDate() + 7);
+                                            // Format the date as YYYY-MM-DD
+                                            const minDate = sevenDaysFromToday.toISOString().split('T')[0];
+                                            // Set the min attribute of the date input to the date 7 days from today
+                                            document.getElementById('startDate').setAttribute('min', minDate);
+                                            document.getElementById('endDate').setAttribute('min', minDate);
+                                        </script>
                                         <div class="form-group col-md-12">
                                             <label class="control-label">Mô Tả</label>
                                             <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự"
