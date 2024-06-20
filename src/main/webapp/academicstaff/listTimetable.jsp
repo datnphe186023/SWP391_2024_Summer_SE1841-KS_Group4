@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
-        <title>QUẢN LÝ THỜI KHÓA BIỂU</title>
+        <title>Quản Lý Lớp Học</title>
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -33,9 +33,21 @@
         <!-- Custom styles for this page -->
         <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -48,9 +60,8 @@
 
 
                         <div class="card shadow mb-4">
-                            <div class="d-flex justify-content-between card-header py-3">
+                            <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Danh Sách Thời Khóa Biểu</h6>
-                                <button class="btn btn-success" onclick="redirectToServlet()" type="button">TẠO THỜI KHÓA BIỂU</button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -90,7 +101,7 @@
                                                     <td>${listTimetable.note}</td>
                                                     <td>
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <a href="view-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                            <a href="view-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
                                                         </div>
                                                     </td>
 
@@ -113,10 +124,5 @@
 
         <!-- Page level custom scripts -->
         <script src="../js/demo/datatables-demo.js"></script>
-        <script>
-            function redirectToServlet() {
-                window.location.href = '${pageContext.request.contextPath}/academicstaff/timetable';
-            }
-        </script>
     </body>
 </html>

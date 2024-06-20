@@ -105,7 +105,7 @@
                                                         <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
                                                         <td>
                                                             <div class="d-flex flex-column align-items-center">
-                                                                <a href="review-detail-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                                <a href="review-detail-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
                                                             </div>
                                                         </td>
 

@@ -57,9 +57,18 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="listtimetable">
-                    <i class="fas fa-fw fa-calendar"></i>
-                    <span>Quản lý thời khóa biểu</span></a>
+                
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsetime"
+                   aria-expanded="true" aria-controls="collapsetime">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Quản lý thời khóa biểu</span>
+                </a>
+                <div id="collapsetime" class="collapse" aria-labelledby="headingtime" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="listtimetable">Danh sách thời khóa biểu</a>
+                        <a class="collapse-item" href="timetable">Tạo thời khóa biểu</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item -->

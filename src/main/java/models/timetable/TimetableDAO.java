@@ -205,13 +205,16 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
 
     @Override
     public boolean existsTimetableForClassInCurrentWeek(String classId, String dayId) {
-        String sql = "SELECT COUNT(*) FROM Timetables WHERE class_id = ? and date_id = ?";
+        String sql = "SELECT status FROM Timetables WHERE class_id = ? AND date_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, classId);
             stmt.setString(2, dayId);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
+            while (rs.next()) {
+                String status = rs.getString("status");
+                if ("đã được xét duyệt".equalsIgnoreCase(status) || "chưa xét duyệt".equalsIgnoreCase(status)) {
+                    return true; // Timetable exists
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error checking timetable existence", e);
@@ -222,30 +225,41 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     @Override
     public List<TimetableDTO> getUniqueClassTimetablesWithWeeks() {
         List<TimetableDTO> timetables = new ArrayList<>();
-        String sql = "SELECT DISTINCT "
-                + "    temp.class_id, "
-                + "    w.id AS week_id, "
-                + "    w.start_date, "
-                + "    w.end_date, "
-                + "    temp.created_by, "
-                + "    temp.status, "
-                + "    temp.note, " // Thêm trường note vào truy vấn SQL
-                + "    temp.teacher_id "
-                + "FROM ( "
-                + "    SELECT "
-                + "        t.class_id, "
-                + "        d.week_id, "
-                + "        t.created_by, "
-                + "        t.status, "
-                + "        t.teacher_id, "
-                + "        t.note, " // Thêm trường note
-                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
-                + "    FROM "
-                + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
-                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id "
-                + ") AS temp "
-                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id "
-                + "WHERE temp.row_num = 1;";
+        String sql = "SELECT DISTINCT\n"
+                + "    temp.class_id,\n"
+                + "    w.id AS week_id,\n"
+                + "    w.start_date,\n"
+                + "    w.end_date,\n"
+                + "    temp.created_by,\n"
+                + "    temp.status,\n"
+                + "    temp.note,\n" // Thêm trường note vào câu truy vấn SQL
+                + "    temp.teacher_id\n"
+                + "FROM (\n"
+                + "    SELECT\n"
+                + "        t.id,\n"
+                + "        t.class_id,\n"
+                + "        d.week_id,\n"
+                + "        t.created_by,\n"
+                + "        t.status,\n"
+                + "        t.note,\n" // Lấy trường note từ bảng Timetables
+                + "        t.teacher_id,\n"
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id, d.week_id, t.status ORDER BY t.id) AS row_num\n"
+                + "    FROM\n"
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t\n"
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id\n"
+                + ") AS temp\n"
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id\n"
+                + "WHERE temp.row_num = 1\n"
+                + "AND (NOT EXISTS (\n"
+                + "        SELECT 1\n"
+                + "        FROM [BoNo_Kindergarten].[dbo].[Timetables] t2\n"
+                + "        JOIN [BoNo_Kindergarten].[dbo].[Days] d2 ON t2.date_id = d2.id\n"
+                + "        WHERE temp.class_id = t2.class_id\n"
+                + "        AND temp.week_id = d2.week_id\n"
+                + "        AND temp.status <> t2.status\n"
+                + "        AND t2.id < temp.id\n"
+                + "    )\n"
+                + "    OR temp.row_num = 1);";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
@@ -256,7 +270,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 Date endDate = resultSet.getDate("end_date");
                 String createdBy = resultSet.getString("created_by");
                 String status = resultSet.getString("status");
-                String note = resultSet.getString("note"); // Lấy giá trị note từ ResultSet
+                String note = resultSet.getString("note");  // Lấy giá trị note từ ResultSet
                 String teacherId = resultSet.getString("teacher_id");
 
                 IClassDAO classDAO = new ClassDAO();
@@ -304,32 +318,33 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         return "TB000000"; // Giá trị mặc định nếu không có bản ghi nào trong bảng
     }
 
-    
-    
     @Override
-    public List<Timetable> getTimetableByClassAndWeek(String classId, String weekId) {
+    public List<Timetable> getTimetableByClassAndWeek(String classId, String weekId, String status) {
         List<Timetable> timetables = new ArrayList<>();
-        String sql = "SELECT t.id AS timetable_id, "
-                + "       c.id AS class_id, "
-                + "       ts.id AS timeslot_id, "
-                + "       d.id AS date_id, "
-                + "       s.id AS subject_id, "
-                + "       t.created_by, "
-                + "       t.status, "
-                + "       t.note, "
-                + "       p.id AS teacher_id "
-                + "FROM Timetables t "
-                + "JOIN Class c ON t.class_id = c.id "
-                + "JOIN Timeslots ts ON t.timeslot_id = ts.id "
-                + "JOIN Days d ON t.date_id = d.id "
-                + "JOIN Subjects s ON t.subject_id = s.id "
-                + "JOIN Personnels p ON t.teacher_id = p.id "
-                + "JOIN Weeks w ON d.week_id = w.id "
-                + "WHERE c.id = ? AND w.id = ?";
+        String sql = "SELECT t.id AS timetable_id,\n"
+                + "       c.id AS class_id,\n"
+                + "       ts.id AS timeslot_id,\n"
+                + "       d.id AS date_id,\n"
+                + "       s.id AS subject_id,\n"
+                + "       t.created_by,\n"
+                + "       t.status,\n"
+                + "       t.note,\n"
+                + "       p.id AS teacher_id\n"
+                + "FROM Timetables t\n"
+                + "JOIN Class c ON t.class_id = c.id\n"
+                + "JOIN Timeslots ts ON t.timeslot_id = ts.id\n"
+                + "JOIN Days d ON t.date_id = d.id\n"
+                + "JOIN Subjects s ON t.subject_id = s.id\n"
+                + "JOIN Personnels p ON t.teacher_id = p.id\n"
+                + "JOIN Weeks w ON d.week_id = w.id\n"
+                + "WHERE c.id = ? \n"
+                + "  AND w.id = ?\n"
+                + "  AND t.status = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, classId);
             statement.setString(2, weekId);
+            statement.setString(3, status);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -340,7 +355,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 String dateId = resultSet.getString("date_id");
                 String subjectId = resultSet.getString("subject_id");
                 String createdBy = resultSet.getString("created_by");
-                String status = resultSet.getString("status");
+                String statusResult = resultSet.getString("status");
                 String note = resultSet.getString("note");
                 String teacherId = resultSet.getString("teacher_id");
 
@@ -359,13 +374,37 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 Personnel teacher = personnelDAO.getPersonnel(teacherId);
 
                 // Create Timetable object
-                Timetable timetable = new Timetable(timetableId, classs, timeslot, day, subject, createdByObj, status, note, teacher);
+                Timetable timetable = new Timetable(timetableId, classs, timeslot, day, subject, createdByObj, statusResult, note, teacher);
                 timetables.add(timetable);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving timetables by classId and weekId", e);
         }
         return timetables;
+    }
+
+    @Override
+    public boolean updateTimetableStatus(String classId, String weekId, String newstatus, String note, String oldStatus) {
+        String sql = "UPDATE t "
+                + "SET t.status = ?, t.note = ? "
+                + "FROM [BoNo_Kindergarten].[dbo].[Timetables] t "
+                + "JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id "
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON d.week_id = w.id "
+                + "WHERE t.class_id = ? AND w.id = ? AND t.status = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, newstatus);
+            statement.setString(2, note);
+            statement.setString(3, classId);
+            statement.setString(4, weekId);
+            statement.setString(5, oldStatus); // Optional, if you want to check the current status
+            int rowsAffected = statement.executeUpdate();
+
+            // Check if any rows were affected
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating timetable status and note", e);
+        }
     }
 
 }

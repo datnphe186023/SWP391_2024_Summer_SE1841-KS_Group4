@@ -33,9 +33,21 @@
         <!-- Custom styles for this page -->
         <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -89,7 +101,7 @@
                                                     <td>${listTimetable.note}</td>
                                                     <td>
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <a href="view-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                            <a href="view-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
                                                         </div>
                                                     </td>
 

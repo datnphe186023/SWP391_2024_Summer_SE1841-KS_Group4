@@ -54,7 +54,7 @@
                 margin-top: 20px;
             }
 
-            .btn-group-right {
+            .btn-group-left {
                 display: flex;
                 gap: 10px;
             }
@@ -125,54 +125,61 @@
 
 
 
-                        <form>
-                            <table class="timetable-table table table-bordered text-center">
-                                <thead>
-                                    <tr class="bg-light-gray">
-                                        <th class="text-uppercase">Thời gian</th>
-                                        <th class="text-uppercase">Thứ hai</th>
-                                        <th class="text-uppercase">Thứ ba</th>
-                                        <th class="text-uppercase">Thứ tư</th>
-                                        <th class="text-uppercase">Thứ năm</th>
-                                        <th class="text-uppercase">Thứ sáu</th>
+                        <table class="timetable-table table table-bordered text-center">
+                            <thead>
+                                <tr class="bg-light-gray">
+                                    <th class="text-uppercase">Thời gian</th>
+                                    <th class="text-uppercase">Thứ hai</th>
+                                    <th class="text-uppercase">Thứ ba</th>
+                                    <th class="text-uppercase">Thứ tư</th>
+                                    <th class="text-uppercase">Thứ năm</th>
+                                    <th class="text-uppercase">Thứ sáu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="timeslot" items="${requestScope.timeslotList}">
+                                    <tr>
+                                        <td>${timeslot.startTime} - ${timeslot.endTime}</td>
+                                        <c:forEach var="day" items="${requestScope.dayList}">
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${not empty requestScope.timetable}">
+                                                        <c:forEach var="timetable" items="${requestScope.timetable}">
+                                                            <c:if test="${timetable.timeslot.id eq timeslot.id && timetable.day.id eq day.id}">
+                                                                ${timetable.subject.name}
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        -
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                        </c:forEach>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="timeslot" items="${requestScope.timeslotList}">
-                                        <tr>
-                                            <td>${timeslot.startTime} - ${timeslot.endTime}</td>
-                                            <c:forEach var="day" items="${requestScope.dayList}">
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${not empty requestScope.timetable}">
-                                                            <c:forEach var="timetable" items="${requestScope.timetable}">
-                                                                <c:if test="${timetable.timeslot.id eq timeslot.id && timetable.day.id eq day.id}">
-                                                                    ${timetable.subject.name}
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            -
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                            </c:forEach>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-
-
-                            <div class="btn-container">
-                                <div class="d-flex justify-content-end">
-                                    <p>Ghi chú*: (-) không có dữ liệu</p>
-                                </div>
-                                <div class="btn-group-right">
-                                    <button type="submit" class="btn btn-success" style="width: 100px">Duyệt</button>
-                                    <button type="reset" class="btn btn-danger" style="width: 100px">Từ chối</button>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                        <p>Chú thích*: (-) không có dữ liệu</p>
+                        <form action="review-detail-timetable" method="post" id="reviewForm">
+                            <div class="btn-container" style="display: flex; justify-content: center;">
+                                <div style="width: 33%">
+                                    <textarea rows="4" name="note" placeholder="Ghi chú" style="width: 100%;"></textarea><br>
+                                    <input type="hidden" name="action" id="actionField">
+                                    <div class="btn-group-left" style="display: flex; justify-content: space-between; margin-top: 10px;">
+                                        <button type="submit" class="btn btn-success" style="width: 100px;" onclick="setAction('approve')">Duyệt</button>
+                                        <button type="submit" class="btn btn-danger" style="width: 100px;" onclick="setAction('reject')">Từ chối</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
+
+                        <script>
+                            function setAction(action) {
+                                document.getElementById('actionField').value = action;
+                            }
+                        </script>
+
 
 
                     </div>
