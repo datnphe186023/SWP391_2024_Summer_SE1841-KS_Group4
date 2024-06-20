@@ -220,7 +220,7 @@
                                 </div>
                                 <div class="btn-group-right">
                                     <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
-                                    <button type="reset" class="btn btn-danger" style="width: 100px">Hủy</button>
+                                    <button type="button" onclick="goBack()" class="btn btn-danger" style="width: 100px">Hủy</button>
                                 </div>
                             </div>
                         </form>
@@ -237,6 +237,12 @@
         <script>
             function submitForms() {
                 document.getElementById("combinedForm").submit();
+            }
+
+
+
+            function goBack() {
+                window.history.back();
             }
 
             function validateTimetableForm() {

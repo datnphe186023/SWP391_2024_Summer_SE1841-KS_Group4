@@ -29,10 +29,56 @@
                 }
             });
         </script>
+        <script>
+            function validateForm() {
+                // Lấy các trường input và textarea cần validate
+                var firstGuardianName = document.getElementsByName("first_guardian_name")[0].value.trim();
+                var firstGuardianPhone = document.getElementsByName("firstGuardianPhoneNumber")[0].value.trim();
+                var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
+                var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
+                var address = document.getElementsByName("address")[0].value.trim();
 
+                // Kiểm tra nếu các trường bắt buộc không được điền
+                if (address === "") {
+                    toastr.error("Địa chỉ không được bỏ trống");
+                    return false; // Ngăn form submit
+                }
 
+                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ nhất
+                if (!isValidName(firstGuardianName)) {
+                    toastr.error("Họ tên người giám hộ thứ nhất chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false; // Ngăn form submit
+                }
+
+                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ hai nếu có
+                if (secondGuardianName !== "") {
+                    if (!isValidName(secondGuardianName)) {
+                        toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                        return false; // Ngăn form submit
+                    }
+                    // Kiểm tra nếu có tên người giám hộ thứ hai thì phải nhập số điện thoại
+                    if (secondGuardianPhone === "") {
+                        toastr.error("Vui lòng nhập số điện thoại người giám hộ thứ hai");
+                        return false; // Ngăn form submit
+                    }
+                } else if (secondGuardianPhone !== "") {
+                    if (secondGuardianName === "") {
+                        if (!isValidName(secondGuardianName)) {
+                            toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                            return false; // Ngăn form submit
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            function isValidName(name) {
+                return /^[A-Za-z\s'.\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
+            }
+
+        </script>
     </head>
-
     <body id="page-top">
         <div id="wrapper">
             <jsp:include page="navbar.jsp"/>
@@ -67,9 +113,9 @@
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                        <form action="update" method="post">
+                                        <form action="update" method="post" onsubmit="return validateForm()">
                                             <div class="row gutters">
-
+                                                <p>Chú ý : Những Tiêu Đề Có Dấu (*) Là Những Tiêu Đề Được Chỉnh Sửa</p>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <label for="id">ID Người dùng</label>
@@ -84,25 +130,25 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="firstName">Họ tên người giám hộ thứ nhất *</label>
+                                                        <label for="firstName">Họ tên người giám hộ thứ nhất <a style="color: red">(*)</a></label>
                                                         <input style="width: 70%;" class="form-control" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)" required=""/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ nhất *</label>
+                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ nhất <a style="color: red">(*)</a></label>
                                                         <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại" required=""/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="firstName">Họ tên người giám hộ thứ hai </label>
+                                                        <label for="firstName">Họ tên người giám hộ thứ hai <a style="color: red">(*)</a></label>
                                                         <input style="width: 70%;" class="form-control" type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai</label>
+                                                        <label for="phoneNumber">Số điện thoại người giám hộ thứ hai <a style="color: red">(*)</a></label>
                                                         <input style="width: 50%;" type="text" class="form-control" placeholder="Số điện thoại" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^(0[23578]|09)\d{8}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại"/>
                                                     </div>
                                                 </div>
@@ -112,9 +158,9 @@
                                                         <input style="width: 50%;" type="text" class="form-control" placeholder="Họ tên bé" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" disabled/>
                                                     </div>
                                                 </div>
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email">Email *</label>
+                                                        <label for="email">Email <a style="color: red">(*)</a></label>
                                                         <input style="width: 60%;" class="form-control" placeholder="email" type="email" name="email" value="${pupil.email}" required=""/>
                                                     </div>
                                                 </div>
@@ -127,11 +173,11 @@
                                                     </div>
                                                 </div>
 
-                                                
+
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="address">Địa chỉ *</label>
+                                                        <label for="address">Địa chỉ <a style="color: red">(*)</a></label>
                                                         <textarea class="form-control" placeholder="Địa chỉ" name="address" rows="2" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự">${pupil.address}</textarea>
                                                     </div>
                                                 </div>
@@ -143,7 +189,7 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="address">Ghi chú *</label>
+                                                        <label for="address">Ghi chú <a style="color: red">(*)</a></label>
                                                         <textarea class="form-control" placeholder="Ghi chú" name="note" rows="2">${pupil.parentSpecialNote}</textarea>
                                                     </div>
                                                 </div>
