@@ -122,7 +122,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
                 }
 
             } else if (action.equals("reject")) {
-                String newStatus = "đã từ chối";
+                String newStatus = "không được duyệt";
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
                 if (success) {
                     session.setAttribute("toastType", "success");

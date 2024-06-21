@@ -95,14 +95,14 @@
                                                         <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
                                                     </td>
                                                     <td style="color: <c:choose>
-                                                            <c:when test="${listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
+                                                            <c:when test="${listTimetable.status eq 'đang chờ xử lý'}">red</c:when>
                                                         </c:choose>;">
                                                         ${listTimetable.status}
                                                     </td>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
 
                                                     
-                                                        <c:if test="${listTimetable.status eq 'chưa xét duyệt'}">
+                                                        <c:if test="${listTimetable.status eq 'đang chờ xử lý'}">
                                                         <td>
                                                             <div class="d-flex flex-column align-items-center">
                                                                 <a href="review-detail-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>

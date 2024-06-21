@@ -90,7 +90,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="timetable">Danh Sách Thời Khóa Biểu</a>
                         <% ITimetableDAO timetableDAO = new TimetableDAO(); %>
-                        <a class="collapse-item" href="reviewtimetable">Đang Chờ Phê Duyệt(<%=timetableDAO.getListTimetableByStatus("chưa xét duyệt").size()%>)</a>
+                        <a class="collapse-item" href="reviewtimetable">Đang Chờ Phê Duyệt(<%=timetableDAO.getListTimetableByStatus("đang chờ xử lý").size()%>)</a>
                     </div>
                 </div>
             </li>

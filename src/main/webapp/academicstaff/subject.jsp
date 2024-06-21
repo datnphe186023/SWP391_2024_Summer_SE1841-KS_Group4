@@ -109,7 +109,7 @@
                                             <td><span class="badge badge-danger">${status}</span>  </td>
                                         </c:if>
                                         <td>${subject.description}</td>
-                                        <td class="text-center"><a href="editsubject?id=${subject.id}"
+                                        <td class="text-center"><a href="#"
                                                                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Sửa</a></td>                                    </tr>
                                 </c:forEach>
                                 </tbody>

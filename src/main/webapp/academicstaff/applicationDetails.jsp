@@ -65,13 +65,13 @@
                         <div class="row mb-3">
                             <div class="col-sm-3 font-weight-bold">Trạng thái đơn:</div>
                             <c:set value="${requestScope.application.status}" var="s"/>
-                            <c:if test="${s eq 'đã duyệt'}">
+                            <c:if test="${s eq 'đã được duyệt'}">
                                 <div class="col-sm-9 text-success" id="status">${s}</div>
                             </c:if>
-                            <c:if test="${s eq 'đang xử lý'}">
+                            <c:if test="${s eq 'đang chờ xử lý'}">
                                 <div class="col-sm-9 text-warning" id="status">${s}</div>
                             </c:if>
-                            <c:if test="${s eq 'đã từ chối'}">
+                            <c:if test="${s eq 'không được duyệt'}">
                                 <div class="col-sm-9 text-danger" id="status">${s}</div>
                             </c:if>
                         </div>
@@ -127,7 +127,7 @@
                 var rejectButton = document.querySelector('button[name="action"][value="reject"]');
 
                 // Check the status and modify the form accordingly
-                if (applicationStatus !== 'đang xử lý') {
+                if (applicationStatus !== 'đang chờ xử lý') {
                     // Make the textarea read-only
                     noteTextarea.readOnly = true;
                     // Hide the submit buttons

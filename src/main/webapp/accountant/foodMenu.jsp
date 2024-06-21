@@ -63,13 +63,13 @@
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${foodMenu.foodDetails}</td>
                                         <c:set value="${foodMenu.status}" var="s"/>
-                                        <c:if test="${s eq 'đã duyệt'}">
+                                        <c:if test="${s eq 'đã được duyệt'}">
                                             <td><span class="badge badge-success">${s}</span></td>
                                         </c:if>
-                                        <c:if test="${s eq 'đang xử lý'}">
+                                        <c:if test="${s eq 'đang chờ xử lý'}">
                                             <td><span class="badge badge-warning">${s}</span>  </td>
                                         </c:if>
-                                        <c:if test="${s eq 'đã từ chối'}">
+                                        <c:if test="${s eq 'không được duyệt'}">
                                             <td><span class="badge badge-danger">${s}</span>  </td>
                                         </c:if>
                                         <td class="text-center"><a href="#"
