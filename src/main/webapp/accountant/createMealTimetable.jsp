@@ -84,7 +84,7 @@
         }
 
         .timetable-table select {
-            width: 100%;
+            width:100%;
             padding: 6px;
             border-radius: 4px;
             border: 1px solid #d1d3e2;
@@ -171,10 +171,13 @@
                             <div class="form-group col-md-2">
                                 <label>Trạng thái :</label>
                                 <c:if test="${requestScope.status == 'đang chờ xử lý'}">
-                                <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width: 70%; color: #4c67ff  ">
+                                <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width:auto; color: #4c67ff  ">
                                  </c:if>
                                 <c:if test="${requestScope.status == 'đã được duyệt'}">
-                                    <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width: 70%; color: #5bff36">
+                                    <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width:auto; color: #5bff36">
+                                </c:if>
+                                <c:if test="${requestScope.status == 'năm học không tồn tại !'}">
+                                    <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width: auto; color: #ff1425">
                                 </c:if>
                             </div>
                         </c:if>
