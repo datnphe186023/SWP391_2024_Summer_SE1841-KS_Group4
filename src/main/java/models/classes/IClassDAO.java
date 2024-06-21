@@ -26,4 +26,6 @@ public interface IClassDAO {
 
     Class getClassByTeacherId(String id);
 
+    Class getClassByPupilId(String id);
+
 }

@@ -1,4 +1,4 @@
-package controller.teacher;
+package controller.parent;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ import models.week.WeekDAO;
  *
  * @author Admin
  */
-@WebServlet(name = "/teacher/ViewTimetableServlet", urlPatterns = {"/teacher/view-timetable"})
+@WebServlet(name = "/parent/ViewTimetableServlet", urlPatterns = {"/parent/view-timetable"})
 public class ViewTimetableServlet extends HttpServlet {
 
     @Override
@@ -34,7 +34,7 @@ public class ViewTimetableServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("id");
         List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
-        models.classes.Class aclass = new ClassDAO().getClassByTeacherId(id);
+        models.classes.Class aclass = new ClassDAO().getClassByPupilId(id);
         request.setAttribute("aClass", aclass);
         request.setAttribute("schoolYearList", schoolYearList);
         request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
