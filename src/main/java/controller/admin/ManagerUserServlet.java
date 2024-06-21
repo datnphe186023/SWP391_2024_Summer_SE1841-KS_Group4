@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,10 +77,17 @@ public class ManagerUserServlet extends HttpServlet {
         roleDis.put((byte) 1, "Disable");
         IUserDAO userDAO = new UserDAO();
         List<User> list = new ArrayList<>();
+        HttpSession session = request.getSession();
+        String success = (String) session.getAttribute("success");
+        if(success!=null){
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
+        }
         list = userDAO.getListUser();
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
+        
         request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
     }
 
