@@ -93,7 +93,7 @@
                                                     </td>
                                                     <td style="color: <c:choose>
                                                             <c:when test="${listTimetable.status eq 'đã được xét duyệt'}">#23dd23</c:when>
-                                                            <c:when test="${listTimetable.status eq 'đã từ chối' or listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
+                                                            <c:when test="${listTimetable.status eq 'không được duyệt' or listTimetable.status eq 'đang chờ xử lý'}">red</c:when>
                                                         </c:choose>;">
                                                         ${listTimetable.status}
                                                     </td>

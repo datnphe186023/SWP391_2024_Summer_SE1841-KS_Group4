@@ -150,7 +150,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 timetable.setaClass(classDAO.getClassById(classId));
                 // Định nghĩa các tham số khác
                 timetable.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
-                String status = "chưa xét duyệt";
+                String status = "đang chờ xử lý";
                 timetable.setStatus(status);
                 String note = "";
                 timetable.setNote(note);
