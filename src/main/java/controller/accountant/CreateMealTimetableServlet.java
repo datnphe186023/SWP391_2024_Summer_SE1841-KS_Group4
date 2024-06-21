@@ -111,6 +111,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Không tìm thấy năm học hiện tại!");
             request.setAttribute("status", "năm học không tồn tại !");
+            System.out.println("năm học không tồn tại !");
             request.getRequestDispatcher("createMealTimetable.jsp").forward(request, response);
             return;
         }

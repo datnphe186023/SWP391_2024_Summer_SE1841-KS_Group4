@@ -205,9 +205,12 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
             if (resultSet.next()) {
                 schoolYear = createNewSchoolYear(resultSet);
 
+            }else{
+                return null;
             }
         }catch (Exception e){
             e.printStackTrace();
+            return null;
         }
         return schoolYear;
     }

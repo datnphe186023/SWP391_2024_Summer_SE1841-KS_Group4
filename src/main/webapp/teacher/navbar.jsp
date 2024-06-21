@@ -47,7 +47,7 @@
 
             <!-- Nav Item - Thực đơn -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="viewmealtimetable">
                     <i class='app-menu__icon bx bx-food-menu'></i>
                     <span>Thực đơn</span>
                 </a>
