@@ -132,9 +132,16 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMealTimetable"
+                   aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cheese"></i>
                     <span>Quản lý thực đơn</span></a>
+                <div id="collapseMealTimetable" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="viewmealtimetable">Xem thực đơn</a>
+                        <a class="collapse-item" href="waitlistmealtimetable">Phê duyệt thực đơn</a>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item">
