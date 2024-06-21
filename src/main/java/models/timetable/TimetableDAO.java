@@ -243,7 +243,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
                 + "        t.status,\n"
                 + "        t.note,\n" // Lấy trường note từ bảng Timetables
                 + "        t.teacher_id,\n"
-                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id, d.week_id, t.status ORDER BY t.id) AS row_num\n"
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id, d.week_id, t.status ORDER BY t.id ) AS row_num\n"
                 + "    FROM\n"
                 + "        [BoNo_Kindergarten].[dbo].[Timetables] t\n"
                 + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id\n"
@@ -405,6 +405,144 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Error updating timetable status and note", e);
         }
+    }
+
+    @Override
+    public List<TimetableDTO> getTimetableByClassAndWeekAndCreateBy(String create_by) {
+        List<TimetableDTO> timetables = new ArrayList<>();
+        String sql = "SELECT DISTINCT\n"
+                + "    temp.class_id,\n"
+                + "    w.id AS week_id,\n"
+                + "    w.start_date,\n"
+                + "    w.end_date,\n"
+                + "    temp.created_by,\n"
+                + "    temp.status,\n"
+                + "    temp.note,\n" // Thêm trường note vào câu truy vấn SQL
+                + "    temp.teacher_id\n"
+                + "FROM (\n"
+                + "    SELECT\n"
+                + "        t.id,\n"
+                + "        t.class_id,\n"
+                + "        d.week_id,\n"
+                + "        t.created_by,\n"
+                + "        t.status,\n"
+                + "        t.note,\n" // Lấy trường note từ bảng Timetables
+                + "        t.teacher_id,\n"
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id, d.week_id, t.status ORDER BY t.id) AS row_num\n"
+                + "    FROM\n"
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t\n"
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id\n"
+                + "where t.created_by = ?"
+                + ") AS temp\n"
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id\n"
+                + "WHERE temp.row_num = 1\n"
+                + "AND (NOT EXISTS (\n"
+                + "        SELECT 1\n"
+                + "        FROM [BoNo_Kindergarten].[dbo].[Timetables] t2\n"
+                + "        JOIN [BoNo_Kindergarten].[dbo].[Days] d2 ON t2.date_id = d2.id\n"
+                + "        WHERE temp.class_id = t2.class_id\n"
+                + "        AND temp.week_id = d2.week_id\n"
+                + "        AND temp.status <> t2.status\n"
+                + "        AND t2.id < temp.id\n"
+                + " )\n"
+                + "    OR temp.row_num = 1);";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, create_by);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String classId = resultSet.getString("class_id");
+                String weekId = resultSet.getString("week_id");
+                Date startDate = resultSet.getDate("start_date");
+                Date endDate = resultSet.getDate("end_date");
+                String createdBy = resultSet.getString("created_by");
+                String status = resultSet.getString("status");
+                String note = resultSet.getString("note");  // Lấy giá trị note từ ResultSet
+                String teacherId = resultSet.getString("teacher_id");
+
+                IClassDAO classDAO = new ClassDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+
+                Class classObj = classDAO.getClassById(classId);
+                Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
+                Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
+
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, status, note, teacherObj);
+                timetables.add(timetable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving unique class timetables", e);
+        }
+        return timetables;
+    }
+
+    @Override
+    public List<TimetableDTO> getTimetableByClassAndWeekAndTeacher(String teacher) {
+        List<TimetableDTO> timetables = new ArrayList<>();
+        String sql = "SELECT DISTINCT\n"
+                + "    temp.class_id,\n"
+                + "    w.id AS week_id,\n"
+                + "    w.start_date,\n"
+                + "    w.end_date,\n"
+                + "    temp.created_by,\n"
+                + "    temp.status,\n"
+                + "    temp.note,\n" // Thêm trường note vào câu truy vấn SQL
+                + "    temp.teacher_id\n"
+                + "FROM (\n"
+                + "    SELECT\n"
+                + "        t.id,\n"
+                + "        t.class_id,\n"
+                + "        d.week_id,\n"
+                + "        t.created_by,\n"
+                + "        t.status,\n"
+                + "        t.note,\n" // Lấy trường note từ bảng Timetables
+                + "        t.teacher_id,\n"
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id, d.week_id, t.status ORDER BY t.id) AS row_num\n"
+                + "    FROM\n"
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t\n"
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id\n"
+                + "where t.teacher_id = ?"
+                + ") AS temp\n"
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id\n"
+                + "WHERE temp.row_num = 1\n"
+                + "AND (NOT EXISTS (\n"
+                + "        SELECT 1\n"
+                + "        FROM [BoNo_Kindergarten].[dbo].[Timetables] t2\n"
+                + "        JOIN [BoNo_Kindergarten].[dbo].[Days] d2 ON t2.date_id = d2.id\n"
+                + "        WHERE temp.class_id = t2.class_id\n"
+                + "        AND temp.week_id = d2.week_id\n"
+                + "        AND temp.status <> t2.status\n"
+                + "        AND t2.id < temp.id\n"
+                + " )\n"
+                + "    OR temp.row_num = 1);";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, teacher);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String classId = resultSet.getString("class_id");
+                String weekId = resultSet.getString("week_id");
+                Date startDate = resultSet.getDate("start_date");
+                Date endDate = resultSet.getDate("end_date");
+                String createdBy = resultSet.getString("created_by");
+                String status = resultSet.getString("status");
+                String note = resultSet.getString("note");  // Lấy giá trị note từ ResultSet
+                String teacherId = resultSet.getString("teacher_id");
+
+                IClassDAO classDAO = new ClassDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+
+                Class classObj = classDAO.getClassById(classId);
+                Personnel createdByObj = personnelDAO.getPersonnel(createdBy);
+                Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
+
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, status, note, teacherObj);
+                timetables.add(timetable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving unique class timetables", e);
+        }
+        return timetables;
     }
 
 }

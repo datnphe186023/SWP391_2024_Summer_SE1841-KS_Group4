@@ -13,4 +13,6 @@ public interface ITimetableDAO {
     String generateTimetableId();
     List<Timetable> getTimetableByClassAndWeek(String classId, String weekId,String status);
     boolean updateTimetableStatus(String classId, String weekId, String status, String note,String oldStatus);
+    List<TimetableDTO> getTimetableByClassAndWeekAndCreateBy(String create_by);
+    List<TimetableDTO> getTimetableByClassAndWeekAndTeacher(String teacher);
 }

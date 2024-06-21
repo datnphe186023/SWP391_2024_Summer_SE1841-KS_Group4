@@ -167,6 +167,7 @@
                                 <div class="d-flex justify-content-end">
                                     <p>Ghi chú*: (-) không có dữ liệu</p>
                                 </div>
+                                <button class="btn btn-danger" type="button" onclick="goBack()">Quay Lại</button>
                             </div>
                         </form>
 
@@ -179,7 +180,11 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
             <!-- End of Content Wrapper -->
-
+            <script>
+                function goBack() {
+                    window.history.back();
+                }
+            </script>
         </div>
         <!-- End of Page Wrapper -->
     </body>
