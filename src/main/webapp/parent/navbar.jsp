@@ -63,7 +63,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="viewtimetable">
                 <i class="fas fa-fw fa-cheese"></i>
                 <span>Thực Đơn</span></a>
         </li>
