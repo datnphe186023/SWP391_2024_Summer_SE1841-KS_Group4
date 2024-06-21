@@ -125,7 +125,7 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-3" style="padding-left: 0px; width: 80%;">
+                        <div class="form-group col-md-3" style="padding-left: 0px; width: auto;">
                             <label for="selectWeek">Chọn tuần:</label>
                             <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()" required>
                                 <option value ="none">Chọn tuần</option>
@@ -148,7 +148,7 @@
 
                         <div class="form-group col-md-2" >
                             <label for="selectGrade">Chọn khối:</label>
-                            <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 70%" required>
+                            <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: auto" required>
                                 <option value="none">Chọn khối</option>
                                 <c:forEach var="listGrade" items="${requestScope.listGrade}">
                                     <option value="${listGrade.id}" <c:if test="${param.gradeId == listGrade.id}">selected</c:if>>${listGrade.name}</option>

@@ -53,7 +53,7 @@ public class Week {
         this.schoolYear = schoolYear;
     }
 
-    public String getStartDatetoEndDate (){
+    public String getStartDatetoEndDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String start =  sdf.format(startDate);
         String end =  sdf.format(endDate);

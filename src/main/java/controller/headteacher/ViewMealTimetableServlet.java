@@ -1,4 +1,4 @@
-package controller.accountant;
+package controller.headteacher;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "accountant/ViewMealTimetableServlet", urlPatterns={"/accountant/viewmealtimetable"})
+@WebServlet(name = "headteacher/ViewMealTimetableServlet", urlPatterns={"/headteacher/viewmealtimetable"})
 public class ViewMealTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,7 +52,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
         List<MenuDetail> menuDetailList = new ArrayList<>();
 
         if(grade!=null && week!=null && schoolyear!=null){
-             menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear,"đã được duyệt");
+            menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear,"đã được duyệt");
         }
         request.setAttribute("sltedg",grade );
         request.setAttribute("sltedsy",schoolyear );

@@ -150,14 +150,14 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return foodMenu;
     }
 
-    public List<MenuDetail> getMenuDetails(String grade, String week, String school_year_id) {
+    public List<MenuDetail> getMenuDetails(String grade, String week, String school_year_id,String status) {
         GradeDAO gradeDAO = new GradeDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         List<MenuDetail> menuDetails = new ArrayList<>();
 
         String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
                 "                                join MenuDetails md on d.id = md.date_id\n" +
-                "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and  md.status = N'đã được duyệt'  ";
+                "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and  md.status = ? ";
 
 
         try {
@@ -165,6 +165,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
             statement.setString(1, grade);
             statement.setString(2, week);
             statement.setString(3, school_year_id);
+            statement.setNString(4, status);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 MenuDetail menuDetail = new MenuDetail();
@@ -304,6 +305,45 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<String> getMenuDetailsforProcess(String schoolyearID) {
+        GradeDAO gradeDAO = new GradeDAO();
+        ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        List<String> dataList = new ArrayList<>();
+        String sql = "select distinct w.id,w.school_year_id,md.grade_id from Weeks w join Days d on w.id= d.week_id\n" +
+                "                                               join MenuDetails md on d.id = md.date_id\n" +
+                "                                where   md.status = N'đang chờ xử lý' and w.school_year_id = ?  ";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,schoolyearID);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+               String data = resultSet.getString("id") + "-" + resultSet.getString("school_year_id") + "-" + resultSet.getString("grade_id");
+               dataList.add(data);
+            }
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+        return dataList;
+    }
+
+    public boolean AcceptorDenyMenu(String id, String status){
+        String sql = "UPDATE [dbo].[MenuDetails]\n"
+                + "   SET [status] = ? \n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status);
+            preparedStatement.setString(2, id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
 }
