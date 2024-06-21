@@ -198,7 +198,7 @@
         </div>
         <script>
             function cancelAction() {
-                window.location.href = '${pageContext.request.contextPath}/academicstaff/pupil';
+                window.history.back();
             }
         </script>
     </body>
