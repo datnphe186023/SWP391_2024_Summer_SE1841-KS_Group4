@@ -18,9 +18,7 @@ public class ListSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ISubjectDAO subjectDAO = new SubjectDAO();
-        IGradeDAO gradeDAO = new GradeDAO();
         request.setAttribute("listAllSubject",subjectDAO.getAll());
-        request.setAttribute("listGrade",gradeDAO.getAll());
         request.getRequestDispatcher("listSubject.jsp").forward(request,response);
     }
 
