@@ -76,7 +76,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
         // get list grade
         List<Grade> listGrade = gradeDAO.getAll();
         // get list week from now
-        List<Week> listWeek = weekDAO.getWeeks(yearDAO.getSchoolYearByDate(currentDate).getId());
+        List<Week> listWeek = new ArrayList<>();
 
         // get start date and end date
         Week dateWeek = weekDAO.getWeek(weekId);
@@ -102,10 +102,22 @@ public class CreateMealTimetableServlet extends HttpServlet {
                 break;
             }
         }
+        try {
+            listWeek = weekDAO.getWeeks(yearDAO.getCloestSchoolYears().getId());
+        }catch(Exception e){
+            request.setAttribute("listTimeslot", listTimeslot);
+            enable = false;
+            request.setAttribute("enable",enable );
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Không tìm thấy năm học hiện tại!");
+            request.setAttribute("status", "năm học không tồn tại !");
+            request.getRequestDispatcher("createMealTimetable.jsp").forward(request, response);
+            return;
+        }
         List<MenuDetail> menuDetails = new ArrayList<>();
         String status = "";
         if (enable == false){
-           menuDetails = foodMenuDAO.getMenuDetailsforCreate(selectedGradeId,weekId,yearDAO.getSchoolYearByDate(currentDate).getId());
+           menuDetails = foodMenuDAO.getMenuDetailsforCreate(selectedGradeId,weekId,yearDAO.getCloestSchoolYears().getId());
            status = menuDetails.get(0).getStatus();
            request.setAttribute("menuDetails", menuDetails);
            request.setAttribute("status", status);
@@ -118,7 +130,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
         request.setAttribute("classList", classList);
         request.setAttribute("listTimeslot", listTimeslot);
 
-        request.setAttribute("newYear", yearDAO.getSchoolYearByDate(currentDate));
+        request.setAttribute("newYear", yearDAO.getCloestSchoolYears());
 
         request.setAttribute("listWeek", listWeek);
         request.setAttribute("listGrade", listGrade);

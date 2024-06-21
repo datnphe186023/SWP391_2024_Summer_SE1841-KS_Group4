@@ -196,5 +196,21 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         return schoolYears;
     }
 
+    public SchoolYear getCloestSchoolYears() {
+        String sql = "select top 1  * from schoolYears where start_date > CAST(GETDATE() AS DATE) order by start_date";
+        SchoolYear schoolYear = new SchoolYear();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                schoolYear = createNewSchoolYear(resultSet);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return schoolYear;
+    }
+
 
 }
