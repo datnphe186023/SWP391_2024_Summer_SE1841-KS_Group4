@@ -24,8 +24,8 @@
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <script>
         $(document).ready(function () {
-            var toastMessage = '<%= request.getAttribute("message") %>';
-            var toastType = '<%= request.getAttribute("type") %>';
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
             if (toastMessage) {
                 if (toastType === 'success') {
                     toastr.success(toastMessage);

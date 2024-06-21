@@ -66,7 +66,7 @@ public class WaitlistPersonnelServlet extends HttpServlet {
         String type = "";
         if(action!=null){
             if(action.equals("accept")){
-                personnelDAO.updatePersonnelStatus(personId,"đã duyệt - chưa có tài khoản");
+                personnelDAO.updatePersonnelStatus(personId,"đang làm việc");
                 message="Đã duyệt thành công";
                 type = "success";
             }else if(action.equals("decline")){

@@ -336,7 +336,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
                 + " WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, status);
+            preparedStatement.setNString(1, status);
             preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             return true;
@@ -345,5 +345,22 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         }
         return false;
     }
+
+    public boolean AcceptorDenyFoodMenu(String id, String status){
+        String sql = "UPDATE [dbo].[FoodMenus]\n"
+                + "   SET [status] = ? \n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setNString(1, status);
+            preparedStatement.setString(2, id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
 
 }
