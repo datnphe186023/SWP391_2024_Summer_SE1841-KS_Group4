@@ -140,6 +140,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="viewmealtimetable">Xem thực đơn</a>
                         <a class="collapse-item" href="waitlistmealtimetable">Phê duyệt thực đơn</a>
+                        <a class="collapse-item" href="processfoodmenu">Phê duyệt suất ăn</a>
                     </div>
                 </div>
             </li>
@@ -194,5 +195,5 @@
         <script src="../js/demo/chart-pie-demo.js"></script>
 
     </body>
-</body>
+
 </html>

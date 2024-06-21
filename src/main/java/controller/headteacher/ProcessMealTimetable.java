@@ -58,8 +58,8 @@ public class ProcessMealTimetable extends HttpServlet {
         for(int i =0; i<menuid.length;i++){
             foodMenuDAO.AcceptorDenyMenu(menuid[i],"không được duyệt");
         }
-        session.setAttribute("toastType", "success");
-        session.setAttribute("toastMessage", "Đã cập nhật dữ liệu ! đã từ chối thực đơn");
+        session.setAttribute("toastType", "fail");
+        session.setAttribute("toastMessage", "Đã cập nhật dữ liệu ! không duyệt thực đơn");
         response.sendRedirect("waitlistmealtimetable");
     }
     }

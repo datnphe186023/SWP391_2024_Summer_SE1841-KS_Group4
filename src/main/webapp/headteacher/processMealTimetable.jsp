@@ -152,7 +152,7 @@
                 <div class="btn-group-right">
 
                 <button type="submit" form="process" class="btn btn-success" style="width: 100px" name="action" value="accept">Chấp nhận</button>
-                <button type="submit" form="process" class="btn btn-danger" style="width: 100px" name="action" value="denyy">Từ chối</button>
+                <button type="submit" form="process" class="btn btn-danger" style="width: 100px" name="action" value="deny">Từ chối</button>
                 </div>
                 </div>
             </div>
