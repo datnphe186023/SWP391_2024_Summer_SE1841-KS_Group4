@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClassDAO extends DBContext implements IClassDAO{
+public class ClassDAO extends DBContext implements IClassDAO {
 
     private Class createClass(ResultSet resultSet) throws SQLException {
         Class c = new Class();
@@ -126,7 +126,9 @@ public class ClassDAO extends DBContext implements IClassDAO{
         LocalDate schoolYearEndDate = Helper.convertDateToLocalDate(schoolYear.getEndDate());
         LocalDate schoolYearStartDate = Helper.convertDateToLocalDate(schoolYear.getStartDate());
         LocalDate todayPlus7 = LocalDate.now().plusDays(7);
-        if (schoolYearEndDate.isBefore(currentDate) || !schoolYearStartDate.isAfter(todayPlus7)) return false;
+        if (schoolYearEndDate.isBefore(currentDate) || !schoolYearStartDate.isAfter(todayPlus7)) {
+            return false;
+        }
         return true;
     }
 
@@ -214,13 +216,13 @@ public class ClassDAO extends DBContext implements IClassDAO{
     }
 
     @Override
-    public boolean moveOutClassForPupil(String oldClassId, String newClassId, String pupilId){
-        String sql="update classDetails set class_id = ? where pupil_id= ? and class_id= ?";
+    public boolean moveOutClassForPupil(String oldClassId, String newClassId, String pupilId) {
+        String sql = "update classDetails set class_id = ? where pupil_id= ? and class_id= ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,newClassId);
-            preparedStatement.setString(2,pupilId);
-            preparedStatement.setString(3,oldClassId);
+            preparedStatement.setString(1, newClassId);
+            preparedStatement.setString(2, pupilId);
+            preparedStatement.setString(3, oldClassId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -230,18 +232,18 @@ public class ClassDAO extends DBContext implements IClassDAO{
     }
 
     @Override
-    public List<Class> getClassesByGradeAndSchoolYear(String classId,String gradeId, String schoolYearId){
+    public List<Class> getClassesByGradeAndSchoolYear(String classId, String gradeId, String schoolYearId) {
         List<Class> list = new ArrayList<>();
-        String sql=" select * from class where school_year_id= ? and grade_id= ?";
-        if (classId!=null){
-            sql+= " and id != '"+classId+"'";
+        String sql = " select * from class where school_year_id= ? and grade_id= ?";
+        if (classId != null) {
+            sql += " and id != '" + classId + "'";
         }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,schoolYearId);
-            preparedStatement.setString(2,gradeId);
+            preparedStatement.setString(1, schoolYearId);
+            preparedStatement.setString(2, gradeId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 list.add(createClass(resultSet));
             }
         } catch (SQLException e) {
@@ -253,17 +255,32 @@ public class ClassDAO extends DBContext implements IClassDAO{
     @Override
     public String assignTeacherToClass(String teacherId, String classId) {
         String sql = "update [Class] set teacher_id = ? where id = ?";
-        try{
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, teacherId);
-                statement.setString(2, classId);
-                statement.executeUpdate();
-        }catch (Exception e){
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, teacherId);
+            statement.setString(2, classId);
+            statement.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
             return "Phân công giáo viên vào lớp thất bại! Vui lòng thử lại sau!";
         }
         return "success";
     }
 
+    @Override
+    public Class getClassByTeacherId(String id) {
+        String sql = "select * from [Class] where teacher_id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return createClass(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
 }

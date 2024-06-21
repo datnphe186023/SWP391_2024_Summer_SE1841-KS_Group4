@@ -79,7 +79,7 @@ public class ManagerUserServlet extends HttpServlet {
         List<User> list = new ArrayList<>();
         HttpSession session = request.getSession();
         String success = (String) session.getAttribute("success");
-        if(success!=null){
+        if (success != null) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
         }
@@ -87,7 +87,7 @@ public class ManagerUserServlet extends HttpServlet {
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
-        
+
         request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
     }
 

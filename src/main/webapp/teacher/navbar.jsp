@@ -39,9 +39,10 @@
 
             <!-- Nav Item - Thời khóa biểu -->
             <li class="nav-item">
-                <a class="nav-link" href="listtimetable?id=${sessionScope.personnel.id}">
+                <a class="nav-link" href="view-timetable?id=${sessionScope.personnel.id}"> 
                     <i class='app-menu__icon bx bx-time'></i>
                     <span>Thời khóa biểu</span>
+
                 </a>
             </li>
 
