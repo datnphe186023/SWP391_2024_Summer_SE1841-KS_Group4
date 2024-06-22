@@ -203,11 +203,11 @@
                             <c:if test="${not empty requestScope.dayList}">
                                 <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                     <tr>
-                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                         <c:forEach var="day" items="${requestScope.dayList}">
                                             <td>
                                                 <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}" required >
-                                                    <option value="" hidden>Chọn thức đơn</option>
+                                                    <option value="" hidden>Chọn suất ăn</option>
                                                     <c:forEach var="foodMenu" items="${requestScope.foodMenuList}">
 
                                                         <option value="${foodMenu.id}" name="FoodmenuId_${day.id}_${timeslot.id}_${foodMenu.id}">${foodMenu.getFoodDetails()}</option>
@@ -222,11 +222,11 @@
                             <c:if test="${empty requestScope.dayList }">
                                 <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                     <tr>
-                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                         <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri' , 'sta', 'sun']}">
                                             <td>
                                                 <select class="form-control" name="${day}">
-                                                    <option value="">Chọn thức đơn</option>
+                                                    <option value="">Chọn suất ăn</option>
                                                 </select>
                                             </td>
                                         </c:forEach>
@@ -254,7 +254,7 @@
                             <c:if test="${not empty requestScope.dayList}">
                                 <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                     <tr>
-                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                         <c:forEach var="day" items="${requestScope.dayList}">
                                             <td style="text-align: left;">
                                               <!--  <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}" disabled > -->
@@ -275,11 +275,11 @@
                             <c:if test="${empty requestScope.dayList }">
                                 <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                     <tr>
-                                        <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                        <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                         <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri' , 'sta', 'sun']}">
                                             <td>
                                                 <select class="form-control" name="${day}">
-                                                    <option value="">Chọn thức đơn</option>
+                                                    <option value="">Chọn suất ăn</option>
                                                 </select>
                                             </td>
                                         </c:forEach>

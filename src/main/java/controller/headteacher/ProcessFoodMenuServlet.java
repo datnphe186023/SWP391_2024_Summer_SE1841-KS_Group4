@@ -35,7 +35,7 @@ public class ProcessFoodMenuServlet extends HttpServlet {
         HttpSession session = request.getSession();
         IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
             String foodid = request.getParameter("foodid");
-        System.out.println(foodid);
+
             String action = request.getParameter("action");
             if(action.equalsIgnoreCase("accept")){
                 foodMenuDAO.AcceptorDenyFoodMenu(foodid,"đã được duyệt");

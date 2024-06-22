@@ -177,13 +177,19 @@
                                                 <c:if test="${p.getStatus() != null}">
                                                     <c:choose>
                                                         <c:when test="${p.getStatus() == 'đang làm việc'}">
-                                                            <td style=" color: #4fff33;">${p.getStatus()}</td>
+                                                            <td >
+                                                                <span class="badge badge-success">${p.getStatus()}</span>
+                                                            </td>
                                                         </c:when>
                                                         <c:when test="${p.getStatus() == 'đang chờ xử lý'}">
-                                                            <td style=" color: #ff2848;">${p.getStatus()}</td>
+                                                            <td>
+                                                            <span class="badge badge-warning">${p.getStatus()}</span>
+                                                            </td>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <td style="color: #4c67ff;">${p.getStatus()}</td>
+                                                            <td >
+                                                                <span class="badge badge-info">${p.getStatus()}</span>
+                                                            </td>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:if>
