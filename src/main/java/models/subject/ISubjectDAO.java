@@ -11,4 +11,5 @@ public interface ISubjectDAO {
     List<Subject> getSubjectsByGradeId(String gradeId);
     Subject getLastest();
     Subject getSubjectBySubjectId(String subjectId);
+    String editSubject(Subject subject);
 }

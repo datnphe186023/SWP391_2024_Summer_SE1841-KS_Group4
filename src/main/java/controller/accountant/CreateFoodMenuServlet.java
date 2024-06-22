@@ -28,7 +28,7 @@ public class CreateFoodMenuServlet extends HttpServlet {
         request.setAttribute("toastMessage", toastMessage);
         //get list of food menus
         IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
-        List<FoodMenu> foodMenus = foodMenuDAO.getAllFoodMenu();
+        List<FoodMenu> foodMenus = foodMenuDAO.getAllFoodMenu("FM000000");
         request.setAttribute("foodMenus", foodMenus);
         request.getRequestDispatcher("foodMenu.jsp").forward(request, response);
     }
@@ -52,6 +52,26 @@ public class CreateFoodMenuServlet extends HttpServlet {
                 session.setAttribute("toastType", "error");
                 session.setAttribute("toastMessage", result);
             }
+            response.sendRedirect("foodmenus");
+        } else if (action.equals("edit")) {
+            String details = Helper.formatString(request.getParameter("details"));
+            String foodMenuId = request.getParameter("foodMenuId");
+            IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
+            FoodMenu foodMenu = new FoodMenu();
+            foodMenu.setId(foodMenuId);
+            foodMenu.setFoodDetails(details);
+            String result = foodMenuDAO.editFoodMenu(foodMenu);
+            //handling toast message after create new food menu
+            HttpSession session = request.getSession();
+            session.setAttribute("foodMenuId", foodMenuId);
+            if (result.equals("success")) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Thao tác thành công");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", result);
+            }
+            session.setAttribute("foodMenu", foodMenu);
             response.sendRedirect("foodmenus");
         }
     }

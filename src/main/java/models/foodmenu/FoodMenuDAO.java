@@ -10,6 +10,7 @@ import models.timeslot.ITimeslotDAO;
 import models.timeslot.TimeslotDAO;
 import models.week.Week;
 import utils.DBContext;
+import utils.Helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,6 +54,26 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return foodMenus;
     }
 
+    @Override
+    public List<FoodMenu> getAllFoodMenu(String exception) {
+        List<FoodMenu> foodMenus = new ArrayList<>();
+        String sql = "select * from FoodMenus where not id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, exception);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                FoodMenu foodMenu = new FoodMenu();
+                foodMenu.setId(resultSet.getString("id"));
+                foodMenu.setFoodDetails(resultSet.getString("food_detail"));
+                foodMenu.setStatus(resultSet.getString("status"));
+                foodMenus.add(foodMenu);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return foodMenus;
+    }
 
     private Day getDay(String date_id) {
         Day day = new Day();
@@ -264,6 +285,10 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
 
     @Override
     public String createFoodMenu(FoodMenu foodMenu) {
+        String validateFoodMenu = validateCreateFoodMenu(foodMenu);
+        if (!validateFoodMenu.equals("success")){
+            return validateFoodMenu;
+        }
         String sql = "insert into [FoodMenus] values (?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -279,6 +304,16 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
             return "Thao tác thất bại! Vui lòng thử lại sau";
         }
         return "success";
+    }
+
+    private String validateCreateFoodMenu(FoodMenu foodMenu){
+
+        if (foodMenu.getFoodDetails().matches("^[a-zA-Z0-9" + "ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"
+                + "\\s-]{1,255}$")) {
+            return "success";
+        } else {
+            return "Chi tiết món ăn phải là tiếng việt và ngăn cách nhau bởi dấu gạch ngang";
+        }
     }
 
     private String generateId(String latestId) {
@@ -307,6 +342,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return null;
     }
 
+    @Override
     public List<String> getMenuDetailsforProcess(String schoolyearID) {
         GradeDAO gradeDAO = new GradeDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
@@ -330,6 +366,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return dataList;
     }
 
+    @Override
     public boolean AcceptorDenyMenu(String id, String status){
         String sql = "UPDATE [dbo].[MenuDetails]\n"
                 + "   SET [status] = ? \n"
@@ -346,6 +383,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return false;
     }
 
+    @Override
     public boolean AcceptorDenyFoodMenu(String id, String status){
         String sql = "UPDATE [dbo].[FoodMenus]\n"
                 + "   SET [status] = ? \n"
@@ -362,5 +400,23 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return false;
     }
 
-
+    @Override
+    public String editFoodMenu(FoodMenu foodMenu) {
+        String validateFoodMenu = validateCreateFoodMenu(foodMenu);
+        if (!validateFoodMenu.equals("success")){
+            return validateFoodMenu;
+        }
+        String sql = "update [FoodMenus] set food_detail = ?, status = ? where id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, foodMenu.getFoodDetails());
+            preparedStatement.setString(2, "đang chờ xử lý");
+            preparedStatement.setString(3, foodMenu.getId());
+            preparedStatement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Thao tác thất bại! Vui lòng thử lại sau";
+        }
+        return "success";
+    }
 }
