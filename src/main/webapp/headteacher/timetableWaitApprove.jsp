@@ -109,7 +109,7 @@
                                                             </div>
                                                         </td>
 
-                                                    </c:if>
+                                                    
                                                 </tr>
                                             </c:forEach>
 
