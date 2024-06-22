@@ -48,27 +48,26 @@
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
                                             <input type="password" name="password" placeholder="&#xf084; &nbsp; Nhập mật khẩu mới"
-                                                   class="form-control border-info placeicon">
+                                                   class="form-control border-info placeicon" pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
                                         </div>
                                     </div>
                                     <!-- Password Input -->
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
-                                            <input type="password" name="confPassword"
-                                                   placeholder="&#xf084; &nbsp; Nhập lại mật khẩu mới"
-                                                   class="form-control border-info placeicon">
+                                            <input type="password" name="confPassword" placeholder="&#xf084; &nbsp; Nhập lại mật khẩu mới"
+                                                   class="form-control border-info placeicon" pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
                                         </div>
                                     </div>
 
                                     <!-- Log in Button -->
                                     <div class="form-group row justify-content-center">
                                         <div class="col-3 px-3 mt-3">
-                                            <input type="submit" value="Lưu"
-                                                   class="btn btn-block btn-info">
+                                            <input type="submit" value="Lưu" class="btn btn-block btn-info">
                                         </div>
                                     </div>
                                 </form>
                             </div>
+
                             <!-- Alternative Login -->
                             <div class="mx-0 px-0 bg-light">
 

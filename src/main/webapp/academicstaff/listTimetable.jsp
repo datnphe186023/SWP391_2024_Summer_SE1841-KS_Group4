@@ -82,30 +82,36 @@
                                         </thead>
                                         <tbody>
                                             <c:forEach var="listTimetable" items="${requestScope.listTimetable}" varStatus="loop">
-                                                <tr>
-                                                    <td>${loop.index + 1}</td>
-                                                    <td>${listTimetable.aClass.name}</td>
-                                                    <td>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</td>
-                                                    <td>
-                                                        <fmt:formatDate value="${listTimetable.startDate}" pattern="dd/MM/yyyy"/> 
-                                                        đến
-                                                        <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
-                                                    </td>
-                                                    <td style="color: <c:choose>
-                                                            <c:when test="${listTimetable.status eq 'đã được duyệt'}">#23dd23</c:when>
-                                                            <c:when test="${listTimetable.status eq 'không được duyệt' or listTimetable.status eq 'đang chờ xử lý'}">red</c:when>
-                                                        </c:choose>;">
-                                                        ${listTimetable.status}
-                                                    </td>
-                                                    <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
-                                                    <td>${listTimetable.note}</td>
-                                                    <td>
-                                                        <div class="d-flex flex-column align-items-center">
-                                                            <a href="view-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
-                                                        </div>
-                                                    </td>
+                                                <c:if test="${listTimetable.status eq 'không được duyệt' or listTimetable.status eq 'đang chờ xử lý'}">
+                                                    <tr>
+                                                        <td>${loop.index + 1}</td>
+                                                        <td>${listTimetable.aClass.name}</td>
+                                                        <td>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</td>
+                                                        <td>
+                                                            <fmt:formatDate value="${listTimetable.startDate}" pattern="dd/MM/yyyy"/> 
+                                                            đến
+                                                            <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
+                                                        </td>
+                                                        <c:set value="${listTimetable.status}" var="status"/>
+                                                        <c:if test="${status eq 'đã được duyệt'}">
+                                                            <td><span class="badge badge-success">${status}</span></td>
+                                                            </c:if>
+                                                            <c:if test="${status eq 'đang chờ xử lý'}">
+                                                            <td><span class="badge badge-warning">${status}</span>  </td>
+                                                        </c:if>
+                                                        <c:if test="${status eq 'không được duyệt'}">
+                                                            <td><span class="badge badge-danger">${status}</span>  </td>
+                                                        </c:if>
+                                                        <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
+                                                        <td>${listTimetable.note}</td>
+                                                        <td>
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <a href="view-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
+                                                            </div>
+                                                        </td>
 
-                                                </tr>
+                                                    </tr>
+                                                </c:if>
                                             </c:forEach>
 
                                         </tbody>

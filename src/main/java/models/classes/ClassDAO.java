@@ -216,6 +216,28 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
+    public List<Class> getClassByGradeIdAndSchoolYearAndStatus(String gradeId, String schoolYearId, String status) {
+        List<Class> classes = new ArrayList<>();
+        String sql = "SELECT TOP (1000) [id], [name], [grade_id], [teacher_id], [school_year_id], [status], [created_by] "
+                + "FROM [BoNo_Kindergarten].[dbo].[Class] "
+                + "WHERE grade_id = ? AND school_year_id = ? AND status = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, gradeId);
+            statement.setString(2, schoolYearId);
+            statement.setString(3, status);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Class cls = createClass(rs);
+                classes.add(cls);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return classes;
+    }
+
+    @Override
     public boolean moveOutClassForPupil(String oldClassId, String newClassId, String pupilId) {
         String sql = "update classDetails set class_id = ? where pupil_id= ? and class_id= ?";
         try {
@@ -266,6 +288,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
         }
         return "success";
     }
+
 
     @Override
     public Class getClassByTeacherId(String id) {

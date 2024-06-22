@@ -115,7 +115,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
                 if (success) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Thời khóa biểu đã được phê duyệt.");
+                    session.setAttribute("toastMessage", "Thời khóa biểu đã được duyệt.");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Duyệt thất bại");
@@ -126,7 +126,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
                 if (success) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Đã từ chối thời khóa biểu.");
+                    session.setAttribute("toastMessage", "Thời khóa biểu không được duyệt");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Duyệt thất bại");
