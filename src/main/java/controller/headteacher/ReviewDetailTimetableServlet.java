@@ -111,7 +111,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
             if (action == null) {
                 response.sendRedirect("timetable");
             } else if (action.equals("approve")) {
-                String newStatus = "đã được xét duyệt";
+                String newStatus = "đã được duyệt";
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
                 if (success) {
                     session.setAttribute("toastType", "success");
