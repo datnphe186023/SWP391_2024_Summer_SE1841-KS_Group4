@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="../css/information-css.css">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
@@ -30,6 +31,18 @@
             });
         </script>
 
+        <script>
+            function submitForm() {
+                var newPassword = document.getElementById("newPassword").value;
+                var confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (newPassword !== confirmPassword) {
+                    toastr.error('Mật khẩu không trùng khớp.');
+                } else {
+                    document.getElementById("changePasswordForm").submit();
+                }
+            }
+        </script>
 
     </head>
 
@@ -69,7 +82,7 @@
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
                                         <form action="${pageContext.request.contextPath}/update-information" method="post">
                                             <div class="row gutters">
-                                                
+
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <label for="id">ID Người dùng * </label>
@@ -137,22 +150,21 @@
                                         <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-
                                                     <div class="modal-body">
-                                                        <form action="${pageContext.request.contextPath}/new-password" method="post">
+                                                        <form id="changePasswordForm" action="${pageContext.request.contextPath}/new-password" method="post">
                                                             <div class="form-group">
                                                                 <label for="oldPassword">Mật khẩu cũ:</label>
                                                                 <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="newPassword">Mật khẩu mới:</label>
-                                                                <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                                                                <input type="password" id="newPassword" name="newPassword" class="form-control" pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="confirmPassword">Xác nhận mật khẩu:</label>
                                                                 <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
                                                             </div>
-                                                            <input type="submit" value="Đổi mật khẩu" class="btn btn-primary">
+                                                            <button type="button" onclick="submitForm()" class="btn btn-primary">Đổi mật khẩu</button>
                                                         </form>
                                                     </div>
                                                 </div>

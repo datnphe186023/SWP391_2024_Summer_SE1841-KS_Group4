@@ -99,7 +99,7 @@ public class CreateTimetableServlet extends HttpServlet {
         // get list subject by grade id
         List<Subject> subList = subjectDAO.getSubjectsByGradeId(selectedGradeId);
         // get list class by grade id
-        List<Class> classList = classDAO.getClassByGradeId(selectedGradeId);
+        List<Class> classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId,schoolYear.getId(),"đã được duyệt");
         // get list day by week 
         List<Day> dayList = dayDAO.getDayByWeek(weekId);
 

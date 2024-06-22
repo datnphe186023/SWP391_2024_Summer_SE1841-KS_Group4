@@ -207,4 +207,25 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
         }
         return subject;
     }
+
+    @Override
+    public String editSubject(Subject subject){
+        if(checkSubjectExist(subject.getName(),subject.getGrade().getId())){
+            return "Chỉnh sửa thất bại!! Môn học đã tồn tại!";
+        }
+        String sql = "update [Subjects] set name = ?, grade_id = ?, description = ?, status = ? where id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,subject.getName());
+            preparedStatement.setString(2,subject.getGrade().getId());
+            preparedStatement.setString(3,subject.getDescription());
+            preparedStatement.setString(4,subject.getStatus());
+            preparedStatement.setString(5,subject.getId());
+            preparedStatement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Thao tác thất bại! Vui lòng thử lại sau";
+        }
+        return "success";
+    }
 }

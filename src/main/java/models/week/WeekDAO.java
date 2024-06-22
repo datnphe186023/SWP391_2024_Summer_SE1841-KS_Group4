@@ -41,7 +41,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
             Date startDate = schoolYear.getStartDate();
             Date endDate = schoolYear.getEndDate();
             LocalDate schoolYearStartDate = Helper.convertDateToLocalDate(startDate);
-            LocalDate schoolYearEndDate = Helper.convertDateToLocalDate(endDate);;
+            LocalDate schoolYearEndDate = Helper.convertDateToLocalDate(endDate);
             LocalDate currentStartDate = schoolYearStartDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
             while (!currentStartDate.isAfter(schoolYearEndDate)) {

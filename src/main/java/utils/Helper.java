@@ -6,6 +6,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Helper {
+
+    public static final String VIETNAMESE_CHARACTERS =
+            "ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ";
+
     private static String standardiztionString(String word){
         word = word.toLowerCase();
         return word.substring(0,1).toUpperCase()+word.substring(1).trim();

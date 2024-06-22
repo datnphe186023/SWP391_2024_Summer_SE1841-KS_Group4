@@ -9,6 +9,7 @@ public interface ITimetableDAO {
     void createTimetable(Timetable timetable);
     boolean existsTimetableForClassInCurrentWeek(String classId, String dayId);
     List<TimetableDTO> getUniqueClassTimetablesWithWeeks();
+    List<TimetableDTO> getListTimetableByStatusAndCreatedBy(String status, String createdBy);
     List<TimetableDTO> getListTimetableByStatus(String status);
     String generateTimetableId();
     List<Timetable> getTimetableByClassAndWeek(String classId, String weekId,String status);

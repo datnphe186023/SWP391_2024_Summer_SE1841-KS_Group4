@@ -184,6 +184,65 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     }
 
     @Override
+    public List<TimetableDTO> getListTimetableByStatusAndCreatedBy(String status, String createdBy) {
+        List<TimetableDTO> timetables = new ArrayList<>();
+        String sql = "SELECT DISTINCT "
+                + "    temp.class_id, "
+                + "    w.id AS week_id, "
+                + "    w.start_date, "
+                + "    w.end_date, "
+                + "    temp.created_by, "
+                + "    temp.status, "
+                + "    temp.note, " // Thêm trường note vào truy vấn SQL
+                + "    temp.teacher_id "
+                + "FROM ( "
+                + "    SELECT "
+                + "        t.class_id, "
+                + "        d.week_id, "
+                + "        t.created_by, "
+                + "        t.status, "
+                + "        t.teacher_id, "
+                + "        t.note, " // Thêm trường note
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
+                + "    FROM "
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id "
+                + "    WHERE t.status = ? AND t.created_by = ? " // Filter by status and createdBy
+                + ") AS temp "
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id "
+                + "WHERE temp.row_num = 1;";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, status);  // Set status parameter
+            statement.setString(2, createdBy);  // Set createdBy parameter
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String classId = resultSet.getString("class_id");
+                String weekId = resultSet.getString("week_id");
+                Date startDate = resultSet.getDate("start_date");
+                Date endDate = resultSet.getDate("end_date");
+                String createdByResult = resultSet.getString("created_by");
+                String statusValue = resultSet.getString("status");
+                String note = resultSet.getString("note"); // Lấy giá trị note từ ResultSet
+                String teacherId = resultSet.getString("teacher_id");
+
+                IClassDAO classDAO = new ClassDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+
+                Class classObj = classDAO.getClassById(classId);
+                Personnel createdByObj = personnelDAO.getPersonnel(createdByResult);
+                Personnel teacherObj = personnelDAO.getPersonnel(teacherId);
+
+                TimetableDTO timetable = new TimetableDTO(classObj, weekId, startDate, endDate, createdByObj, statusValue, note, teacherObj);
+                timetables.add(timetable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving timetables by status and createdBy", e);
+        }
+        return timetables;
+    }
+
+    @Override
     public void createTimetable(Timetable timetable) {
         String sql = "INSERT INTO Timetables "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -212,7 +271,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String status = rs.getString("status");
-                if ("đã được xét duyệt".equalsIgnoreCase(status) || "đang chờ xử lý".equalsIgnoreCase(status)) {
+                if ("đã được duyệt".equalsIgnoreCase(status) || "đang chờ xử lý".equalsIgnoreCase(status)) {
                     return true; // Timetable exists
                 }
             }

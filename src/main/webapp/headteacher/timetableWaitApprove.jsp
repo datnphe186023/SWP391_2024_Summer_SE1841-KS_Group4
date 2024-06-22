@@ -10,8 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
-        <title>Quản Lý Lớp Học</title>
+
+        <title>Đang chờ phê duyệt</title>
+
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -58,12 +59,12 @@
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
-                        <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Thời Khóa Biểu</h1>
+                        <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Thời Khóa Biểu Đang Chờ Phê Duyệt</h1>
 
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Danh Sách Thời Khóa Biểu</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Đang Chờ Phê Duyệt</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -77,7 +78,7 @@
                                                 <th>Hiệu lực</th>
                                                 <th>Trạng thái</th>
                                                 <th>Giáo Viên</th>
-                                                
+
                                                 <th>Hành động</th>
                                             </tr>
 
@@ -95,22 +96,20 @@
                                                         đến
                                                         <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
                                                     </td>
-                                                    <td style="color: <c:choose>
-                                                            <c:when test="${listTimetable.status eq 'đang chờ xử lý'}">red</c:when>
-                                                        </c:choose>;">
-                                                        ${listTimetable.status}
-                                                    </td>
+
+                                                    <c:set value="${listTimetable.status}" var="status"/>
+                                                    <c:if test="${status eq 'đang chờ xử lý'}">
+                                                        <td><span class="badge badge-warning">${status}</span>  </td>
+                                                    </c:if>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
 
-                                                    
-                                                        <c:if test="${listTimetable.status eq 'đang chờ xử lý'}">
                                                         <td>
                                                             <div class="d-flex flex-column align-items-center">
                                                                 <a href="review-detail-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
                                                             </div>
                                                         </td>
 
-                                                    </c:if>
+                                                    
                                                 </tr>
                                             </c:forEach>
 

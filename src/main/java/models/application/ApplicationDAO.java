@@ -77,19 +77,17 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
     }
 
     @Override
-    public List<Application> getForPersonnel(SchoolYear schoolYear, String role){
+    public List<Application> getForPersonnel(String role){
         List<Application> applications = new ArrayList<>();
         String sql = "SELECT a.*\n" +
                 "FROM Applications a\n" +
                 "JOIN Application_Types at\n" +
                 "ON a.application_type = at.id\n" +
                 "WHERE at.receiver_role = ?\n" +
-                "AND a.created_at between ? and ?";
+                "ORDER BY created_at desc";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, role);
-            statement.setString(2, Helper.convertDateToLocalDate(schoolYear.getStartDate()).toString());
-            statement.setString(3, Helper.convertDateToLocalDate(schoolYear.getEndDate()).toString());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Application application = createApplication(resultSet);

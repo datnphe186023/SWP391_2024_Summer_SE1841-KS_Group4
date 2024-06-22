@@ -1,4 +1,4 @@
-<%--
+<%@ page import="models.subject.Subject" %><%--
   Created by IntelliJ IDEA.
   User: Anh Quan
   Date: 6/10/2024
@@ -28,17 +28,37 @@
         String toastType = (String) session.getAttribute("toastType");
         session.removeAttribute("toastMessage");
         session.removeAttribute("toastType");
+        Subject subject = (Subject) session.getAttribute("subject");
+        String subjectId = null, name = null, description = null, grade = null;
+        if (subject != null) {
+            subjectId = subject.getId();
+            name = subject.getName();
+            description = subject.getDescription();
+            grade = subject.getGrade().getId();
+        }
     %>
     <script>
         $(document).ready(function() {
             var toastMessage = '<%= toastMessage %>';
             var toastType = '<%= toastType %>';
+            var subjectId = '<%= subjectId %>';
             if (toastMessage) {
                 if (toastType === 'success') {
                     toastr.success(toastMessage);
                 } else if (toastType === 'error') {
                     toastr.error(toastMessage);
-                    $('.create-subject').modal('show'); // Show the modal if the toast type is fail
+                    if (toastMessage === 'Chỉnh sửa thất bại! Chi tiết trống hoặc đã quá 1000 kí tự'
+                        || toastMessage === 'Chỉnh sửa thất bại!Tên môn học trống hoặc quá 125 kí tự'
+                        || toastMessage === 'Thao tác thất bại! Vui lòng thử lại sau'
+                        || toastMessage === 'Chỉnh sửa thất bại!! Môn học đã tồn tại!') {
+                        $('#editSubject' + subjectId).modal('show');
+                        document.getElementById(subjectId + 'name-edit').value = '<%=name%>';
+                        document.getElementById(subjectId + 'grade-edit').value = '<%=grade%>';
+                        document.getElementById(subjectId + 'description-edit').value = '<%=description%>';
+                    }
+                     else {
+                         $('.create-subject').modal('show');
+                    }
                 }
             }
         });
@@ -47,6 +67,19 @@
         function submitForm() {
             document.getElementById("myForm").submit();
         }
+        function confirmEdit(formId, msg) {
+            formIdToSubmit = formId;
+
+            document.getElementById('confirmationMessage').innerText = msg;
+            $('#confirmationModal').modal('show');
+        }
+
+        $(document).ready(function () {
+            $('#confirmButton').click(function () {
+                document.getElementById(formIdToSubmit).submit();
+
+            });
+        });
     </script>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -67,7 +100,7 @@
 <div id="wrapper">
     <jsp:include page="navbar.jsp"/>
     <div id="content-wrapper" class="d-flex flex-column">
-        <di id="content">
+        <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Môn Học</h1>
@@ -109,8 +142,72 @@
                                             <td><span class="badge badge-danger">${status}</span>  </td>
                                         </c:if>
                                         <td>${subject.description}</td>
-                                        <td class="text-center"><a href="#"
-                                                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">Sửa</a></td>                                    </tr>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#editSubject${subject.id}">
+                                                Chỉnh Sửa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <%--     Edit Subject Modal           --%>
+                                    <div class="modal fade" id="editSubject${subject.id}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <form action="subject?action=edit" method="POST" id="editSubjectForm${subject.id}">
+                                            <input hidden="hidden" type="text" readonly
+                                                   name="subjectId" value="${subject.id}">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <span class="thong-tin-thanh-toan">
+                                                                    <h5>Chỉnh sửa môn học</h5>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <c:set var="vietnamesePattern"
+                                                               value="ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
+                                                        <div class="row">
+                                                            <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">là thông tin bắt buộc phải nhập</a></p>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="${subject.id}name-edit" class="control-label">Tên Môn Học<a style="color: red">(*)</a></label>
+                                                                    <input id="${subject.id}name-edit" class="form-control" type="text" name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$"
+                                                                           title="Tên không được chứa kí tự đặc biệt (Tối đa 50 kí tự)" required value="${subject.name}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="${subject.id}grade-edit">Khối<a style="color: red">(*)</a></label>
+                                                                    <select class="form-control" id="${subject.id}grade-edit" name="grade" required>
+                                                                        <option value="">-- Chọn Khối --</option>
+                                                                        <c:forEach var="grade" items="${requestScope.listGrade}">
+                                                                            <option value="${grade.id}" ${subject.grade.id eq grade.id ? "selected":""}>${grade.name}</option>
+                                                                        </c:forEach>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="${subject.id}description-edit">Mô tả<a style="color: red">(*)</a></label>
+                                                                    <textarea class="form-control" name="description" id="${subject.id}description-edit" cols="30" rows="5" required>${subject.description}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <button class="btn btn-success" type="button"
+                                                                onclick="confirmEdit('editSubjectForm${subject.id}', 'Bạn có chắc chắn chỉnh sửa môn học này?')">
+                                                            Lưu lại
+                                                        </button>
+                                                        <a class="btn btn-danger" data-dismiss="modal" id="cancel-edit-button">Hủy bỏ</a>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <%--     End Modal Edit Subject           --%>
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -172,10 +269,34 @@
                     </form>
                 </div>
                 <%--     End Modal Create Subject           --%>
+
+
             </div>
-        </di>
+        </div>
         <jsp:include page="../footer.jsp"/>
     </div>
+    <%-- Begin confirmation modal--%>
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Xác nhận thao tác</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="confirmationMessage">
+                    <!-- Dynamic message will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Xác Nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- End confirmation modal--%>
 </div>
 <script>
     document.getElementById('cancel-button').addEventListener('click', function() {

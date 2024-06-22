@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,24 +69,32 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     }
 
     @Override
-    public void createNoti(Notification notification) throws SQLException {
-        String sql = "insert into [Notifications] values(?,?,?,?,?) ";
-        try (PreparedStatement statement = connection.prepareStatement(sql);) {
+    public void createNoti(Notification notification, NotificationDetails notificationdetails) throws SQLException {
+        String sqlNotification = "INSERT INTO Notifications (id, heading, details, created_by, created_at) VALUES (?, ?, ?, ?, ?)";
+        String sqlNotificationDetails = "INSERT INTO NotificationDetails (notification_id, receiver_id) VALUES (?, ?)";
+
+        try (PreparedStatement statementNotification = connection.prepareStatement(sqlNotification); PreparedStatement statementNotificationDetails = connection.prepareStatement(sqlNotificationDetails)) {
+
             String id;
             if (getLatest() != null) {
                 id = generateId(getLatest().getId());
             } else {
                 id = "N000001";
             }
-            statement.setString(1, id);
-            statement.setString(2, notification.getHeading());
-            statement.setString(3, notification.getDetails());
-            statement.setObject(4, notification.getCreatedBy().getId());
+
+            // Insert into Notifications table
+            statementNotification.setString(1, id);
+            statementNotification.setString(2, notification.getHeading());
+            statementNotification.setString(3, notification.getDetails());
+            statementNotification.setObject(4, notification.getCreatedBy().getId());
             Date date = notification.getCreatedAt();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-MM-dd");
-            String Create_at = dateFormat.format(date);
-            statement.setString(5, Create_at);
-            statement.executeUpdate();
+            statementNotification.setDate(5, new java.sql.Date(date.getTime()));
+            statementNotification.executeUpdate();
+
+            // Insert into NotificationDetails table
+            statementNotificationDetails.setString(1, id);
+            statementNotificationDetails.setInt(2, notificationdetails.getReceiver());
+            statementNotificationDetails.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -96,10 +103,12 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     }
 
     @Override
-    public List<Notification> getListNotifi() {
+    public List<Notification> getListNotifiByRoleId(int role_id) {
         List<Notification> listNoti = new ArrayList<>();
-        String sql = "select * from [Notifications] order by id desc";
-        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        String sql = "select * from [Notifications] n inner join NotificationDetails nd on n.id = nd.notification_id where receiver_id=? order by n.id desc";
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setInt(1, role_id);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Notification notifi = createNotifi(rs);
                 listNoti.add(notifi);
