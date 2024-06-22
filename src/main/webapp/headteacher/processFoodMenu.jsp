@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
     <title>Trường Mầm Non BoNo</title>
 
     <!-- Custom fonts for this template-->
@@ -19,9 +19,12 @@
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script>
         $(document).ready(function () {
             var toastMessage = '<%= request.getAttribute("toastMessage") %>';
@@ -34,7 +37,8 @@
                 }
             }
         });
-    </script></head>
+    </script>
+</head>
 
 <body id="page-top">
 <div id="wrapper">
@@ -86,17 +90,17 @@
 
                                             <c:if test="${fml.getStatus() eq 'đã được duyệt'}">
                                         <td style="color: #0f6848">
-                                                ${fml.getStatus()}
+                                            <span class="badge badge-success">${fml.getStatus()}</span>
                                         </td>
                                             </c:if>
                                         <c:if test="${fml.getStatus() eq 'đang chờ xử lý'}">
                                             <td style="color: #4c67ff">
-                                                    ${fml.getStatus()}
+                                                <span class="badge badge-warning">${fml.getStatus()}</span>
                                             </td>
                                         </c:if>
                                         <c:if test="${fml.getStatus() eq 'không được duyệt'}">
                                             <td style="color: #ff3a28">
-                                                    ${fml.getStatus()}
+                                                <span class="badge badge-danger">${fml.getStatus()}</span>
                                             </td>
                                         </c:if>
                                         <td>
@@ -129,6 +133,12 @@
         <jsp:include page="../footer.jsp"/>
     </div>
 </div>
+<!-- Page level plugins -->
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../js/demo/datatables-demo.js"></script>
 </body>
 
 </html>

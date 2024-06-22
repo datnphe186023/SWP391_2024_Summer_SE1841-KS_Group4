@@ -10,6 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
+        <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
         <title>Quản Lý Lớp Học</title>
         <script>
             function submitForm() {

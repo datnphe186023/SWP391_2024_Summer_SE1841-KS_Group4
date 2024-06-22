@@ -222,7 +222,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
 
                 if (entryCreated) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
+                    session.setAttribute("toastMessage", "Thực đơn được tạo thành công !");
 
                     response.sendRedirect("createmealtimetable?weekId="+weekId+"&gradeId="+selectedGradeId);
                 } else {
