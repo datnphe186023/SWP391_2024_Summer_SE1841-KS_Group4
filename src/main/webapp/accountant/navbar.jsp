@@ -3,140 +3,140 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title></title>
+        <title></title>
 
-    <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
+        <!-- Custom fonts for this template-->
+        <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+        <!-- Custom styles for this template-->
+        <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-</head>
+    </head>
 
-<body id="page-top">
+    <body id="page-top">
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/accountant/dashboard">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Bono Kindergarten</div>
-        </a>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
-
-        <!-- Nav Item -->
-        <li class="nav-item">
-            <a class="nav-link" href="sendFee.jsp">
-                <i class="fas fa-fw fa-solid fa-money-bill"></i>
-                <span>Học Phí</span></a>
-        </li>
-
-
-        <!-- Nav Item -->
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-calendar-check"></i>
-                <span>Điểm Danh</span></a>
-        </li>
-
-        <!-- Nav Item -->
-        <li class="nav-item">
-            <a class="nav-link" href="listpersonnel">
-                <i class="fas fa-fw fa-user-friends"></i>
-                <span>Quản lý nhân sự</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-hospital-user"></i>
-                <span>Báo cáo sức khoẻ học sinh</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFoodMenu"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cheese"></i>
-                <span>Thực Đơn</span>
-            </a>
-            <div id="collapseFoodMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="viewmealtimetable">Xem Thực Đơn </a>
-                    <a class="collapse-item" href="createmealtimetable">Tạo Thực Đơn</a>
-                    <a class="collapse-item" href="foodmenus">Danh Sách Món Ăn</a>
-
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/accountant/dashboard">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
                 </div>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="listnotification">
-                <i class="fas fa-fw fa-bell"></i>
-                <span>Thông Báo</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Đơn Từ</span>
+                <div class="sidebar-brand-text mx-3">Bono Kindergarten</div>
             </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="application">Xử Lý Đơn Từ</a>
-                    <a class="collapse-item" href="sendapplication">Gửi Đơn</a>
-                    <a class="collapse-item" href="sentapplications">Xem Đơn Đã Gửi</a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link" href="sendfee">
+                    <i class="fas fa-fw fa-solid fa-money-bill"></i>
+                    <span>Học Phí</span></a>
+            </li>
+
+
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-calendar-check"></i>
+                    <span>Điểm Danh</span></a>
+            </li>
+
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link" href="listpersonnel">
+                    <i class="fas fa-fw fa-user-friends"></i>
+                    <span>Quản lý nhân sự</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-hospital-user"></i>
+                    <span>Báo cáo sức khoẻ học sinh</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFoodMenu"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cheese"></i>
+                    <span>Thực Đơn</span>
+                </a>
+                <div id="collapseFoodMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="viewmealtimetable">Xem Thực Đơn </a>
+                        <a class="collapse-item" href="createmealtimetable">Tạo Thực Đơn</a>
+                        <a class="collapse-item" href="foodmenus">Danh Sách Món Ăn</a>
+
+                    </div>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="listnotification">
+                    <i class="fas fa-fw fa-bell"></i>
+                    <span>Thông Báo</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Đơn Từ</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="application">Xử Lý Đơn Từ</a>
+                        <a class="collapse-item" href="sendapplication">Gửi Đơn</a>
+                        <a class="collapse-item" href="sentapplications">Xem Đơn Đã Gửi</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="listevent">
+                    <i class="fas fa-fw fa-calendar-check" aria-hidden="true"></i>
+                    <span>Danh Sách Sự Kiện</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="listevent">
-                <i class="fas fa-fw fa-calendar-check" aria-hidden="true"></i>
-                <span>Danh Sách Sự Kiện</span></a>
-        </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        <!-- End of Sidebar -->
 
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
+        <!-- Bootstrap core JavaScript-->
+        <script src="../vendor/jquery/jquery.min.js"></script>
+        <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    </ul>
-    <!-- End of Sidebar -->
+        <!-- Core plugin JavaScript-->
+        <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Bootstrap core JavaScript-->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="../js/sb-admin-2.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Page level plugins -->
+        <script src="../vendor/chart.js/Chart.min.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="../js/sb-admin-2.min.js"></script>
+        <!-- Page level custom scripts -->
+        <script src="../js/demo/chart-area-demo.js"></script>
+        <script src="../js/demo/chart-pie-demo.js"></script>
 
-<!-- Page level plugins -->
-<script src="../vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="../js/demo/chart-area-demo.js"></script>
-<script src="../js/demo/chart-pie-demo.js"></script>
-
-</body>
+    </body>
 
 </html>

@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
+import models.notification.NotificationDetails;
 import models.personnel.PersonnelDAO;
 
 /**
@@ -63,7 +64,7 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("createNotification.jsp").forward(request, response);
     }
 
     /**
@@ -78,6 +79,7 @@ public class CreateNotificationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NotificationDAO notifiDAO = new NotificationDAO();
+        int role_id = Integer.parseInt(request.getParameter("role_id"));
         String id = "";
         String heading = request.getParameter("heading");
         String content = request.getParameter("content");
@@ -91,11 +93,13 @@ public class CreateNotificationServlet extends HttpServlet {
             e.printStackTrace();
         }
         Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+        NotificationDetails notifidetails = new NotificationDetails(id, role_id);
         try {
-            notifiDAO.createNoti(notifi);
+            notifiDAO.createNoti(notifi, notifidetails);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        request.setAttribute("role_id", role_id);
         request.getRequestDispatcher("listnotification").forward(request, response);
     }
 

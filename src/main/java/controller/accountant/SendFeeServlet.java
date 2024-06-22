@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
+import models.notification.NotificationDetails;
 import models.personnel.PersonnelDAO;
 
 @WebServlet(name = "SendFeeServlet", urlPatterns = {"/accountant/sendfee"})
@@ -37,12 +38,13 @@ public class SendFeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getRequestDispatcher("sendFee.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int hocphi = Integer.parseInt(request.getParameter("hocphi").replace(".", ""));
+        long hocphi = Long.parseLong(request.getParameter("hocphi").replace(".", ""));
 
         String baohiemParam = request.getParameter("baohiem");
         int baohiem = baohiemParam != null ? Integer.parseInt(baohiemParam) : 0;
@@ -54,7 +56,7 @@ public class SendFeeServlet extends HttpServlet {
         int dongphuc = dongphucParam != null ? Integer.parseInt(dongphucParam) : 0;
 
         // Tính tổng học phí
-        int totalFee = hocphi + baohiem + csvatchat + dongphuc;
+        long totalFee = hocphi + baohiem + csvatchat + dongphuc;
 
         // Định dạng các số với dấu chấm
         String formattedHocphi = formatNumberWithDot(hocphi);
@@ -78,8 +80,9 @@ public class SendFeeServlet extends HttpServlet {
             e.printStackTrace();
         }
         Notification notifi = new Notification(id, heading.trim(), details.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+        NotificationDetails notifidetails = new NotificationDetails(id, 5);
         try {
-            notifiDAO.createNoti(notifi);
+            notifiDAO.createNoti(notifi, notifidetails);
             request.setAttribute("toastMessage", "Tạo Thành Công!");
             request.setAttribute("toastType", "success");
         } catch (Exception e) {
@@ -89,7 +92,7 @@ public class SendFeeServlet extends HttpServlet {
         request.getRequestDispatcher("sendFee.jsp").forward(request, response);
     }
 
-    private String formatNumberWithDot(int number) {
+    private String formatNumberWithDot(long number) {
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(number);
     }

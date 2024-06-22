@@ -60,8 +60,9 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int role_id = 5;
         NotificationDAO notifiDAO = new NotificationDAO();
-        List<Notification> notifi = notifiDAO.getListNotifi();
+        List<Notification> notifi = notifiDAO.getListNotifiByRoleId(role_id);
         request.setAttribute("notifi", notifi);
         request.getRequestDispatcher("listNotification.jsp").forward(request, response);
 
@@ -78,8 +79,9 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int role_id = 5;
         NotificationDAO notifiDAO = new NotificationDAO();
-        List<Notification> notifi = notifiDAO.getListNotifi();
+        List<Notification> notifi = notifiDAO.getListNotifiByRoleId(role_id);
         request.setAttribute("notifi", notifi);
         request.getRequestDispatcher("listNotification.jsp").forward(request, response);
     }
