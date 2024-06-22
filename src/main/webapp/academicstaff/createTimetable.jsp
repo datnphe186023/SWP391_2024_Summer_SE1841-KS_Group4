@@ -128,8 +128,6 @@
                                             </option>
                                         </c:forEach>
                                     </select>
-
-
                                 </div>
 
                                 <div class="form-group col-md-2">
@@ -154,17 +152,23 @@
                                     <label for="selectClass">Chọn lớp:</label>
                                     <select class="form-control" id="selectClass" name="classId" style="width: 80%;">
                                         <option>Chọn lớp</option>
-                                        <c:forEach var="classList" items="${requestScope.classList}">
-                                            <option value="${classList.id}">${classList.name}</option>
-                                        </c:forEach>
+                                        <c:if test="${ not empty requestScope.classList}">
+                                            <c:forEach var="classList" items="${requestScope.classList}">
+                                                <option value="${classList.id}">${classList.name}</option>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${empty requestScope.classList}">
+                                            <option>Chưa có lớp</option>
+                                        </c:if>
+                                                
                                     </select>
                                 </div>
-
                             </div>
+
                             <c:if test="${not empty requestScope.dateWeek}">
                                 <div style="margin-top: 20px;">
                                     <p>*Thời khóa biểu áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" />
-                                    đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
+                                        đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
                                 </div>
                             </c:if>
 
@@ -240,6 +244,13 @@
             }
 
             function validateTimetableForm() {
+                const gradeSelect = document.getElementById('selectGrade');
+                const classSelect = document.getElementById('selectClass');
+                if (gradeSelect.value === "Chọn khối" || classSelect.value === "Chọn lớp") {
+                    toastr.error('Vui lòng chọn khối và lớp trước khi lưu.');
+                    return false;
+                }
+
                 const selects = document.querySelectorAll('#createTimetableForm select[name^="timeslotId_"]');
                 for (const select of selects) {
                     if (select.value === "") {
@@ -248,6 +259,10 @@
                     }
                 }
                 return true;
+            }
+
+            function goBack() {
+                window.history.back();
             }
         </script>
     </body>

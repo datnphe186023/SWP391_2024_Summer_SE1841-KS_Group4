@@ -99,7 +99,7 @@ public class CreateTimetableServlet extends HttpServlet {
         // get list subject by grade id
         List<Subject> subList = subjectDAO.getSubjectsByGradeId(selectedGradeId);
         // get list class by grade id
-        List<Class> classList = classDAO.getClassByGradeId(selectedGradeId);
+        List<Class> classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId,schoolYear.getId(),"đã được duyệt");
         // get list day by week 
         List<Day> dayList = dayDAO.getDayByWeek(weekId);
 
@@ -150,7 +150,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 timetable.setaClass(classDAO.getClassById(classId));
                 // Định nghĩa các tham số khác
                 timetable.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
-                String status = "chưa xét duyệt";
+                String status = "đang chờ xử lý";
                 timetable.setStatus(status);
                 String note = "";
                 timetable.setNote(note);

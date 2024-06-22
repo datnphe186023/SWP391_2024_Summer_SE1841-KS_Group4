@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
-        <title>Quản Lý Lớp Học</title>
+        <title>Danh sách thời khóa biểu</title>
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -91,12 +91,16 @@
                                                         đến
                                                         <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
                                                     </td>
-                                                    <td style="color: <c:choose>
-                                                            <c:when test="${listTimetable.status eq 'đã được xét duyệt'}">#23dd23</c:when>
-                                                            <c:when test="${listTimetable.status eq 'đã từ chối' or listTimetable.status eq 'chưa xét duyệt'}">red</c:when>
-                                                        </c:choose>;">
-                                                        ${listTimetable.status}
-                                                    </td>
+                                                    <c:set value="${listTimetable.status}" var="status"/>
+                                                    <c:if test="${status eq 'đã được duyệt'}">
+                                                        <td><span class="badge badge-success">${status}</span></td>
+                                                        </c:if>
+                                                        <c:if test="${status eq 'đang chờ xử lý'}">
+                                                        <td><span class="badge badge-warning">${status}</span>  </td>
+                                                    </c:if>
+                                                    <c:if test="${status eq 'không được duyệt'}">
+                                                        <td><span class="badge badge-danger">${status}</span>  </td>
+                                                    </c:if>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
                                                     <td>${listTimetable.note}</td>
                                                     <td>

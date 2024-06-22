@@ -111,22 +111,22 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
             if (action == null) {
                 response.sendRedirect("timetable");
             } else if (action.equals("approve")) {
-                String newStatus = "đã được xét duyệt";
+                String newStatus = "đã được duyệt";
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
                 if (success) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Thời khóa biểu đã được phê duyệt.");
+                    session.setAttribute("toastMessage", "Thời khóa biểu đã được duyệt.");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Duyệt thất bại");
                 }
 
             } else if (action.equals("reject")) {
-                String newStatus = "đã từ chối";
+                String newStatus = "không được duyệt";
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
                 if (success) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Đã từ chối thời khóa biểu.");
+                    session.setAttribute("toastMessage", "Thời khóa biểu không được duyệt");
                 } else {
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Duyệt thất bại");

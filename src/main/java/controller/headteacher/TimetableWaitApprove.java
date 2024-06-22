@@ -18,7 +18,7 @@ public class TimetableWaitApprove extends HttpServlet {
             throws ServletException, IOException {
         //classid , date_id(startdate-enddate) , createby , status , teacherid
         ITimetableDAO timetableDAO = new TimetableDAO();
-        List<TimetableDTO> listTimetable = timetableDAO.getListTimetableByStatus("chưa xét duyệt");
+        List<TimetableDTO> listTimetable = timetableDAO.getListTimetableByStatus("đang chờ xử lý");
         request.setAttribute("listTimetable", listTimetable);
         request.getRequestDispatcher("timetableWaitApprove.jsp").forward(request, response);
     }
