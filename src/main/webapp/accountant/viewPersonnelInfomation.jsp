@@ -37,7 +37,7 @@
             }
             table.table-bordered, table.table-bordered th, table.table-bordered td {
                 border: 2px solid black;
-                text-align: center;
+                text-align: left;
             }
             .accept-button , decltine-button , return-button {
                 color: #001C41;
@@ -159,13 +159,19 @@
                                                                         <c:if test="${p.getStatus() != null}">
                                                                             <c:choose>
                                                                                 <c:when test="${p.getStatus() == 'đang làm việc'}">
-                                                                                    <td style="text-align: left; color: #4fff33;">${p.getStatus()}</td>
+                                                                                    <td >
+                                                                                        <span class="badge badge-success">${p.getStatus()}</span>
+                                                                                    </td>
                                                                                 </c:when>
                                                                                 <c:when test="${p.getStatus() == 'đang chờ xử lý'}">
-                                                                                    <td style="text-align: left; color: #ff2848;">${p.getStatus()}</td>
+                                                                                    <td>
+                                                                                        <span class="badge badge-warning">${p.getStatus()}</span>
+                                                                                    </td>
                                                                                 </c:when>
                                                                                 <c:otherwise>
-                                                                                    <td style="text-align: left; color: #4c67ff;">${p.getStatus()}</td>
+                                                                                    <td >
+                                                                                        <span class="badge badge-info">${p.getStatus()}</span>
+                                                                                    </td>
                                                                                 </c:otherwise>
                                                                             </c:choose>
                                                                         </c:if>

@@ -37,7 +37,18 @@ public class WaitlistMealTimetable extends HttpServlet {
         ISchoolYearDAO yearDAO = new SchoolYearDAO();
         IWeekDAO weekDAO = new WeekDAO();
         IGradeDAO gradeDAO = new GradeDAO();
-        List<String> dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getCloestSchoolYears().getId());
+        List<String> dataList = new ArrayList<>();
+        try {
+            dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getCloestSchoolYears().getId());
+        }catch(Exception e){
+
+            request.setAttribute("toastType", "fail");
+            request.setAttribute("toastMessage", "Không tìm thấy năm học hiện tại!");
+            request.setAttribute("status", "năm học không tồn tại !");
+            request.getRequestDispatcher("waitlistMealTimetable.jsp").forward(request, response);
+            return;
+        }
+        //List<String> dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getCloestSchoolYears().getId());
         List<Week> weekId = new ArrayList<>();
         List<SchoolYear> schoolyearId = new ArrayList<>();;
         List<Grade> gradeId = new ArrayList<>();

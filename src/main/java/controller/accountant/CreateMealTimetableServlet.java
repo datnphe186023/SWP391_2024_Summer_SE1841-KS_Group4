@@ -111,6 +111,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Không tìm thấy năm học hiện tại!");
             request.setAttribute("status", "năm học không tồn tại !");
+            System.out.println("năm học không tồn tại !");
             request.getRequestDispatcher("createMealTimetable.jsp").forward(request, response);
             return;
         }
@@ -221,7 +222,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
 
                 if (entryCreated) {
                     session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
+                    session.setAttribute("toastMessage", "Thực đơn được tạo thành công !");
 
                     response.sendRedirect("createmealtimetable?weekId="+weekId+"&gradeId="+selectedGradeId);
                 } else {

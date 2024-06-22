@@ -43,7 +43,7 @@ public class SendApplicationServlet extends HttpServlet {
         Application application = new Application();
         application.setType(applicationDAO.getById(type));
         application.setDetails(details);
-        application.setStatus("đang xử lý");
+        application.setStatus("đang chờ xử lý");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         application.setCreatedBy(user.getId());

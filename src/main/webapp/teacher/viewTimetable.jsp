@@ -1,11 +1,10 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,6 +36,22 @@
                     }
                 }
             });
+
+            function enableWeek() {
+                var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
+                var weekSelect = document.querySelector('select[name="week"]');
+
+                if (schoolYearSelect.value !== "") {
+                    weekSelect.disabled = false;
+                } else {
+                    weekSelect.disabled = true;
+                }
+            }
+
+            window.onload = function () {
+                enableSchoolYear();
+                enableWeek();
+            }
         </script>
         <style>
             #selectWeek {
@@ -97,36 +112,56 @@
 
     <body id="page-top">
         <div id="wrapper">
-            <jsp:include page="navbar.jsp"/>
+            <jsp:include page="navbar.jsp" />
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <jsp:include page="../header.jsp"/>
+                    <jsp:include page="../header.jsp" />
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid" style="width: 90%">
 
                         <div class="app-title">
                             <div>
-                                <h3><i class="fa fa-calendar"></i> Chi tiết thời khóa biểu của lớp ${requestScope.aClass.name}</h3></br>
+                                <h3><i class="fa fa-calendar"></i> Chi tiết thời khóa biểu của lớp ${requestScope.aClass.name}</h3>
+                                </br>
                                 <h2 class="row justify-content-center">
                                     Thời khóa biểu
                                 </h2>
                                 </br>
-                                <h5 class="row justify-content-center">
-                                    Thời khóa biểu áp dụng từ ngày 
-                                    <fmt:formatDate value="${requestScope.week.startDate}" pattern="dd/MM/yyyy"/> 
-                                    đến ngày 
-                                    <fmt:formatDate value="${requestScope.week.endDate}" pattern="dd/MM/yyyy"/>
-                                </h5>
                             </div>
                         </div>
-
-
-
-                        <form>
+                        <form id="schoolYearForm" method="post" action="view-timetable">
+                            <input type="hidden" name="pid" value="${sessionScope.personnel.id}"/>
+                            <input type="hidden" name="id" value="${param.id}"/>
+                            <input type="hidden" name="classId" value="${requestScope.aClass.id}"/>
                             <table class="timetable-table table table-bordered text-center">
+                                <div style="margin-bottom: 5px" class="d-flex justify-content-lg-start">
+                                    <div class="class-form">
+                                        <label>Năm học
+                                            <select name="schoolyear" onchange="enableWeek();
+                                                    this.form.submit();" class="custom-select">
+                                                <option value="" hidden>Năm học</option>
+                                                <c:forEach items="${requestScope.schoolYearList}" var="sy">
+                                                    <option ${sltedsy eq sy.getId() ? "selected" : ""}
+                                                        value="${sy.getId()}">${sy.getName()}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="class-form">
+                                        <label>Tuần học
+                                            <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
+                                                <option value="" hidden>Tuần học</option>
+                                                <c:forEach items="${requestScope.weekList}" var="w">
+                                                    <option ${sltedw eq w.getId() ? "selected" : ""}
+                                                        value="${w.getId()}">${w.getStartDatetoEndDate()} </option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
                                 <thead>
                                     <tr class="bg-light-gray">
                                         <th class="text-uppercase">Thời gian</th>
@@ -162,7 +197,6 @@
                                 </tbody>
                             </table>
 
-
                             <div class="btn-container">
                                 <div class="d-flex justify-content-end">
                                     <p>Ghi chú*: (-) không có dữ liệu</p>
@@ -171,21 +205,22 @@
                             </div>
                         </form>
 
-
                     </div>
                     <!-- /.container-fluid -->
                 </div>
                 <!-- End of Main Content -->
 
-                <jsp:include page="../footer.jsp"/>
+                <jsp:include page="../footer.jsp" />
             </div>
             <!-- End of Content Wrapper -->
-            <script>
-                function goBack() {
-                    window.history.back();
-                }
-            </script>
+
         </div>
         <!-- End of Page Wrapper -->
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
     </body>
+
 </html>

@@ -10,7 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
+
         <title>Đang chờ phê duyệt</title>
+
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -94,14 +96,13 @@
                                                         đến
                                                         <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
                                                     </td>
+
                                                     <c:set value="${listTimetable.status}" var="status"/>
                                                     <c:if test="${status eq 'đang chờ xử lý'}">
                                                         <td><span class="badge badge-warning">${status}</span>  </td>
                                                     </c:if>
                                                     <td>${listTimetable.teacher.lastName} ${listTimetable.teacher.firstName}</td>
 
-
-                                                    <c:if test="${listTimetable.status eq 'đang chờ xử lý'}">
                                                         <td>
                                                             <div class="d-flex flex-column align-items-center">
                                                                 <a href="review-detail-timetable?classId=${listTimetable.aClass.id}&weekId=${listTimetable.weekId}&status=${listTimetable.status}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>

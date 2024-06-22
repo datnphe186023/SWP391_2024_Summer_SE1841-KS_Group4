@@ -52,9 +52,9 @@ public class ApplicationDetailsServlet extends HttpServlet {
         application.setProcessedAt(new Date());
         application.setProcessNote(note);
         if (action.equals("approve")) {
-            application.setStatus("đã duyệt");
+            application.setStatus("đã được duyệt");
         } else if (action.equals("reject")) {
-            application.setStatus("đã từ chối");
+            application.setStatus("không được duyệt");
         }
         //get personnel id of personnel who process this application
         IPersonnelDAO personnelDAO = new PersonnelDAO();

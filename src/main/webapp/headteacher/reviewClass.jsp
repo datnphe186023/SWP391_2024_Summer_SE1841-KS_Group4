@@ -9,6 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
     <title>Quản Lý Lớp Học</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -35,11 +36,6 @@
     <script>
         function submitForm(formId){
             document.getElementById(formId).submit();
-        }
-    </script>
-    <script>
-        function submitForm() {
-            document.getElementById("myForm").submit();
         }
     </script>
     <!-- Custom styles for this page -->
@@ -99,14 +95,14 @@
                                                 <form method="post" action="reviewclass" id="accept-form" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${classes.id}">
-                                                    <input type="hidden" name="schoolYearId" value="${requestScope.schoolYearId}">
+                                                    <input type="hidden" name="schoolYearId" value="${requestScope.selectedSchoolYearId}">
                                                     <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmAcceptModal">Chấp nhận</button>
                                                 </form>
 
                                                 <form method="post" action="reviewclass" id="decline-form" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${classes.id}">
-                                                    <input type="hidden" name="schoolYearId" value="${requestScope.schoolYearId}">
+                                                    <input type="hidden" name="schoolYearId" value="${requestScope.selectedSchoolYearId}">
                                                     <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmDeclineModal">Từ chối</button>
                                                 </form>
                                             </div>

@@ -9,6 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
     <title>Quản Lý Lớp Học</title>
     <script>
         function submitForm() {
@@ -81,7 +82,7 @@
                                         <c:if test="${s eq 'đang chờ xử lý'}">
                                             <td><span class="badge badge-warning">${s}</span>  </td>
                                         </c:if>
-                                        <c:if test="${s eq 'đã từ chối'}">
+                                        <c:if test="${s eq 'không được duyệt'}">
                                             <td><span class="badge badge-danger">${s}</span>  </td>
                                         </c:if>
                                         <td>${classes.createdBy.lastName} ${classes.createdBy.firstName}</td>
