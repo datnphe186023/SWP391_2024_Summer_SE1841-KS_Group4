@@ -47,7 +47,18 @@
                     weekSelect.disabled = true;
                 }
             }
+            function enableSchoolYear() {
+                var gradeSelect = document.querySelector('select[name="class"]');
+                var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
+                var weekSelect = document.querySelector('select[name="week"]');
 
+                if (gradeSelect.value !== "") {
+                    schoolYearSelect.disabled = false;
+                } else {
+                    schoolYearSelect.disabled = true;
+                    weekSelect.disabled = true;
+                }
+            }
             window.onload = function () {
                 enableSchoolYear();
                 enableWeek();
@@ -125,7 +136,7 @@
                         <div class="app-title">
                             <c:if test="${requestScope.aClass == null}">
                                 <div>
-                                    <h3><i class="fa fa-exclamation-circle"></i> Bạn không có lớp để hiển thị thời khóa biểu</h3>
+                                    <h3><i class="fa fa-exclamation-circle"></i> Chọn để hiển thị thời khóa biểu</h3>
                                 </div>
                             </c:if>
                             <c:if test="${requestScope.aClass != null}">
@@ -139,16 +150,28 @@
                                 </div>
                             </c:if>
                         </div>
-                        <form id="schoolYearForm" method="post" action="view-timetable">
+                        <form id="schoolYearForm" method="post" action="viewtimetableclass">
                             <input type="hidden" name="pid" value="${sessionScope.personnel.id}"/>
                             <input type="hidden" name="id" value="${param.id}"/>
                             <input type="hidden" name="classId" value="${requestScope.aClass.id}"/>
                             <table class="timetable-table table table-bordered text-center">
                                 <div style="margin-bottom: 5px" class="d-flex justify-content-lg-start">
                                     <div class="class-form">
+                                        <label>Lớp
+                                            <select name="class" onchange="enableSchoolYear();
+                                                    this.form.submit();" class="custom-select">
+                                                <option value="" hidden>Lớp</option>
+                                                <c:forEach items="${requestScope.listClass}" var="lc">
+                                                    <option ${classselect eq lc.getId() ? "selected" : ""}
+                                                        value="${lc.getId()}">${lc.getName()}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="class-form">
                                         <label>Năm học
                                             <select name="schoolyear" onchange="enableWeek();
-                                                    this.form.submit();" class="custom-select">
+                                                    this.form.submit();" class="custom-select" ${not empty classselect ? '' : 'disabled'}>
                                                 <option value="" hidden>Năm học</option>
                                                 <c:forEach items="${requestScope.schoolYearList}" var="sy">
                                                     <option ${sltedsy eq sy.getId() ? "selected" : ""}

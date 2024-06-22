@@ -69,6 +69,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listtimetable?id=${sessionScope.personnel.id}">Danh sách thời khóa biểu</a>
                         <a class="collapse-item" href="timetable">Tạo thời khóa biểu</a>
+                        <a class="collapse-item" href="view-timetable">Xem thời khóa biểu</a>
                     </div>
                 </div>
             </li>

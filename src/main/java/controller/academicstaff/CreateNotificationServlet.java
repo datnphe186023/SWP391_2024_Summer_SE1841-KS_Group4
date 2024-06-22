@@ -79,7 +79,6 @@ public class CreateNotificationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NotificationDAO notifiDAO = new NotificationDAO();
-        int role_id = Integer.parseInt(request.getParameter("role_id"));
         String id = "";
         String heading = request.getParameter("heading");
         String content = request.getParameter("content");
@@ -87,20 +86,24 @@ public class CreateNotificationServlet extends HttpServlet {
         String submitDateStr = request.getParameter("submitDate");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày bạn mong muốn
         Date create_at = null;
+        String[] listrole_id = request.getParameterValues("role_id");
         try {
             create_at = dateFormat.parse(submitDateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-        NotificationDetails notifidetails = new NotificationDetails(id, role_id);
         try {
-            notifiDAO.createNoti(notifi, notifidetails);
+            for (String s : listrole_id) {
+                int roleid = Integer.parseInt(s);
+                Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+                NotificationDetails notifidetails = new NotificationDetails(id, roleid);
+                notifiDAO.createNoti(notifi, notifidetails);
+            }
+            request.getRequestDispatcher("listnotification").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute("role_id", role_id);
-        request.getRequestDispatcher("listnotification").forward(request, response);
+
     }
 
     /**

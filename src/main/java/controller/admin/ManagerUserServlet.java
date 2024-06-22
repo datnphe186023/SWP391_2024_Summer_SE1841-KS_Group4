@@ -78,11 +78,12 @@ public class ManagerUserServlet extends HttpServlet {
         IUserDAO userDAO = new UserDAO();
         List<User> list = new ArrayList<>();
         HttpSession session = request.getSession();
-        String success = (String) session.getAttribute("success");
+        String success = (String) session.getAttribute("s");
         if (success != null) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
         }
+        session.removeAttribute("s");
         list = userDAO.getListUser();
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
