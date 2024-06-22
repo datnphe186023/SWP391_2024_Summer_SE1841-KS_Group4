@@ -212,7 +212,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String status = rs.getString("status");
-                if ("đã được xét duyệt".equalsIgnoreCase(status) || "đang chờ xử lý".equalsIgnoreCase(status)) {
+                if ("đã được duyệt".equalsIgnoreCase(status) || "đang chờ xử lý".equalsIgnoreCase(status)) {
                     return true; // Timetable exists
                 }
             }
