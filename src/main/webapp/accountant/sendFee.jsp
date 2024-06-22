@@ -17,8 +17,8 @@
 
             function validateForm(event) {
                 const input = document.getElementById('nextTermFee');
-                if (!input.value) {
-                    alert('Vui lòng nhập học phí.');
+                if (!input.value > 1000000000) {
+                    toastr.error('Vui lòng nhập lại.');
                     input.focus();
                     event.preventDefault(); // Ngăn chặn việc gửi form
                 } else {
