@@ -28,20 +28,7 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Đơn Từ</h1>
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <form action="application"  id="myForm">
-                            <div>
-                                <label >Chọn năm học</label>
-                                <select class="custom-select" style="width: 25%"  aria-label="Default select example" onchange="submitForm()" name="schoolYearId">
-                                    <c:forEach items="${requestScope.schoolYears}" var="year">
-                                        <option ${requestScope.selectedSchoolYear.id eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -54,7 +41,7 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Loại đơn</th>
-                                    <th>Người gửi</th>
+
                                     <th>Ngày gửi</th>
                                     <th>Trạng thái</th>
                                     <th>Chi tiết</th>
@@ -66,7 +53,7 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${application.type.name}</td>
-                                        <td>${application.createdBy}</td>
+
                                         <td>${application.createdAt}</td>
                                         <c:set value="${application.status}" var="s"/>
                                         <c:if test="${s eq 'đã được duyệt'}">

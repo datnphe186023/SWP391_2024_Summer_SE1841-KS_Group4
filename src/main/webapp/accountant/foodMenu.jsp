@@ -1,3 +1,4 @@
+<%@ page import="models.foodmenu.FoodMenu" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -17,19 +18,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <%
+        FoodMenu foodMenu = (FoodMenu) session.getAttribute("foodMenu");
+        session.removeAttribute("foodMenu");
+        String foodMenuId = null, details = null;
+        if (foodMenu != null) {
+            foodMenuId = foodMenu.getId();
+            details = foodMenu.getFoodDetails();
+        }
+    %>
     <script>
         $(document).ready(function () {
             var toastMessage = '<%= request.getAttribute("toastMessage") %>';
             var toastType = '<%= request.getAttribute("toastType") %>';
+            var foodMenuId = '<%=foodMenuId%>';
             if (toastMessage) {
                 if (toastType === 'success') {
                     toastr.success(toastMessage);
                 } else if (toastType === 'error') {
                     toastr.error(toastMessage);
+                    $('#editFoodMenu' + foodMenuId).modal('show');
+                    document.getElementById(foodMenuId + 'details').value = '<%=details%>';
                 }
             }
         });
+
+        function confirmEdit(formId, msg) {
+            formIdToSubmit = formId;
+
+            document.getElementById('confirmationMessage').innerText = msg;
+            $('#confirmationModal').modal('show');
+        }
+
+        $(document).ready(function () {
+            $('#confirmButton').click(function () {
+                document.getElementById(formIdToSubmit).submit();
+
+            });
+        });
     </script>
+
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -42,7 +70,8 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">Danh Sách Các Thực Đơn</h6>
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".create-food-menu">
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                data-target=".create-food-menu">
                             <i class="fas fa-upload"></i> Thêm Thực Đơn
                         </button>
                     </div>
@@ -67,15 +96,80 @@
                                             <td><span class="badge badge-success">${s}</span></td>
                                         </c:if>
                                         <c:if test="${s eq 'đang chờ xử lý'}">
-                                            <td><span class="badge badge-warning">${s}</span>  </td>
+                                            <td><span class="badge badge-warning">${s}</span></td>
                                         </c:if>
                                         <c:if test="${s eq 'không được duyệt'}">
-                                            <td><span class="badge badge-danger">${s}</span>  </td>
+                                            <td><span class="badge badge-danger">${s}</span></td>
                                         </c:if>
-                                        <td class="text-center"><a href="#"
-                                                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                            Chỉnh Sửa</a></td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#editFoodMenu${foodMenu.id}">
+                                                Chỉnh Sửa
+                                            </button>
+                                        </td>
                                     </tr>
+
+                                    <%-- Begin modal for edit food menu --%>
+                                    <div class="modal fade" id="editFoodMenu${foodMenu.id}" tabindex="-1" role="dialog"
+                                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <form action="foodmenus?action=edit" method="POST" id="editFoodMenuForm${foodMenu.id}">
+                                            <input hidden="hidden" type="text" readonly
+                                                   name="foodMenuId" value="${foodMenu.id}">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <span class="thong-tin-thanh-toan">
+                                                                    <h5>Chỉnh sửa thực đơn</h5>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="${foodMenu.id}details">Thực Đơn Mới<a
+                                                                            style="color: red">(*)</a></label>
+                                                                    <textarea class="form-control" type="text"
+                                                                              name="details" id="${foodMenu.id}details" rows="5"
+                                                                              required maxlength="255">${foodMenu.foodDetails}</textarea>
+                                                                    <p style="display: none" id="charCount">255
+                                                                        characters remaining</p>
+                                                                    <p style="display: none" class="alert-warning"
+                                                                       id="warning">Không được vượt quá 255 kí tự.</p>
+                                                                </div>
+                                                                <script>
+                                                                    const textarea = document.querySelector('textarea[name="details"]');
+                                                                    const charCount = document.getElementById('charCount');
+                                                                    const warning = document.getElementById('warning');
+
+                                                                    textarea.addEventListener('input', () => {
+                                                                        const remaining = 255 - textarea.value.length;
+                                                                        charCount.textContent = `${remaining} characters remaining`;
+
+                                                                        if (remaining <= 0) {
+                                                                            warning.style.display = 'block';
+                                                                        } else {
+                                                                            warning.style.display = 'none';
+                                                                        }
+                                                                    });
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <button class="btn btn-success" type="button"
+                                                                onclick="confirmEdit('editFoodMenuForm${foodMenu.id}', 'Bạn có chắc chắn chỉnh sửa thực đơn này?')">
+                                                            Lưu lại
+                                                        </button>
+                                                        <a class="btn btn-danger" data-dismiss="modal"
+                                                           id="cancel-button">Hủy bỏ</a>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <%-- End modal for edit food menu --%>
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -88,7 +182,8 @@
     </div>
 
     <%--     Create Food Menu Modal           --%>
-    <div class="modal fade create-food-menu" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade create-food-menu" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
         <form action="foodmenus?action=create" method="POST">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -101,17 +196,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">
+                            <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các
+                                thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">
                                 là thông tin bắt buộc phải nhập</a></p>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="details">Thực Đơn Mới<a style="color: red">(*)</a></label>
-                                    <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự"
+                                    <textarea class="form-control" type="text"
+                                              placeholder="Không được vượt quá 255 kí tự"
                                               name="details" id="details" rows="5" required maxlength="255"></textarea>
                                     <p style="display: none" id="charCount">255 characters remaining</p>
-                                    <p style="display: none" class="alert-warning" id="warning">Không được vượt quá 255 kí tự.</p>
+                                    <p style="display: none" class="alert-warning" id="warning">Không được vượt quá 255
+                                        kí tự.</p>
                                 </div>
                                 <script>
                                     const textarea = document.querySelector('textarea[name="details"]');
@@ -141,6 +239,30 @@
         </form>
     </div>
     <%--     End Modal Create Food Menu           --%>
+
+
+    <%-- Begin confirmation modal--%>
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Xác nhận thao tác</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="confirmationMessage">
+                    <!-- Dynamic message will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Xác Nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- End confirmation modal--%>
 </div>
 <!-- Page level plugins -->
 <script src="../vendor/datatables/jquery.dataTables.min.js"></script>

@@ -74,6 +74,42 @@ public class SubjectServlet extends HttpServlet {
                 request.getRequestDispatcher("subject.jsp").forward(request, response);
             }
 
+        } else if (action.equals("edit")) {
+            String subjectId = request.getParameter("subjectId");
+            String name = request.getParameter("name");
+            String grade = request.getParameter("grade");
+            String description = request.getParameter("description");
+            Subject subject = new Subject(subjectId,Helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ xử lý");
+            if(Helper.formatString(description).length()>1000 ||Helper.formatString(description).length() <= 0 ){
+                toastMessage = "Chỉnh sửa thất bại! Chi tiết trống hoặc đã quá 1000 kí tự";
+                toastType = "error";
+                session.setAttribute("toastMessage",toastMessage);
+                session.setAttribute("toastType",toastType);
+                session.setAttribute("subject", subject);
+                response.sendRedirect("subject");
+            }else if(Helper.formatString(name).length() >=125 || Helper.formatString(name).length()<=0 || !name.matches("^[a-zA-Z0-9" + "ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"
+                    + "\\s]{1,50}$")){
+                toastMessage = "Chỉnh sửa thất bại!Tên môn học trống hoặc quá 125 kí tự";
+                toastType = "error";
+                session.setAttribute("toastMessage", toastMessage);
+                session.setAttribute("toastType", toastType);
+                session.setAttribute("subject", subject);
+                response.sendRedirect("subject");
+            } else if (subjectDAO.editSubject(subject).equals("success")) {
+                toastMessage = "Chỉnh sửa thành công";
+                toastType = "success";
+                session.setAttribute("toastMessage", toastMessage);
+                session.setAttribute("toastType", toastType);
+                session.setAttribute("subject", subject);
+                response.sendRedirect("subject");
+            } else {
+                toastMessage = subjectDAO.editSubject(subject);
+                toastType = "error";
+                session.setAttribute("toastMessage", toastMessage);
+                session.setAttribute("toastType", toastType);
+                session.setAttribute("subject", subject);
+                response.sendRedirect("subject");
+            }
         }
     }
 }
