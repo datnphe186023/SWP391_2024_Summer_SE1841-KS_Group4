@@ -15,5 +15,6 @@ public interface IUserDAO {
     User getByUsernameOrEmail(String key);
     boolean updateUserById(User user);
     boolean checkEmailExists(String email);
+    List<User> getUserByRoleIdandTeacherId(int role, String teacherId);
 
 }

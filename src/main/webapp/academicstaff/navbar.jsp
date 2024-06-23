@@ -108,13 +108,14 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNoti"
                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-solid fa-bell"></i>
                     <span>Thông Báo</span>
                 </a>
                 <div id="collapseNoti" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listnotification?user_id=${sessionScope.personnel.userId}">Danh Sách Thông Báo</a>
                         <a class="collapse-item" href="createnotifi">Tạo Thông Báo</a>
+                        <a class="collapse-item" href="listsentnotifi?user_id=${sessionScope.personnel.id}">Thông Báo Đã Gửi</a>
                     </div>
                 </div>
             </li>
