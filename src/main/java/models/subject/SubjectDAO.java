@@ -37,7 +37,7 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
 
     @Override
     public boolean checkSubjectExist(String name, String gradeId){
-        String sql="select * from Subjects where [name] = ? and grade_id= ?";
+        String sql="select * from Subjects where [name] = ? and grade_id= ? and (status =N'đang chờ xử lý' or status=N'đã được duyệt')";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,name);
