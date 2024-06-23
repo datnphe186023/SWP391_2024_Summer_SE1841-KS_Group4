@@ -18,11 +18,17 @@ public interface INotificationDAO {
 
     List<Notification> getListNotifiByRoleId(int role_id);
 
-    void createNoti(Notification notification, NotificationDetails notificationdetails) throws SQLException;
+    boolean createNoti(Notification notification);
+
+    boolean createNotiDetails(NotificationDetails notificationdetails);
 
     Notification getLatest();
 
     String generateId(String latestId);
 
     Notification getNotificationById(String id);
+
+    List<Notification> getListNotifiByUserId(String userId);
+
+    List<Notification> getListSentNotifiById(String id);
 }

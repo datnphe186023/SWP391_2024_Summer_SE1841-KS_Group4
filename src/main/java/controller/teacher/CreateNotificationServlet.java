@@ -11,13 +11,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
 import models.notification.NotificationDetails;
 import models.personnel.PersonnelDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 /**
  *
@@ -64,6 +68,16 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String toastType = "", toastMessage = "";
+        if (session.getAttribute("toastType") != null) {
+            toastType = session.getAttribute("toastType").toString();
+            toastMessage = session.getAttribute("toastMessage").toString();
+        }
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        request.setAttribute("toastType", toastType);
+        request.setAttribute("toastMessage", toastMessage);
         request.getRequestDispatcher("createNotification.jsp").forward(request, response);
     }
 
@@ -78,9 +92,9 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int role_id = Integer.parseInt(request.getParameter("role_id"));
+        String userid = request.getParameter("userid");
         NotificationDAO notifiDAO = new NotificationDAO();
-        String id = "";
+        String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
         String heading = request.getParameter("heading");
         String content = request.getParameter("content");
         String create_by = request.getParameter("userid");
@@ -92,14 +106,33 @@ public class CreateNotificationServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-        NotificationDetails notifidetails = new NotificationDetails(id, role_id);
+        HttpSession session = request.getSession();
         try {
-            notifiDAO.createNoti(notifi, notifidetails);
+            List<User> user = new UserDAO().getUserByRoleIdandTeacherId(5, create_by);
+            if (user.size() == 0) {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Bạn Chưa Được Phân Công Lớp");
+                response.sendRedirect("createnotifi");
+            }
+            for (User u : user) {
+                Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+                NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
+                boolean succes = notifiDAO.createNoti(notifi);
+                boolean success = notifiDAO.createNotiDetails(notifidetails);
+                if (succes == true && success == true) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Gửi Thông Báo Thành Công");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", "Gửi Thông Báo Thất Bại");
+                }
+            }
+
+            response.sendRedirect("createnotifi");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("listnotification").forward(request, response);
+
     }
 
     /**

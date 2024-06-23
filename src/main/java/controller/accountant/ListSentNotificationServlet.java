@@ -2,28 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin;
+package controller.accountant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import models.user.IUserDAO;
-import models.user.User;
-import models.user.UserDAO;
+import models.notification.Notification;
+import models.notification.NotificationDAO;
 
 /**
  *
  * @author TuyenCute
  */
-public class ManagerUserServlet extends HttpServlet {
+@WebServlet(name = "/accountant/ListSentNotificationServlet", urlPatterns = {"/accountant/listsentnotifi"})
+public class ListSentNotificationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +39,10 @@ public class ManagerUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManagerUserServlet</title>");
+            out.println("<title>Servlet ListSentNotificationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ManagerUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListSentNotificationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,7 +60,11 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        String id = request.getParameter("user_id");
+        NotificationDAO notifiDAO = new NotificationDAO();
+        List<Notification> notifi = notifiDAO.getListSentNotifiById(id);
+        request.setAttribute("notifi", notifi);
+        request.getRequestDispatcher("listNotification.jsp").forward(request, response);
     }
 
     /**
@@ -77,36 +78,7 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Map<Integer, String> roleMap = new HashMap<>();
-        Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-
-        roleDis.put((byte) 0, "Active");
-        roleDis.put((byte) 1, "Disable");
-        IUserDAO userDAO = new UserDAO();
-        List<User> list;
-        list = userDAO.getListUser();
-        HttpSession session = request.getSession();
-        String error = (String) session.getAttribute("error");
-        String success = (String) session.getAttribute("success");
-        if (error != null) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Không Thành Công");
-            session.removeAttribute(error);
-        } else if (success != null) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
-            session.removeAttribute(success);
-        }
-        request.setAttribute("list", list);
-        request.setAttribute("roleMap", roleMap);
-        request.setAttribute("roleDis", roleDis);
-        request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

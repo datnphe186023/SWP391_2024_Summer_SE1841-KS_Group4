@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
@@ -61,6 +62,19 @@ public class PulpilsProfileServlet extends HttpServlet {
         String id = request.getParameter("id");
         IPupilDAO pupilDAO = new PupilDAO();
         Pupil pupil = pupilDAO.getPupilsById(id);
+        HttpSession session = request.getSession();
+        String success = (String) session.getAttribute("success");
+        String error = (String) session.getAttribute("error");
+        if (success != null) {
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Cập nhật thông tin thành công");
+            session.removeAttribute(success);
+        }
+        if (error != null) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Cập nhật thông tin thất bại");
+            session.removeAttribute(error);
+        }
         request.setAttribute("pupil", pupil);
         request.getRequestDispatcher("informationPupils.jsp").forward(request, response);
     }

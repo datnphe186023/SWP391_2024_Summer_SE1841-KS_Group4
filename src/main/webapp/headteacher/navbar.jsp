@@ -91,6 +91,7 @@
                         <a class="collapse-item" href="timetable">Danh Sách Thời Khóa Biểu</a>
                         <% ITimetableDAO timetableDAO = new TimetableDAO(); %>
                         <a class="collapse-item" href="reviewtimetable">Đang Chờ Phê Duyệt(<%=timetableDAO.getListTimetableByStatus("đang chờ xử lý").size()%>)</a>
+                        <a class="collapse-item" href="viewtimetableclass">Xem Thời Khóa Biểu</a>
                     </div>
                 </div>
             </li>
