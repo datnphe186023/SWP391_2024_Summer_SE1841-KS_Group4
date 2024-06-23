@@ -129,8 +129,9 @@
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-12">
-                                                                    <h5>VAI TRÒ * : ${roleMap[user.getRoleId()]}</h5> 
-                                                                    <select name="role">
+                                                                    <h5>VAI TRÒ <a style="color: red">*</a> : </h5> 
+                                                                    <select style="border-radius: 5px" name="role">
+                                                                        <option value="${user.getRoleId()}" hidden="">${roleMap[user.getRoleId()]}</option>
                                                                         <option value="0">Admin</option>
                                                                         <option value="1">Head Teacher</option>
                                                                         <option value="2">Academic Staff</option>
@@ -141,14 +142,15 @@
                                                                 </div></td>
                                                             <td>
                                                                 <div class="form-group col-md-12">
-                                                                    <h5>EMAIL * :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}" required=""/><br />
+                                                                    <h5>EMAIL <a style="color: red">*</a> :</h5> <input style="width: 200%" type="email" name="email" value="${user.getEmail()}" required=""/><br />
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-12">
-                                                                    <h5>TRẠNG THÁI * : ${roleDis[user.getIsDisabled()]} </h5> 
-                                                                    <select name="active">
+                                                                    <h5>TRẠNG THÁI <a style="color: red">*</a> :  </h5> 
+                                                                    <select style="border-radius: 5px" name="active">
+                                                                        <option value="${user.getIsDisabled()}" hidden="">${roleDis[user.getIsDisabled()]}</option>
                                                                         <option value="0">Active</option>
                                                                         <option value="1">Disable</option>
                                                                     </select><br />

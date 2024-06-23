@@ -289,7 +289,6 @@ public class ClassDAO extends DBContext implements IClassDAO {
         return "success";
     }
 
-
     @Override
     public Class getClassByTeacherId(String id) {
         String sql = "select * from [Class] where teacher_id = ?";
@@ -323,5 +322,20 @@ public class ClassDAO extends DBContext implements IClassDAO {
         }
         Class classes = classDAO.getClassById(classId);
         return classes;
+    }
+
+    @Override
+    public List<Class> getAllClass() {
+        List<Class> listClass = new ArrayList<>();
+        String sql = "select * from [Class]";
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Class aclass = createClass(rs);
+                listClass.add(aclass);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listClass;
     }
 }
