@@ -14,10 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
 import models.notification.NotificationDetails;
 import models.personnel.PersonnelDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 /**
  *
@@ -78,8 +81,9 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String userid = request.getParameter("userid");
         NotificationDAO notifiDAO = new NotificationDAO();
-        String id = "";
+        String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
         String heading = request.getParameter("heading");
         String content = request.getParameter("content");
         String create_by = request.getParameter("userid");
@@ -95,11 +99,15 @@ public class CreateNotificationServlet extends HttpServlet {
         try {
             for (String s : listrole_id) {
                 int roleid = Integer.parseInt(s);
-                Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-                NotificationDetails notifidetails = new NotificationDetails(id, roleid);
-                notifiDAO.createNoti(notifi, notifidetails);
+                List<User> user = new UserDAO().getUserByRole(roleid);
+                for (User u : user) {
+                    Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+                    NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
+                    notifiDAO.createNoti(notifi);
+                    notifiDAO.createNotiDetails(notifidetails);
+                }
             }
-            request.getRequestDispatcher("listnotification").forward(request, response);
+            request.getRequestDispatcher("listnotification?user_id=" + userid).forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }

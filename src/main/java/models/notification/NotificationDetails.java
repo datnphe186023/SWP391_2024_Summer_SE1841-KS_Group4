@@ -1,10 +1,11 @@
 package models.notification;
 
 public class NotificationDetails {
-    private String notificationId;
-    private int receiver;
 
-    public NotificationDetails(String notificationId, int receiver) {
+    private String notificationId;
+    private String receiver;
+
+    public NotificationDetails(String notificationId, String receiver) {
         this.notificationId = notificationId;
         this.receiver = receiver;
     }
@@ -20,11 +21,11 @@ public class NotificationDetails {
         this.notificationId = notificationId;
     }
 
-    public int getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(int receiver) {
+    public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
 }

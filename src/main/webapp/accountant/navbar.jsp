@@ -84,7 +84,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="listnotification">
+                <a class="nav-link" href="listnotification?user_id=${sessionScope.personnel.userId}">
                     <i class="fas fa-fw fa-bell"></i>
                     <span>Thông Báo</span></a>
             </li>
