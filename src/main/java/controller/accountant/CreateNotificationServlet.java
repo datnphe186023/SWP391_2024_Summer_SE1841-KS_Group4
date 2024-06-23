@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,6 +68,16 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String toastType = "", toastMessage = "";
+        if (session.getAttribute("toastType") != null) {
+            toastType = session.getAttribute("toastType").toString();
+            toastMessage = session.getAttribute("toastMessage").toString();
+        }
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        request.setAttribute("toastType", toastType);
+        request.setAttribute("toastMessage", toastMessage);
         request.getRequestDispatcher("createNotification.jsp").forward(request, response);
     }
 
@@ -81,6 +92,7 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String userid = request.getParameter("userid");
         NotificationDAO notifiDAO = new NotificationDAO();
         String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
         String heading = request.getParameter("heading");
@@ -95,18 +107,26 @@ public class CreateNotificationServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        HttpSession session = request.getSession();
         try {
             for (String s : listrole_id) {
                 int roleid = Integer.parseInt(s);
-                List<User> user = new UserDAO().getUserByRole(roleid);
+                List<User> user = new UserDAO().getUserByRole(5);
                 for (User u : user) {
                     Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
                     NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
-                    notifiDAO.createNoti(notifi);
-                    notifiDAO.createNotiDetails(notifidetails);
+                    boolean succes = notifiDAO.createNoti(notifi);
+                    boolean success = notifiDAO.createNotiDetails(notifidetails);
+                    if (succes == true && success == true) {
+                        session.setAttribute("toastType", "success");
+                        session.setAttribute("toastMessage", "Gửi Thông Báo Thành Công");
+                    } else {
+                        session.setAttribute("toastType", "error");
+                        session.setAttribute("toastMessage", "Gửi Thông Báo Thất Bại");
+                    }
                 }
             }
-            request.getRequestDispatcher("listnotification").forward(request, response);
+            response.sendRedirect("createnotifi");
         } catch (Exception e) {
             e.printStackTrace();
         }

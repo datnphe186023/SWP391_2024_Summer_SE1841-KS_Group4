@@ -108,19 +108,8 @@
                                     <h4 class="form-group h4 mb-2 text-gray-800">NGƯỜI NHẬN<span class="text-danger">*</span></h4>
                                     <div class="form-group d-inline">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="role_id" value="2" id="receiver2">
-                                            <label class="form-check-label" for="receiver2">
-                                                Giáo vụ
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="role_id" value="4" id="receiver3">
-                                            <label class="form-check-label" for="receiver3">
-                                                Giáo viên
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="role_id" value="5" id="receiver4">
+                                            <input class="form-check-input" type="checkbox" name="role_id" value="5" id="receiver4" checked disabled>
+                                            <input type="hidden" name="role_id" value="5">
                                             <label class="form-check-label" for="receiver4">
                                                 Phụ huynh
                                             </label>
@@ -134,8 +123,7 @@
                                 <input type="hidden" name="userid" value="${sessionScope.personnel.id}">
                                 <input type="hidden" id="submitDate" name="submitDate">
                                 <div class="d-flex justify-content-around pb-3">
-                                    <a href="#"> <button class="btn btn-danger">QUAY LẠI</button></a>
-                                    <button onclick="submitForm()" type="submit" class="btn btn-success">XÁC NHẬN</button>
+                                    <button onclick="submitForm()" type="submit" class="btn btn-success">GỬI</button>
                                 </div>
                             </form>
                         </div>
