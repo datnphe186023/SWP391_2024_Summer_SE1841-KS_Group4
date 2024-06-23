@@ -19,6 +19,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -118,48 +121,47 @@
         </script>
         <script>
             function validateForm() {
-                // Lấy các trường input và textarea cần validate
+                // Get the form fields
                 var firstGuardianName = document.getElementsByName("first_guardian_name")[0].value.trim();
                 var firstGuardianPhone = document.getElementsByName("firstGuardianPhoneNumber")[0].value.trim();
                 var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
                 var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
                 var address = document.getElementsByName("address")[0].value.trim();
 
-                // Kiểm tra nếu các trường bắt buộc không được điền
+                // Check if the address is provided
                 if (address === "") {
                     toastr.error("Địa chỉ không được bỏ trống");
-                    return false; // Ngăn form submit
-                }
-
-                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ nhất
-                if (firstGuardianName !== '') {
-                    if (!isValidName(firstGuardianName)) {
-                        toastr.error("Họ tên người giám hộ thứ nhất chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
-                        return false; // Ngăn form submit
-                    }
-                } else {
-                    toastr.error("Họ tên người giám hộ thứ nhất không được để trống");
                     return false;
                 }
 
-                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ hai nếu có
-                if (secondGuardianName !== "") {
-                    if (!isValidName(secondGuardianName)) {
-                        toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
-                        return false; // Ngăn form submit
-                    }
-                    // Kiểm tra nếu có tên người giám hộ thứ hai thì phải nhập số điện thoại
-                    if (secondGuardianPhone === "") {
-                        toastr.error("Vui lòng nhập số điện thoại người giám hộ thứ hai");
-                        return false; // Ngăn form submit
-                    }
-                } else if (secondGuardianPhone !== "") {
-                    if (secondGuardianName === "") {
-                        if (!isValidName(secondGuardianName)) {
-                            toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
-                            return false; // Ngăn form submit
-                        }
-                    }
+                // Validate first guardian's name
+                if (firstGuardianName === "") {
+                    toastr.error("Họ tên người giám hộ thứ nhất không được để trống");
+                    return false;
+                }
+                if (!isValidName(firstGuardianName)) {
+                    toastr.error("Họ tên người giám hộ thứ nhất chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
+                }
+
+                // Validate first guardian's phone
+                if (firstGuardianPhone === "") {
+                    toastr.error("Số điện thoại người giám hộ thứ nhất không được để trống");
+                    return false;
+                }
+
+                // Validate second guardian's name and phone
+                if (secondGuardianName !== "" && secondGuardianPhone === "") {
+                    toastr.error("Vui lòng nhập số điện thoại người giám hộ thứ hai");
+                    return false;
+                }
+                if (secondGuardianPhone !== "" && secondGuardianName === "") {
+                    toastr.error("Vui lòng nhập họ tên người giám hộ thứ hai");
+                    return false;
+                }
+                if (secondGuardianName !== "" && !isValidName(secondGuardianName)) {
+                    toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
                 }
 
                 return true;
@@ -259,7 +261,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="form-buttons">
-                                                <button type="button" class="btn btn-danger" onclick="goBack()">Quay Lại</button>
+                                                <button type="button" onclick="redirectToPreviousPage()" class="btn btn-danger">Quay Lại</button></a>
                                                 <button type="submit" class="btn btn-success">Lưu</button>
                                             </div>
                                         </form>
@@ -272,5 +274,10 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
+        <script>
+            function redirectToPreviousPage() {
+                window.location.href = 'pupilprofile?id=${pupil.id}';
+            }
+        </script>
     </body>
 </html>

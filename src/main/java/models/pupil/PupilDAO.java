@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PupilDAO extends DBContext implements IPupilDAO{
+public class PupilDAO extends DBContext implements IPupilDAO {
 
     private Pupil createPupil(ResultSet resultSet) throws SQLException {
-        try{
+        try {
             Pupil pupil = new Pupil();
             pupil.setId(resultSet.getString("id"));
             pupil.setUserId(resultSet.getString("user_id"));
@@ -36,7 +36,7 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             pupil.setCreatedBy(personnel);
             pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
             return pupil;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -112,13 +112,13 @@ public class PupilDAO extends DBContext implements IPupilDAO{
     }
 
     @Override
-    public List<Pupil> getListPupilsByClass(String pupilId,String classId) {
+    public List<Pupil> getListPupilsByClass(String pupilId, String classId) {
         List<Pupil> listPupils = new ArrayList<>();
 
         String sql = "select * from Pupils p join classDetails c on p.id = c.pupil_id \n"
                 + "where class_id= '" + classId + "'";
-        if(pupilId!=null){
-            sql+= " and pupil_id != '"+pupilId+"'";
+        if (pupilId != null) {
+            sql += " and pupil_id != '" + pupilId + "'";
         }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -355,7 +355,7 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             stmt.setString(4, pupil.getsecondGuardianPhoneNumber());
             stmt.setString(5, pupil.getEmail());
             stmt.setString(6, pupil.getAddress());
-            stmt.setString(7,pupil.getParentSpecialNote());
+            stmt.setString(7, pupil.getParentSpecialNote());
             stmt.setString(8, pupil.getUserId());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -368,16 +368,16 @@ public class PupilDAO extends DBContext implements IPupilDAO{
     @Override
     public List<Pupil> getPupilsWithoutClass(String schoolYearId) {
         List<Pupil> listPupil = new ArrayList<>();
-        String sql="Select  Pupils.id    FROM  Pupils left  JOIN\n" +
-                "                 classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n" +
-                "                Class ON Class.id = classDetails.class_id\n" +
-                "               where  Pupils.status= N'đang theo học' and class_id is null \n" +
-                "\t\t\t  union  \n" +
-                "\t\t\t  Select  distinct pupil_id  from \n" +
-                "\t\t\t  classDetails join Class on classDetails.class_id = Class.id\n" +
-                "               where   pupil_id not in (Select pupil_id\n" +
-                "\t\t\t   from classDetails  join Class on classDetails.class_id = Class.id\n" +
-                "\t\t\t   where school_year_id = ? )";
+        String sql = "Select  Pupils.id    FROM  Pupils left  JOIN\n"
+                + "                 classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n"
+                + "                Class ON Class.id = classDetails.class_id\n"
+                + "               where  Pupils.status= N'đang theo học' and class_id is null \n"
+                + "\t\t\t  union  \n"
+                + "\t\t\t  Select  distinct pupil_id  from \n"
+                + "\t\t\t  classDetails join Class on classDetails.class_id = Class.id\n"
+                + "               where   pupil_id not in (Select pupil_id\n"
+                + "\t\t\t   from classDetails  join Class on classDetails.class_id = Class.id\n"
+                + "\t\t\t   where school_year_id = ? )";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -393,7 +393,7 @@ public class PupilDAO extends DBContext implements IPupilDAO{
     }
 
     @Override
-    public void updatePupil(Pupil pupil) {
+    public boolean updatePupil(Pupil pupil) {
         String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -405,9 +405,11 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             ps.setString(6, pupil.getParentSpecialNote());
             ps.setString(7, pupil.getId());
             ps.executeUpdate();
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return false;
     }
 
     @Override

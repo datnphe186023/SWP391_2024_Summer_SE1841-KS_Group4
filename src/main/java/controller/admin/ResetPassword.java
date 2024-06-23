@@ -61,7 +61,11 @@ public class ResetPassword extends HttpServlet {
         UserDAO dao = new UserDAO();
         dao.resetPassword(email);
         HttpSession session = request.getSession();
-        session.setAttribute("s", "s");
+        if (dao.resetPassword(email) == true) {
+            session.setAttribute("success", "success");
+        } else {
+            session.setAttribute("error", "error");
+        }
         request.getRequestDispatcher("manageruser").forward(request, response);
     }
 
