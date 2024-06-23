@@ -39,7 +39,7 @@ public class ReviewSubjectServlet extends HttpServlet {
             toastType = "success";
         }else {
             toastMessage="Từ chối thành công";
-            toastType="error";
+            toastType="success";
         }
         request.setAttribute("listSubjectPending",subjectDAO.getSubjectsByStatus("đang chờ xử lý"));
         request.setAttribute("toastMessage",toastMessage);

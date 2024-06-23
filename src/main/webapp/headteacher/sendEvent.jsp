@@ -61,7 +61,7 @@
                         <form action="sendevent" method="post" id="sendEvent">
                             <div class="form-group">
                                 <h4 class="h4 mb-2 text-gray-800">Tiêu Đề <span class="text-danger">*</span></h4>
-                                <input placeholder="Tên sự kiện ( Tối đa 100 kí tự)" id="heading" class="form-control" type="text" name="heading" required value="${param.heading}">
+                                <input placeholder="Tên sự kiện ( Tối đa 200 kí tự)" id="heading" class="form-control" type="text" name="heading" required value="${param.heading}">
                             </div>
                             <div class="form-group">
                                 <h4 class="h4 mb-2 text-gray-800">Đối tượng gửi <span class="text-danger">*</span></h4>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="form-group">
                                 <h4 class="h4 mb-2 text-gray-800">Chi tiết <span class="text-danger">*</span></h4>
-                                <textarea class="form-control mb-4" type="text" placeholder="Chi tiết sự kiện" name="details" rows="5" required>${param.details}</textarea>
+                                <textarea class="form-control mb-4" type="text" placeholder="Tối đa 10000 kí tự" name="details" aria-placeholder="" rows="5" required>${param.details}</textarea>
                             </div>
                             <button type="button" class="btn btn-primary float-right" onclick="confirmAccept('sendEvent','Bạn có chắc chắn muốn gửi sự kiện này ?')">Gửi</button>
                         </form>
