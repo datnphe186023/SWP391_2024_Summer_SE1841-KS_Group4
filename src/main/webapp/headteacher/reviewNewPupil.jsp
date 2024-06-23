@@ -54,24 +54,24 @@
             }
         });
     </script>
+    <script>
+        function confirmAccept(formId, msg) {
+            formIdToSubmit = formId;
+            document.getElementById('confirmationMessage').innerText = msg;
+            $('#confirmationModal').modal('show');
+        }
+        $(document).ready(function() {
+            $('#confirmButton').click(function() {
+                document.getElementById(formIdToSubmit).submit();
+
+            });
+        });
+    </script>
     <style>
         .btn-custom-width {
             width: 120px; /* Adjust the width as needed */
         }
     </style>
-    <script>
-        function confirmAccept(formId) {
-            if (confirm('Bạn chắc chắn muốn phê duyệt học sinh này chứ ?')) {
-                document.getElementById(formId).submit();
-            }
-        }
-
-        function confirmDecline(formId) {
-            if (confirm('Bạn không muốn phê duyệt học sinh này ?')) {
-                document.getElementById(formId).submit();
-            }
-        }
-    </script>
 </head>
 
 <body id="page-top">
@@ -117,13 +117,13 @@
                                                 <form method="post" action="reviewpupil" id="accept-form-${pupil.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${pupil.id}">
-                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${pupil.id}')">Chấp nhận</button>
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" onclick="confirmAccept('accept-form-${pupil.id}','Bạn có chắc chắn duyệt học sinh này không ?')">Chấp nhận</button>
                                                 </form>
 
                                                 <form method="post" action="reviewpupil" id="decline-form-${pupil.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${pupil.id}">
-                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmDecline('decline-form-${pupil.id}')">Từ chối</button>
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" onclick="confirmAccept('decline-form-${pupil.id}','Bạn có chắc chắn từ chối học sinh này không ?')">Từ chối</button>
                                                 </form>
 
                                                 <a href="pupilprofile?id=${pupil.id}" class="btn btn-sm btn-primary shadow-sm btn-custom-width">Chi tiết</a>
@@ -138,6 +138,27 @@
                     </div>
                 </div>
             </div>
+            <%-- Begin confirmation modal--%>
+            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmationModalLabel">Xác nhận thao tác</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmationMessage">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="confirmButton">Xác Nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%-- End confirmation modal--%>
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>

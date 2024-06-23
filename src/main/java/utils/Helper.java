@@ -25,6 +25,9 @@ public class Helper {
     public static String formatString(String search){
         StringBuilder result = new StringBuilder();
         String[] searchArray = search.split("\\s+");
+        if(!search.isBlank()){
+            searchArray[0] = formatName(searchArray[0]);
+        }
         for (String s : searchArray) {
             result.append(s).append(" ");
         }

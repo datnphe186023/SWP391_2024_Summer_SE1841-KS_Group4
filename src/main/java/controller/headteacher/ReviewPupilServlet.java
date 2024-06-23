@@ -41,7 +41,7 @@ public class ReviewPupilServlet extends HttpServlet {
             toastType = "success";
         }else {
             toastMessage="Từ chối thành công";
-            toastType="error";
+            toastType="success";
         }
         request.setAttribute("listPupil",pupilDAO.getPupilByStatus("đang chờ xử lý"));
         request.setAttribute("toastMessage",toastMessage);
