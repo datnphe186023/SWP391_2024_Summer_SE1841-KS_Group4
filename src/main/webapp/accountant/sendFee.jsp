@@ -12,6 +12,11 @@
                 const input = event.target;
                 // Loại bỏ tất cả ký tự không phải là số
                 input.value = input.value.replace(/[^0-9]/g, '');
+                // Giới hạn tối đa 9 chữ số
+                if (input.value.length > 9) {
+                    input.value = input.value.slice(0, 9);
+                    toastr.error('Học phí không được vượt quá 9 chữ số.');
+                }
                 input.value = input.value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
 

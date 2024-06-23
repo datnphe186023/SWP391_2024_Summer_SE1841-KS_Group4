@@ -74,7 +74,6 @@
                             <div class="card shadow mb-4">
                                 <div class="d-flex justify-content-between card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">DANH SÁCH THÔNG BÁO</h6>
-                                    <a href="createnotifi"><button class="btn btn-success">TẠO THÔNG BÁO</button></a>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
