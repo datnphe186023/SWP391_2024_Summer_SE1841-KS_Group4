@@ -14,16 +14,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
 import models.notification.NotificationDetails;
 import models.personnel.PersonnelDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 /**
  *
  * @author TuyenCute
  */
-@WebServlet(name = "CreateNotificationServlet", urlPatterns = {"/accountant/createnotifi"})
+@WebServlet(name = "/accountant/CreateNotificationServlet", urlPatterns = {"/accountant/createnotifi"})
 public class CreateNotificationServlet extends HttpServlet {
 
     /**
@@ -78,28 +81,36 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int role_id = Integer.parseInt(request.getParameter("role_id"));
         NotificationDAO notifiDAO = new NotificationDAO();
-        String id = "";
+        String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
         String heading = request.getParameter("heading");
         String content = request.getParameter("content");
         String create_by = request.getParameter("userid");
         String submitDateStr = request.getParameter("submitDate");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày bạn mong muốn
         Date create_at = null;
+        String[] listrole_id = request.getParameterValues("role_id");
         try {
             create_at = dateFormat.parse(submitDateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-        NotificationDetails notifidetails = new NotificationDetails(id, role_id);
         try {
-            notifiDAO.createNoti(notifi, notifidetails);
+            for (String s : listrole_id) {
+                int roleid = Integer.parseInt(s);
+                List<User> user = new UserDAO().getUserByRole(roleid);
+                for (User u : user) {
+                    Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+                    NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
+                    notifiDAO.createNoti(notifi);
+                    notifiDAO.createNotiDetails(notifidetails);
+                }
+            }
+            request.getRequestDispatcher("listnotification").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("listnotification").forward(request, response);
+
     }
 
     /**
