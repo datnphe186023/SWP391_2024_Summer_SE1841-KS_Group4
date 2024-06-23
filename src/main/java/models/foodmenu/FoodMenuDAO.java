@@ -74,6 +74,25 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         }
         return foodMenus;
     }
+    public List<FoodMenu> getAllFoodMenuDESC(String exception) {
+        List<FoodMenu> foodMenus = new ArrayList<>();
+        String sql = "select * from FoodMenus where not id = ? order by id desc";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, exception);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                FoodMenu foodMenu = new FoodMenu();
+                foodMenu.setId(resultSet.getString("id"));
+                foodMenu.setFoodDetails(resultSet.getString("food_detail"));
+                foodMenu.setStatus(resultSet.getString("status"));
+                foodMenus.add(foodMenu);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return foodMenus;
+    }
 
     private Day getDay(String date_id) {
         Day day = new Day();

@@ -16,4 +16,5 @@ public interface IFoodMenuDAO {
     public boolean AcceptorDenyFoodMenu(String id, String status);
     List<FoodMenu> getAllFoodMenu(String exception);
     String editFoodMenu(FoodMenu foodMenu);
+    public List<FoodMenu> getAllFoodMenuDESC(String exception);
 }
