@@ -25,7 +25,7 @@ public class ProcessFoodMenuServlet extends HttpServlet {
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
         IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
-        List<FoodMenu> foodMenuList = foodMenuDAO.getAllFoodMenu();
+        List<FoodMenu> foodMenuList = foodMenuDAO.getAllFoodMenuDESC("FM000000");
         request.setAttribute("foodMenuList", foodMenuList);
         request.getRequestDispatcher("processFoodMenu.jsp").forward(request, response);
     }

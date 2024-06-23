@@ -38,6 +38,7 @@
                 justify-content: space-between;
                 align-items: center;
                 border-radius: 8px;
+            }
                 .btn-detail {
                     background-color: #555555;
                     color: white;
