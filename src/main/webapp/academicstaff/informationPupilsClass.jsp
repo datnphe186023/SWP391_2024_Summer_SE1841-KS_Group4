@@ -147,7 +147,7 @@
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                        <form action="pupilprofile" method="post">
+                                        <form action="pupilprofileclass" method="post">
                                             <input type="hidden" name="avatar" value="${pupil.avatar}"/>
                                             <input type="hidden" name="id" value="${pupil.id}"/>
                                             <table>
@@ -214,7 +214,7 @@
         </div>
         <script>
             function goBack() {
-                window.location.href = 'pupil';
+                window.location.href = 'classdetail?classId=${requestScope.classId}';
             }
         </script>
     </body>
