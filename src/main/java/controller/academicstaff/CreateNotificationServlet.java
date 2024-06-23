@@ -108,6 +108,11 @@ public class CreateNotificationServlet extends HttpServlet {
             e.printStackTrace();
         }
         HttpSession session = request.getSession();
+        if (listrole_id == null || listrole_id.length == 0) {
+            session.setAttribute("toastType", "error");
+            session.setAttribute("toastMessage", "Bạn Chưa Chọn Người Nhận");
+            response.sendRedirect("createnotifi");
+        }
         try {
             for (String s : listrole_id) {
                 int roleid = Integer.parseInt(s);

@@ -156,4 +156,21 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
         return listnoti;
 
     }
+
+    @Override
+    public List<Notification> getListSentNotifiById(String id) {
+        List<Notification> listnotifi = new ArrayList<>();
+        String sql = "select * from Notifications where created_by = ? order by id desc";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listnotifi.add(createNotifi(rs));
+            }
+            return listnotifi;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

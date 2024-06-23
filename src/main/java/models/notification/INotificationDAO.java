@@ -29,4 +29,6 @@ public interface INotificationDAO {
     Notification getNotificationById(String id);
 
     List<Notification> getListNotifiByUserId(String userId);
+
+    List<Notification> getListSentNotifiById(String id);
 }
