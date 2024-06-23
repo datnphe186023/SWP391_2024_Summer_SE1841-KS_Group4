@@ -84,7 +84,7 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
                 "JOIN Application_Types at\n" +
                 "ON a.application_type = at.id\n" +
                 "WHERE at.receiver_role = ?\n" +
-                "ORDER BY created_at desc";
+                "ORDER BY id desc";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, role);
@@ -188,7 +188,7 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
 
     @Override
     public List<Application> getSentApplications(String senderUserId){
-        String sql = "select * from [Applications] where created_by = ?";
+        String sql = "select * from [Applications] where created_by = ? order by id desc";
         List<Application> applications = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
