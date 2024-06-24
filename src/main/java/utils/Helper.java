@@ -24,15 +24,19 @@ public class Helper {
     }
     public static String formatString(String search){
         StringBuilder result = new StringBuilder();
-        String[] searchArray = search.split("\\s+");
-        if(!search.isBlank()){
-            searchArray[0] = formatName(searchArray[0]);
-        }
+        String[] searchArray = search.split("(?<=\\s)|(?=\\s)");
+        boolean firstWordFound = false;
+
         for (String s : searchArray) {
-            result.append(s).append(" ");
+            if (!firstWordFound && !s.isBlank()) {
+                s = formatName(s);
+                firstWordFound = true;
+            }
+            result.append(s);
         }
-        return result.toString().trim();
+        return result.toString();
     }
+
 
     public static LocalDate convertDateToLocalDate(Date date) {
         Calendar calendar = Calendar.getInstance();
