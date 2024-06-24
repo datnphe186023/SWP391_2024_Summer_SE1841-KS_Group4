@@ -134,8 +134,7 @@
                                 <input type="hidden" name="userid" value="${sessionScope.personnel.id}">
                                 <input type="hidden" id="submitDate" name="submitDate">
                                 <div class="d-flex justify-content-around pb-3">
-                                    <button onclick="goBack()" type="button" class="btn btn-danger">QUAY LẠI</button>
-                                    <button onclick="submitForm()" type="submit" class="btn btn-success">XÁC NHẬN</button>
+                                    <button onclick="submitForm()" type="submit" class="btn btn-success">Gửi</button>
                                 </div>
                             </form>
                         </div>
