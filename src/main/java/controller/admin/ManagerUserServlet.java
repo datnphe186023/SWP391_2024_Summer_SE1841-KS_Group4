@@ -94,14 +94,25 @@ public class ManagerUserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String error = (String) session.getAttribute("error");
         String success = (String) session.getAttribute("success");
+        String successedit = (String) session.getAttribute("successedit");
+        String erroredit = (String) session.getAttribute("erroredit");
         if (error != null) {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Không Thành Công");
-            session.removeAttribute(error);
+            session.removeAttribute("error");
         } else if (success != null) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
-            session.removeAttribute(success);
+            session.removeAttribute("success");
+        }
+        if (successedit != null) {
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Cập Nhật Thông Tin Thành Công");
+            session.removeAttribute("successedit");
+        } else if (erroredit != null) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Cập Nhật Thông Tin Không Thành Công, Email Đã Được Đăng Ký");
+            session.removeAttribute("erroredit");
         }
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
