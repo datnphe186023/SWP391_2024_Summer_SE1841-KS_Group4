@@ -174,9 +174,6 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
-
-
-
         <script>
             function cancelAction() {
                 window.location.href = '${pageContext.request.contextPath}/admin/manageruser';
