@@ -75,7 +75,11 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
       }
       try {
           PreparedStatement preparedStatement = connection.prepareStatement(sql);
-          preparedStatement.setString(1,generateId(getLastest().getId()));
+          if(getLastest()==null){
+              preparedStatement.setString(1, "S000001");
+          } else {
+              preparedStatement.setString(1,generateId(getLastest().getId()));
+          }
           preparedStatement.setString(2,subject.getName());
           preparedStatement.setString(3,subject.getGrade().getId());
           preparedStatement.setString(4,subject.getDescription());

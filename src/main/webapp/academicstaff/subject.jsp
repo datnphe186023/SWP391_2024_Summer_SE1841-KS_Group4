@@ -217,7 +217,7 @@
 
                 <%--     Create Subject Modal           --%>
                 <div class="modal fade create-subject" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <form action="subject?action=create" method="POST">
+                    <form action="subject?action=create" method="POST" id="createSubject">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
@@ -236,7 +236,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Tên Môn Học<a style="color: red">(*)</a></label>
                                             <input id="name" class="form-control" type="text" name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$"
-                                                   title="Tên không được chứa kí tự đặc biệt (Tối đa 50 kí tự)" required value="${param.name}">
+                                                    placeholder="Tối đa 100 kí tự" required value="${param.name}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -255,12 +255,12 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="description">Mô tả<a style="color: red">(*)</a></label>
-                                                <textarea class="form-control" name="description" id="description" cols="30" rows="5" required>${param.description}</textarea>
+                                                <textarea placeholder="Tối đa 10000 kí tự" class="form-control" name="description" id="description" cols="30" rows="5" required>${param.description}</textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <br>
-                                    <button class="btn btn-success" type="submit">Lưu lại</button>
+                                    <button class="btn btn-success" type="button" onclick="confirmEdit('createSubject','Bạn có chắc chắn muốn tạo môn học này không ?')">Lưu lại</button>
                                     <a class="btn btn-danger" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
                                     <br>
                                 </div>

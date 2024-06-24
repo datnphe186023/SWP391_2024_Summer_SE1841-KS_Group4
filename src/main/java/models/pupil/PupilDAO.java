@@ -66,7 +66,11 @@ public class PupilDAO extends DBContext implements IPupilDAO {
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
+            if(getLatest()==null){
+                preparedStatement.setString(1, "HS000001");
+            } else {
+                preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
+            }
             preparedStatement.setString(2, pupil.getUserId());
             preparedStatement.setString(3, pupil.getFirstName());
             preparedStatement.setString(4, pupil.getLastName());
@@ -88,7 +92,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return false;
     }
