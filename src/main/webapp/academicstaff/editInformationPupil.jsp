@@ -217,22 +217,22 @@
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" required=""/><br />
+                                                                <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" maxlength="25" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
                                                                 <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số" required=""/><br />
+                                                                <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" maxlength="10" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}"/><br />
+                                                                <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}" maxlength="25"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số"/><br />
+                                                                <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" maxlength="10" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
@@ -248,11 +248,11 @@
                                                     <tr>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
-                                                                <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" required=""></textarea><br />
+                                                                <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" required="" maxlength="50"></textarea><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
-                                                                <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}"></textarea><br/>
+                                                                <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}" maxlength="500"></textarea><br/>
                                                             </div></td>
                                                     </tr>
                                                     <tr>
