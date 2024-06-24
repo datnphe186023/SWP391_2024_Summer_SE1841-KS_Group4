@@ -10,6 +10,7 @@ import models.grade.Grade;
 import models.grade.GradeDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
+import models.user.User;
 import models.week.Week;
 import models.week.WeekDAO;
 
@@ -23,11 +24,12 @@ public class ViewMealTimetableServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FoodMenuDAO foodMenuDAO = new FoodMenuDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         GradeDAO gradeDAO = new GradeDAO();
 
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
-        List<Grade> gradeList = gradeDAO.getAll();
+        List<Grade> gradeList = gradeDAO.getGradeByUserId(user.getId());
         request.setAttribute("schoolYearList",schoolYearList );
         request.setAttribute("gradeList",gradeList );
 

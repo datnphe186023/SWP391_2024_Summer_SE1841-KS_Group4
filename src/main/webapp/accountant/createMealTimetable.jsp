@@ -127,7 +127,7 @@
 
                         <div class="form-group col-md-3" style="padding-left: 0px; width: auto;">
                             <label for="selectWeek">Chọn tuần:</label>
-                            <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()" required>
+                            <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()" required style="width: 90%">
                                 <option value ="none">Chọn tuần</option>
                                 <c:forEach var="listWeek" items="${requestScope.listWeek}" >
                                     <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>
