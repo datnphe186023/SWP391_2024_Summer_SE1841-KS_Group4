@@ -25,7 +25,7 @@ public class SubjectServlet extends HttpServlet {
         request.setAttribute("listAllSubject",subjectDAO.getAll());
         request.setAttribute("listGrade",gradeDAO.getAll());
         request.getRequestDispatcher("subject.jsp").forward(request,response);
-    }
+       }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,41 +39,42 @@ public class SubjectServlet extends HttpServlet {
             String name = request.getParameter("name");
             String grade = request.getParameter("grade");
             String description = request.getParameter("description");
-            Subject subject = new Subject(null,Helper.formatName(name),gradeDAO.getGrade(grade),Helper.formatString(description),"đang chờ xử lý");
-            if(Helper.formatString(description).length()>1000 ||Helper.formatString(description).length() <= 0 ){
-                 toastMessage = "Tạo thất bại! Chi tiết trống hoặc đã quá 1000 kí tự";
-                 toastType = "error";
-                request.setAttribute("listAllSubject",subjectDAO.getAll());
-                request.setAttribute("listGrade",gradeDAO.getAll());
-                 session.setAttribute("toastMessage",toastMessage);
-                session.setAttribute("toastType",toastType);
-                request.getRequestDispatcher("subject.jsp").forward(request,response);
-            }else if(Helper.formatString(name).length() >=125 || Helper.formatString(name).length()<=0){
-                toastMessage = "Tạo thất bại!Tên môn học trống hoặc quá 125 kí tự";
+            String regexSubjectName =  "^["+Helper.VIETNAMESE_CHARACTERS+"A-Za-z0-9\\s,;:.!?-]{1,125}$";
+            String regexDescription =  "^["+Helper.VIETNAMESE_CHARACTERS+"A-Za-z0-9\\s,;:.!?-]{1,1000}$";
+            if(!Helper.formatString(name).matches(regexSubjectName) || !Helper.formatString(description).matches(regexDescription)|| grade.isBlank() ){
+                   if(!Helper.formatString(name).matches(regexSubjectName)){
+                       toastMessage = "Tạo thất bại! Tên môn học trống hoặc quá 125 kí tự ! ";
+                   }else if ( !Helper.formatString(description).matches(regexDescription)){
+                       toastMessage = "Tạo thất bại! Chi tiết trống hoặc đã quá 1000 kí tự ! ";
+                   }else if(grade.isBlank()){
+                       toastMessage = "Tạo thất bại! Vui Lòng chọn khối !";
+                   }
                 toastType = "error";
                 request.setAttribute("listAllSubject", subjectDAO.getAll());
                 request.setAttribute("listGrade", gradeDAO.getAll());
                 session.setAttribute("toastMessage", toastMessage);
                 session.setAttribute("toastType", toastType);
                 request.getRequestDispatcher("subject.jsp").forward(request, response);
-            } else if (subjectDAO.createSubject(subject).equals("success")) {
-                toastMessage = "Tạo thành công";
-                toastType = "success";
-                session.setAttribute("toastMessage", toastMessage);
-                session.setAttribute("toastType", toastType);
-                response.sendRedirect("subject");
-            } else {
-                toastMessage = subjectDAO.createSubject(subject);
-                toastType = "error";
-                session.setAttribute("toastMessage", toastMessage);
-                session.setAttribute("toastType", toastType);
-                request.setAttribute("listAllSubject", subjectDAO.getAll());
-                request.setAttribute("listGrade", gradeDAO.getAll());
-                session.setAttribute("toastMessage", toastMessage);
-                session.setAttribute("toastType", toastType);
-                request.getRequestDispatcher("subject.jsp").forward(request, response);
+            }else {
+                Subject subject = new Subject(null, Helper.formatName(name), gradeDAO.getGrade(grade), Helper.formatString(description), "đang chờ xử lý");
+                if (subjectDAO.createSubject(subject).equals("success")) {
+                    toastMessage = "Tạo thành công";
+                    toastType = "success";
+                    session.setAttribute("toastMessage", toastMessage);
+                    session.setAttribute("toastType", toastType);
+                    response.sendRedirect("subject");
+                } else {
+                    toastMessage = subjectDAO.createSubject(subject);
+                    toastType = "error";
+                    session.setAttribute("toastMessage", toastMessage);
+                    session.setAttribute("toastType", toastType);
+                    request.setAttribute("listAllSubject", subjectDAO.getAll());
+                    request.setAttribute("listGrade", gradeDAO.getAll());
+                    session.setAttribute("toastMessage", toastMessage);
+                    session.setAttribute("toastType", toastType);
+                    request.getRequestDispatcher("subject.jsp").forward(request, response);
+                }
             }
-
         } else if (action.equals("edit")) {
             String subjectId = request.getParameter("subjectId");
             String name = request.getParameter("name");

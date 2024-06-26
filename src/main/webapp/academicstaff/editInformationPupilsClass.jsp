@@ -127,8 +127,10 @@
                 var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
                 var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
                 var address = document.getElementsByName("address")[0].value.trim();
+                var lastName = document.getElementsByName("lastName")[0].value.trim();
+                var firstName = document.getElementsByName("firstName")[0].value.trim();
 
-                // Check if the address is provided
+                // Validate address
                 if (address === "") {
                     toastr.error("Địa chỉ không được bỏ trống");
                     return false;
@@ -164,13 +166,34 @@
                     return false;
                 }
 
+                // Validate first name
+                if (firstName === "") {
+                    toastr.error("Tên của bé không được để trống");
+                    return false;
+                }
+                if (!isValidName(firstName)) {
+                    toastr.error("Tên của bé chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
+                }
+
+                // Validate last name
+                if (lastName === "") {
+                    toastr.error("Họ của bé không được để trống");
+                    return false;
+                }
+                if (!isValidName(lastName)) {
+                    toastr.error("Họ của bé chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
+                }
+
                 return true;
             }
 
             function isValidName(name) {
-                return /^[A-Za-z\s'.\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
+                return /^[A-Za-z\s\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
             }
         </script>
+
     </head>
     <body id="page-top">
         <div id="wrapper">
@@ -202,9 +225,8 @@
                             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <form action="updatepupilsclass" method="get" onsubmit="return validateForm()">
+                                        <form action="updatepupils" method="get" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
-                                            <input type="hidden" name="classId" value="${sessionScope.classId}"/>
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -218,42 +240,44 @@
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" required="" maxlength="25"/><br />
+                                                                <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
                                                                 <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" maxlength="10" title="Chỉ nhập số" required=""/><br />
+                                                                <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" maxlength="10" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}" maxlength="25"/><br />
+                                                                <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="[0-9]+" maxlength="10" title="Chỉ nhập số"/><br />
+                                                                <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" maxlength="10" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">    
-                                                                <h5>Họ tên bé :</h5> 
-                                                                <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
+                                                                <h5>Họ của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <input type="text" name="lastName" value="${pupil.lastName}" required="">
+                                                                <h5>Tên của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <input type="text" name="firstName" value="${pupil.firstName}" required="">
                                                             </div></td>
                                                         <td><div class="form-group col-md-12">
-                                                                <h5>Ngày sinh của bé : </h5> 
-                                                                <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
+                                                                <h5>Ngày sinh của bé<a style="color: red">(*)</a> : </h5> 
+                                                                <input type="date" name="birthday" value="${pupil.birthday}" title="Ngày sinh của bé" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
-                                                                <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" maxlength="50" required=""></textarea><br />
+                                                                <textarea type="text" name="address" value="${pupil.address}" style="width: 200%" title="Tối đa 50 kí tự" required="" maxlength="50">${pupil.address}</textarea><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
-                                                                <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}" maxlength="500"></textarea><br/>
+                                                                <textarea type="text" name="note" style="width: 200%" value="${pupil.parentSpecialNote}" title="Tối đa 500 kí tự" maxlength="500"></textarea><br/>
                                                             </div></td>
                                                     </tr>
                                                     <tr>
@@ -277,7 +301,7 @@
         </div>
         <script>
             function redirectToPreviousPage() {
-                window.location.href = 'pupilprofileclass?id=${pupil.id}&classId=${sessionScope.classId}';
+                window.location.href = 'pupilprofile?id=${pupil.id}';
             }
         </script>
     </body>

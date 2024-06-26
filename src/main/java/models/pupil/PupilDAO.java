@@ -66,7 +66,11 @@ public class PupilDAO extends DBContext implements IPupilDAO {
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
+            if(getLatest()==null){
+                preparedStatement.setString(1, "HS000001");
+            } else {
+                preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
+            }
             preparedStatement.setString(2, pupil.getUserId());
             preparedStatement.setString(3, pupil.getFirstName());
             preparedStatement.setString(4, pupil.getLastName());
@@ -88,7 +92,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return false;
     }
@@ -394,7 +398,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
 
     @Override
     public boolean updatePupil(Pupil pupil) {
-        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=? where id=?";
+        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?, first_name=?, last_name=?, birthday=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, pupil.getfirstGuardianName());
@@ -403,7 +407,10 @@ public class PupilDAO extends DBContext implements IPupilDAO {
             ps.setString(4, pupil.getsecondGuardianPhoneNumber());
             ps.setString(5, pupil.getAddress());
             ps.setString(6, pupil.getParentSpecialNote());
-            ps.setString(7, pupil.getId());
+            ps.setString(7, pupil.getFirstName());
+            ps.setString(8, pupil.getLastName());
+            ps.setDate(9, new java.sql.Date(pupil.getBirthday().getTime()));
+            ps.setString(10, pupil.getId());
             ps.executeUpdate();
             return true;
         } catch (Exception ex) {

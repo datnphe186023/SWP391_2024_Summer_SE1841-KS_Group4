@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
@@ -61,15 +63,25 @@ public class UpdatePupilsClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String classId = request.getParameter("classId");
         Pupil pupil = new Pupil();
         pupil.setId(request.getParameter("id").trim());
+        pupil.setLastName(request.getParameter("lastName").trim());
+        pupil.setFirstName(request.getParameter("firstName").trim());
         pupil.setfirstGuardianName(request.getParameter("first_guardian_name").trim());
         pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber").trim());
         pupil.setsecondGuardianName(request.getParameter("second_guardian_name").trim());
         pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber").trim());
         pupil.setAddress(request.getParameter("address").trim());
         pupil.setParentSpecialNote(request.getParameter("note").trim());
+        String birthdayStr = request.getParameter("birthday");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthday = null;
+        try {
+            birthday = formatter.parse(birthdayStr);
+            pupil.setBirthday(birthday);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         IPupilDAO pupilDAO = new PupilDAO();
         boolean p = pupilDAO.updatePupil(pupil);
         HttpSession session = request.getSession();
@@ -78,7 +90,7 @@ public class UpdatePupilsClassServlet extends HttpServlet {
         } else {
             session.setAttribute("error", "error");
         }
-        request.getRequestDispatcher("pupilprofileclass").forward(request, response);
+        request.getRequestDispatcher("pupilprofile").forward(request, response);
     }
 
     /**
