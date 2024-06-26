@@ -55,18 +55,16 @@
 
                         .btn-container {
                             display: flex;
-                            justify-content: space-between;
+                            justify-content: space-evenly;
                             align-items: center;
-                            margin-top: 20px;
+
                         }
 
                         .btn-group-right {
                             display: flex;
-                            gap: 10px;
+                            justify-content:space-evenly;
                         }
-                        .class-form {
-                            margin: 0 10px; /* Adjust the margin as needed */
-                        }
+
                         </style>
 
                     <div class="card-body">
@@ -113,8 +111,9 @@
 
                                                         </div>
                                                         <div class="btn-group-right">
-                                                            <button type="submit" class="btn btn-success" style="width: 100px" name="action" value="accept">Chấp nhận</button>
-                                                            <button type="submit"  class="btn btn-danger" style="width: 100px" name="action" value="deny">Từ chối</button>
+                                                            <button type="submit" class="btn btn-success" style="width: 40%" name="action" value="accept">Chấp nhận</button>
+                                                            <button type="submit"  class="btn btn-danger" style="width: 40%" name="action" value="deny">Từ chối</button>
+
                                                         </div>
                                                     </div>
 
