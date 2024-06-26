@@ -95,7 +95,7 @@
                                 Application app = (Application) request.getAttribute("application");
                                 String details = app.getDetails();
                                 if (details != null) {
-                                    details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
+                                    details = details.replace("\r\n", "<br/>");
                                 }
                             %>
                             <div class="col-sm-9" id="details">
