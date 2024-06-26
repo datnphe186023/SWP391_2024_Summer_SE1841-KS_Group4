@@ -225,8 +225,9 @@
                             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <form action="updatepupils" method="get" onsubmit="return validateForm()">
+                                        <form action="updatepupilsclass?classId=${requestScope.classId}" method="get" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
+                                            <input type="hidden" name="classId" value="${requestScope.classId}"/>
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -301,7 +302,7 @@
         </div>
         <script>
             function redirectToPreviousPage() {
-                window.location.href = 'pupilprofile?id=${pupil.id}';
+                window.location.href = 'pupilprofileclass?id=${pupil.id}&classId=${requestScope.classId}';
             }
         </script>
     </body>

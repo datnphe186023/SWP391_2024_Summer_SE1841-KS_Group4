@@ -62,12 +62,11 @@ public class PupilProfileClassServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        String classId = "";
         HttpSession session = request.getSession();
-        if (classId != null) {
-            classId = request.getParameter("classId");
-            request.setAttribute("classId", classId);
-        }
+        String classId = "";
+        classId = request.getParameter("classId");
+        request.setAttribute("classId", classId);
+        session.removeAttribute("classId");
         IPupilDAO pupilDAO = new PupilDAO();
         Pupil pupil = pupilDAO.getPupilsById(id);
         String success = (String) session.getAttribute("success");
@@ -98,9 +97,11 @@ public class PupilProfileClassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        String classId = request.getParameter("classId");
         IPupilDAO pupilDAO = new PupilDAO();
         Pupil pupil = pupilDAO.getPupilsById(id);
         request.setAttribute("pupil", pupil);
+        request.setAttribute("classId", classId);
         request.getRequestDispatcher("editInformationPupilsClass.jsp").forward(request, response);
     }
 

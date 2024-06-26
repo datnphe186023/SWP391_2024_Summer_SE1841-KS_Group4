@@ -90,7 +90,7 @@ public class UpdatePupilsClassServlet extends HttpServlet {
         } else {
             session.setAttribute("error", "error");
         }
-        request.getRequestDispatcher("pupilprofile").forward(request, response);
+        request.getRequestDispatcher("pupilprofileclass").forward(request, response);
     }
 
     /**

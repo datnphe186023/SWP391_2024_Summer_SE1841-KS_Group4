@@ -94,7 +94,7 @@
                                         <td>${pupil.lastName} ${pupil.firstName}</td>
                                         <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
                                         <td>${pupil.address}</td>
-                                        <td><a href="#"
+                                        <td><a href="pupilprofile?id=${pupil.id}"
                                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
                                             tin chi tiết</a></td>
                                     </tr>
