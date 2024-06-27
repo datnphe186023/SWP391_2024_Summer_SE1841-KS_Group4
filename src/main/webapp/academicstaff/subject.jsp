@@ -236,7 +236,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Tên Môn Học<a style="color: red">(*)</a></label>
                                             <input id="name" class="form-control" type="text" name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$"
-                                                    placeholder="Tối đa 100 kí tự" required value="${param.name}">
+                                                    placeholder="Tối đa 125 kí tự" required value="${param.name}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
