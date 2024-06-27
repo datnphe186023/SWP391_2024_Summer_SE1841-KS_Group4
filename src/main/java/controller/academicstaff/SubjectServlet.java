@@ -36,9 +36,9 @@ public class SubjectServlet extends HttpServlet {
         String toastMessage = "";
         String toastType = "error";
         if (action.equals("create")) {
-            String name = request.getParameter("name");
+            String name = request.getParameter("name").trim();
             String grade = request.getParameter("grade");
-            String description = request.getParameter("description");
+            String description = request.getParameter("description").trim();
             String regexSubjectName =  "^["+Helper.VIETNAMESE_CHARACTERS+"A-Za-z0-9\\s,;:.!?-]{1,125}$";
             String regexDescription =  "^["+Helper.VIETNAMESE_CHARACTERS+"A-Za-z0-9\\s,;:.!?-]{1,1000}$";
             if(!Helper.formatString(name).matches(regexSubjectName) || !Helper.formatString(description).matches(regexDescription)|| grade.isBlank() ){
