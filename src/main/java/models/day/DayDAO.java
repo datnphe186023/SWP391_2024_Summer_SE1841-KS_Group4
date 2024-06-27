@@ -22,6 +22,30 @@ import java.util.regex.Pattern;
 
 public class DayDAO extends DBContext implements IDayDAO{
 
+    private Day createDay(ResultSet resultSet) throws SQLException {
+        Day day = new Day();
+        day.setId(resultSet.getString("id"));
+        WeekDAO weekDAO = new WeekDAO();
+        day.setWeek(weekDAO.getWeek(resultSet.getString("week_id")));
+        day.setDate(resultSet.getDate("date"));
+        return day;
+    }
+
+    public Day getDayByDate(String date){
+        String sql="select * from days where date = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,date);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return createDay(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
     private Day getLatest() {
         String sql = "SELECT TOP 1 * FROM Days ORDER BY ID DESC";
         try {
