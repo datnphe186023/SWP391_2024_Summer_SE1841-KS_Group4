@@ -150,6 +150,7 @@
                                         <form action="pupilprofileclass" method="post">
                                             <input type="hidden" name="avatar" value="${pupil.avatar}"/>
                                             <input type="hidden" name="id" value="${pupil.id}"/>
+                                            <input type="hidden" name="classId" value="${requestScope.classId}"/>
                                             <table>
                                                 <tbody>
                                                     <tr>

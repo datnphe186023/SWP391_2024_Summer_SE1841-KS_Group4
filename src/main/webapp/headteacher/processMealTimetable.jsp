@@ -86,6 +86,7 @@
                                 <input disabled id="week" value="${requestScope.week.getStartDatetoEndDate()}"/>
                                 </label>
                             </div>
+
                         </div>
 
                 </div>
@@ -153,6 +154,9 @@
 
                 <button type="submit" form="process" class="btn btn-success" style="width: 100px" name="action" value="accept">Chấp nhận</button>
                 <button type="submit" form="process" class="btn btn-danger" style="width: 100px" name="action" value="deny">Từ chối</button>
+                    <button class="btn btn-primary" >
+                        <a style="color:white "  href="waitlistmealtimetable">Quay lại danh sách</a>
+                    </button>
                 </div>
                 </div>
             </div>

@@ -39,6 +39,8 @@ public interface IPupilDAO {
 
     boolean updatePupil(Pupil pupil);
 
+    boolean updatePupilForTeacher(Pupil pupil);
+
     List<Pupil> getPupilNonUserId();
 
     boolean checkFirstGuardianPhoneNumberExists(String phoneNumber);

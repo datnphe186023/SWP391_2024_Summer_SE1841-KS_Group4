@@ -66,7 +66,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            if(getLatest()==null){
+            if (getLatest() == null) {
                 preparedStatement.setString(1, "HS000001");
             } else {
                 preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
@@ -411,6 +411,26 @@ public class PupilDAO extends DBContext implements IPupilDAO {
             ps.setString(8, pupil.getLastName());
             ps.setDate(9, new java.sql.Date(pupil.getBirthday().getTime()));
             ps.setString(10, pupil.getId());
+            ps.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePupilForTeacher(Pupil pupil) {
+        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=? where id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, pupil.getfirstGuardianName());
+            ps.setString(2, pupil.getfirstGuardianPhoneNumber());
+            ps.setString(3, pupil.getsecondGuardianName());
+            ps.setString(4, pupil.getsecondGuardianPhoneNumber());
+            ps.setString(5, pupil.getAddress());
+            ps.setString(6, pupil.getParentSpecialNote());
+            ps.setString(7, pupil.getId());
             ps.executeUpdate();
             return true;
         } catch (Exception ex) {
