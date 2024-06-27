@@ -41,7 +41,7 @@
             <jsp:include page="navbar.jsp"/>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <jsp:include page="../header.jsp"/>
+                    <jsp:include page="header-parent.jsp"/>
                     <div class="container-fluid">
                         <h1 class="h3 mb-4 text-gray-800 text-center">DANH SÁCH THÔNG BÁO</h1>
                         <div class="card shadow mb-4">
