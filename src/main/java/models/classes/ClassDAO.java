@@ -4,6 +4,7 @@ import models.grade.GradeDAO;
 import models.grade.IGradeDAO;
 import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import models.pupil.Pupil;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
@@ -337,5 +338,27 @@ public class ClassDAO extends DBContext implements IClassDAO {
             e.printStackTrace();
         }
         return listClass;
+    }
+
+    @Override
+    public String getClassNameByTeacherAndTimetable(String teacherId, String date) {
+        String sql = "SELECT DISTINCT c.name\n" +
+                "FROM Class c\n" +
+                "JOIN Timetables t ON c.id = t.class_id\n" +
+                "JOIN Days d ON t.date_id = d.id\n" +
+                "WHERE t.teacher_id = ?\n" +
+                "  AND ? = d.date;\n";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teacherId);
+            preparedStatement.setString(2, date);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+              return rs.getString(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
