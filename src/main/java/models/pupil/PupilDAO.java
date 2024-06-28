@@ -488,4 +488,35 @@ public class PupilDAO extends DBContext implements IPupilDAO {
         }
         return false;
     }
+
+    @Override
+    public List<Pupil> getPupilsByTeacherAndTimetable(String teacherId, String date) {
+        String sql = "SELECT DISTINCT Pupils.id, Pupils.first_name, Pupils.last_name, Pupils.avatar\n" +
+                "FROM Pupils\n" +
+                "JOIN classDetails ON Pupils.id = classDetails.pupil_id\n" +
+                "JOIN Timetables ON classDetails.class_id = Timetables.class_id\n" +
+                "JOIN dbo.Days ON Timetables.date_id = dbo.Days.id\n" +
+                "WHERE Timetables.teacher_id = ?\n" +
+                "AND ? = dbo.Days.date;";
+        List<Pupil> list = new ArrayList<>();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teacherId);
+            preparedStatement.setString(2, date);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Pupil pupil = new Pupil();
+                pupil.setId(rs.getString("id"));
+                pupil.setFirstName(rs.getString("first_name"));
+                pupil.setLastName(rs.getString("last_name"));
+                pupil.setAvatar(rs.getString("avatar"));
+                list.add(pupil);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
 }

@@ -56,10 +56,16 @@
 
             <!-- Nav Item - Điểm danh -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class='fas fa-fw fa-check-square'></i>
-                    <span>Điểm danh</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttendance"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-solid fa-bell"></i>
+                    <span>Điểm Danh</span>
                 </a>
+                <div id="collapseAttendance" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="takeattendance">Điểm Danh Hôm Nay</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Quản lý học sinh -->

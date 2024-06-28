@@ -16,6 +16,8 @@ import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.schoolYear.SchoolYear;
+import models.timetable.ITimetableDAO;
+import models.timetable.TimetableDAO;
 import utils.Helper;
 
 import java.io.IOException;
@@ -106,6 +108,8 @@ public class ClassDetailServlet extends HttpServlet {
             String classId = request.getParameter("classId");
             IClassDAO classDAO = new ClassDAO();
             String result = classDAO.assignTeacherToClass(teacherId, classId);
+            ITimetableDAO timetableDAO = new TimetableDAO();
+            timetableDAO.updateTeacherOfTimetable(classId, teacherId);
             if (result.equals("success")) {
                 session.setAttribute("toastType", "success");
                 session.setAttribute("toastMessage", "Thao tác thành công");
