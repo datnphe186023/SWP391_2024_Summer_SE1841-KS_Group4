@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -120,6 +121,34 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    @Override
+    public int getNumberOfStatus(String evaluation, String pupilId, String weekId){
+        String sql="select pupil_id, count(evaluation)  from Evaluations \n" +
+                "where evaluation=? and pupil_id = ? and date_id in (";
+        DayDAO dayDAO = new DayDAO();
+        List<Day> listDayInWeek = dayDAO.getDayByWeek(weekId);
+        for (int i=0;i<listDayInWeek.size();i++){
+            if(i== listDayInWeek.size()-1){
+                sql+="'"+listDayInWeek.get(i).getId()+"'"+") ";
+            }else{
+                sql+= "'"+listDayInWeek.get(i).getId()+"'"+",";
+            }
+        }
+        sql+=" group by pupil_id";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,evaluation);
+            preparedStatement.setString(2,pupilId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getInt(2);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
     private String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
