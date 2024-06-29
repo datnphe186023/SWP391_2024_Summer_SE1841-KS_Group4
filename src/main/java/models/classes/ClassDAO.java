@@ -307,13 +307,14 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
-    public Class getClassByPupilId(String id) {
-        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ?";
+    public Class getClassByPupilIdandSchoolYear(String id, String schoolyear) {
+        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
         IClassDAO classDAO = new ClassDAO();
         String classId = "";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
+            preparedStatement.setString(2, schoolyear);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 classId = resultSet.getString(1);
@@ -342,21 +343,21 @@ public class ClassDAO extends DBContext implements IClassDAO {
 
     @Override
     public String getClassNameByTeacherAndTimetable(String teacherId, String date) {
-        String sql = "SELECT DISTINCT c.name\n" +
-                "FROM Class c\n" +
-                "JOIN Timetables t ON c.id = t.class_id\n" +
-                "JOIN Days d ON t.date_id = d.id\n" +
-                "WHERE t.teacher_id = ?\n" +
-                "  AND ? = d.date;\n";
-        try{
+        String sql = "SELECT DISTINCT c.name\n"
+                + "FROM Class c\n"
+                + "JOIN Timetables t ON c.id = t.class_id\n"
+                + "JOIN Days d ON t.date_id = d.id\n"
+                + "WHERE t.teacher_id = ?\n"
+                + "  AND ? = d.date;\n";
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);
             preparedStatement.setString(2, date);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-              return rs.getString(1);
+                return rs.getString(1);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
