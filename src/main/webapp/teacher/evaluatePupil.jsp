@@ -56,6 +56,7 @@
             });
         });
     </script>
+
 </head>
 
 <body id="page-top">
@@ -73,30 +74,6 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <c:choose>
-                            <c:when test="${requestScope.schoolYear == null}">
-                                <h6 class="m-0 font-weight-bold text-primary">Năm học: <a
-                                        style="color: red">Chưa bắt đầu năm học mới</a>
-                                </h6>
-                            </c:when>
-                            <c:otherwise>
-                                <h6 class="m-0 font-weight-bold text-primary">Năm học: <a
-                                >${requestScope.schoolYear.name}</a>
-                                </h6>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${requestScope.teacherGrade == null}">
-                                <h6 class="m-0 font-weight-bold text-primary">Khối: <a
-                                        style="color: red">Chưa có lớp</a>
-                                </h6>
-                            </c:when>
-                            <c:otherwise>
-                                <h6 class="m-0 font-weight-bold text-primary">Khối: <a
-                                >${requestScope.teacherGrade}</a>
-                                </h6>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
                             <c:when test="${requestScope.teacherClass == null}">
                                 <h6 class="m-0 font-weight-bold text-primary">Lớp: <a
                                         style="color: red">Chưa có lớp</a>
@@ -109,6 +86,7 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
+
                     <jsp:useBean id="evaluation" class="models.evaluation.EvaluationDAO"/>
                     <c:set var="dateId" value="${requestScope.dateId}"/>
                     <div class="card-body">
@@ -138,21 +116,26 @@
                                         </td>
                                         <td>${pupil.lastName} ${pupil.firstName}</td>
                                         <td class="text-center">
-                                            <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}">
-                                                <option value="nghỉ học" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq "Nghỉ học"?"selected":""}>-</option>
+                                            <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}" >
+                                                <option value="nghỉ học" hidden="" >-</option>
+                                                <option value="nghỉ học" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq "Nghỉ học"?"selected":""}>Nghỉ học</option>
                                                 <option value="Ngoan"  ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Ngoan'?"selected":""} name="evaluationId-good" >Ngoan</option>
                                                 <option value="Chưa ngoan" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Chưa ngoan'?"selected":""} name="evaluationId-bad">Chưa ngoan</option>
                                             </select>
                                         </td>
+
                                         <td class="text-center">
                                             <textarea class="mt-2" rows="3" name="notes-${pupil.id}">${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).notes}</textarea>
                                         </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
+                            <script>
 
+                            </script>
                             </table>
-                            <c:if test="${requestScope.schoolYear != null || requestScope.teacherGrade != null }">
+
+                            <c:if test="${requestScope.teacherClass != null}">
                                 <div class="btn-group-right float-right">
                                     <button type="button" class="btn btn-success" onclick="confirmAccept('evaluateForm','Bạn có chắc chắn muốn lưu thay đổi ?')"  style="width: 100px">Lưu</button>
                                 </div>

@@ -11,4 +11,5 @@ public interface IWeekDAO {
     String getYearByWeek(String id);
     public List<Week> getWeeks(String schoolYearId );
     List<Week> getWeeksFromNowUntilEndOfSchoolYear(String schoolYearId);
+    String getCurrentWeek(Date date);
 }

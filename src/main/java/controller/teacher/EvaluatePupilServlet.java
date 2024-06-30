@@ -13,7 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import models.classes.Class;
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
+import models.day.Day;
 import models.day.DayDAO;
+import models.day.IDayDAO;
 import models.evaluation.Evaluation;
 import models.evaluation.EvaluationDAO;
 import models.evaluation.IEvaluationDAO;
@@ -35,8 +37,6 @@ public class EvaluatePupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IPupilDAO pupilDAO = new PupilDAO();
-        IPersonnelDAO personnelDAO = new PersonnelDAO();
-        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         IClassDAO classDAO = new ClassDAO();
         DayDAO dayDAO = new DayDAO();
 
@@ -47,26 +47,17 @@ public class EvaluatePupilServlet extends HttpServlet {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         // Convert the Date to a String
         String dateString = formatter.format(currentDate);
-        String gradeTeacher =null;
-        String classTeacher=null;
-        Class classes = null;
-        List<Pupil> listPupil = null;
+        String dateId =null;
+
         User user = (User) session.getAttribute("user");
-            Personnel teacher = personnelDAO.getPersonnelByUserId(user.getId());
-            SchoolYear currentSchoolYear = schoolYearDAO.getSchoolYearByDate(increaseDate(currentDate,15));
-            ///  Get Class and grade of class of this teacher in one school year
-        if(currentSchoolYear!=null){
-             classes = classDAO.getTeacherClassByYear(currentSchoolYear.getId(),teacher.getId());
-             listPupil = pupilDAO.getListPupilOfTeacherBySchoolYear(currentSchoolYear.getId(), teacher.getId());
+        List<Pupil> listPupil = pupilDAO.getPupilsByTeacherAndTimetable(user.getUsername().toUpperCase(), dateString);
+        String  className = classDAO.getClassNameByTeacherAndTimetable(user.getUsername(), dateString);
+        Day day = dayDAO.getDayByDate(dateString);
+        if(day!=null){
+            dateId = day.getId();
         }
-        if(classes!=null){
-                gradeTeacher=classes.getGrade().getName();
-                classTeacher=classes.getName();
-        }
-        request.setAttribute("dateId",dayDAO.getDayByDate(dateString).getId());
-        request.setAttribute("schoolYear",currentSchoolYear);
-        request.setAttribute("teacherGrade",gradeTeacher);
-        request.setAttribute("teacherClass",classTeacher);
+        request.setAttribute("dateId",dateId);
+        request.setAttribute("teacherClass",className);
         request.setAttribute("listPupil", listPupil);
         request.getRequestDispatcher("evaluatePupil.jsp").forward(request, response);
     }
@@ -74,8 +65,6 @@ public class EvaluatePupilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IPupilDAO pupilDAO = new PupilDAO();
-        IPersonnelDAO personnelDAO = new PersonnelDAO();
-        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         IEvaluationDAO evaluationDAO = new EvaluationDAO();
         DayDAO dayDAO = new DayDAO();
         HttpSession session = request.getSession();
@@ -110,13 +99,9 @@ public class EvaluatePupilServlet extends HttpServlet {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             // Convert the Date to a String
             String dateString = formatter.format(currentDate);
-            List<Pupil> listPupil = null;
             User user = (User) session.getAttribute("user");
-            Personnel teacher = personnelDAO.getPersonnelByUserId(user.getId());
-            SchoolYear currentSchoolYear = schoolYearDAO.getSchoolYearByDate(increaseDate(currentDate,15));
-            if(currentSchoolYear!=null){
-                listPupil = pupilDAO.getListPupilOfTeacherBySchoolYear(currentSchoolYear.getId(), teacher.getId());
-            }
+            List<Pupil> listPupil = pupilDAO.getPupilsByTeacherAndTimetable(user.getUsername().toUpperCase(), dateString);
+
 
             if(listPupil!=null){
                 for(Pupil pupil : listPupil){

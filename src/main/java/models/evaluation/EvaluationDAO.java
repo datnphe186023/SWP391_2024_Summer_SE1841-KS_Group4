@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +26,7 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
         Pupil pupil = pupilDAO.getPupilsById(resultSet.getString("pupil_id"));
         evaluation.setPupil(pupil);
         Day day = dayDAO.getDayByID(resultSet.getString("date_id"));
+        evaluation.setDate(day);
         evaluation.setEvaluation(resultSet.getString("evaluation"));
         evaluation.setNotes(resultSet.getString("notes"));
         return evaluation;
@@ -121,6 +124,47 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
         }
         return false;
     }
+
+    @Override
+    public int getNumberOfStatus(String evaluation, String pupilId, String weekId){
+        String sql="select pupil_id, count(evaluation)  from Evaluations e join Days d on e.date_id = d.id\n" +
+                "join Weeks w on d.week_id = w.id\n" +
+                "where evaluation= ? and pupil_id = ? and week_id= ? \n" +
+                "group by pupil_id";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,evaluation);
+            preparedStatement.setString(2,pupilId);
+            preparedStatement.setString(3,weekId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getInt(2);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Evaluation> getEvaluationByWeek(String weekId){
+        List<Evaluation> list = new ArrayList<>();
+        String sql="select e.id, e.pupil_id,e.date_id,e.evaluation,e.notes  from Evaluations e join Days d on e.date_id = d.id\n" +
+                "join Weeks w on d.week_id = w.id\n" +
+                "where week_id= ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,weekId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                list.add(createEvaluation(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
     private String generateId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
@@ -144,5 +188,10 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        EvaluationDAO evaluationDAO = new EvaluationDAO();
+        System.out.println(evaluationDAO.getEvaluationByWeek("W000084").get(0).getDate().getId());
     }
 }
