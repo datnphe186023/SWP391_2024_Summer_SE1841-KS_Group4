@@ -48,10 +48,10 @@ public class PupilServlet extends HttpServlet {
             String toastType = "error";
             if (session.getAttribute("user") != null) {
                 String avatar = request.getParameter("avatar");
-                String firstName = request.getParameter("firstName");
-                String lastName = request.getParameter("lastName");
-                String secondGuardianName = request.getParameter("secondGuardianName");
-                String firstGuardianName = request.getParameter("firstGuardianName");
+                String firstName = request.getParameter("firstName").trim();
+                String lastName = request.getParameter("lastName").trim();
+                String secondGuardianName = request.getParameter("secondGuardianName").trim();
+                String firstGuardianName = request.getParameter("firstGuardianName").trim();
                 String birth = request.getParameter("birth");
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date birthday = null;
@@ -64,11 +64,11 @@ public class PupilServlet extends HttpServlet {
                 if (genderRaw.equals("0")) {
                     gender = false;
                 }
-                String email = request.getParameter("email");
-                String note = request.getParameter("note");
-                String address = request.getParameter("address");
+                String email = request.getParameter("email").trim();
+                String note = request.getParameter("note").trim();
+                String address = request.getParameter("address").trim();
                 String secondGuardianPhoneNumber = request.getParameter("secondGuardianPhoneNumber").trim();
-                String firstGuardianPhoneNumber = request.getParameter("firstGuardianPhoneNumber");
+                String firstGuardianPhoneNumber = request.getParameter("firstGuardianPhoneNumber").trim();
 
                 String status = "đang chờ xử lý";
                 user = (User) session.getAttribute("user");
@@ -78,14 +78,8 @@ public class PupilServlet extends HttpServlet {
                         Helper.formatName(firstGuardianName), firstGuardianPhoneNumber, avatar, secondGuardianName.isBlank()?null:Helper.formatName(secondGuardianName), secondGuardianPhoneNumber.isBlank()?null:secondGuardianPhoneNumber, createdBy,
                         note);
                 ////   Stage for create pupil
-                if (pupilDAO.createPupil(pupil)) {
-                    toastMessage = "Xác nhận thành công";
-                    toastType = "success";
-                    session.setAttribute("toastMessage", toastMessage);
-                    session.setAttribute("toastType", toastType);
-                    response.sendRedirect("pupil");
-                } else {
-                    toastMessage = "Tạo thật bại";
+                 if(secondGuardianName.isBlank() && !secondGuardianPhoneNumber.isBlank()){
+                    toastMessage = "Tạo thật bại ! Vui lòng nhập họ và tên người giám hộ thứ 2!";
                     toastType = "error";
                     session.setAttribute("toastMessage", toastMessage);
                     session.setAttribute("toastType", toastType);
@@ -94,9 +88,49 @@ public class PupilServlet extends HttpServlet {
                     String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
                     request.setAttribute("newPupilId", newPupilId);
                     request.getRequestDispatcher("pupil.jsp").forward(request,response);
+                }else if(!secondGuardianName.isBlank() && secondGuardianPhoneNumber.isBlank()){
+                    toastMessage = "Tạo thật bại ! Vui lòng nhập số điện thoại người giám hộ thứ 2!";
+                    toastType = "error";
+                    session.setAttribute("toastMessage", toastMessage);
+                    session.setAttribute("toastType", toastType);
+                    List<Pupil> listPupil = pupilDAO.getAllPupils();
+                    request.setAttribute("listPupil", listPupil);
+                    String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+                    request.setAttribute("newPupilId", newPupilId);
+                    request.getRequestDispatcher("pupil.jsp").forward(request,response);
+                } else if(pupilDAO.checkFirstGuardianPhoneNumberExists(firstGuardianPhoneNumber) || pupilDAO.checkSecondGuardianPhoneNumberExists(secondGuardianPhoneNumber)){
+                     if(pupilDAO.checkFirstGuardianPhoneNumberExists(firstGuardianPhoneNumber) ){
+                         toastMessage = "Số điện thoại người giám hộ đầu tiên đã tồn tại !";
+                     }else if(pupilDAO.checkSecondGuardianPhoneNumberExists(secondGuardianPhoneNumber)){
+                         toastMessage = "Số điện thoại người giám hộ thứ hai đã tồn tại !";
+                     }
+                     session.setAttribute("toastMessage", toastMessage);
+                     session.setAttribute("toastType", toastType);
+                     List<Pupil> listPupil = pupilDAO.getAllPupils();
+                     request.setAttribute("listPupil", listPupil);
+                     String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+                     request.setAttribute("newPupilId", newPupilId);
+                     request.getRequestDispatcher("pupil.jsp").forward(request,response);
+                 }
+                else {
+                        if (pupilDAO.createPupil(pupil)) {
+                        toastMessage = "Xác nhận thành công";
+                        toastType = "success";
+                        session.setAttribute("toastMessage", toastMessage);
+                        session.setAttribute("toastType", toastType);
+                        response.sendRedirect("pupil");
+                        } else {
+                        toastMessage = "Tạo thật bại ! Email hoặc số điện thoại đã tồn tại !";
+                        toastType = "error";
+                        session.setAttribute("toastMessage", toastMessage);
+                        session.setAttribute("toastType", toastType);
+                        List<Pupil> listPupil = pupilDAO.getAllPupils();
+                        request.setAttribute("listPupil", listPupil);
+                        String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+                        request.setAttribute("newPupilId", newPupilId);
+                        request.getRequestDispatcher("pupil.jsp").forward(request,response);
+                        }
                 }
-
-
 
 
             }

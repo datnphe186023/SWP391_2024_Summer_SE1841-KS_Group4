@@ -28,10 +28,18 @@
 </script>
 <%--confirm message of processing application--%>
 <script>
-    function confirmAction(action) {
-        var actionName = (action === 'approve') ? 'duyệt' : 'từ chối';
-        return confirm('Bạn có chắc chắn muốn ' + actionName + ' đơn này không?');
+    function confirmAccept(formId, msg, action) {
+        document.getElementById('actionField').value = action;
+        formIdToAccept = formId;
+        document.getElementById('confirmMessageTitle').innerText = msg;
+        $('#confirmMessage').modal('show');
     }
+    $(document).ready(function() {
+        $('#confirmMessageButton').click(function() {
+            document.getElementById(formIdToAccept).submit();
+
+        });
+    });
 </script>
 <html>
 <head>
@@ -87,7 +95,7 @@
                                 Application app = (Application) request.getAttribute("application");
                                 String details = app.getDetails();
                                 if (details != null) {
-                                    details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
+                                    details = details.replace("\r\n", "<br/>");
                                 }
                             %>
                             <div class="col-sm-9" id="details">
@@ -102,15 +110,37 @@
                         <textarea class="form-control mb-5" type="text" placeholder="${requestScope.application.processNote}"
                                   name="note" id="note" rows="5" required></textarea>
                         <input name="id" value="${requestScope.applicationId}" hidden/>
-                        <button type="submit" name="action" value="approve" class="btn btn-success" onclick="return confirmAction('approve')">
+                        <input name="action" id="actionField" hidden="hidden">
+                        <button type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
                             Duyệt
                         </button>
-                        <button type="submit" name="action" value="reject" class="btn btn-danger" onclick="return confirmAction('reject')">
+                        <button type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
                             Từ chối
                         </button>
                     </form>
                 </div>
             </div>
+            <%-- Begin confirmMessage modal--%>
+            <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" >Xác nhận thao tác</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmMessageTitle">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%-- End confirmMessage modal--%>
             <jsp:include page="../footer.jsp"/>
         </div>
     </div>

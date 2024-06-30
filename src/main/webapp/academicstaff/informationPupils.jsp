@@ -19,6 +19,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -98,7 +101,19 @@
                 pointer-events: none; /* Ngăn không cho tương tác */
             }
         </style>
-
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
     </head>
     <body id="page-top">
         <div id="wrapper">
@@ -132,8 +147,9 @@
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                        <form action="pupilprofile?id=${pupil.id}" method="post">
-                                            <input type="hidden" name="avatar" value="${pupil.avatar}">
+                                        <form action="pupilprofile" method="post">
+                                            <input type="hidden" name="avatar" value="${pupil.avatar}"/>
+                                            <input type="hidden" name="id" value="${pupil.id}"/>
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -183,7 +199,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="form-buttons">
-                                                <button type="button" class="btn btn-danger" onclick="cancelAction()">Quay Lại</button>
+                                                <button onclick="goBack()" type="button" class="btn btn-danger">Quay Lại</button>
                                                 <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
                                             </div>
                                         </form>
@@ -197,8 +213,8 @@
             </div>
         </div>
         <script>
-            function cancelAction() {
-                window.history.back();
+            function goBack() {
+                window.location.href = 'pupil';
             }
         </script>
     </body>

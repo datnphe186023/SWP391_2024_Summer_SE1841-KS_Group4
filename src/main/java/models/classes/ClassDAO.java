@@ -4,6 +4,7 @@ import models.grade.GradeDAO;
 import models.grade.IGradeDAO;
 import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import models.pupil.Pupil;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
@@ -256,7 +257,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
     @Override
     public List<Class> getClassesByGradeAndSchoolYear(String classId, String gradeId, String schoolYearId) {
         List<Class> list = new ArrayList<>();
-        String sql = " select * from class where school_year_id= ? and grade_id= ?";
+        String sql = " select * from class where school_year_id= ? and grade_id= ? and status= N'đã được duyệt'";
         if (classId != null) {
             sql += " and id != '" + classId + "'";
         }
@@ -289,7 +290,6 @@ public class ClassDAO extends DBContext implements IClassDAO {
         return "success";
     }
 
-
     @Override
     public Class getClassByTeacherId(String id) {
         String sql = "select * from [Class] where teacher_id = ?";
@@ -307,13 +307,14 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
-    public Class getClassByPupilId(String id) {
-        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ?";
+    public Class getClassByPupilIdandSchoolYear(String id, String schoolyear) {
+        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
         IClassDAO classDAO = new ClassDAO();
         String classId = "";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
+            preparedStatement.setString(2, schoolyear);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 classId = resultSet.getString(1);
@@ -323,5 +324,42 @@ public class ClassDAO extends DBContext implements IClassDAO {
         }
         Class classes = classDAO.getClassById(classId);
         return classes;
+    }
+
+    @Override
+    public List<Class> getAllClass() {
+        List<Class> listClass = new ArrayList<>();
+        String sql = "select * from [Class]";
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Class aclass = createClass(rs);
+                listClass.add(aclass);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listClass;
+    }
+
+    @Override
+    public String getClassNameByTeacherAndTimetable(String teacherId, String date) {
+        String sql = "SELECT DISTINCT c.name\n"
+                + "FROM Class c\n"
+                + "JOIN Timetables t ON c.id = t.class_id\n"
+                + "JOIN Days d ON t.date_id = d.id\n"
+                + "WHERE t.teacher_id = ?\n"
+                + "  AND ? = d.date;\n";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teacherId);
+            preparedStatement.setString(2, date);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

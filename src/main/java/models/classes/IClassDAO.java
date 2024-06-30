@@ -15,6 +15,7 @@ public interface IClassDAO {
     List<Class> getByStatus(String status, String schoolYearId);
 
     String reviewClass(String newStatus, String id);
+
     List<Class> getClassByGradeIdAndSchoolYearAndStatus(String gradeId, String schoolYearId, String status);
 
     List<Class> getClassByGradeId(String gradeId);
@@ -27,6 +28,10 @@ public interface IClassDAO {
 
     Class getClassByTeacherId(String id);
 
-    Class getClassByPupilId(String id);
+    Class getClassByPupilIdandSchoolYear(String id, String schoolyear);
+
+    List<Class> getAllClass();
+
+    String getClassNameByTeacherAndTimetable(String teacherId, String date);
 
 }

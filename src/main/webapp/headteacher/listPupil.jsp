@@ -82,8 +82,35 @@
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Danh sách học sinh</h6>
                                 <c:if test="${classesSelect!=null}">
-                                    <h6 class="m-0 font-weight-bold text-primary">Khối :<a>${requestScope.grade == null ?"Chưa chọn lớp":requestScope.grade}</a></h6>
-                                    <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a>${requestScope.teacherName == null ?"Chưa được phân công":requestScope.teacherName}</a></h6>
+                                    <c:choose>
+                                        <c:when test="${requestScope.grade == null}">
+                                            <h6 class="m-0 font-weight-bold text-primary">Khối: <a
+                                                    style="color: red">Chưa chọn lớp</a>
+                                            </h6>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h6 class="m-0 font-weight-bold text-primary">Khối: <a
+                                            >${requestScope.grade}</a>
+                                            </h6>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${requestScope.teacherName eq 'null null'}">
+                                            <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a
+                                                    style="color: red">Chưa được phân công</a>
+                                            </h6>
+                                        </c:when>
+                                        <c:when test="${requestScope.teacherName == null}">
+                                            <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a
+                                                    style="color: red">Chưa được phân công</a>
+                                            </h6>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a
+                                            >${requestScope.teacherName}</a>
+                                            </h6>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:if>
                             </div>
                             <div class="card-body">
@@ -128,7 +155,7 @@
                 </div>
                 <jsp:include page="../footer.jsp"/>
             </div>
-        </div>v
+        </div>
         <!-- Page level plugins -->
         <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>

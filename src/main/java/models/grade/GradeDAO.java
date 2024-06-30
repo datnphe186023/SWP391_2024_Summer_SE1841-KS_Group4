@@ -54,5 +54,24 @@ public class GradeDAO extends DBContext implements IGradeDAO{
         return grades;
     }
 
+    public List<Grade> getGradeByUserId(String userId) {
+        String sql = "select g.id,g.name,g.description from [User] join dbo.Pupils p on [User].id = P.user_id\n" +
+                "                                          join  classDetails cd on p.id = cd.pupil_id\n" +
+                "                        join Class c on cd.class_id = c.id\n" +
+                "                        join Grades g on c.grade_id = g.id where [User].id  = ?";
+        List<Grade> grades = new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                Grade grade = createGrade(resultSet);
+                grades.add(grade);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grades;
+    }
 
 }

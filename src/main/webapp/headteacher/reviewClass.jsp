@@ -92,22 +92,61 @@
                                         <td>${classes.createdBy.lastName} ${classes.createdBy.firstName}</td>
                                         <td>
                                             <div class="d-flex flex-column align-items-center">
-                                                <form method="post" action="reviewclass" id="accept-form" class="d-inline mb-2">
+                                                <form method="post" action="reviewclass" id="accept-form${classes.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="accept">
                                                     <input type="hidden" name="id" value="${classes.id}">
                                                     <input type="hidden" name="schoolYearId" value="${requestScope.selectedSchoolYearId}">
-                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmAcceptModal">Chấp nhận</button>
+                                                    <button type="button" class="btn btn-sm btn-success shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmAcceptModal${classes.id}">Chấp nhận</button>
                                                 </form>
 
-                                                <form method="post" action="reviewclass" id="decline-form" class="d-inline mb-2">
+                                                <form method="post" action="reviewclass" id="decline-form${classes.id}" class="d-inline mb-2">
                                                     <input type="hidden" name="action" value="decline">
                                                     <input type="hidden" name="id" value="${classes.id}">
                                                     <input type="hidden" name="schoolYearId" value="${requestScope.selectedSchoolYearId}">
-                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmDeclineModal">Từ chối</button>
+                                                    <button type="button" class="btn btn-sm btn-danger shadow-sm btn-custom-width" data-toggle="modal" data-target="#confirmDeclineModal${classes.id}">Từ chối</button>
                                                 </form>
                                             </div>
                                         </td>
                                     </tr>
+                                    <!-- Confirm Accept Modal-->
+                                    <div class="modal fade" id="confirmAcceptModal${classes.id}" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel">Phê duyệt lớp</h5>
+                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                </div>
+                                                <div class="modal-body">Bạn chắc chắn muốn phê duyệt lớp này ?</div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ Bỏ</button>
+                                                    <button class="btn btn-primary" type="button" onclick="submitForm('accept-form${classes.id}')">Đồng ý</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Confirm Decline Modal-->
+                                    <div class="modal fade" id="confirmDeclineModal${classes.id}" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel">Phê duyệt lớp</h5>
+                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                </div>
+                                                <div class="modal-body">Bạn chắc chắn muốn từ chối lớp này ?</div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ Bỏ</button>
+                                                    <button class="btn btn-primary" type="button" onclick="submitForm('decline-form${classes.id}')">Đồng ý</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -115,45 +154,7 @@
                     </div>
                 </div>
 
-                <!-- Confirm Accept Modal-->
-                <div class="modal fade" id="confirmAcceptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Phê duyệt lớp</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Bạn chắc chắn muốn phê duyệt lớp này ?</div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ Bỏ</button>
-                                <button class="btn btn-primary" type="button" onclick="submitForm('accept-form')">Đồng ý</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Confirm Decline Modal-->
-                <div class="modal fade" id="confirmDeclineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Phê duyệt lớp</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Bạn chắc chắn muốn từ chối lớp này ?</div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ Bỏ</button>
-                                <button class="btn btn-primary" type="button" onclick="submitForm('decline-form')">Đồng ý</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <jsp:include page="../footer.jsp"/>

@@ -40,7 +40,7 @@
             <!-- Nav Item - Thời khóa biểu -->
             <li class="nav-item">
                 <a class="nav-link" href="view-timetable?id=${sessionScope.personnel.id}"> 
-                    <i class='app-menu__icon bx bx-time'></i>
+                    <i class='fas fa-fw fa-cog'></i>
                     <span>Thời khóa biểu</span>
 
                 </a>
@@ -49,55 +49,70 @@
             <!-- Nav Item - Thực đơn -->
             <li class="nav-item">
                 <a class="nav-link" href="viewmealtimetable">
-                    <i class='app-menu__icon bx bx-food-menu'></i>
+                    <i class='fas fa-fw fa-cheese'></i>
                     <span>Thực đơn</span>
                 </a>
             </li>
 
             <!-- Nav Item - Điểm danh -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class='app-menu__icon bx bx-check-square'></i>
-                    <span>Điểm danh</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttendance"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-solid fa-bell"></i>
+                    <span>Điểm Danh</span>
                 </a>
+                <div id="collapseAttendance" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="takeattendance">Điểm Danh Hôm Nay</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Quản lý học sinh -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/teacher/listpupil?schoolYear=${requestScope.schoolYearLastest}">
-                    <i class='app-menu__icon bx bx-user'></i>
+                    <i class='fas fa-fw fa-solid fa-graduation-cap'></i>
                     <span>Quản lý học sinh</span>
                 </a>
             </li>
 
             <!-- Nav Item - Thông báo -->
             <li class="nav-item">
-                <a class="nav-link" href="listnotification">
-                    <i class='app-menu__icon bx bx-bell'></i>
-                    <span>Thông báo</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNoti"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-solid fa-bell"></i>
+                    <span>Thông Báo</span>
                 </a>
-            </li>
-
-            <!-- Nav Item - Phiếu bé ngoan -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class='app-menu__icon bx bx-badge-check'></i>
-                    <span>Phiếu bé ngoan</span>
-                </a>
+                <div id="collapseNoti" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="listnotification?user_id=${sessionScope.personnel.userId}">Danh Sách Thông Báo</a>
+                        <a class="collapse-item" href="createnotifi">Tạo Thông Báo</a>
+                        <a class="collapse-item" href="listsentnotifi?user_id=${sessionScope.personnel.id}">Thông Báo Đã Gửi</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Báo cáo sức khỏe -->
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <i class='app-menu__icon bx bx-heart'></i>
+                    <i class='fas fa-fw fa-hand-holding-heart'></i>
                     <span>Báo cáo sức khỏe</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Phiếu bé ngoan -->
+            <li class="nav-item">
+                <a class="nav-link" href="evaluationreport">
+                    <i class='fas fa-fw fa-id-badge'></i>
+                    <span>Phiếu bé ngoan</span>
                 </a>
             </li>
 
             <!-- Nav Item - Đánh giá học sinh hằng ngày -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class='app-menu__icon bx bx-star'></i>
+
+                <a class="nav-link" href="evaluate">
+                    <i class='fas fa-fw fa-star'></i>
                     <span>Đánh giá học sinh <br> hằng ngày</span>
                 </a>
             </li>

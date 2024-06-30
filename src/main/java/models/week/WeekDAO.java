@@ -185,4 +185,20 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         }
         return weeks;
     }
+
+    @Override
+    public String getCurrentWeek(Date date){
+        String sql="SELECT id FROM Weeks WHERE ? BETWEEN start_date AND end_date";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, new java.sql.Date(date.getTime()));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

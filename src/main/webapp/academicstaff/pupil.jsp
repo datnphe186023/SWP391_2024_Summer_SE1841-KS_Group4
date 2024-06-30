@@ -177,25 +177,25 @@
                                                                     style="color: red">(*)</a></label>
                                                             <input class="form-control" id="address" name="address"
                                                                    required value="${param.address}"
-                                                                   pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$"
-                                                                   title="Địa chỉ không được quá 100 kí tự">
+                                                                   pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,300}$"
+                                                                   title="Địa chỉ không được quá 300 kí tự">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="lastName">Họ học sinh<a
                                                                     style="color: red">(*)</a></label>
                                                             <input type="text" class="form-control" id="lastName"
-                                                                   style="width: 70%" name="lastName" required
+                                                                   name="lastName" required
                                                                    value="${param.lastName}"
-                                                                   pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$"
-                                                                   title="Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)">
+                                                                   pattern="^[A-Za-z${vietnamesePattern}\s]{1,60}$"
+                                                                   title="Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 60 kí tự)">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="firstName">Tên học sinh<a
                                                                     style="color: red">(*)</a></label>
-                                                            <input type="text" class="form-control" id="firstName"
+                                                            <input type="text" class="form-control" id="firstName" style="width: 70%"
                                                                    required name="firstName" value="${param.firstName}"
-                                                                   pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$"
-                                                                   title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)">
+                                                                   pattern="^[a-zA-Z${vietnamesePattern}\s]{1,20}$"
+                                                                   title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)">
                                                         </div>
 
 
@@ -219,8 +219,7 @@
                                                                    title="Vui lòng nhập đúng định dạng số điện thoại">
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label for="secondGuardianName">Họ tên người giám hộ 2<a
-                                                                    style="color: red">(*)</a></label>
+                                                            <label for="secondGuardianName">Họ tên người giám hộ 2</label>
                                                             <input type="text" class="form-control"
                                                                    id="secondGuardianName" name="secondGuardianName"
                                                                    value="${param.secondGuardianName}"
@@ -229,7 +228,7 @@
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="secondGuardianPhoneNumber">Số điện thoại người
-                                                                giám hộ 2<a style="color: red">(*)</a></label><br>
+                                                                giám hộ 2</label><br>
                                                             <input style="width: 50%" type="text" class="form-control"
                                                                    id="secondGuardianPhoneNumber"
                                                                    name="secondGuardianPhoneNumber"

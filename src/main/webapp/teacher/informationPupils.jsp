@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Main CSS-->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -19,6 +19,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -63,114 +66,157 @@
             .cancel-btn:hover {
                 background-color: #c82333;
             }
+            input[readonly] {
+                background-color: wheat; /* Màu nền giống với disabled */
+                color: black; /* Màu chữ giống với disabled */
+                cursor: not-allowed; /* Con trỏ chuột giống với disabled */
+                border: 1px solid #ddd; /* Đường viền nhẹ */
+            }
+
+            /* Bỏ bóng và đường viền khi focus cho giống với disabled */
+            input[readonly]:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            /* Ngăn không cho tương tác */
+            input[readonly] {
+                pointer-events: none; /* Ngăn không cho tương tác */
+            }
+            textarea[readonly] {
+                background-color: wheat; /* Màu nền giống với disabled */
+                color: black; /* Màu chữ giống với disabled */
+                cursor: not-allowed; /* Con trỏ chuột giống với disabled */
+                border: 1px solid #ddd; /* Đường viền nhẹ */
+            }
+
+            /* Bỏ bóng và đường viền khi focus cho giống với disabled */
+            textarea[readonly]:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            /* Ngăn không cho tương tác */
+            textarea[readonly] {
+                pointer-events: none; /* Ngăn không cho tương tác */
+            }
         </style>
-
+        <script>
+            $(document).ready(function () {
+                var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+                var toastType = '<%= request.getAttribute("toastType") %>';
+                if (toastMessage) {
+                    if (toastType === 'success') {
+                        toastr.success(toastMessage);
+                    } else if (toastType === 'error') {
+                        toastr.error(toastMessage);
+                    }
+                }
+            });
+        </script>
     </head>
+    <body id="page-top">
+        <div id="wrapper">
+            <jsp:include page="navbar.jsp"/>
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    <jsp:include page="../header.jsp"/>
 
-    <body>
-        <jsp:include page="dashboard.jsp"/>
-        <main class="app-content">
-            <div class="app-title">
-                <div>
-                    <h1><i class="fa fa-edit"></i> Thông tin phụ huynh</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="app-sidebar__user">
-                        <img class="app-sidebar__user-avatar" id="avatarDisplay" src="${pageContext.request.contextPath}/images/${pupil.avatar}" >
-                        <input class="avatar-input" id="avatarInput" type="file" name="avatar">
-                        <div>
-                            <p class="app-sidebar__user-name"><b style="color: #000">${pupil.lastName} ${pupil.firstName}</b></p>
-
+                    <div class="container">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h3 class="m-0 font-weight-bold"><i class="fa fa-edit"></i>THÔNG TIN HỌC SINH</h3>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="tile">
-                        <div class="tile-body">
-
-                            <form action="updatepupils" method="post">
-                                <input type="hidden" value="${personnel.userId}"/>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>User ID :</h5><input placeholder="User Id" type="text" name="userId" value="${pupil.userId}" readonly=""/>
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>ID : </h5> <input placeholder="First Name" type="text" name="id" value="${pupil.id}" readonly=""/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Họ tên người giám hộ thứ nhất : </h5> <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}"/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-
-                                                    <h5>Số điện thoại người giám hộ thứ nhất :</h5> <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}"/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Họ tên người giám hộ thứ hai : </h5> <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}"/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Số điện thoại người giám hộ thứ hai :</h5> <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" /><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">    
-                                                    <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly=""/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
-                                                </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 200%"/><br />
-                                                </div></td>
-                                            <td><div class="form-group col-md-6">
-                                                    <h5>Ghi chú :</h5> <input type="text" name="note" value="${pupil.parentSpecialNote}" style="width: 200%"/><br />
-                                                </div></td>
-
-                                        </tr>
-
-
-
-                                    </tbody>
-                                </table>
-                                <div class="form-buttons">
-                                    <button type="button" class="cancel-btn" onclick="cancelAction()">Quay Lại</button>
-                                    <button type="submit" class="update-btn">Chỉnh Sửa</button>
+                        <div class="row gutters">
+                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="account-settings">
+                                            <div class="user-profile">
+                                                <div class="user-avatar">
+                                                    <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${pupil.avatar}" > 
+                                                </div>
+                                                <h5 class="user-name">${pupil.lastName} ${pupil.firstName}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
+                                        <form action="pupilprofile" method="post">
+                                            <input type="hidden" name="avatar" value="${pupil.avatar}"/>
+                                            <input type="hidden" name="id" value="${pupil.id}"/>
+                                            <input type="hidden" name="schoolYear" value="${requestScope.schoolYear}"/>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-12">
+                                                                <h5>ID Người Dùng :</h5><input placeholder="ID Người Dùng" type="text" name="userId" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" readonly=""/>
+                                                                <input name="user_id" type="hidden" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" />
+                                                            </div></td>
+                                                        <td><div class="form-group col-md-6">
+                                                                <h5>ID : </h5> <input placeholder="ID" type="text" name="id" value="${pupil.id}" readonly=""/><br />
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Họ tên người giám hộ thứ nhất : </h5> <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{1,20}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" readonly/><br />
+                                                            </div></td>
+                                                        <td><div class="form-group col-md-8">
 
-
-
+                                                                <h5>Số điện thoại người giám hộ thứ nhất :</h5> <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." readonly/><br />
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Họ tên người giám hộ thứ hai : </h5> <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{30}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" readonly/><br />
+                                                            </div></td>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Số điện thoại người giám hộ thứ hai :</h5> <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." readonly/><br />
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-6">    
+                                                                <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
+                                                            </div></td>
+                                                <input type="hidden" name="first_name" value="${pupil.firstName}"/>
+                                                <input type="hidden" name="last_name" value="${pupil.lastName}"/>
+                                                <td><div class="form-group col-md-12">
+                                                        <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
+                                                    </div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><div class="form-group col-md-6">
+                                                            <h5>Địa chỉ : </h5> <textarea type="text" name="address" value="" style="width: 200%" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự" readonly>${pupil.address}</textarea><br />
+                                                        </div></td>
+                                                    <td><div class="form-group col-md-6">
+                                                            <h5>Ghi chú :</h5> <textarea type="text" name="note" style="width: 200%" readonly>${pupil.parentSpecialNote}</textarea><br/>
+                                                        </div></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="form-buttons">
+                                                <button onclick="goBack()" type="button" class="btn btn-danger">Quay Lại</button>
+                                                <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <jsp:include page="../footer.jsp"/>
             </div>
-        </main>
+        </div>
+        <script>
+            function goBack() {
+                window.location.href = 'listpupil?schoolYear=${requestScope.schoolYear}';
+            }
+        </script>
     </body>
-    <script>
-        function cancelAction() {
-            window.location.href = '${pageContext.request.contextPath}/teacher/listpupil';
-        }
-        function previewAvatar(event) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                const output = document.getElementById('avatarDisplay');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        function redirectToInfoPage() {
-            window.location.href = '${pageContext.request.contextPath}/teacher/information';
-        }
-
-    </script>
 </html>

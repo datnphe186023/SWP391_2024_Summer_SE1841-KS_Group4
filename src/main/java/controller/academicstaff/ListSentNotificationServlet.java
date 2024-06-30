@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.teacher;
+package controller.academicstaff;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,16 +11,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.pupil.IPupilDAO;
-import models.pupil.Pupil;
-import models.pupil.PupilDAO;
+import java.util.List;
+import models.notification.Notification;
+import models.notification.NotificationDAO;
 
 /**
  *
  * @author TuyenCute
  */
-@WebServlet(name = "/teacher/UpdatePupilsServlet", value = {"/teacher/updatepupils"})
-public class UpdatePupilsServlet extends HttpServlet {
+@WebServlet(name = "/academicstaff/ListSentNotificationServlet", urlPatterns = {"/academicstaff/listsentnotifi"})
+public class ListSentNotificationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +39,10 @@ public class UpdatePupilsServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdatePupilsServlet</title>");
+            out.println("<title>Servlet ListSentNotificationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdatePupilsServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListSentNotificationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +58,14 @@ public class UpdatePupilsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String id = request.getParameter("user_id");
+        NotificationDAO notifiDAO = new NotificationDAO();
+        List<Notification> notifi = notifiDAO.getListSentNotifiById(id);
+        request.setAttribute("notifi", notifi);
+        request.getRequestDispatcher("listNotification.jsp").forward(request, response);
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -68,19 +75,10 @@ public class UpdatePupilsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Pupil pupil = new Pupil();
-        pupil.setId(request.getParameter("id"));
-        pupil.setfirstGuardianName(request.getParameter("first_guardian_name"));
-        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber"));
-        pupil.setsecondGuardianName(request.getParameter("second_guardian_name"));
-        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber"));
-        pupil.setAddress(request.getParameter("address"));
-        pupil.setParentSpecialNote(request.getParameter("note"));
-        IPupilDAO pupilDAO = new PupilDAO();
-        pupilDAO.updatePupil(pupil);
-        request.getRequestDispatcher("pupilprofile").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

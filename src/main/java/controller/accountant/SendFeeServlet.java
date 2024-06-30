@@ -11,10 +11,13 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
 import models.notification.NotificationDetails;
 import models.personnel.PersonnelDAO;
+import models.user.User;
+import models.user.UserDAO;
 
 @WebServlet(name = "SendFeeServlet", urlPatterns = {"/accountant/sendfee"})
 public class SendFeeServlet extends HttpServlet {
@@ -66,7 +69,7 @@ public class SendFeeServlet extends HttpServlet {
         String formattedTotalFee = formatNumberWithDot(totalFee);
 
         NotificationDAO notifiDAO = new NotificationDAO();
-        String id = "";
+        String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
         String heading = "HỌC PHÍ KÌ TIẾP THEO: " + formattedTotalFee + " VNĐ";
         String details = "Học Phí: " + formattedHocphi + " VNĐ, " + "Bảo Hiểm: " + formattedBaohiem + " VNĐ, "
                 + "Cơ Sở Vật Chất: " + formattedCsvatchat + " VNĐ, " + "Đồng Phục: " + formattedDongphuc + " VNĐ";
@@ -79,16 +82,15 @@ public class SendFeeServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Notification notifi = new Notification(id, heading.trim(), details.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-        NotificationDetails notifidetails = new NotificationDetails(id, 5);
-        try {
-            notifiDAO.createNoti(notifi, notifidetails);
-            request.setAttribute("toastMessage", "Tạo Thành Công!");
-            request.setAttribute("toastType", "success");
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<User> listuser = new UserDAO().getUserByRole(5);
+        for (User user : listuser) {
+            Notification notifi = new Notification(id, heading.trim(), details.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+            notifiDAO.createNoti(notifi);
+            NotificationDetails notifidetails = new NotificationDetails(id, user.getId());
+            notifiDAO.createNotiDetails(notifidetails);
         }
-
+        request.setAttribute("toastMessage", "Tạo Thành Công!");
+        request.setAttribute("toastType", "success");
         request.getRequestDispatcher("sendFee.jsp").forward(request, response);
     }
 

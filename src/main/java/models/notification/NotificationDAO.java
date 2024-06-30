@@ -69,37 +69,23 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     }
 
     @Override
-    public void createNoti(Notification notification, NotificationDetails notificationdetails) throws SQLException {
+    public boolean createNoti(Notification notification) {
         String sqlNotification = "INSERT INTO Notifications (id, heading, details, created_by, created_at) VALUES (?, ?, ?, ?, ?)";
-        String sqlNotificationDetails = "INSERT INTO NotificationDetails (notification_id, receiver_id) VALUES (?, ?)";
-
-        try (PreparedStatement statementNotification = connection.prepareStatement(sqlNotification); PreparedStatement statementNotificationDetails = connection.prepareStatement(sqlNotificationDetails)) {
-
-            String id;
-            if (getLatest() != null) {
-                id = generateId(getLatest().getId());
-            } else {
-                id = "N000001";
-            }
-
-            // Insert into Notifications table
-            statementNotification.setString(1, id);
+        try (PreparedStatement statementNotification = connection.prepareStatement(sqlNotification);) {
+            statementNotification.setString(1, notification.getId());
             statementNotification.setString(2, notification.getHeading());
             statementNotification.setString(3, notification.getDetails());
             statementNotification.setObject(4, notification.getCreatedBy().getId());
             Date date = notification.getCreatedAt();
             statementNotification.setDate(5, new java.sql.Date(date.getTime()));
             statementNotification.executeUpdate();
-
-            // Insert into NotificationDetails table
-            statementNotificationDetails.setString(1, id);
-            statementNotificationDetails.setInt(2, notificationdetails.getReceiver());
-            statementNotificationDetails.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 
     @Override
@@ -131,6 +117,57 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
                     return notifi;
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean createNotiDetails(NotificationDetails notificationdetails) {
+        String sqlNotification = "INSERT INTO NotificationDetails VALUES (?, ?)";
+        try (PreparedStatement statementNotification = connection.prepareStatement(sqlNotification);) {
+            statementNotification.setString(1, notificationdetails.getNotificationId());
+            statementNotification.setString(2, notificationdetails.getReceiver());
+            statementNotification.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Notification> getListNotifiByUserId(String userId) {
+        String sql = "select * from Notifications n inner join NotificationDetails nd on n.id = nd.notification_id where nd.receiver_id = ? order by nd.notification_id desc";
+        List<Notification> listnoti = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setString(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listnoti.add(createNotifi(rs));
+            }
+            return listnoti;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listnoti;
+
+    }
+
+    @Override
+    public List<Notification> getListSentNotifiById(String id) {
+        List<Notification> listnotifi = new ArrayList<>();
+        String sql = "select * from Notifications where created_by = ? order by id desc";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listnotifi.add(createNotifi(rs));
+            }
+            return listnotifi;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PupilDAO extends DBContext implements IPupilDAO{
+public class PupilDAO extends DBContext implements IPupilDAO {
 
     private Pupil createPupil(ResultSet resultSet) throws SQLException {
-        try{
+        try {
             Pupil pupil = new Pupil();
             pupil.setId(resultSet.getString("id"));
             pupil.setUserId(resultSet.getString("user_id"));
@@ -36,7 +36,7 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             pupil.setCreatedBy(personnel);
             pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
             return pupil;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -66,7 +66,11 @@ public class PupilDAO extends DBContext implements IPupilDAO{
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
+            if (getLatest() == null) {
+                preparedStatement.setString(1, "HS000001");
+            } else {
+                preparedStatement.setString(1, generateId(pupilDAO.getLatest().getId()));
+            }
             preparedStatement.setString(2, pupil.getUserId());
             preparedStatement.setString(3, pupil.getFirstName());
             preparedStatement.setString(4, pupil.getLastName());
@@ -88,7 +92,7 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return false;
     }
@@ -112,13 +116,13 @@ public class PupilDAO extends DBContext implements IPupilDAO{
     }
 
     @Override
-    public List<Pupil> getListPupilsByClass(String pupilId,String classId) {
+    public List<Pupil> getListPupilsByClass(String pupilId, String classId) {
         List<Pupil> listPupils = new ArrayList<>();
 
         String sql = "select * from Pupils p join classDetails c on p.id = c.pupil_id \n"
                 + "where class_id= '" + classId + "'";
-        if(pupilId!=null){
-            sql+= " and pupil_id != '"+pupilId+"'";
+        if (pupilId != null) {
+            sql += " and pupil_id != '" + pupilId + "'";
         }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -355,7 +359,7 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             stmt.setString(4, pupil.getsecondGuardianPhoneNumber());
             stmt.setString(5, pupil.getEmail());
             stmt.setString(6, pupil.getAddress());
-            stmt.setString(7,pupil.getParentSpecialNote());
+            stmt.setString(7, pupil.getParentSpecialNote());
             stmt.setString(8, pupil.getUserId());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -368,16 +372,16 @@ public class PupilDAO extends DBContext implements IPupilDAO{
     @Override
     public List<Pupil> getPupilsWithoutClass(String schoolYearId) {
         List<Pupil> listPupil = new ArrayList<>();
-        String sql="Select  Pupils.id    FROM  Pupils left  JOIN\n" +
-                "                 classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n" +
-                "                Class ON Class.id = classDetails.class_id\n" +
-                "               where  Pupils.status= N'đang theo học' and class_id is null \n" +
-                "\t\t\t  union  \n" +
-                "\t\t\t  Select  distinct pupil_id  from \n" +
-                "\t\t\t  classDetails join Class on classDetails.class_id = Class.id\n" +
-                "               where   pupil_id not in (Select pupil_id\n" +
-                "\t\t\t   from classDetails  join Class on classDetails.class_id = Class.id\n" +
-                "\t\t\t   where school_year_id = ? )";
+        String sql = "Select  Pupils.id    FROM  Pupils left  JOIN\n"
+                + "                 classDetails ON Pupils.id = classDetails.pupil_id  left  JOIN\n"
+                + "                Class ON Class.id = classDetails.class_id\n"
+                + "               where  Pupils.status= N'đang theo học' and class_id is null \n"
+                + "\t\t\t  union  \n"
+                + "\t\t\t  Select  distinct pupil_id  from \n"
+                + "\t\t\t  classDetails join Class on classDetails.class_id = Class.id\n"
+                + "               where   pupil_id not in (Select pupil_id\n"
+                + "\t\t\t   from classDetails  join Class on classDetails.class_id = Class.id\n"
+                + "\t\t\t   where school_year_id = ? )";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -393,7 +397,30 @@ public class PupilDAO extends DBContext implements IPupilDAO{
     }
 
     @Override
-    public void updatePupil(Pupil pupil) {
+    public boolean updatePupil(Pupil pupil) {
+        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?, first_name=?, last_name=?, birthday=? where id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, pupil.getfirstGuardianName());
+            ps.setString(2, pupil.getfirstGuardianPhoneNumber());
+            ps.setString(3, pupil.getsecondGuardianName());
+            ps.setString(4, pupil.getsecondGuardianPhoneNumber());
+            ps.setString(5, pupil.getAddress());
+            ps.setString(6, pupil.getParentSpecialNote());
+            ps.setString(7, pupil.getFirstName());
+            ps.setString(8, pupil.getLastName());
+            ps.setDate(9, new java.sql.Date(pupil.getBirthday().getTime()));
+            ps.setString(10, pupil.getId());
+            ps.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePupilForTeacher(Pupil pupil) {
         String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -405,9 +432,11 @@ public class PupilDAO extends DBContext implements IPupilDAO{
             ps.setString(6, pupil.getParentSpecialNote());
             ps.setString(7, pupil.getId());
             ps.executeUpdate();
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return false;
     }
 
     @Override
@@ -459,4 +488,35 @@ public class PupilDAO extends DBContext implements IPupilDAO{
         }
         return false;
     }
+
+    @Override
+    public List<Pupil> getPupilsByTeacherAndTimetable(String teacherId, String date) {
+        String sql = "SELECT DISTINCT Pupils.id, Pupils.first_name, Pupils.last_name, Pupils.avatar\n" +
+                "FROM Pupils\n" +
+                "JOIN classDetails ON Pupils.id = classDetails.pupil_id\n" +
+                "JOIN Timetables ON classDetails.class_id = Timetables.class_id\n" +
+                "JOIN dbo.Days ON Timetables.date_id = dbo.Days.id\n" +
+                "WHERE Timetables.teacher_id = ?\n" +
+                "AND ? = dbo.Days.date;";
+        List<Pupil> list = new ArrayList<>();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teacherId);
+            preparedStatement.setString(2, date);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Pupil pupil = new Pupil();
+                pupil.setId(rs.getString("id"));
+                pupil.setFirstName(rs.getString("first_name"));
+                pupil.setLastName(rs.getString("last_name"));
+                pupil.setAvatar(rs.getString("avatar"));
+                list.add(pupil);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
 }

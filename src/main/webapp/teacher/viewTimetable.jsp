@@ -123,14 +123,21 @@
                     <div class="container-fluid" style="width: 90%">
 
                         <div class="app-title">
-                            <div>
-                                <h3><i class="fa fa-calendar"></i> Chi tiết thời khóa biểu của lớp ${requestScope.aClass.name}</h3>
-                                </br>
-                                <h2 class="row justify-content-center">
-                                    Thời khóa biểu
-                                </h2>
-                                </br>
-                            </div>
+                            <c:if test="${requestScope.aClass == null}">
+                                <div>
+                                    <h3><i class="fa fa-exclamation-circle"></i> Bạn không có lớp để hiển thị thời khóa biểu</h3>
+                                </div>
+                            </c:if>
+                            <c:if test="${requestScope.aClass != null}">
+                                <div>
+                                    <h3><i class="fa fa-calendar"></i> Chi tiết thời khóa biểu của lớp ${requestScope.aClass.name}</h3>
+                                    </br>
+                                    <h2 class="row justify-content-center">
+                                        Thời khóa biểu
+                                    </h2>
+                                    </br>
+                                </div>
+                            </c:if>
                         </div>
                         <form id="schoolYearForm" method="post" action="view-timetable">
                             <input type="hidden" name="pid" value="${sessionScope.personnel.id}"/>
@@ -201,7 +208,6 @@
                                 <div class="d-flex justify-content-end">
                                     <p>Ghi chú*: (-) không có dữ liệu</p>
                                 </div>
-                                <button class="btn btn-danger" type="button" onclick="goBack()">Quay Lại</button>
                             </div>
                         </form>
 

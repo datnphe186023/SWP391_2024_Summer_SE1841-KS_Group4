@@ -19,6 +19,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <style>
             .app-sidebar__user-avatar {
                 width: 150px;
@@ -118,57 +121,79 @@
         </script>
         <script>
             function validateForm() {
-                // Lấy các trường input và textarea cần validate
+                // Get the form fields
                 var firstGuardianName = document.getElementsByName("first_guardian_name")[0].value.trim();
                 var firstGuardianPhone = document.getElementsByName("firstGuardianPhoneNumber")[0].value.trim();
                 var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
                 var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
                 var address = document.getElementsByName("address")[0].value.trim();
+                var lastName = document.getElementsByName("lastName")[0].value.trim();
+                var firstName = document.getElementsByName("firstName")[0].value.trim();
 
-                // Kiểm tra nếu các trường bắt buộc không được điền
+                // Validate address
                 if (address === "") {
                     toastr.error("Địa chỉ không được bỏ trống");
-                    return false; // Ngăn form submit
-                }
-
-                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ nhất
-                if (firstGuardianName !== '') {
-                    if (!isValidName(firstGuardianName)) {
-                        toastr.error("Họ tên người giám hộ thứ nhất chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
-                        return false; // Ngăn form submit
-                    }
-                } else {
-                    toastr.error("Họ tên người giám hộ thứ nhất không được để trống");
                     return false;
                 }
 
-                // Kiểm tra hợp lệ cho họ tên người giám hộ thứ hai nếu có
-                if (secondGuardianName !== "") {
-                    if (!isValidName(secondGuardianName)) {
-                        toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
-                        return false; // Ngăn form submit
-                    }
-                    // Kiểm tra nếu có tên người giám hộ thứ hai thì phải nhập số điện thoại
-                    if (secondGuardianPhone === "") {
-                        toastr.error("Vui lòng nhập số điện thoại người giám hộ thứ hai");
-                        return false; // Ngăn form submit
-                    }
-                } else if (secondGuardianPhone !== "") {
-                    if (secondGuardianName === "") {
-                        if (!isValidName(secondGuardianName)) {
-                            toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
-                            return false; // Ngăn form submit
-                        }
-                    }
+                // Validate first guardian's name
+                if (firstGuardianName === "") {
+                    toastr.error("Họ tên người giám hộ thứ nhất không được để trống");
+                    return false;
+                }
+                if (!isValidName(firstGuardianName)) {
+                    toastr.error("Họ tên người giám hộ thứ nhất chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
+                }
+
+                // Validate first guardian's phone
+                if (firstGuardianPhone === "") {
+                    toastr.error("Số điện thoại người giám hộ thứ nhất không được để trống");
+                    return false;
+                }
+
+                // Validate second guardian's name and phone
+                if (secondGuardianName !== "" && secondGuardianPhone === "") {
+                    toastr.error("Vui lòng nhập số điện thoại người giám hộ thứ hai");
+                    return false;
+                }
+                if (secondGuardianPhone !== "" && secondGuardianName === "") {
+                    toastr.error("Vui lòng nhập họ tên người giám hộ thứ hai");
+                    return false;
+                }
+                if (secondGuardianName !== "" && !isValidName(secondGuardianName)) {
+                    toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
+                }
+
+                // Validate first name
+                if (firstName === "") {
+                    toastr.error("Tên của bé không được để trống");
+                    return false;
+                }
+                if (!isValidName(firstName)) {
+                    toastr.error("Tên của bé chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
+                }
+
+                // Validate last name
+                if (lastName === "") {
+                    toastr.error("Họ của bé không được để trống");
+                    return false;
+                }
+                if (!isValidName(lastName)) {
+                    toastr.error("Họ của bé chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
+                    return false;
                 }
 
                 return true;
             }
 
             function isValidName(name) {
-                return /^[A-Za-z\s'.\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
+                return /^[A-Za-z\s\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
             }
         </script>
+
     </head>
     <body id="page-top">
         <div id="wrapper">
@@ -215,42 +240,44 @@
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="first_guardian_name" placeholder="${pupil.firstGuardianName}" required=""/><br />
+                                                                <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
                                                                 <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="firstGuardianPhoneNumber" placeholder="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số" required=""/><br />
+                                                                <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" maxlength="10" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="second_guardian_name" placeholder="${pupil.secondGuardianName}"/><br />
+                                                                <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="secondGuardianPhoneNumber" placeholder="${pupil.secondGuardianPhoneNumber}" pattern="[0-9]+" title="Chỉ nhập số"/><br />
+                                                                <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" maxlength="10" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">    
-                                                                <h5>Họ tên bé :</h5> 
-                                                                <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
+                                                                <h5>Họ của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <input type="text" name="lastName" value="${pupil.lastName}" required="">
+                                                                <h5>Tên của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <input type="text" name="firstName" value="${pupil.firstName}" required="">
                                                             </div></td>
                                                         <td><div class="form-group col-md-12">
-                                                                <h5>Ngày sinh của bé : </h5> 
-                                                                <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
+                                                                <h5>Ngày sinh của bé<a style="color: red">(*)</a> : </h5> 
+                                                                <input type="date" name="birthday" value="${pupil.birthday}" title="Ngày sinh của bé" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
-                                                                <textarea type="text" name="address" placeholder="${pupil.address}" style="width: 200%" required=""></textarea><br />
+                                                                <textarea type="text" name="address" value="${pupil.address}" style="width: 200%" title="Tối đa 50 kí tự" required="" maxlength="50">${pupil.address}</textarea><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
                                                                 <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
-                                                                <textarea type="text" name="note" style="width: 200%" placeholder="${pupil.parentSpecialNote}"></textarea><br/>
+                                                                <textarea type="text" name="note" style="width: 200%" value="${pupil.parentSpecialNote}" title="Tối đa 500 kí tự" maxlength="500"></textarea><br/>
                                                             </div></td>
                                                     </tr>
                                                     <tr>
@@ -259,7 +286,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="form-buttons">
-                                                <button type="button" class="btn btn-danger" onclick="goBack()">Quay Lại</button>
+                                                <button type="button" onclick="redirectToPreviousPage()" class="btn btn-danger">Quay Lại</button></a>
                                                 <button type="submit" class="btn btn-success">Lưu</button>
                                             </div>
                                         </form>
@@ -272,5 +299,10 @@
                 <jsp:include page="../footer.jsp"/>
             </div>
         </div>
+        <script>
+            function redirectToPreviousPage() {
+                window.location.href = 'pupilprofile?id=${pupil.id}';
+            }
+        </script>
     </body>
 </html>

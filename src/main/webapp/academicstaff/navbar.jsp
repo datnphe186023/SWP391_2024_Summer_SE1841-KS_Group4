@@ -69,6 +69,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="listtimetable?id=${sessionScope.personnel.id}">Danh sách thời khóa biểu</a>
                         <a class="collapse-item" href="timetable">Tạo thời khóa biểu</a>
+                        <a class="collapse-item" href="viewtimetableclass">Xem thời khóa biểu</a>
                     </div>
                 </div>
             </li>
@@ -104,13 +105,20 @@
                     <i class="fas fa-fw fa-calendar-check" aria-hidden="true"></i>
                     <span>Danh Sách Sự Kiện</span></a>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link" href="listnotification">
-                    <i class="fas fa-fw fa-bell"></i>
-                    <span>Thông báo</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNoti"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-solid fa-bell"></i>
+                    <span>Thông Báo</span>
+                </a>
+                <div id="collapseNoti" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+<!--                        <a class="collapse-item" href="listnotification?user_id=${sessionScope.personnel.userId}">Danh Sách Thông Báo</a>-->
+                        <a class="collapse-item" href="createnotifi">Tạo Thông Báo</a>
+                        <a class="collapse-item" href="listsentnotifi?user_id=${sessionScope.personnel.id}">Thông Báo Đã Gửi</a>
+                    </div>
+                </div>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

@@ -47,39 +47,39 @@ public class UserDAO extends DBContext implements IUserDAO {
         return list;
     }
 
-    private byte[] getUserSalt(String username){
+    private byte[] getUserSalt(String username) {
         byte[] salt = null;
         String sql = "select salt from [User] where user_name = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 salt = rs.getBytes("salt");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return salt;
     }
 
     @Override
-    public boolean checkPassword(String password, String username){
-        try{
+    public boolean checkPassword(String password, String username) {
+        try {
             byte[] salt = getUserSalt(username);
             byte[] expectedHashPassword = PasswordUtil.hashPassword(password.toCharArray(), salt);
             String sql = "select [hashed_password] from [User] where user_name = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 byte[] hashPassword = rs.getBytes("hashed_password");
                 String expectedHex = bytesToHex(expectedHashPassword);
                 String actualHex = bytesToHex(hashPassword);
                 // Compare the hexadecimal representations
                 return expectedHex.equals(actualHex);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -144,7 +144,10 @@ public class UserDAO extends DBContext implements IUserDAO {
     }
 
     @Override
-    public void updateUser(User user) {
+    public boolean updateUser(User user) {
+        if (isEmailExist(user.getEmail())) {
+            return false; // Email đã tồn tại
+        }
         String sql = "Update dbo.[User] set email=? , role_id=?, isDisabled=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -153,16 +156,35 @@ public class UserDAO extends DBContext implements IUserDAO {
             ps.setByte(3, user.getIsDisabled());
             ps.setString(4, user.getId());
             ps.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    @Override
+    public boolean isEmailExist(String email) {
+        String sql = "SELECT COUNT(*) FROM dbo.[User] WHERE email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
     public boolean resetPassword(String key) {
-        try{
+        try {
             String newPassword = generatePassword();
-            Email.sendEmail(Objects.requireNonNull(getUserByUsernameOrEmail(key)).getEmail(),"Yêu cầu quên mật khẩu", "Mật khẩu mới: " + newPassword);
+            Email.sendEmail(Objects.requireNonNull(getUserByUsernameOrEmail(key)).getEmail(), "Yêu cầu quên mật khẩu", "Mật khẩu mới: " + newPassword);
             byte[] salt = PasswordUtil.generateSalt();
             byte[] hashedNewPassword = PasswordUtil.hashPassword(newPassword.toCharArray(), salt);
             String sql = "UPDATE [dbo].[User] SET [salt] =?, [hashed_password] = ? WHERE [email] = ? OR user_name = ?";
@@ -173,7 +195,7 @@ public class UserDAO extends DBContext implements IUserDAO {
             statement.setString(4, key);
             int rowCount = statement.executeUpdate();
             return rowCount > 0;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -190,7 +212,7 @@ public class UserDAO extends DBContext implements IUserDAO {
                 User user = createUser(rs);
                 return user;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -198,10 +220,10 @@ public class UserDAO extends DBContext implements IUserDAO {
 
     @Override
     public boolean updateNewPassword(String newPassword, String userId) {
-        String sql = "UPDATE [User]\n" +
-                "SET [salt] = ? \n" +
-                "  ,[hashed_password] = ? \n" +
-                "WHERE [id] = ?";
+        String sql = "UPDATE [User]\n"
+                + "SET [salt] = ? \n"
+                + "  ,[hashed_password] = ? \n"
+                + "WHERE [id] = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             byte[] salt = PasswordUtil.generateSalt();
@@ -223,7 +245,7 @@ public class UserDAO extends DBContext implements IUserDAO {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             String userId;
-            if (getLatest()!=null){
+            if (getLatest() != null) {
                 userId = generateId(getLatest().getId());
             } else {
                 userId = "U000001";
@@ -298,6 +320,7 @@ public class UserDAO extends DBContext implements IUserDAO {
             System.out.println(ex);
         }
     }
+
     private void updatePupilsUserId(String PupilsId, String userId) {
         String sql = "update Pupils set user_id = ? where id = ?";
         try {
@@ -376,6 +399,24 @@ public class UserDAO extends DBContext implements IUserDAO {
         }
         return false;
     }
-    
-    
+
+    @Override
+    public List<User> getUserByRoleIdandTeacherId(int role, String teacherId) {
+        List<User> listUser = new ArrayList<>();
+        String sql = "select * from [User] u inner join classDetails cd on u.user_name"
+                + "= cd.pupil_id inner join Class c on c.id=cd.class_id where u.role_id=? and c.teacher_id=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, role);
+            ps.setString(2, teacherId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listUser.add(createUser(rs));
+            }
+            return listUser;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -102,26 +102,28 @@
                             <form id="myForm" action="createnotifi" method="post" onsubmit="return validateForm()">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="heading">TIÊU ĐỀ :</label>
+                                        <h4 class="form-group h4 mb-2 text-gray-800" for="heading">TIÊU ĐỀ :</h4>
                                         <input type="text" id="heading" name="heading" class="form-control" maxlength="50" placeholder="Tiêu đề không nhập quá 50 kí tự" required>
                                     </div>
-                                    <label for="role"> NGƯỜI NHẬN : </label>
-                                    <select name="role_id" id="role" class="form-group custom-select-sm" style="border-radius: 5px">
-                                        <option hidden>Chọn Người Nhận</option>
-                                        <option value="2">ACADEMICSTAFF</option>
-                                        <option value="4">TEACHER</option>
-                                        <option value="5">PARENT</option>
-                                    </select>
+                                    <h4 class="form-group h4 mb-2 text-gray-800">NGƯỜI NHẬN<span class="text-danger">*</span></h4>
+                                    <div class="form-group d-inline">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="role_id" value="5" id="receiver4" checked disabled>
+                                            <input type="hidden" name="role_id" value="5">
+                                            <label class="form-check-label" for="receiver4">
+                                                Phụ huynh
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
-                                        <label for="content">NỘI DUNG :</label>
+                                        <h4 class="form-group h4 mb-2 text-gray-800" style="padding-top: 10px">NỘI DUNG :</h4>
                                         <textarea id="content" name="content" class="form-control" rows="10" maxlength="2000" placeholder="Nội dung không nhập quá 2000 kí tự" required></textarea>
                                     </div>
                                 </div>
                                 <input type="hidden" name="userid" value="${sessionScope.personnel.id}">
                                 <input type="hidden" id="submitDate" name="submitDate">
                                 <div class="d-flex justify-content-around pb-3">
-                                    <button onclick="goBack()" type="button" class="btn btn-danger">QUAY LẠI</button>
-                                    <button onclick="submitForm()" type="submit" class="btn btn-success">XÁC NHẬN</button>
+                                    <button onclick="submitForm()" type="submit" class="btn btn-success">GỬI</button>
                                 </div>
                             </form>
                         </div>
@@ -174,11 +176,6 @@
                                                 document.getElementById('roleSelect').value = selectedRole;
                                             }
                                         });
-
-                                        function goBack() {
-                                            window.location.href = 'listnotification';
-                                        }
-
 
                                         function submitForm() {
                                             var now = new Date();

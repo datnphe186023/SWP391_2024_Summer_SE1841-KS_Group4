@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.user.UserDAO;
-import utils.Email;
 
 /**
  *
@@ -62,7 +61,11 @@ public class ResetPassword extends HttpServlet {
         UserDAO dao = new UserDAO();
         dao.resetPassword(email);
         HttpSession session = request.getSession();
-        session.setAttribute("success", "success");
+        if (dao.resetPassword(email) == true) {
+            session.setAttribute("success", "success");
+        } else {
+            session.setAttribute("error", "error");
+        }
         request.getRequestDispatcher("manageruser").forward(request, response);
     }
 

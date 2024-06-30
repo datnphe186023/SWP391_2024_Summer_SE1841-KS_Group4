@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,31 +63,7 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Map<Integer, String> roleMap = new HashMap<>();
-        Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
-
-        roleDis.put((byte) 0, "Active");
-        roleDis.put((byte) 1, "Disable");
-        IUserDAO userDAO = new UserDAO();
-        List<User> list = new ArrayList<>();
-        HttpSession session = request.getSession();
-        String success = (String) session.getAttribute("success");
-        if (success != null) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
-        }
-        list = userDAO.getListUser();
-        request.setAttribute("list", list);
-        request.setAttribute("roleMap", roleMap);
-        request.setAttribute("roleDis", roleDis);
-
-        request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
+        doPost(request, response);
     }
 
     /**
@@ -116,6 +91,29 @@ public class ManagerUserServlet extends HttpServlet {
         IUserDAO userDAO = new UserDAO();
         List<User> list;
         list = userDAO.getListUser();
+        HttpSession session = request.getSession();
+        String error = (String) session.getAttribute("error");
+        String success = (String) session.getAttribute("success");
+        String successedit = (String) session.getAttribute("successedit");
+        String erroredit = (String) session.getAttribute("erroredit");
+        if (error != null) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Không Thành Công");
+            session.removeAttribute("error");
+        } else if (success != null) {
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
+            session.removeAttribute("success");
+        }
+        if (successedit != null) {
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Cập Nhật Thông Tin Thành Công");
+            session.removeAttribute("successedit");
+        } else if (erroredit != null) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Cập Nhật Thông Tin Không Thành Công, Email Đã Được Đăng Ký");
+            session.removeAttribute("erroredit");
+        }
         request.setAttribute("list", list);
         request.setAttribute("roleMap", roleMap);
         request.setAttribute("roleDis", roleDis);
