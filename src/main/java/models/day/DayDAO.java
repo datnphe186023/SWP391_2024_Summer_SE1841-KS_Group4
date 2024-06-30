@@ -31,6 +31,7 @@ public class DayDAO extends DBContext implements IDayDAO{
         return day;
     }
 
+    @Override
     public Day getDayByDate(String date){
         String sql="select * from days where date = ?";
         try {
