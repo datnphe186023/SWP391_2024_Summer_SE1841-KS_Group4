@@ -9,4 +9,5 @@ public interface IDayDAO {
     List<Day> getDayByWeek(String weekId);
     List<Day> getFullDayOfWeek(String weekId);
     Day getDayByID(String dateId);
+    Day getDayByDate(String date);
 }

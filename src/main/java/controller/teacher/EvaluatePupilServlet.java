@@ -38,7 +38,7 @@ public class EvaluatePupilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IPupilDAO pupilDAO = new PupilDAO();
         IClassDAO classDAO = new ClassDAO();
-        DayDAO dayDAO = new DayDAO();
+        IDayDAO dayDAO = new DayDAO();
 
         HttpSession session = request.getSession();
         // Get the current date
