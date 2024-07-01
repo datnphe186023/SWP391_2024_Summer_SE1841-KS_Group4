@@ -201,4 +201,40 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         }
         return null;
     }
+
+    public List<String> getMonthOfSchoolyear(String schoolyear){
+        List<String> months = new ArrayList<>();
+        String sql = "SELECT DISTINCT\n" +
+                "    FORMAT(start_date, 'MM-yyyy') AS start_month_year\n" +
+                "FROM\n" +
+                "    weeks\n" +
+                "WHERE\n" +
+                "    school_year_id = ?\n" +
+                "\n" +
+                "UNION\n" +
+                "-- Lấy các tháng và năm từ end_date\n" +
+                "SELECT DISTINCT\n" +
+                "    FORMAT(end_date, 'MM-yyyy') AS start_month_year\n" +
+                "FROM\n" +
+                "    weeks\n" +
+                "WHERE\n" +
+                "    school_year_id = ?\n" +
+                "ORDER BY \n" +
+                "    start_month_year;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, schoolyear);
+            preparedStatement.setString(2, schoolyear);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                months.add(resultSet.getString("start_month_year"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return months;
+    }
+
+
 }

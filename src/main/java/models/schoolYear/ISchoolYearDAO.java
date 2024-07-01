@@ -11,5 +11,6 @@ public interface ISchoolYearDAO {
     SchoolYear getSchoolYearByDate(Date date);
     List<SchoolYear> getFutureSchoolYears();
     public SchoolYear getCloestSchoolYears() ;
+    public List<SchoolYear> getListSchoolYearsByPupilID(String id);
 
 }

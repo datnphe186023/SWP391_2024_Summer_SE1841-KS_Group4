@@ -1,5 +1,6 @@
 package models.evaluation;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IEvaluationDAO {
@@ -9,4 +10,8 @@ public interface IEvaluationDAO {
     public boolean updateEvaluationByPupilAndDay(Evaluation evaluation);
     int getNumberOfStatus(String evaluation, String pupilId, String weekId);
     List<Evaluation> getEvaluationByWeek(String weekId);
+    public List<HealthCheckUp> getHealthCheckUpById(String pupil_id) ;
+    public List<HealthCheckUp> getHealthCheckUpByIdandSchoolYearId(String pupil_id,String schoolyear_id);
+    public HealthCheckUp getHealthCheckUpByIdandDate(String pupil_id, Date date);
+    public List<String> EvaluationReportYearly(String pupil_id);
 }

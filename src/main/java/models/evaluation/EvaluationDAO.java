@@ -2,10 +2,9 @@ package models.evaluation;
 
 import models.day.Day;
 import models.day.DayDAO;
+import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
-import models.week.Week;
-import models.week.WeekDAO;
 import utils.DBContext;
 
 import java.sql.PreparedStatement;
@@ -13,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -192,6 +192,122 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
 
     public static void main(String[] args) {
         EvaluationDAO evaluationDAO = new EvaluationDAO();
-        System.out.println(evaluationDAO.getEvaluationByWeek("W000084").get(0).getDate().getId());
+
     }
+
+    public List<HealthCheckUp> getHealthCheckUpById(String pupil_id) {
+        IPupilDAO  pupilDAO = new PupilDAO();
+        List<HealthCheckUp> list = new ArrayList<>();
+        String sql = "select * from HealthCheckUps where pupil_id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,pupil_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                HealthCheckUp healthCheckUp = new HealthCheckUp();
+                healthCheckUp.setId(resultSet.getString("id"));
+                healthCheckUp.setPupil(pupilDAO.getPupilsById(pupil_id));
+                healthCheckUp.setCheckUpDate(resultSet.getDate("check_up_date"));
+                healthCheckUp.setHeight(resultSet.getFloat("height"));
+                healthCheckUp.setWeight(resultSet.getFloat("weight"));
+                healthCheckUp.setAverageDevelopmentStage(resultSet.getString("average_development_stage"));
+                healthCheckUp.setBloodPressure(resultSet.getString("blood_pressure"));
+                healthCheckUp.setTeeth(resultSet.getString("teeth"));
+                healthCheckUp.setEyes(resultSet.getString("eyes"));
+                healthCheckUp.setNotes(resultSet.getString("notes"));
+                list.add(healthCheckUp);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<HealthCheckUp> getHealthCheckUpByIdandSchoolYearId(String pupil_id,String schoolyear_id) {
+        IPupilDAO  pupilDAO = new PupilDAO();
+        List<HealthCheckUp> list = new ArrayList<>();
+        String sql = "select hcu.* from HealthCheckUps hcu join dbo.Pupils P on hcu.pupil_id = P.id\n" +
+                "join classDetails cd on P.id = cd.pupil_id\n" +
+                "                                 JOIN dbo.Class C on C.id = cd.class_id\n" +
+                "                                 join dbo.SchoolYears SY on C.school_year_id = SY.id\n" +
+                "where hcu.pupil_id = ? and sy.id = ? \n" +
+                "and hcu.check_up_date between sy.start_date and sy.end_date";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,pupil_id);
+            statement.setString(2,schoolyear_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                HealthCheckUp healthCheckUp = new HealthCheckUp();
+                healthCheckUp.setId(resultSet.getString("id"));
+                healthCheckUp.setPupil(pupilDAO.getPupilsById(pupil_id));
+                healthCheckUp.setCheckUpDate(resultSet.getDate("check_up_date"));
+                healthCheckUp.setHeight(resultSet.getFloat("height"));
+                healthCheckUp.setWeight(resultSet.getFloat("weight"));
+                healthCheckUp.setAverageDevelopmentStage(resultSet.getString("average_development_stage"));
+                healthCheckUp.setBloodPressure(resultSet.getString("blood_pressure"));
+                healthCheckUp.setTeeth(resultSet.getString("teeth"));
+                healthCheckUp.setEyes(resultSet.getString("eyes"));
+                healthCheckUp.setNotes(resultSet.getString("notes"));
+                list.add(healthCheckUp);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public HealthCheckUp getHealthCheckUpByIdandDate(String pupil_id, Date date) {
+        PupilDAO  pupilDAO = new PupilDAO();
+        HealthCheckUp healthCheckUp = new  HealthCheckUp();
+
+        String sql = "select * from HealthCheckUps where pupil_id = ? and check_up_date = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,pupil_id);
+            statement.setDate(2, new java.sql.Date(date.getTime()));
+            ResultSet resultSet = statement.executeQuery();
+           if (resultSet.next()){
+
+                healthCheckUp.setId(resultSet.getString("id"));
+                healthCheckUp.setPupil(pupilDAO.getPupilsById(pupil_id));
+                healthCheckUp.setCheckUpDate(resultSet.getDate("check_up_date"));
+                healthCheckUp.setHeight(resultSet.getFloat("height"));
+                healthCheckUp.setWeight(resultSet.getFloat("weight"));
+                healthCheckUp.setAverageDevelopmentStage(resultSet.getString("average_development_stage"));
+                healthCheckUp.setBloodPressure(resultSet.getString("blood_pressure"));
+                healthCheckUp.setTeeth(resultSet.getString("teeth"));
+                healthCheckUp.setEyes(resultSet.getString("eyes"));
+                healthCheckUp.setNotes(resultSet.getString("notes"));
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return healthCheckUp;
+    }
+
+    public List<String> EvaluationReportYearly(String pupil_id) {
+        List<String> reportdata = new ArrayList<>();
+        String sql = "select sy.name,count(e.evaluation)as good_day from Evaluations e join dbo.Days D on D.id = e.date_id\n" +
+                "\n" +
+                "join dbo.Weeks W on D.week_id = W.id\n" +
+                "join dbo.SchoolYears SY on W.school_year_id = SY.id\n" +
+                "\n" +
+                "where e.pupil_id = ?  and e.evaluation = 'Ngoan'\n" +
+                "group by evaluation,sy.name";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, pupil_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String data = resultSet.getString("name")+"-"+resultSet.getInt("good_day") ;
+                reportdata.add(data);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return reportdata;
+    }
+
 }
