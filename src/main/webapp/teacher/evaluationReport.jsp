@@ -86,7 +86,7 @@
                                 </c:choose>
                             </div>
                             <div class="col-md-4 text-right">
-                                <a class="btn btn-success" href="detailreport?weekId=${weekId}">
+                                <a class="btn btn-success" href="evaluationdetail?weekId=${weekId}">
                                     <i class="fas fa-fw fa-id-badge"></i> Thông tin chi tiết
                                 </a>
                             </div>
