@@ -50,7 +50,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="attendance">
                     <i class="fas fa-fw fa-calendar-check"></i>
                     <span>Điểm Danh</span></a>
             </li>

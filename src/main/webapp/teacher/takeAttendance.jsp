@@ -7,9 +7,29 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="pupilAttendanceBean" class="models.pupil.PupilAttendanceDAO"/>
+<jsp:useBean id="dayBean" class="models.day.DayDAO"/>
 <html>
 <head>
     <title>Điểm Danh</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -51,17 +71,26 @@
                                                      style="width:100px; height:100px; object-fit: cover;">
                                             </td>
                                             <td>${pupil.lastName} ${pupil.firstName}</td>
-                                            <td><input type="radio" name="attendance${status.index}" value="present"></td>
-                                            <td><input type="radio" name="attendance${status.index}" value="absent" checked></td>
-                                            <td><textarea name="note${status.index}" class="form-control" rows="1"></textarea></td>
+                                            <c:set var="day" value="${dayBean.getDayByDate(requestScope.date)}"/>
+                                            <c:set value="${pupilAttendanceBean.getAttendanceByPupilAndDay(pupil.id, day)}" var="attendanceStatus"/>
+                                            <td>
+                                                <input type="radio" name="attendance${pupil.id}" value="present" ${attendanceStatus == 'present' ? 'checked' : ''}>
+                                            </td>
+                                            <td>
+                                                <input type="radio" name="attendance${pupil.id}" value="absent" ${attendanceStatus != 'present' ? 'checked' : ''}>
+                                            </td>
+                                            <c:set value="${pupilAttendanceBean.getAttendanceByPupilAndDay(pupil.id, day)}" var="attendanceNote"/>
+                                            <td><textarea name="note${pupil.id}" class="form-control" rows="1"></textarea>${attendanceNote}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="form-group float-right">
-                                <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
-                            </div>
+                            <c:if test="${requestScope.className != null}">
+                                <div class="form-group float-right">
+                                    <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
+                                </div>
+                            </c:if>
                         </form>
                     </div>
                 </div>

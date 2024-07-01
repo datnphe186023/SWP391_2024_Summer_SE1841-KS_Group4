@@ -196,8 +196,10 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         return schoolYears;
     }
 
-    public SchoolYear getCloestSchoolYears() {
+
+    public SchoolYear getClosestSchoolYears() {
         String sql = "select top 1  * from schoolYears where end_date >= CAST(GETDATE() AS DATE) order by start_date";
+
         SchoolYear schoolYear = new SchoolYear();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
