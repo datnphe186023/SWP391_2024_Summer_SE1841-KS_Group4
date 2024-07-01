@@ -39,7 +39,7 @@ public class WaitlistMealTimetable extends HttpServlet {
         IGradeDAO gradeDAO = new GradeDAO();
         List<String> dataList = new ArrayList<>();
         try {
-            dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getCloestSchoolYears().getId());
+            dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getClosestSchoolYears().getId());
         }catch(Exception e){
 
             request.setAttribute("toastType", "fail");
@@ -48,7 +48,7 @@ public class WaitlistMealTimetable extends HttpServlet {
             request.getRequestDispatcher("waitlistMealTimetable.jsp").forward(request, response);
             return;
         }
-        //List<String> dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getCloestSchoolYears().getId());
+        //List<String> dataList = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getClosestSchoolYears().getId());
         List<Week> weekId = new ArrayList<>();
         List<SchoolYear> schoolyearId = new ArrayList<>();;
         List<Grade> gradeId = new ArrayList<>();

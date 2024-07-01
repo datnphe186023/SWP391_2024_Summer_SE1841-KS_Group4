@@ -196,7 +196,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         return schoolYears;
     }
 
-    public SchoolYear getCloestSchoolYears() {
+    public SchoolYear getClosestSchoolYears() {
         String sql = "select top 1  * from schoolYears where start_date > CAST(GETDATE() AS DATE) order by start_date";
         SchoolYear schoolYear = new SchoolYear();
         try{
