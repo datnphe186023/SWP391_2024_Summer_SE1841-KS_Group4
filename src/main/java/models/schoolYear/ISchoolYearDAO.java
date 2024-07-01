@@ -10,6 +10,10 @@ public interface ISchoolYearDAO {
     SchoolYear getSchoolYear(String id);
     SchoolYear getSchoolYearByDate(Date date);
     List<SchoolYear> getFutureSchoolYears();
+
+    public List<SchoolYear> getListSchoolYearsByPupilID(String id);
+
     SchoolYear getClosestSchoolYears() ;
+
 
 }

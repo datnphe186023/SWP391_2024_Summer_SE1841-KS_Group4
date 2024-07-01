@@ -54,9 +54,7 @@ public class WaitlistMealTimetable extends HttpServlet {
         List<Grade> gradeId = new ArrayList<>();
         for(int i=0; i<dataList.size(); i++){
             String[] parts = dataList.get(i).split("-");
-            System.out.println(parts[0]);
-            System.out.println(parts[1]);
-            System.out.println(parts[2]);
+
             weekId.add(weekDAO.getWeek(parts[0]));
             schoolyearId.add(yearDAO.getSchoolYear(parts[1]));
             gradeId.add(gradeDAO.getGrade(parts[2]));

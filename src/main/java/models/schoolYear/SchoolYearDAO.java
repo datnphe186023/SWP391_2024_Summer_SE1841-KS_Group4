@@ -196,8 +196,10 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         return schoolYears;
     }
 
+
     public SchoolYear getClosestSchoolYears() {
-        String sql = "select top 1  * from schoolYears where start_date > CAST(GETDATE() AS DATE) order by start_date";
+        String sql = "select top 1  * from schoolYears where end_date >= CAST(GETDATE() AS DATE) order by start_date";
+
         SchoolYear schoolYear = new SchoolYear();
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -213,6 +215,31 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
             return null;
         }
         return schoolYear;
+    }
+    public List<SchoolYear> getListSchoolYearsByPupilID(String id) {
+        List<SchoolYear> schoolYears = new ArrayList<>();
+        String sql = "select sy.* from Pupils p join classDetails cd on p.id = cd.pupil_id\n" +
+                "JOIN dbo.Class C on C.id = cd.class_id\n" +
+                "join dbo.SchoolYears SY on C.school_year_id = SY.id\n" +
+                "where p.id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                SchoolYear schoolYear = new SchoolYear();
+                schoolYear.setId(resultSet.getString("id"));
+                schoolYear.setName(resultSet.getString("name"));
+                schoolYear.setStartDate(resultSet.getDate("start_date"));
+                schoolYear.setEndDate(resultSet.getDate("end_date"));
+                schoolYear.setDescription(resultSet.getString("description"));
+                schoolYears.add(schoolYear);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return schoolYears;
     }
 
 
