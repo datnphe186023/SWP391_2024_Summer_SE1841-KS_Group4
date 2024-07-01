@@ -77,7 +77,7 @@ public class TakeAttendanceServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (result.equals("success")) {
             session.setAttribute("toastType", "success");
-            session.setAttribute("toastMessage", "Gửi đơn thành công");
+            session.setAttribute("toastMessage", "Thao tác thành công");
         } else {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", result);
