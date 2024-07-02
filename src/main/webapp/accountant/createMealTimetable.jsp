@@ -299,10 +299,7 @@
                             <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
                             <button type="reset" class="btn btn-danger" style="width: 100px">Hủy</button>
                     </c:if>
-                            <c:if test="${requestScope.enable == 'false'|| requestScope.weekId == 'none' || requestScope.selectedGradeId == 'none'}">
-                                <button type="submit" class="btn btn-success" style="width: 100px" disabled >Lưu</button>
-                                <button type="reset" class="btn btn-danger" style="width: 100px" disabled >Hủy</button>
-                            </c:if>
+                            
                         </div>
                     </div>
                 </form>

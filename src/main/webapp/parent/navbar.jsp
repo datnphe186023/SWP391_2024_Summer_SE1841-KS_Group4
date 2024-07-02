@@ -50,7 +50,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="attendance">
                     <i class="fas fa-fw fa-calendar-check"></i>
                     <span>Điểm Danh</span></a>
             </li>
@@ -88,9 +88,16 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport"
+                   aria-expanded="true" aria-controls="collapseReport" >
                     <i class="fas fa-fw fa-bars"></i>
                     <span>Báo Cáo</span></a>
+                <div id="collapseReport" class="collapse" aria-labelledby="headingReport" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="viewhealthreport">Báo cáo sức khỏe</a>
+                        <a class="collapse-item" href="viewdailyevaluationreport">Báo cáo đánh giá trên lớp</a>
+                    </div>
+                </div>
             </li>
 
 

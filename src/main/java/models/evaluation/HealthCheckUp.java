@@ -122,4 +122,12 @@ public class HealthCheckUp {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public float getEyetoGraphData(){
+
+        String eyes_data = this.eyes.split("/")[0];
+        return Float.parseFloat(eyes_data);
+    }
+
+
 }
