@@ -44,47 +44,29 @@
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
-                        <h1 class="h3 mb-4 text-gray-800 text-center">Báo cáo sức khỏe</h1>
-                        <div class="row">
-                            <div class="col-lg-6 mb-4">
-                                <c:set var="yearChecked" value="${requestScope.checkYear}"/>
-                                <form action="list-pupil"  id="myForm">
-                                    <div>
-                                        <label >Chọn năm học</label>
-                                        <select class="custom-select" style="width: 25%"  aria-label="Default select example" onchange="submitForm()" name="schoolYear">
-                                            <c:forEach items="${requestScope.listSchoolYear}" var="year" >
-                                                <option ${yearChecked eq year.id ? "selected" : ""} value="${year.id}"  >${year.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
+                        <h1 class="h3 mb-4 text-gray-800 text-center">Báo cáo sức khỏe của bé ${requestScope.pupil.lastName} ${requestScope.pupil.firstName} </h1>
+                        
                         <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Danh sách học sinh</h6>
-                                <h6 class="m-0 font-weight-bold text-primary">Lớp : <a style="margin-right: 60px" >${requestScope.teacherClass == null ?"Chưa được phân công":requestScope.teacherClass}</a>    Khối : <a>${requestScope.teacherGrade == null ?"Chưa được phân công":requestScope.teacherGrade}</a></h6>
-                            </div>
+                            
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Mã học sinh</th>
-                                                <th>Họ và tên</th>
+                                                <th>Mã kiểm tra sức khỏe</th>
+                                                <th>Ngày kiểm tra</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <div style="color: red">${requestScope.error}</div>
-                                        <c:forEach var="pupil" items="${requestScope.listPupil}" varStatus="status">
+                                        <c:forEach var="pupilHealth" items="${requestScope.listHealthCheckUp}" varStatus="status">
                                             <tr>
                                                 <th scope="row">${status.index + 1}</th>
-                                                <td>${pupil.id}</td>
-                                                <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                <td><a href="health-details?pupilid=${pupil.id}&&schoolyear=${requestScope.checkYear}"
+                                                <td>${pupilHealth.id}</td>
+                                                <td>${pupilHealth.checkUpDate}</td>
+                                                <td><a href="viewHealthCheckUp?healthId=${pupilHealth.id}"
                                                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
                                             </tr>
                                         </c:forEach>

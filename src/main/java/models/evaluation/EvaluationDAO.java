@@ -190,8 +190,5 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
         return null;
     }
 
-    public static void main(String[] args) {
-        EvaluationDAO evaluationDAO = new EvaluationDAO();
-        System.out.println(evaluationDAO.getEvaluationByWeek("W000084").get(0).getDate().getId());
-    }
+    
 }

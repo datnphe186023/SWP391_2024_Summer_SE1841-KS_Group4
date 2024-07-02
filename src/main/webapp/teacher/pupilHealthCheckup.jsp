@@ -29,8 +29,13 @@
                 }
             });
         </script>
+        <script>
+            function submitForms() {
+                document.getElementById("combinedForm").submit();
+            }
+        </script>
 
-        
+
     </head>
 
     <body id="page-top">
@@ -47,11 +52,12 @@
                             </div>
                         </div>
                         <div class="row gutters">
-                            
+
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <form action="${pageContext.request.contextPath}/health-check-up" method="post">
+                                        <form action="health-check-up" method="post">
                                             <div class="row gutters">
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -125,7 +131,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        
+
                                     </div>
                                 </div>
                             </div>

@@ -10,14 +10,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.day.DayDAO;
-import models.day.IDayDAO;
+import java.util.List;
+import models.evaluation.HealthCheckUp;
+import models.evaluation.HealthCheckUpDAO;
+import models.evaluation.IHealthCheckUpDAO;
+import models.pupil.IPupilDAO;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
 
 /**
  *
  * @author Admin
  */
-public class pupilHealthCheckupServlet extends HttpServlet {
+public class listHealthPupilDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +41,10 @@ public class pupilHealthCheckupServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet pupilHealthCheckupServlet</title>");            
+            out.println("<title>Servlet listHealthPupilDetailsServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet pupilHealthCheckupServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet listHealthPupilDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,8 +62,15 @@ public class pupilHealthCheckupServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.getRequestDispatcher("pupilHealthCheckup.jsp").forward(request, response);
+        // get pupil by pupil id
+        String pupilId = request.getParameter("pupilid");
+        IPupilDAO pupilDAO = new PupilDAO();
+        Pupil pupil = pupilDAO.getPupilsById(pupilId);
+        IHealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
+        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getAllHealthCheckUps();
+        request.setAttribute("listHealthCheckUp", listHealthCheckUp);
+        request.setAttribute("pupil", pupil);
+        request.getRequestDispatcher("listHealthPupilDetails.jsp").forward(request, response);
     }
 
     /**
