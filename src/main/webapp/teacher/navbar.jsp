@@ -94,7 +94,7 @@
 
             <!-- Nav Item - Báo cáo sức khỏe -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/teacher/list-pupil?schoolYear=${requestScope.schoolYearLastest}">
                     <i class='fas fa-fw fa-hand-holding-heart'></i>
                     <span>Báo cáo sức khỏe</span>
                 </a>

@@ -76,6 +76,14 @@
         <servlet-name>ReviewDetailTimetableServlet</servlet-name>
         <servlet-class>controller.headteacher.ReviewDetailTimetableServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>listHealthPupil</servlet-name>
+        <servlet-class>controller.teacher.listHealthPupil</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pupilHealthCheckupServlet</servlet-name>
+        <servlet-class>controller.teacher.pupilHealthCheckupServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
@@ -123,6 +131,14 @@
     <servlet-mapping>
         <servlet-name>ReviewDetailTimetableServlet</servlet-name>
         <url-pattern>/headteacher/review-detail-timetable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listHealthPupil</servlet-name>
+        <url-pattern>/teacher/list-pupil</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pupilHealthCheckupServlet</servlet-name>
+        <url-pattern>/teacher/health-check-up</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
