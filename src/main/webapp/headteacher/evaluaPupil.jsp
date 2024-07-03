@@ -65,13 +65,13 @@
                                     <div class="row mb-3">
                                         <div class="col-sm-6 font-weight-bold">Số Học Sinh Đạt Danh Hiệu Cháu Ngoan Bác Hồ:</div>
                                         <div class="col-sm-6" id="createdBy">
-
+                                            ${requestScope.totalAchieved}
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-6 font-weight-bold">Số Học Sinh Không Đạt Danh Hiệu Cháu Ngoan Bác Hồ:</div>
                                         <div class="col-sm-6" id="createdAt">
-
+                                            ${requestScope.totalNotAchieved}
                                         </div>
                                     </div>
                                 </div>
@@ -111,8 +111,27 @@
                                                                 </c:if>
                                                             </c:forEach>
                                                         </td>
-                                                        <td class="text-center align-middle"></td>
-                                                        <td></td>
+                                                        <td class="text-center align-middle">
+                                                            <c:forEach items="${listEvaluation}" var="evaluation" varStatus="evaluationIndex">
+                                                                <c:if test="${evaluationIndex.index == index.index}">
+                                                                    ${evaluation}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </td>
+                                                        <td>
+                                                            <c:forEach items="${listAchieved}" var="achieved" varStatus="achievedIndex">
+                                                                <c:if test="${achievedIndex.index == index.index}">
+                                                                    <c:choose>
+                                                                        <c:when test="${achieved}">
+                                                                            Đạt
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            Không đạt
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>

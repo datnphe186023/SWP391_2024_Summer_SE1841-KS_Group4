@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
+import models.evaluation.EvaluationDAO;
+import models.evaluation.IEvaluationDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
@@ -91,12 +93,36 @@ public class EvaluationPupilServlet extends HttpServlet {
         List<Pupil> listPupil = pupilDAO.getPupilsBySchoolYearID(schoolYear);
         int sumPupil = 0;
         List<String> listClass = new ArrayList<>();
+        List<Integer> listEvaluation = new ArrayList<>();
+        List<Integer> listTotalEvaluation = new ArrayList<>();
+        List<Boolean> listAchieved = new ArrayList<>();
         IClassDAO classDAO = new ClassDAO();
+        IEvaluationDAO evaluationDAO = new EvaluationDAO();
+        int evaluation = 0;
+        int totalEvalua = 0;
+        int totalAchieved = 0;
+        int totalNotAchieved = 0;
         for (Pupil pupil : listPupil) {
             sumPupil += 1;
             models.classes.Class c = classDAO.getClassByPupilIDandSchoolYearId(pupil.getId(), schoolYear);
             listClass.add(c != null ? c.getName() : "");
+            evaluation = evaluationDAO.getEvaluationByPupilIdandStatusGood(pupil.getId()) / 3;
+            listEvaluation.add(evaluation);
+            totalEvalua = evaluationDAO.getEvaluationByPupilIdandAllStatus(pupil.getId()) / 3;
+            listTotalEvaluation.add(totalEvalua);
+            boolean isAchieved = totalEvalua != 0 && (evaluation * 100 / totalEvalua) >= 50; // Thêm điều kiện kiểm tra chia cho 0
+            listAchieved.add(isAchieved);
+            if (isAchieved) {
+                totalAchieved += 1; // Đếm số học sinh đạt
+            } else {
+                totalNotAchieved += 1; // Đếm số học sinh không đạt
+            }
         }
+        request.setAttribute("totalAchieved", totalAchieved);
+        request.setAttribute("totalNotAchieved", totalNotAchieved);
+        request.setAttribute("listAchieved", listAchieved);
+        request.setAttribute("listTotalEvalua", listTotalEvaluation);
+        request.setAttribute("listEvaluation", listEvaluation);
         request.setAttribute("listClass", listClass);
         request.setAttribute("listPupil", listPupil);
         request.setAttribute("sumPupil", sumPupil);
