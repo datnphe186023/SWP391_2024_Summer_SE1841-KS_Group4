@@ -34,4 +34,5 @@ public interface IClassDAO {
 
     String getClassNameByTeacherAndTimetable(String teacherId, String date);
 
+    Class getClassByPupilIDandSchoolYearId(String pupilId, String schoolYearId);
 }
