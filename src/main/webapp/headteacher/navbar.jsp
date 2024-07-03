@@ -161,7 +161,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="evaluapupil">
                     <i class="fas fa-fw fa-bars"></i>
                     <span>Tổng kết khen thưởng học sinh</span></a>
             </li>
