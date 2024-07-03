@@ -41,6 +41,7 @@ public class LogoutServlet extends HttpServlet {
         session.removeAttribute("pupil");
         session.removeAttribute("toastType");
         session.removeAttribute("toastMessage");
+        session.removeAttribute("status");
         response.sendRedirect("login");
     } 
 

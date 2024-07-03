@@ -82,7 +82,7 @@
                                         </thead>
                                         <tbody>
                                             <c:forEach var="listTimetable" items="${requestScope.listTimetable}" varStatus="loop">
-                                                <c:if test="${listTimetable.status eq 'không được duyệt' or listTimetable.status eq 'đang chờ xử lý'}">
+                                                
                                                     <tr>
                                                         <td>${loop.index + 1}</td>
                                                         <td>${listTimetable.aClass.name}</td>
@@ -111,7 +111,7 @@
                                                         </td>
 
                                                     </tr>
-                                                </c:if>
+                                                
                                             </c:forEach>
 
                                         </tbody>

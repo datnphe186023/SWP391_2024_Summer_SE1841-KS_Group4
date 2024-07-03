@@ -190,10 +190,6 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO{
         return null;
     }
 
-    public static void main(String[] args) {
-        EvaluationDAO evaluationDAO = new EvaluationDAO();
-
-    }
 
     public List<HealthCheckUp> getHealthCheckUpById(String pupil_id) {
         IPupilDAO  pupilDAO = new PupilDAO();
