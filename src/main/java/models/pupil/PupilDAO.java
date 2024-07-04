@@ -556,7 +556,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
             throw new RuntimeException(e);
         }
         return listPupils;
-
+    }
     @Override
     public List<Pupil> getPupilsBySchoolYearID(String schoolyear) {
         List<Pupil> listpupil = new ArrayList<>();

@@ -433,9 +433,9 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
         return list;
     }
 
-    public int AccomplishmentAchieveStudents(String schoolyear_id){
-        int number = 0 ;
-        String sql ="WITH GoodDays AS (\n" +
+    public int AccomplishmentAchieveStudents(String schoolyear_id) {
+        int number = 0;
+        String sql = "WITH GoodDays AS (\n" +
                 "    SELECT\n" +
                 "    SY.id,e.pupil_id,\n" +
                 "    COUNT(E.evaluation) AS good_day\n" +
@@ -475,18 +475,18 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
                 "where T1.id =? and good_day >= day/2 ;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,schoolyear_id);
-            preparedStatement.setString(2,schoolyear_id);
-            preparedStatement.setString(3,schoolyear_id);
+            preparedStatement.setString(1, schoolyear_id);
+            preparedStatement.setString(2, schoolyear_id);
+            preparedStatement.setString(3, schoolyear_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 number += 1;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return number;
-
+    }
     @Override
     public int getEvaluationByPupilIdandStatusGood(String pupilid) {
         String sql = "SELECT COUNT(evaluation) AS TotalEvaluations\n"
