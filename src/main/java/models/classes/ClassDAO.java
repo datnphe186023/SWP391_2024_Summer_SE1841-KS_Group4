@@ -362,4 +362,22 @@ public class ClassDAO extends DBContext implements IClassDAO {
         }
         return null;
     }
+
+    @Override
+    public Class getClassByPupilIDandSchoolYearId(String pupilId, String schoolYearId) {
+        String sql = "SELECT * FROM Class c inner join classDetails cd on c.id = cd.class_id where cd.pupil_id=? and c.school_year_id=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, pupilId);
+            ps.setString(2, schoolYearId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Class c = createClass(rs);
+                    return c;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

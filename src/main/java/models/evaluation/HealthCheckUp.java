@@ -14,10 +14,11 @@ public class HealthCheckUp {
     private String bloodPressure;
     private String teeth;
     private String eyes;
+    private String earNoseThroat;
     private String notes;
 
     public HealthCheckUp(String id, Pupil pupil, Date checkUpDate, float height, float weight,
-                         String averageDevelopmentStage, String bloodPressure, String teeth, String eyes, String notes) {
+                         String averageDevelopmentStage, String bloodPressure, String teeth, String eyes,String earNoseThroat, String notes) {
         this.id = id;
         this.pupil = pupil;
         this.checkUpDate = checkUpDate;
@@ -27,7 +28,16 @@ public class HealthCheckUp {
         this.bloodPressure = bloodPressure;
         this.teeth = teeth;
         this.eyes = eyes;
+        this.earNoseThroat = earNoseThroat;
         this.notes = notes;
+    }
+
+    public String getEarNoseThroat() {
+        return earNoseThroat;
+    }
+
+    public void setEarNoseThroat(String earNoseThroat) {
+        this.earNoseThroat = earNoseThroat;
     }
 
     public HealthCheckUp() {
