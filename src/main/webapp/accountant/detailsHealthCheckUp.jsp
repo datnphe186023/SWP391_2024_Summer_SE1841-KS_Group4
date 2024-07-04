@@ -17,7 +17,6 @@
                 font-family: Arial, sans-serif;
                 background-color: #f0f2f5;
             }
-
             .health-report {
                 max-width: 800px;
                 margin: 20px auto;
@@ -26,41 +25,30 @@
                 padding: 20px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
-
             .health-report h3 {
                 text-align: center;
                 color: #007bff;
                 margin-bottom: 20px;
             }
-
             .health-report table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-bottom: 20px;
             }
-
-            .health-report table,
-            .health-report th,
-            .health-report td {
+            .health-report table, .health-report th, .health-report td {
                 border: 1px solid #ddd;
             }
-
-            .health-report th,
-            .health-report td {
+            .health-report th, .health-report td {
                 padding: 12px;
                 text-align: left;
             }
-
             .health-report th {
                 width: 50%;
                 background-color: #f8f9fa;
             }
-
             .profile-actions {
-                text-align: right;
-                margin-top: 20px;
+                text-align: center;
             }
-
             .profile-actions a {
                 text-decoration: none;
                 padding: 10px 20px;
@@ -69,18 +57,15 @@
                 border-radius: 5px;
                 transition: background 0.3s ease;
             }
-
             .profile-actions a:hover {
                 background: #0056b3;
             }
-
             .notes-section {
                 padding: 10px;
                 border: 1px solid #ddd;
                 background-color: #f8f9fa;
                 border-radius: 5px;
             }
-
             .notes-section h4 {
                 color: #333;
                 margin-bottom: 10px;
@@ -90,15 +75,15 @@
 
     <body id="page-top">
         <div id="wrapper">
-            <jsp:include page="navbar.jsp" />
+            <jsp:include page="navbar.jsp"/>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <jsp:include page="../header.jsp" />
+                    <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
                         <!-- Student Health Report Section -->
                         <main>
                             <div class="row justify-content-center">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="health-report shadow mb-4">
                                         <h3>Chi tiết báo cáo sức khỏe</h3>
                                         <table>
@@ -108,7 +93,7 @@
                                                     <th>Thông số</th>
                                                 </tr>
                                             </thead>
-                                            <c:set var="healthCheckUp" value="${requestScope.healthCheckUp}" />
+                                            <c:set var="healthCheckUp" value="${requestScope.healthCheckUp}"/>
                                             <tbody>
                                                 <tr>
                                                     <td>Chiều cao (cm)</td>
@@ -139,24 +124,22 @@
                                                     <td>${healthCheckUp.earNoseThroat}</td>
                                                 </tr>
                                             </tbody>
-
                                         </table>
                                         <div class="notes-section">
                                             <strong>Ghi chú:</strong>
                                             <p>${healthCheckUp.notes}</p>
                                         </div>
-                                    </div>
 
+                                    </div>
+                                    <div class="profile-actions">
+                                        <a href="javascript:history.back()">Quay lại</a>
+                                    </div>
                                 </div>
-                                        <div class="profile-actions">
-                                            <a href="javascript:history.back()">Quay lại</a>
-                                        </div>
                             </div>
-                            
                         </main>
                     </div>
                 </div>
-                <jsp:include page="../footer.jsp" />
+                <jsp:include page="../footer.jsp"/>
             </div>
         </div>
     </body>

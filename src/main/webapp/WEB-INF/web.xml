@@ -96,6 +96,14 @@
         <servlet-name>AddHealthReportServlet</servlet-name>
         <servlet-class>controller.teacher.AddHealthReportServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListHealthDetailsServlet</servlet-name>
+        <servlet-class>controller.accountant.ListHealthDetailsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewDetailsHealthCheckUpServlet</servlet-name>
+        <servlet-class>controller.accountant.ViewDetailsHealthCheckUpServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
@@ -163,6 +171,14 @@
     <servlet-mapping>
         <servlet-name>AddHealthReportServlet</servlet-name>
         <url-pattern>/teacher/addHealthReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListHealthDetailsServlet</servlet-name>
+        <url-pattern>/accountant/health-details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDetailsHealthCheckUpServlet</servlet-name>
+        <url-pattern>/accountant/viewHealthCheckUp</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
