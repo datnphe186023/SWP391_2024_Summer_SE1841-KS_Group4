@@ -36,16 +36,6 @@ public class AddHealthReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      HttpSession session = request.getSession();
-        String toastType = "", toastMessage = "";
-        if (session.getAttribute("toastType") != null) {
-            toastType = session.getAttribute("toastType").toString();
-            toastMessage = session.getAttribute("toastMessage").toString();
-        }
-        session.removeAttribute("toastType");
-        session.removeAttribute("toastMessage");
-        request.setAttribute("toastType", toastType);
-        request.setAttribute("toastMessage", toastMessage);
         request.getRequestDispatcher("listHealthPupilDetails.jsp").forward(request, response);
     }
 
