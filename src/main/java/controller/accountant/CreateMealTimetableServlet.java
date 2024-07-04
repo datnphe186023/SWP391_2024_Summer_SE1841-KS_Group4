@@ -103,7 +103,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
             }
         }
         try {
-            listWeek = weekDAO.getWeeks(yearDAO.getCloestSchoolYears().getId());
+            listWeek = weekDAO.getWeeks(yearDAO.getClosestSchoolYears().getId());
         }catch(Exception e){
             request.setAttribute("listTimeslot", listTimeslot);
             enable = false;
@@ -118,7 +118,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
         List<MenuDetail> menuDetails = new ArrayList<>();
         String status = "";
         if (enable == false){
-           menuDetails = foodMenuDAO.getMenuDetailsforCreate(selectedGradeId,weekId,yearDAO.getCloestSchoolYears().getId());
+           menuDetails = foodMenuDAO.getMenuDetailsforCreate(selectedGradeId,weekId,yearDAO.getClosestSchoolYears().getId());
            status = menuDetails.get(0).getStatus();
            request.setAttribute("menuDetails", menuDetails);
            request.setAttribute("status", status);
@@ -131,7 +131,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
         request.setAttribute("classList", classList);
         request.setAttribute("listTimeslot", listTimeslot);
 
-        request.setAttribute("newYear", yearDAO.getCloestSchoolYears());
+        request.setAttribute("newYear", yearDAO.getClosestSchoolYears());
 
         request.setAttribute("listWeek", listWeek);
         request.setAttribute("listGrade", listGrade);

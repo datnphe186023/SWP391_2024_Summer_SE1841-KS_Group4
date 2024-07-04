@@ -617,4 +617,20 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         }
     }
 
+    @Override
+    public String getTeacherByDayId(String dayId) {
+        String sql = "select teacher_id from Timetables where date_id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, dayId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("teacher_id");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

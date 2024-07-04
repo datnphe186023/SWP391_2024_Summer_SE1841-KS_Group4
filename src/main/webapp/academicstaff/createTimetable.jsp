@@ -251,13 +251,13 @@
                     return false;
                 }
 
-                const selects = document.querySelectorAll('#createTimetableForm select[name^="timeslotId_"]');
-                for (const select of selects) {
-                    if (select.value === "") {
-                        toastr.error('Vui lòng chọn tất cả các môn học trước khi lưu.');
-                        return false;
-                    }
-                }
+                // const selects = document.querySelectorAll('#createTimetableForm select[name^="timeslotId_"]');
+                // for (const select of selects) {
+                //     if (select.value === "") {
+                //         toastr.error('Vui lòng chọn tất cả các môn học trước khi lưu.');
+                //         return false;
+                //     }
+                // }
                 return true;
             }
 

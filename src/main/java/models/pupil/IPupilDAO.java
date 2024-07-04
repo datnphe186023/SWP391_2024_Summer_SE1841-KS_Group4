@@ -48,4 +48,6 @@ public interface IPupilDAO {
     boolean checkSecondGuardianPhoneNumberExists(String phoneNumber);
 
     List<Pupil> getPupilsByTeacherAndTimetable(String teacherId, String date);
+
+    List<Pupil> getPupilsBySchoolYearID(String schoolyear);
 }

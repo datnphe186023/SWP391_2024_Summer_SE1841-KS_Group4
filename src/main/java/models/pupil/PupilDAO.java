@@ -491,15 +491,15 @@ public class PupilDAO extends DBContext implements IPupilDAO {
 
     @Override
     public List<Pupil> getPupilsByTeacherAndTimetable(String teacherId, String date) {
-        String sql = "SELECT DISTINCT Pupils.id, Pupils.first_name, Pupils.last_name, Pupils.avatar\n" +
-                "FROM Pupils\n" +
-                "JOIN classDetails ON Pupils.id = classDetails.pupil_id\n" +
-                "JOIN Timetables ON classDetails.class_id = Timetables.class_id\n" +
-                "JOIN dbo.Days ON Timetables.date_id = dbo.Days.id\n" +
-                "WHERE Timetables.teacher_id = ?\n" +
-                "AND ? = dbo.Days.date;";
+        String sql = "SELECT DISTINCT Pupils.id, Pupils.first_name, Pupils.last_name, Pupils.avatar\n"
+                + "FROM Pupils\n"
+                + "JOIN classDetails ON Pupils.id = classDetails.pupil_id\n"
+                + "JOIN Timetables ON classDetails.class_id = Timetables.class_id\n"
+                + "JOIN dbo.Days ON Timetables.date_id = dbo.Days.id\n"
+                + "WHERE Timetables.teacher_id = ?\n"
+                + "AND ? = dbo.Days.date;";
         List<Pupil> list = new ArrayList<>();
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);
             preparedStatement.setString(2, date);
@@ -512,11 +512,30 @@ public class PupilDAO extends DBContext implements IPupilDAO {
                 pupil.setAvatar(rs.getString("avatar"));
                 list.add(pupil);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
+    @Override
+    public List<Pupil> getPupilsBySchoolYearID(String schoolyear) {
+        List<Pupil> listpupil = new ArrayList<>();
+        String sql = "select * from Pupils p inner join classDetails "
+                + "cd on p.id = cd.pupil_id inner join Class c on c.id = cd.class_id "
+                + "where school_year_id=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, schoolyear);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    listpupil.add(createPupil(rs));
+                }
+                return listpupil;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
