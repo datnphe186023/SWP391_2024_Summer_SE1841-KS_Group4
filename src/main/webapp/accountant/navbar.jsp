@@ -63,7 +63,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="listpupil">
                     <i class="fas fa-fw fa-hospital-user"></i>
                     <span>Báo cáo sức khoẻ học sinh</span></a>
             </li>
