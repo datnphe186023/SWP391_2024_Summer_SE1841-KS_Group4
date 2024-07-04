@@ -12,10 +12,13 @@ import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
+import models.week.IWeekDAO;
 import models.week.Week;
+import models.week.WeekDAO;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,8 +31,25 @@ public class ViewHealthReportServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         IPupilDAO pupilDAO = new PupilDAO();
+        String sltedw = "";
+        String sltedy = "";
+        IWeekDAO weekDAO = new WeekDAO();
+        Date currentDate = Date.from(Instant.now());
+        if(weekDAO.getCurrentWeek(currentDate)!=null){
+            sltedw = weekDAO.getCurrentWeek(currentDate);
+            sltedy = weekDAO.getYearByWeek(sltedw);
+        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.CheckPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
+            sltedy = schoolYearDAO.getClosestSchoolYears().getId();
+            sltedw = weekDAO.getfirstWeekOfClosestSchoolYear(sltedy).getId();
+        }
+        else{
+            sltedw = weekDAO.getLastWeekOfClosestSchoolYearOfPupil(pupilDAO.getPupilByUserId(user.getId()).getId()).getId();
+            sltedy = weekDAO.getYearByWeek(sltedw);
+        }
         List<SchoolYear> schoolYears = schoolYearDAO.getListSchoolYearsByPupilID(pupilDAO.getPupilByUserId(user.getId()).getId());
         request.setAttribute("schoolYearList", schoolYears);
+        request.setAttribute("selectedReport", "overall");
+        request.setAttribute("sltedsy", sltedy);
         request.getRequestDispatcher("viewHealthReport.jsp").forward(request, response);
     }
 

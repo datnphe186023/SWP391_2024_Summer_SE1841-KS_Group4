@@ -517,6 +517,44 @@ public class PupilDAO extends DBContext implements IPupilDAO {
         }
         return list;
     }
+    public List<Pupil> getPupilBySchoolYear( String schoolYearId) {
+        String sql = "SELECT *\n"
+                + "FROM     Class INNER JOIN\n"
+                + "                  classDetails ON Class.id = classDetails.class_id INNER JOIN\n"
+                + "                  Pupils ON classDetails.pupil_id = Pupils.id INNER JOIN\n"
+                + "                  SchoolYears ON Class.school_year_id = SchoolYears.id\n"
+                + "\t\t\t\t  where  school_year_id= ?";
+        List<Pupil> listPupils = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
+            preparedStatement.setString(1, schoolYearId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Pupil pupil = new Pupil();
+                pupil.setId(resultSet.getString("pupil_id"));
+                pupil.setUserId(resultSet.getString("user_id"));
+                pupil.setFirstName(resultSet.getString("first_name"));
+                pupil.setLastName(resultSet.getString("last_name"));
+                pupil.setAddress(resultSet.getString("address"));
+                pupil.setEmail(resultSet.getString("email"));
+                pupil.setStatus(resultSet.getString("status"));
+                pupil.setBirthday(resultSet.getDate("birthday"));
+                pupil.setGender(resultSet.getBoolean("gender"));
+                pupil.setfirstGuardianName(resultSet.getString("first_guardian_name"));
+                pupil.setfirstGuardianPhoneNumber(resultSet.getString("first_guardian_phone_number"));
+                pupil.setAvatar(resultSet.getString("avatar"));
+                pupil.setsecondGuardianName(resultSet.getString("second_guardian_name"));
+                pupil.setsecondGuardianPhoneNumber(resultSet.getString("second_guardian_phone_number"));
+                Personnel personnel = personnelDAO.getPersonnel(resultSet.getString("created_by"));
+                pupil.setCreatedBy(personnel);
+                pupil.setParentSpecialNote(resultSet.getString("parent_special_note"));
+                listPupils.add(pupil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPupils;
+    }
 
 }

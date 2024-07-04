@@ -191,7 +191,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                     }
                 }
 
-                // Retrieve all timeslot and subject selections
+
                  parameterNames = request.getParameterNames();
                 int entryCounter = 1;
                 boolean entryCreated = false; // Flag to check if any entries are created
@@ -199,7 +199,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                     String paramName = parameterNames.nextElement();
                     if (paramName.startsWith("timeslotId_")) {
                         String timeslotIdValue = request.getParameter(paramName);
-                        if (!timeslotIdValue.isEmpty()) {
+                       // if (!timeslotIdValue.isEmpty()) {
                             String[] parts = paramName.split("_");
                             String dayId = parts[1];
                             String timeslotId = parts[2];
@@ -216,7 +216,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                             foodMenuDAO.createMenuDetail(menuDetail);
 
                             entryCreated = true; // An entry was created
-                        }
+                      //  }
                     }
                 }
 

@@ -64,7 +64,7 @@ public class GradeDAO extends DBContext implements IGradeDAO{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) {
+            while(resultSet.next()) {
                 Grade grade = createGrade(resultSet);
                 grades.add(grade);
             }
@@ -72,6 +72,24 @@ public class GradeDAO extends DBContext implements IGradeDAO{
             e.printStackTrace();
         }
         return grades;
+    }
+
+    public String getGradeFromPupilIdAndSchoolYearId(String schoolYear_id,String pupil_id){
+             String gradeId = "";
+             String sql = "select c.grade_id from Pupils p inner join classDetails cd on p.id = cd.pupil_id\n" +
+           "    inner join dbo.Class C on cd.class_id = C.id where school_year_id =? and p.id=?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, schoolYear_id);
+            statement.setString(2, pupil_id);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                gradeId = resultSet.getString("grade_id");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gradeId;
     }
 
 }

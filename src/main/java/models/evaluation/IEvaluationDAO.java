@@ -14,4 +14,8 @@ public interface IEvaluationDAO {
     public List<HealthCheckUp> getHealthCheckUpByIdandSchoolYearId(String pupil_id,String schoolyear_id);
     public HealthCheckUp getHealthCheckUpByIdandDate(String pupil_id, Date date);
     public List<String> EvaluationReportYearly(String pupil_id);
+    public int countEvaluationOfWeek(String week_id,String pupil_id);
+    public String PupilReportYearly(String pupil_id,String school_year_id);
+    public List<Evaluation> getEvaluationByWeekandPupilId(String weekId,String pupil_id);
+    public int AccomplishmentAchieveStudents(String schoolyear_id);
 }

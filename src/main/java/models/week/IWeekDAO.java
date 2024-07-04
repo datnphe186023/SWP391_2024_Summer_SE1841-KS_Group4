@@ -12,4 +12,7 @@ public interface IWeekDAO {
     public List<Week> getWeeks(String schoolYearId );
     List<Week> getWeeksFromNowUntilEndOfSchoolYear(String schoolYearId);
     String getCurrentWeek(Date date);
+    public Week getLastWeekOfClosestSchoolYearOfPupil(String id);
+    public Week getfirstWeekOfClosestSchoolYear(String id);
+    public boolean checkWeekInSchoolYear(String week_id,String year_id);
 }
