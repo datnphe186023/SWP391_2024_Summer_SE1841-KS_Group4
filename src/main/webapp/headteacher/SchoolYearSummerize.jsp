@@ -101,6 +101,11 @@
                                     </table>
                                 </div>
                                 <form action="exportExcel" method="post">
+                                    <input hidden="" name="schoolyearid" value="${sltedsy.getId()}"/>
+                                    <input hidden="" name="schoolyear" value="${sltedsy.getName()}"/>
+                                    <input hidden="" name="numberpupil" value="${numberOfPupilInSchoolYear}"/>
+                                    <input hidden="" name="numbergoodpupil" value="${numberOfGoodPupil}"/>
+                                    <input hidden="" name="numbernotgoodpupil" value="${numberOfPupilInSchoolYear - numberOfGoodPupil}"/>
                                     <button type="submit" class="btn btn-success">Export to Excel</button>
                                 </form>
                             </div>
