@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import models.evaluation.HealthCheckUp;
 import models.evaluation.HealthCheckUpDAO;
@@ -17,6 +18,9 @@ import models.evaluation.IHealthCheckUpDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.schoolYear.ISchoolYearDAO;
+import models.schoolYear.SchoolYear;
+import models.schoolYear.SchoolYearDAO;
 
 /**
  *
@@ -62,14 +66,29 @@ public class listHealthPupilDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String toastType = "", toastMessage = "";
+        if (session.getAttribute("toastType") != null) {
+            toastType = session.getAttribute("toastType").toString();
+            toastMessage = session.getAttribute("toastMessage").toString();
+        }
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        request.setAttribute("toastType", toastType);
+        request.setAttribute("toastMessage", toastMessage);
         // get pupil by pupil id
         String pupilId = request.getParameter("pupilid");
+        String schoolYearId = request.getParameter("schoolyear");
+        
         IPupilDAO pupilDAO = new PupilDAO();
         Pupil pupil = pupilDAO.getPupilsById(pupilId);
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        SchoolYear schoolYear = schoolYearDAO.getSchoolYear(schoolYearId);
         IHealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
-        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getAllHealthCheckUps();
+        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getHealthCheckUpsByPupilAndSchoolYear(pupilId, schoolYearId);
         request.setAttribute("listHealthCheckUp", listHealthCheckUp);
         request.setAttribute("pupil", pupil);
+        request.setAttribute("schoolYear", schoolYear);
         request.getRequestDispatcher("listHealthPupilDetails.jsp").forward(request, response);
     }
 
