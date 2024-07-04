@@ -92,6 +92,10 @@
         <servlet-name>ViewHealthCheckUpServlet</servlet-name>
         <servlet-class>controller.teacher.ViewHealthCheckUpServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddHealthReportServlet</servlet-name>
+        <servlet-class>controller.teacher.AddHealthReportServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdatePersonnelServlet</servlet-name>
         <url-pattern>/update-information</url-pattern>
@@ -155,6 +159,10 @@
     <servlet-mapping>
         <servlet-name>ViewHealthCheckUpServlet</servlet-name>
         <url-pattern>/teacher/viewHealthCheckUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddHealthReportServlet</servlet-name>
+        <url-pattern>/teacher/addHealthReport</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
