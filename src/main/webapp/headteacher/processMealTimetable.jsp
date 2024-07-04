@@ -31,7 +31,22 @@
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'fail') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
 </head>
 
 <body id="page-top">
@@ -94,6 +109,10 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Thực Đơn Theo Tuần</h6>
+                        <h6 style="margin-left: 11px;font-weight: bold">Ghi chú: <a
+                                style="font-weight: normal">Biểu tượng </a><a
+                                style="color: red"> (-) </a><a
+                                style="font-weight: normal"> thể hiện bữa trống</a></h6>
                     </div>
 
                     <c:set var="timesOfDay" value="${['Bữa trưa', 'Bữa chiều', 'Bữa chiều phụ']}" />
@@ -131,8 +150,17 @@
                                             <td>
                                                 <c:forEach var="menu" items="${requestScope.menuDetailList}">
                                                     <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
-                                                         ${menu.getFoodMenu().getFoodDetails()}
+                                                        <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
+                                                            ${menu.getFoodMenu().getFoodDetails()}
+                                                        </c:if>
+                                                        <c:if test="${menu.getFoodMenu().getFoodDetails() == null }">
+                                                            <a
+                                                                    style="color: red"> (-) </a>
+                                                        </c:if>
                                                          <input hidden value="${menu.getId()}" name="menuid" />
+                                                        <input hidden value="${requestScope.schoolyear.getId()}" name="sltedsy" />
+                                                        <input hidden value="${requestScope.grade.getId()}" name="sltedg" />
+                                                        <input hidden value="${requestScope.week.getId()}" name="sltedw" />
                                                     </c:if>
                                                 </c:forEach>
                                             </td>
@@ -151,9 +179,11 @@
 
                 </div>
                 <div class="btn-group-right">
+                <c:if test="${requestScope.enable eq true}">
+                    <button type="submit" form="process" class="btn btn-success" style="width: 100px" name="action" value="accept">Chấp nhận</button>
+                    <button type="submit" form="process" class="btn btn-danger" style="width: 100px" name="action" value="deny">Từ chối</button>
+                </c:if>
 
-                <button type="submit" form="process" class="btn btn-success" style="width: 100px" name="action" value="accept">Chấp nhận</button>
-                <button type="submit" form="process" class="btn btn-danger" style="width: 100px" name="action" value="deny">Từ chối</button>
                     <button class="btn btn-primary" >
                         <a style="color:white "  href="waitlistmealtimetable">Quay lại danh sách</a>
                     </button>

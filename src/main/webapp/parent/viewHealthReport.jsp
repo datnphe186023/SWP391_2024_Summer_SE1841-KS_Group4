@@ -23,25 +23,7 @@
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-    <script>
-        function enableReport() {
-            var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
-            var reportRadios = document.querySelectorAll('input[name="report"]');
 
-            if (schoolYearSelect.value) {
-                reportRadios.forEach(function(radio) {
-                    radio.disabled = false;
-                });
-            } else {
-                reportRadios.forEach(function(radio) {
-                    radio.disabled = true;
-                });
-            }
-        }
-
-        // Run the enableReport function on page load to set the initial state
-        window.onload = enableReport;
-    </script>
 </head>
 
 <body id="page-top">
@@ -53,12 +35,13 @@
         <div id="content">
             <jsp:include page="header.jsp"/>
             <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800 text-center">Báo cáo sức khỏe</h1>
                 <div class="row">
                     <div class="col-md-3" >
                     <form action="viewhealthreport" method="post">
                         <div class="class-form" >
                             <label>Năm học
-                                <select name="schoolyear" onchange="enableReport()" class="custom-select"  >
+                                <select name="schoolyear" onchange="this.form.submit()" class="custom-select"  >
                                     <option value="" hidden>Năm học</option>
                                     <c:forEach items="${requestScope.schoolYearList}" var="sy">
                                         <option ${sltedsy eq sy.getId() ? "selected" : ""}

@@ -54,6 +54,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
         if(grade!=null && week!=null && schoolyear!=null){
              menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear,"đã được duyệt");
         }
+
         request.setAttribute("sltedg",grade );
         request.setAttribute("sltedsy",schoolyear );
         request.setAttribute("sltedw",week );

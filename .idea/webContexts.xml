@@ -10,6 +10,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/accountant/listNotification.jsp" value="file://$PROJECT_DIR$/src/main/webapp/accountant" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/headteacher/class.jsp" value="file://$PROJECT_DIR$/src/main/webapp/headteacher" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/headteacher/headteacher_listpupil.jsp" value="file://$PROJECT_DIR$/src/main/webapp/headteacher" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/parent/viewDailyEvaluationReport.jsp" value="file://$PROJECT_DIR$/src/main/webapp/parent" />
       </map>
     </option>
   </component>

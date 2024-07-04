@@ -202,39 +202,60 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         return null;
     }
 
-    public List<String> getMonthOfSchoolyear(String schoolyear){
-        List<String> months = new ArrayList<>();
-        String sql = "SELECT DISTINCT\n" +
-                "    FORMAT(start_date, 'MM-yyyy') AS start_month_year\n" +
-                "FROM\n" +
-                "    weeks\n" +
-                "WHERE\n" +
-                "    school_year_id = ?\n" +
-                "\n" +
-                "UNION\n" +
-                "-- Lấy các tháng và năm từ end_date\n" +
-                "SELECT DISTINCT\n" +
-                "    FORMAT(end_date, 'MM-yyyy') AS start_month_year\n" +
-                "FROM\n" +
-                "    weeks\n" +
-                "WHERE\n" +
-                "    school_year_id = ?\n" +
-                "ORDER BY \n" +
-                "    start_month_year;";
+
+    public Week getLastWeekOfClosestSchoolYearOfPupil(String id){
+        Week week = new Week();
+        String sql = " select top 1 w.* from classDetails cd join dbo.Class C on cd.class_id = C.id\n" +
+                "join dbo.SchoolYears SY on C.school_year_id = SY.id\n" +
+                "join dbo.Weeks W on SY.id = W.school_year_id\n" +
+                " where SY.end_date <= CAST(GETDATE() AS DATE) and cd.pupil_id =? order by w.end_date desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, schoolyear);
-            preparedStatement.setString(2, schoolyear);
+            preparedStatement.setString(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                months.add(resultSet.getString("start_month_year"));
+            if(resultSet.next()){
+                 week = createWeek(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return months;
+        return week;
     }
+
+    public Week getfirstWeekOfClosestSchoolYear(String id){
+        Week week = new Week();
+        String sql = " select top 1 w.* from Weeks w join SchoolYears sy on w.school_year_id = sy.id where school_year_id = ? order by id ASC";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                week = createWeek(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return week;
+    }
+    public boolean checkWeekInSchoolYear(String week_id,String year_id){
+        String sql = "select * from Weeks where id = ? and school_year_id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, week_id);
+            preparedStatement.setString(2, year_id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
 
 
 }

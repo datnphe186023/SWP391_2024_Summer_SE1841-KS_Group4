@@ -241,6 +241,22 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         }
         return schoolYears;
     }
-
+    public boolean CheckPupilInClassOfSchoolYear(String pupil_id, String school_year_id) {
+        String sql = "select * from Pupils p join classDetails cd on p.id = cd.pupil_id\n" +
+                "join dbo.Class C on cd.class_id = C.id\n" +
+                "where p.id =? and c.school_year_id =?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, pupil_id);
+            statement.setString(2, school_year_id);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }
