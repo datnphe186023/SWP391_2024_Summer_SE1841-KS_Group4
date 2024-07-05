@@ -204,15 +204,15 @@
 
                                     <tbody>
                                     <c:set var="good_day" value="${requestScope.good_day}"/>
-                                    <c:set var="day" value="${requestScope.day}"/>
+                                    <c:set var="week" value="${requestScope.week}"/>
                             <c:forEach var="schoolYear" items="${requestScope.schoolYears}" varStatus="status">
                                 <tr>
                                     <th scope="row">${status.index + 1}</th>
                                     <td>${schoolYear.getName()}</td>
-                                    <td>${good_day.get(status.index)}/${day.get(status.index)} </td>
-                                    <c:if test="${good_day.get(status.index)>=day.get(status.index)/2}">
+                                    <td>${good_day.get(status.index)} / ${week.get(status.index)} </td>
+                                    <c:if test="${good_day.get(status.index)>=week.get(status.index)/2}">
                                         <td>Đạt</td>
-                                    </c:if><c:if test="${good_day.get(status.index) < day.get(status.index)/2}">
+                                    </c:if><c:if test="${good_day.get(status.index) < week.get(status.index)/2}">
                                     <td>Không Đạt</td>
                                 </c:if>
                                 </tr>

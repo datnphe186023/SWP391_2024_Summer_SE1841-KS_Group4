@@ -13,6 +13,8 @@ import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "SchoolYearSummerizeServlet", value = "/headteacher/schoolyearsummerize")
@@ -27,6 +29,12 @@ public class SchoolYearSummerizeServlet extends HttpServlet {
         List<Pupil> pupils = pupilDAO.getPupilBySchoolYear(sltedsy.getId());
         int numberOfPupilInSchoolYear = pupils.size();
         int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
+        Date currentDate = Date.from(Instant.now());
+        boolean display = true;
+        if(currentDate.before(sltedsy.getEndDate())){
+          display = false;
+        }
+        request.setAttribute("display", display);
         request.setAttribute("numberOfPupilInSchoolYear", numberOfPupilInSchoolYear);
         request.setAttribute("numberOfGoodPupil", numberOfGoodPupil);
         request.setAttribute("schoolYearList", schoolYearList);
@@ -46,6 +54,12 @@ public class SchoolYearSummerizeServlet extends HttpServlet {
         List<Pupil> pupils = pupilDAO.getPupilBySchoolYear(sltedsy.getId());
         int numberOfPupilInSchoolYear = pupils.size();
         int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
+        Date currentDate = Date.from(Instant.now());
+        boolean display = true;
+        if(currentDate.before(sltedsy.getEndDate())){
+            display = false;
+        }
+        request.setAttribute("display", display);
         request.setAttribute("numberOfPupilInSchoolYear", numberOfPupilInSchoolYear);
         request.setAttribute("numberOfGoodPupil", numberOfGoodPupil);
         request.setAttribute("schoolYearList", schoolYearList);

@@ -5,6 +5,8 @@ import models.day.DayDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.week.IWeekDAO;
+import models.week.WeekDAO;
 import utils.DBContext;
 
 import java.sql.PreparedStatement;
@@ -362,52 +364,30 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
     }
 
     public String PupilReportYearly(String pupil_id,String school_year_id) {
+        IWeekDAO weekDAO = new WeekDAO();
         String data ="";
-        String sql = "WITH GoodDays AS (\n" +
-                "    SELECT\n" +
-                "    SY.id,\n" +
-                "    COUNT(E.evaluation) AS good_day\n" +
-                "    FROM\n" +
-                "    Evaluations E\n" +
-                "    JOIN dbo.Days D ON D.id = E.date_id\n" +
-                "    JOIN dbo.Weeks W ON D.week_id = W.id\n" +
-                "    JOIN dbo.SchoolYears SY ON W.school_year_id = SY.id\n" +
-                "    WHERE\n" +
-                "    E.pupil_id = ? \n" +
-                "    AND E.evaluation = 'Ngoan'\n" +
-                "    GROUP BY\n" +
-                "    SY.id\n" +
-                "    ),\n" +
-                "    TotalDays AS (\n" +
-                "    SELECT\n" +
-                "    SY.id,\n" +
-                "    COUNT(E.evaluation) AS day\n" +
-                "    FROM\n" +
-                "    Evaluations E\n" +
-                "    JOIN dbo.Days D ON D.id = E.date_id\n" +
-                "    JOIN dbo.Weeks W ON D.week_id = W.id\n" +
-                "    JOIN dbo.SchoolYears SY ON W.school_year_id = SY.id\n" +
-                "    WHERE\n" +
-                "    E.pupil_id = ? \n" +
-                "    GROUP BY\n" +
-                "    SY.id\n" +
+        String sql = "With T as(\n" +
+                "    select  school_year_id,week_id,count(evaluation) as good_day from Evaluations\n" +
+                "                                               join dbo.Days D on D.id = Evaluations.date_id\n" +
+                "                                               join dbo.Weeks W on W.id = D.week_id\n" +
+                "    where school_year_id=? and pupil_id=? and Evaluations.evaluation = 'Ngoan'\n" +
+                "    group by school_year_id,week_id\n" +
+                "),\n" +
+                "    N as (\n" +
+                "        select school_year_id,count(id) as week from Weeks\n" +
+                "        group by school_year_id\n" +
                 "    )\n" +
-                "SELECT\n" +
-                "    T1.id,\n" +
-                "    T1.good_day,\n" +
-                "    T2.day\n" +
-                "FROM\n" +
-                "    GoodDays T1\n" +
-                "        JOIN TotalDays T2 ON T1.id = T2.id " +
-                "where T1.id = ?;";
+                "select T.school_year_id,N.week,count(T.good_day)as good_ticket from T join N on t.school_year_id = N.school_year_id\n" +
+                "                                      where good_day>=3\n" +
+                "group by T.school_year_id,N.week";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, pupil_id);
+            statement.setString(1, school_year_id);
             statement.setString(2, pupil_id);
-            statement.setString(3, school_year_id);
+
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                 data = resultSet.getString("id")+"-"+resultSet.getInt("good_day") +"-"+resultSet.getInt("day");
+                 data = resultSet.getString("school_year_id")+"-"+resultSet.getInt("good_ticket")+"-"+resultSet.getInt("week");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -524,6 +504,36 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
         }
         return 0;
 
+    }
+
+   public List<String> NumberOfGoodEvaluationsPerYear(String pupil_id) {
+        List<String> list = new ArrayList<>();
+        String sql = "With T as(\n" +
+                "    select  school_year_id,week_id,count(evaluation) as good_day from Evaluations\n" +
+                "                                               join dbo.Days D on D.id = Evaluations.date_id\n" +
+                "                                               join dbo.Weeks W on W.id = D.week_id\n" +
+                "    where pupil_id=? and Evaluations.evaluation = 'Ngoan'\n" +
+                "    group by school_year_id,week_id\n" +
+                "),\n" +
+                "    N as (\n" +
+                "        select school_year_id,count(id) as week from Weeks\n" +
+                "        group by school_year_id\n" +
+                "    )\n" +
+                "select T.school_year_id,N.week,count(T.good_day)as good_ticket from T join N on t.school_year_id = N.school_year_id\n" +
+                "                                      where good_day>=3\n" +
+                "group by T.school_year_id,N.week";
+       try (PreparedStatement ps = connection.prepareStatement(sql)) {
+           ps.setString(1, pupil_id);
+           try (ResultSet rs = ps.executeQuery()) {
+               while (rs.next()) {
+                    String data = rs.getString("school_year_id")+"-"+rs.getString("good_ticket")+"-"+rs.getString("week");
+                    list.add(data);
+               }
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+       return list;
     }
 
 }

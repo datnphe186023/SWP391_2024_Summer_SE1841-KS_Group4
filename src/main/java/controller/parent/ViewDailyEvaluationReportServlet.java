@@ -102,23 +102,20 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
             request.setAttribute("display",display);
             request.getRequestDispatcher("viewDailyEvaluationReport.jsp").forward(request, response);
         }else{
-            List<String> dataList = evaluationDAO.EvaluationReportYearly(pupilDAO.getPupilByUserId(user.getId()).getId());
+            List<String> dataList = evaluationDAO.NumberOfGoodEvaluationsPerYear(pupilDAO.getPupilByUserId(user.getId()).getId());
             List<SchoolYear> schoolYears = new ArrayList<>();
             List<Integer> good_day = new ArrayList<>();
-            List<Integer> day = new ArrayList<>();
+            List<Integer> week = new ArrayList<>();
             for(int i=0; i<dataList.size(); i++){
                 String[] parts = dataList.get(i).split("-");
-                System.out.println(dataList.get(i));
                 schoolYears.add(schoolYearDAO.getSchoolYear(parts[0]));
                 good_day.add(Integer.parseInt(parts[1]));
-                day.add(Integer.parseInt(parts[2]));
+                week.add(Integer.parseInt(parts[2]));
             }
-            System.out.println(schoolYears.get(0));
-            System.out.println(good_day.get(0));
-            System.out.println(day.get(0));
+
             request.setAttribute("schoolYears",schoolYears);
             request.setAttribute("good_day",good_day);
-            request.setAttribute("day",day);
+            request.setAttribute("week",week);
             request.setAttribute("display",display);
             request.getRequestDispatcher("viewDailyEvaluationReport.jsp").forward(request, response);
 

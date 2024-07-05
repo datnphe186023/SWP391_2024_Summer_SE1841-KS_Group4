@@ -33,7 +33,7 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <c:set value="${requestScope.sltedsy}" var="sltedsy"/>
-                <h1 class="h3 mb-4 text-gray-800 text-center">Tổng kết khen thưởng học sinh ${sltedsy.getName()}</h1>
+             <!--   <h1 class="h3 mb-4 text-gray-800 text-center">Tổng kết khen thưởng học sinh ${sltedsy.getName()}</h1>
                 <div class="row">
                 <div class="col-md-4">
                     <form action="schoolyearsummerize" method="post">
@@ -53,61 +53,115 @@
                             </div>
                     </form>
                 </div>
-
-                </div>
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh: ${numberOfPupilInSchoolYear} </h6>
-                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh đạt danh hiệu Cháu Ngoan Bác Hồ : ${numberOfGoodPupil}</h6>
-                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh không đạt danh hiệu Cháu Ngoan Bác Hồ:${numberOfPupilInSchoolYear - numberOfGoodPupil} </h6>
-                    </div>
-
+                </div> -->
+                <form action="schoolyearsummerize" method="post">
+                <h1 class="h3 mb-4 text-gray-800 text-center">Tổng Kết Khen Thưởng Học Sinh</h1>
+                <div class="card mb-4">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã Học Sinh</th>
-                                    <th>Tên</th>
-                                    <th>Giới Tính</th>
-                                    <th>Ngày sinh</th>
-
-                                    <th>Số phiếu Bé Ngoan</th>
-                                    <th>Cháu ngoan Bác Hồ</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <div style="color: red">${requestScope.error}</div>
-                                <c:forEach items="${requestScope.pupils}" var="p" varStatus="status">
-                                    <tr>
-                                        <th scope="row">${status.index + 1}</th>
-
-                                        <td>${p.getId()}</td>
-                                        <td>${p.getLastName()} ${p.getFirstName()}</td>
-                                        <td>
-                                            <c:if test="${p.getGender()==true}">
-                                                Nam
-                                            </c:if>
-                                            <c:if test="${p.getGender()==false}">
-                                                Nữ
-                                            </c:if>
-                                        </td>
-                                        <td>${p.getBirthday()} </td>
-
-                                        <td>
-                                                ${p.getYearEvaluation(sltedsy.getId())}
-                                        </td>
-                                        <td>
-                                                ${p.Evaluate(sltedsy.getId())}
-                                        </td>
-                                    </tr>
+                        <div class="row mb-3">
+                            <div class="col-sm-6 font-weight-bold">Năm Học:</div>
+                            <select style="border-radius: 8px" name="year" id="schoolyear" style="border-radius: 8px" onchange="this.form.submit()">
+                                <option hidden="">Chọn Năm Học</option>
+                                <c:forEach items="${requestScope.schoolYearList}" var="schoolYear">
+                                    <option ${sltedsy.id eq schoolYear.id ? "selected":""} value="${schoolYear.id}">${schoolYear.name}</option>
                                 </c:forEach>
-                                </tbody>
-                            </table>
+                            </select>
                         </div>
+                        <c:if test="${requestScope.display eq true}">
+                        <div class="row mb-3">
+                            <div class="col-sm-6 font-weight-bold">Tổng Số Học Sinh:</div>
+                            <div class="col-sm-6" id="type">${requestScope.numberOfPupilInSchoolYear}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-6 font-weight-bold">Số Học Sinh Đạt Danh Hiệu Cháu Ngoan Bác Hồ:</div>
+                            <div class="col-sm-6" id="createdBy">
+                                ${requestScope.numberOfGoodPupil}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-6 font-weight-bold">Số Học Sinh Không Đạt Danh Hiệu Cháu Ngoan Bác Hồ:</div>
+                            <div class="col-sm-6" id="createdAt">
+                                ${numberOfPupilInSchoolYear - numberOfGoodPupil}
+                            </div>
+                        </div>
+                        </c:if>
                     </div>
                 </div>
+                </form>
+
+
+                    <c:choose>
+                        <c:when test="${requestScope.display eq true}">
+                            <div class="card shadow mb-4">
+                            <!--    <div class="card-header py-3" style="display: flex; justify-content: space-evenly">
+                                    <div>
+                                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh: ${numberOfPupilInSchoolYear} </h6>
+                                    </div>
+                                    <div>
+                                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh đạt danh hiệu Cháu Ngoan Bác Hồ : ${numberOfGoodPupil}</h6>
+                                    </div>
+                                    <div >
+                                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh không đạt danh hiệu Cháu Ngoan Bác Hồ: ${numberOfPupilInSchoolYear - numberOfGoodPupil} </h6>
+                                    </div>
+
+                                </div> -->
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Mã Học Sinh</th>
+                                                <th>Tên</th>
+                                                <th>Giới Tính</th>
+                                                <th>Ngày sinh</th>
+
+                                                <th>Số phiếu Bé Ngoan</th>
+                                                <th>Cháu ngoan Bác Hồ</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <div style="color: red">${requestScope.error}</div>
+                                            <c:forEach items="${requestScope.pupils}" var="p" varStatus="status">
+                                                <tr>
+                                                    <th scope="row">${status.index + 1}</th>
+
+                                                    <td>${p.getId()}</td>
+                                                    <td>${p.getLastName()} ${p.getFirstName()}</td>
+                                                    <td>
+                                                        <c:if test="${p.getGender()==true}">
+                                                            Nam
+                                                        </c:if>
+                                                        <c:if test="${p.getGender()==false}">
+                                                            Nữ
+                                                        </c:if>
+                                                    </td>
+                                                    <td>${p.getBirthday()} </td>
+
+                                                    <td>
+                                                            ${p.getYearEvaluation(sltedsy.getId())}
+                                                    </td>
+                                                    <td>
+                                                            ${p.Evaluate(sltedsy.getId())}
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="card shadow mb-4">
+                              <div class="card-body" style="display: flex; justify-content: center">
+                                  <p style="color: red">  Dữ liệu tổng kết sẽ được cập nhập sau khi kết thúc ngày cuối cùng của năm học !</p>
+                              </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+
 
             </div>
         </div>

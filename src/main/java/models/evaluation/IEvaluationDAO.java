@@ -32,4 +32,6 @@ public interface IEvaluationDAO {
   
     int getEvaluationByPupilIdandStatusGood(String pupilid);
     int getEvaluationByPupilIdandAllStatus(String pupilid);
+
+    public List<String> NumberOfGoodEvaluationsPerYear(String pupil_id);
 }
