@@ -3,27 +3,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <head>
+        <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>Trường Mầm Non BoNo</title>
+        <title>Trường Mầm Non BoNo</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom fonts for this template-->
+        <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-    <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
-    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <!-- Custom styles for this template-->
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+              rel="stylesheet">
+        <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <!-- Custom styles for this template-->
+        <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-</head>
+    </head>
+
 
 <body id="page-top">
 <div id="wrapper">
@@ -33,27 +33,7 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <c:set value="${requestScope.sltedsy}" var="sltedsy"/>
-             <!--   <h1 class="h3 mb-4 text-gray-800 text-center">Tổng kết khen thưởng học sinh ${sltedsy.getName()}</h1>
-                <div class="row">
-                <div class="col-md-4">
-                    <form action="schoolyearsummerize" method="post">
-
-                        <c:set value="${requestScope.numberOfGoodPupil}" var="numberOfGoodPupil"/>
-                        <c:set value="${requestScope.numberOfPupilInSchoolYear}" var="numberOfPupilInSchoolYear"/>
-                            <div class="class-form">
-                                <label> Năm học
-                                    <select name="year" onchange="this.form.submit()" class="custom-select" >
-                                        <option value="" hidden>Năm học</option>
-                                        <c:forEach items="${requestScope.schoolYearList}" var="sy">
-                                            <option ${sltedsy.getId() eq sy.getId() ? "selected" : ""}
-                                                    value="${sy.getId()}">${sy.getName()}</option>
-                                        </c:forEach>
-                                    </select>
-                                </label>
-                            </div>
-                    </form>
-                </div>
-                </div> -->
+        
                 <form action="schoolyearsummerize" method="post">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Tổng Kết Khen Thưởng Học Sinh</h1>
                 <div class="card mb-4">
@@ -87,25 +67,13 @@
                         </c:if>
                     </div>
                 </div>
+
                 </form>
 
 
                     <c:choose>
                         <c:when test="${requestScope.display eq true}">
                             <div class="card shadow mb-4">
-                            <!--    <div class="card-header py-3" style="display: flex; justify-content: space-evenly">
-                                    <div>
-                                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh: ${numberOfPupilInSchoolYear} </h6>
-                                    </div>
-                                    <div>
-                                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh đạt danh hiệu Cháu Ngoan Bác Hồ : ${numberOfGoodPupil}</h6>
-                                    </div>
-                                    <div >
-                                        <h6 class="m-0 font-weight-bold text-primary">Số lượng học sinh không đạt danh hiệu Cháu Ngoan Bác Hồ: ${numberOfPupilInSchoolYear - numberOfGoodPupil} </h6>
-                                    </div>
-
-                                </div> -->
-
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -150,6 +118,14 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                  <form action="exportExcel" method="post">
+                                    <input hidden="" name="schoolyearid" value="${sltedsy.getId()}"/>
+                                    <input hidden="" name="schoolyear" value="${sltedsy.getName()}"/>
+                                    <input hidden="" name="numberpupil" value="${numberOfPupilInSchoolYear}"/>
+                                    <input hidden="" name="numbergoodpupil" value="${numberOfGoodPupil}"/>
+                                    <input hidden="" name="numbernotgoodpupil" value="${numberOfPupilInSchoolYear - numberOfGoodPupil}"/>
+                                    <button type="submit" class="btn btn-success">Export to Excel</button>
+                                </form>
                                 </div>
                             </div>
                         </c:when>
@@ -163,17 +139,16 @@
                     </c:choose>
 
 
+
+                <jsp:include page="../footer.jsp"/>
+
             </div>
         </div>
-        <jsp:include page="../footer.jsp"/>
-    </div>
-</div>
-<!-- Page level plugins -->
-<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Page level plugins -->
+        <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="../js/demo/datatables-demo.js"></script>
-</body>
-
+        <!-- Page level custom scripts -->
+        <script src="../js/demo/datatables-demo.js"></script>
+    </body>
 </html>
