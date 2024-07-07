@@ -43,44 +43,40 @@ public class WeekDAO extends DBContext implements IWeekDAO {
             LocalDate schoolYearStartDate = Helper.convertDateToLocalDate(startDate);
             LocalDate schoolYearEndDate = Helper.convertDateToLocalDate(endDate);
             LocalDate currentStartDate = schoolYearStartDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-
+            StringBuilder sql = new StringBuilder("insert into Weeks values ");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String newWeekId = "";
+            if (getLatest()!=null) {
+                newWeekId = generateId(Objects.requireNonNull(getLatest()).getId());
+            } else {
+                newWeekId = "W000001";
+            }
+            ArrayList<Week> weekList = new ArrayList<>();
             while (!currentStartDate.isAfter(schoolYearEndDate)) {
                 LocalDate currentEndDate = currentStartDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
                 if (currentEndDate.isAfter(schoolYearEndDate)) {
                     currentEndDate = schoolYearEndDate;
                 }
-                Week week = new Week();
-                String newWeekId = generateId(Objects.requireNonNull(getLatest()).getId());
-                week.setId(newWeekId);
-                week.setStartDate(Helper.convertLocalDateToDate(currentStartDate));
-                week.setEndDate(Helper.convertLocalDateToDate(currentEndDate));
-                week.setSchoolYear(schoolYear);
-                addWeekToDatabase(week);
-                IDayDAO dayDAO = new DayDAO();
-                dayDAO.generateDays(getWeek(newWeekId));
+                weekList.add(new Week(Helper.convertLocalDateToDate(currentStartDate),
+                        newWeekId, Helper.convertLocalDateToDate(currentEndDate), schoolYear));
+                sql.append("('").append(newWeekId).append("','").
+                        append(dateFormat.format(Helper.convertLocalDateToDate(currentStartDate))).
+                        append("','").append(dateFormat.format(Helper.convertLocalDateToDate(currentEndDate))).
+                        append("','").append(schoolYear.getId()).append("')").append(",");
+                newWeekId = generateId(newWeekId);
                 currentStartDate = currentStartDate.plusWeeks(1);
             }
+            sql.deleteCharAt(sql.length() - 1);
+            System.out.println(sql);
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
+            statement.executeUpdate();
+            IDayDAO dayDAO = new DayDAO();
+            dayDAO.generateDays(weekList);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void addWeekToDatabase(Week week) {
-        String sql = "insert into Weeks values (?,?,?,?)";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, week.getId());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlStartDate = dateFormat.format(week.getStartDate());
-            statement.setString(2, sqlStartDate);
-            String sqlEndDate = dateFormat.format(week.getEndDate());
-            statement.setString(3, sqlEndDate);
-            statement.setString(4, week.getSchoolYear().getId());
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private Week getLatest() {
         String sql = "SELECT TOP 1 * FROM Weeks ORDER BY ID DESC";

@@ -91,8 +91,8 @@ public class SchoolYearServlet extends HttpServlet {
         // Extract the year from each LocalDate
         int startYear = startLocalDate.getYear();
         int endYear = endLocalDate.getYear();
-        if (endYear - startYear != 1) {
-           return "Thời điểm bắt đầu và kết thúc năm học phải cách nhau 1 năm";
+        if (endYear == startYear) {
+           return Helper.formatString(startYear + " ");
         }
 
         // Generate the school year string
