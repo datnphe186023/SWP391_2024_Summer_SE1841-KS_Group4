@@ -2,6 +2,8 @@ package models.foodmenu;
 
 import models.classes.ClassDAO;
 import models.day.Day;
+import models.day.DayDAO;
+import models.day.IDayDAO;
 import models.grade.GradeDAO;
 import models.personnel.PersonnelDAO;
 import models.schoolYear.SchoolYear;
@@ -94,63 +96,14 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         return foodMenus;
     }
 
-    private Day getDay(String date_id) {
-        Day day = new Day();
-        String sql = "select * from Days where id=?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, date_id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                day = new Day(resultSet.getString("id"), getWeek(resultSet.getString("week_id")), resultSet.getDate("date"));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return day;
-    }
 
-    private Week getWeek(String id) {
-        Week week = new Week();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        String sql = "select * from Weeks where id=?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                week = new Week(resultSet.getDate("start_date"), resultSet.getString("id"), resultSet.getDate("end_date"), getSchoolYear(resultSet.getString("school_year_id")));
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return week;
-    }
-
-
-    private SchoolYear getSchoolYear(String school_year_id) {
-        SchoolYear schoolYear = new SchoolYear();
-        PersonnelDAO pdao = new PersonnelDAO();
-        String sql = "select * from SchoolYears where id=?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, school_year_id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                schoolYear = new SchoolYear(resultSet.getString("id"), resultSet.getString("name"), resultSet.getDate("start_date"), resultSet.getDate("end_date"), resultSet.getString("description"), pdao.getPersonnel(resultSet.getString("created_by")));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return schoolYear;
-    }
 
 
 
     public List<MenuDetail> getAllMenuDetails() {
         GradeDAO gradeDAO = new GradeDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        IDayDAO dayDAO = new DayDAO();
         List<MenuDetail> menuDetails = new ArrayList<>();
         String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" + "                                join MenuDetails md on d.id = md.date_id";
         try {
@@ -161,7 +114,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
                 menuDetail.setId(resultSet.getString("id"));
                 menuDetail.setFoodMenu(getFoodMenu(resultSet.getString("food_menu_id")));
                 menuDetail.setGrade(gradeDAO.getGrade(resultSet.getString("grade_id")));
-                menuDetail.setDay(getDay(resultSet.getString("date_id")));
+                menuDetail.setDay(dayDAO.getDayByID(resultSet.getString("date_id")));
                 menuDetail.setStatus(resultSet.getString("status"));
                 menuDetail.setTimeslot(timeslotDAO.getTimeslotById(resultSet.getString("timeslot_id")));
                 menuDetails.add(menuDetail);
@@ -193,6 +146,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
     public List<MenuDetail> getMenuDetails(String grade, String week, String school_year_id,String status) {
         GradeDAO gradeDAO = new GradeDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        IDayDAO dayDAO = new DayDAO();
         List<MenuDetail> menuDetails = new ArrayList<>();
 
         String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
@@ -212,7 +166,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
                 menuDetail.setId(resultSet.getString("id"));
                 menuDetail.setFoodMenu(getFoodMenu(resultSet.getString("food_menu_id")));
                 menuDetail.setGrade(gradeDAO.getGrade(resultSet.getString("grade_id")));
-                menuDetail.setDay(getDay(resultSet.getString("date_id")));
+                menuDetail.setDay(dayDAO.getDayByID(resultSet.getString("date_id")));
                 menuDetail.setStatus(resultSet.getString("status"));
                 menuDetail.setTimeslot(timeslotDAO.getTimeslotById(resultSet.getString("timeslot_id")));
                 menuDetails.add(menuDetail);
@@ -274,6 +228,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         GradeDAO gradeDAO = new GradeDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         List<MenuDetail> menuDetails = new ArrayList<>();
+        IDayDAO dayDAO = new DayDAO();
         String sql = "select md.* from Weeks w join Days d on w.id= d.week_id\n" +
                 "                                join MenuDetails md on d.id = md.date_id\n" +
                 "                 where md.grade_id = ? and w.id= ? and w.school_year_id =? and (md.status = N'đang chờ xử lý'or md.status = N'đã được duyệt' ) ";
@@ -289,7 +244,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
                 menuDetail.setId(resultSet.getString("id"));
                 menuDetail.setFoodMenu(getFoodMenu(resultSet.getString("food_menu_id")));
                 menuDetail.setGrade(gradeDAO.getGrade(resultSet.getString("grade_id")));
-                menuDetail.setDay(getDay(resultSet.getString("date_id")));
+                menuDetail.setDay(dayDAO.getDayByID(resultSet.getString("date_id")));
                 menuDetail.setStatus(resultSet.getString("status"));
                 menuDetail.setTimeslot(timeslotDAO.getTimeslotById(resultSet.getString("timeslot_id")));
                 menuDetails.add(menuDetail);

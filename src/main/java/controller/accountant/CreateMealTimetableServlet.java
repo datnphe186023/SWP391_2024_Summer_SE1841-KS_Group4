@@ -199,7 +199,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                     String paramName = parameterNames.nextElement();
                     if (paramName.startsWith("timeslotId_")) {
                         String timeslotIdValue = request.getParameter(paramName);
-                       // if (!timeslotIdValue.isEmpty()) {
+                        if (!timeslotIdValue.isEmpty()) {
                             String[] parts = paramName.split("_");
                             String dayId = parts[1];
                             String timeslotId = parts[2];
@@ -216,7 +216,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                             foodMenuDAO.createMenuDetail(menuDetail);
 
                             entryCreated = true; // An entry was created
-                      //  }
+                        }
                     }
                 }
 
@@ -229,7 +229,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
 
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Không có dữ liệu được chọn. Vui lòng không để trống !");
-                    response.sendRedirect("createmealtimetable");
+                    response.sendRedirect("createmealtimetable?weekId="+weekId+"&gradeId="+selectedGradeId);
                 }
             }
 

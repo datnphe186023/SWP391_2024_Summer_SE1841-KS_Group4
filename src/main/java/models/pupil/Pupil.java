@@ -3,6 +3,8 @@ package models.pupil;
 import models.evaluation.EvaluationDAO;
 import models.evaluation.IEvaluationDAO;
 import models.personnel.Personnel;
+import models.week.IWeekDAO;
+import models.week.WeekDAO;
 
 import java.util.Date;
 import java.util.List;
@@ -181,21 +183,23 @@ public class Pupil {
 
     public String getYearEvaluation(String School_year_id){
         IEvaluationDAO dao = new EvaluationDAO();
+        IWeekDAO weekDAO = new WeekDAO();
         String evaluation = dao.PupilReportYearly(this.id,School_year_id);
         String result="";
             String[] cut = evaluation.split("-");
             if(School_year_id.equals(cut[0])){
-               result=cut[1]+"/"+cut[2];
+               result=cut[1]+" / "+cut[2];
             }
         return result;
     }
     public String Evaluate(String School_year_id){
         IEvaluationDAO dao = new EvaluationDAO();
+        IWeekDAO weekDAO = new WeekDAO();
         String evaluation = dao.PupilReportYearly(this.id,School_year_id);
         String result="";
         String[] cut = evaluation.split("-");
         if(School_year_id.equals(cut[0])){
-            if(Integer.parseInt(cut[1])>Integer.parseInt(cut[2])/2){
+            if(Integer.parseInt(cut[1])>Integer.parseInt(cut[2]) /2){
                 result = "Đạt";
             }else{
                 result = "Không đạt";
