@@ -42,7 +42,7 @@
                         <div class="col-lg-3 mb-4">
                             <c:set var="yearChecked" value="${requestScope.checkYear}"/>
                             <label for="selectYear">Chọn năm học</label>
-                            <select class="custom-select" id="selectYear" aria-label="Default select example" onchange="submitForm()" name="schoolYear">
+                            <select class="custom-select" id="selectYear" aria-label="Default select example" onchange="resetWeekAndSubmitForm()" name="schoolYear">
                                 <c:forEach items="${requestScope.listSchoolYear}" var="year">
                                     <option ${yearChecked eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                 </c:forEach>
@@ -64,6 +64,18 @@
                         </div>
                     </div>
                 </form>
+                <%--This script to reset value of week after select year--%>
+                <script>
+                    function resetWeekAndSubmitForm() {
+                        document.getElementById("selectWeek").selectedIndex = 0;
+                        document.getElementById("myForm").submit();
+                    }
+
+                    function submitForm() {
+                        document.getElementById("myForm").submit();
+                    }
+                </script>
+                <%----%>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <div class="row">

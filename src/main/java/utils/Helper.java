@@ -18,7 +18,9 @@ public class Helper {
         StringBuilder result = new StringBuilder();
         String[] searchArray = search.split("\\s+");
         for(int i=0;i<searchArray.length;i++){
-            result.append(standardiztionString(searchArray[i])).append(" ");
+            if(!searchArray[i].isBlank()){
+                result.append(standardiztionString(searchArray[i])).append(" ");
+            }
         }
         return result.toString().trim();
     }
