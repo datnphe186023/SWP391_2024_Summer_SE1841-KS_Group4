@@ -50,9 +50,16 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttendance"
+                   aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-calendar-check"></i>
-                    <span>Điểm Danh</span></a>
+                    <span>Điểm Danh</span>
+                </a>
+                <div id="collapseAttendance" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="takeattendance">Điểm Danh Hôm Nay</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item -->
