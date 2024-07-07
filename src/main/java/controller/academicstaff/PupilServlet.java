@@ -41,7 +41,6 @@ public class PupilServlet extends HttpServlet {
             HttpSession session = request.getSession();
             IPersonnelDAO personnelDAO = new PersonnelDAO();
             IPupilDAO pupilDAO = new PupilDAO();
-            Helper helper = new Helper();
             User user = null;
             boolean gender = true;
             String toastMessage = "";
@@ -78,7 +77,8 @@ public class PupilServlet extends HttpServlet {
                         Helper.formatName(firstGuardianName), firstGuardianPhoneNumber, avatar, secondGuardianName.isBlank()?null:Helper.formatName(secondGuardianName), secondGuardianPhoneNumber.isBlank()?null:secondGuardianPhoneNumber, createdBy,
                         note);
                 ////   Stage for create pupil
-                 if(secondGuardianName.isBlank() && !secondGuardianPhoneNumber.isBlank()){
+
+                  if(secondGuardianName.isBlank() && !secondGuardianPhoneNumber.isBlank()){
                     toastMessage = "Tạo thật bại ! Vui lòng nhập họ và tên người giám hộ thứ 2!";
                     toastType = "error";
                     session.setAttribute("toastMessage", toastMessage);
@@ -113,13 +113,23 @@ public class PupilServlet extends HttpServlet {
                      request.getRequestDispatcher("pupil.jsp").forward(request,response);
                  }
                 else {
-                        if (pupilDAO.createPupil(pupil)) {
+                      if(Helper.formatName(firstName).isBlank() || Helper.formatName(lastName).isBlank() || Helper.formatName(firstGuardianName).isBlank() || Helper.formatName(secondGuardianName).isBlank()) {
+                          toastMessage = "Tạo thật bại ! Vui lòng không bỏ trống các trường nhập !";
+                          toastType = "error";
+                          session.setAttribute("toastMessage", toastMessage);
+                          session.setAttribute("toastType", toastType);
+                          List<Pupil> listPupil = pupilDAO.getAllPupils();
+                          request.setAttribute("listPupil", listPupil);
+                          String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+                          request.setAttribute("newPupilId", newPupilId);
+                          request.getRequestDispatcher("pupil.jsp").forward(request, response);
+                      } else if (pupilDAO.createPupil(pupil)) {
                         toastMessage = "Xác nhận thành công";
                         toastType = "success";
                         session.setAttribute("toastMessage", toastMessage);
                         session.setAttribute("toastType", toastType);
                         response.sendRedirect("pupil");
-                        } else {
+                        }else {
                         toastMessage = "Tạo thật bại ! Email hoặc số điện thoại đã tồn tại !";
                         toastType = "error";
                         session.setAttribute("toastMessage", toastMessage);
