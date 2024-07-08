@@ -148,14 +148,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="height"><strong>Chiều cao (cm) *</strong></label>
-                                                    <input type="number" step="0.1" class="form-control" placeholder="Chiều cao" name="height"  title="Chiều cao không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="\d{2,3}(\.\d{1})?">
-
+                                                    <input type="number" step="0.1" class="form-control" placeholder="Chiều cao" name="height" title="Chiều cao không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(1?\d{1,2}(\.\d{1})?|200(\.0)?)$">
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label for="weight"><strong>Cân nặng (kg) *</strong></label>
-                                                    <input type="number" step="0.1" class="form-control" placeholder="Cân nặng" name="weight"  title="Cân nặng không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="\d{2,3}(\.\d{1})?">
-
+                                                    <input type="number" step="0.1" class="form-control" placeholder="Cân nặng" name="weight" title="Cân nặng không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(0?\d{1,2}(\.\d{1})?|100(\.0)?)$">
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label for="average_development_stage"><strong>Giai đoạn phát triển *</strong></label>
                                                     <input class="form-control" placeholder="Giai đoạn phát triển (trung bình,...)" type="text" name="average_development_stage" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Vui lòng nhập hợp lệ!"  style="width: 70%" required/>
@@ -164,16 +164,16 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="blood_pressure"><strong>Huyết áp *</strong></label>
-                                                    <input type="text" placeholder="Huyết áp (.. / ..)" class="form-control" name="blood_pressure"  title="Chỉ số huyết áp không hợp lệ vui lòng kiểm tra lại!" style="width: 60%" required pattern="\d{2,3}/\d{2,3}">
-
+                                                    <input type="text" placeholder="Huyết áp (.. / ..)" class="form-control" name="blood_pressure" title="Chỉ số huyết áp không hợp lệ vui lòng kiểm tra lại!" style="width: 60%" required pattern="^(1?[0-9]{2})/(1?[0-9]{2})$">
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label for="teeth"><strong>Răng *</strong></label>
                                                     <input type="text" placeholder="Răng (tốt,...)" class="form-control" name="teeth" title="Đánh giá không hợp lệ vui lòng kiểm tra lại!" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,30}$"  style="width: 60%" required/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="eyes"><strong>Mắt *</strong></label>
-                                                    <input type="text" placeholder="Mắt (.. / ..)" class="form-control" name="eyes" title="Đánh giá không hợp lệ vui lòng kiểm tra lại!" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,30}$"  required  style="width: 60%" pattern="\d{1,2}/\d{1,2}">
+                                                    <input type="text" placeholder="Mắt (.. / ..)" class="form-control" name="eyes" title="Đánh giá không hợp lệ vui lòng kiểm tra lại!"  required  style="width: 60%" pattern="^(1?[0-9])/(1?[0-9])$">
 
                                                 </div>
                                                 <div class="form-group">
@@ -181,8 +181,8 @@
                                                     <input type="text" class="form-control" placeholder="Tai mũi họng (tốt,...)" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,30}$" title="Đánh giá không hợp lệ vui lòng kiểm tra lại!" name="ear_nose_throat" style="width:60%" required/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="notes"><strong>Ghi chú</strong></label>
-                                                    <textarea class="form-control" placeholder="Ghi chú" name="note" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,30}$" title="Ghi chú không hợp lệ vui lòng kiểm tra lại!" name="notes" rows="2"></textarea>
+                                                    <label for="notes"><strong>Ghi chú *</strong></label>
+                                                    <textarea class="form-control" placeholder="Ghi chú" name="note" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,1000}$" title="Ghi chú không hợp lệ vui lòng kiểm tra lại!" name="notes" rows="2"></textarea>
                                                 </div>
                                             </div>
                                         </div>
