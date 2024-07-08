@@ -43,6 +43,7 @@ public class ClassDetailServlet extends HttpServlet {
         /// This request for add pupil to class
         request.setAttribute("checkedDate", isSchoolYearInThePast(classes.getSchoolYear()));
         request.setAttribute("listPupilWithoutClass", listPupilWithoutClass);
+        request.setAttribute("teacher", classes.getTeacher());
         request.setAttribute("teacherName", classes.getTeacher().getLastName() + " " + classes.getTeacher().getFirstName());
         request.setAttribute("classes", classes);
         /// End request for add pupil to class

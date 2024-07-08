@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<jsp:useBean id="bean" class="models.personnel.PersonnelDAO"/>
+<jsp:useBean id="bean" class="models.pupil.PupilDAO"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -62,8 +62,8 @@
                         <div class="row mb-3">
                             <div class="col-sm-3 font-weight-bold">Người gửi:</div>
                             <div class="col-sm-9" id="createdBy">
-                                ${bean.getPersonnelByUserId(requestScope.application.createdBy).id} -
-                                    ${bean.getPersonnelByUserId(requestScope.application.createdBy).lastName} ${bean.getPersonnelByUserId(requestScope.application.createdBy).firstName}
+                                ${bean.getPupilByUserId(requestScope.application.createdBy).id} -
+                                ${bean.getPupilByUserId(requestScope.application.createdBy).lastName} ${bean.getPupilByUserId(requestScope.application.createdBy).firstName}
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -95,7 +95,7 @@
                                 Application app = (Application) request.getAttribute("application");
                                 String details = app.getDetails();
                                 if (details != null) {
-                                    details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
+                                    details = details.replace("\r\n", "<br/>");
                                 }
                             %>
                             <div class="col-sm-9" id="details">
@@ -111,38 +111,38 @@
                                   name="note" id="note" rows="5" required></textarea>
                         <input name="id" value="${requestScope.applicationId}" hidden/>
                         <input name="action" id="actionField" hidden="hidden">
-                        <button type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
+                        <button name="action" value="approve" type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
                             Duyệt
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
+                        <button name="action" value="reject" type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
                             Từ chối
                         </button>
                     </form>
                 </div>
             </div>
-            <jsp:include page="../footer.jsp"/>
-        </div>
-        <%-- Begin confirmMessage modal--%>
-        <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" >Xác nhận thao tác</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="confirmMessageTitle">
-                        <!-- Dynamic message will be inserted here -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
+            <%-- Begin confirmMessage modal--%>
+            <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" >Xác nhận thao tác</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmMessageTitle">
+                            <!-- Dynamic message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <%-- End confirmMessage modal--%>
+            <jsp:include page="../footer.jsp"/>
         </div>
-        <%-- End confirmMessage modal--%>
     </div>
 
     <%--        this checks for application status and let staff process or not--%>

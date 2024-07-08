@@ -120,7 +120,7 @@ public class DayDAO extends DBContext implements IDayDAO{
                 }
             }
             sql.deleteCharAt(sql.length() - 1);
-            System.out.println(sql);
+            
             PreparedStatement statement = connection.prepareStatement(sql.toString());
             statement.executeUpdate();
         } catch (Exception e) {
