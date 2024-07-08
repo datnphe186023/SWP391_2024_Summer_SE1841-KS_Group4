@@ -25,7 +25,9 @@
             }
         }
     });
-
+</script>
+<%--confirm message of processing application--%>
+<script>
     function confirmAccept(formId, msg, action) {
         document.getElementById('actionField').value = action;
         formIdToAccept = formId;
@@ -93,7 +95,7 @@
                                 Application app = (Application) request.getAttribute("application");
                                 String details = app.getDetails();
                                 if (details != null) {
-                                    details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
+                                    details = details.replace("\r\n", "<br/>");
                                 }
                             %>
                             <div class="col-sm-9" id="details">
@@ -105,19 +107,19 @@
                 <div class="col-md-6">
                     <form action="applicationdetails" method="post" id="applicationForm">
                         <label for="note">Ghi chú</label>
-                         <textarea class="form-control mb-5" type="text" placeholder="${requestScope.application.processNote}"
-                                   name="note" id="note" rows="5" required></textarea>
+                        <textarea class="form-control mb-5" type="text" placeholder="${requestScope.application.processNote}"
+                                  name="note" id="note" rows="5" required></textarea>
                         <input name="id" value="${requestScope.applicationId}" hidden/>
                         <input name="action" id="actionField" hidden="hidden">
-                        <button type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
+                        <button name="action" value="approve" type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
                             Duyệt
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
+                        <button name="action" value="reject" type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
                             Từ chối
                         </button>
                     </form>
                 </div>
-        </div>
+            </div>
             <%-- Begin confirmMessage modal--%>
             <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -139,30 +141,30 @@
                 </div>
             </div>
             <%-- End confirmMessage modal--%>
-        <jsp:include page="../footer.jsp"/>
+            <jsp:include page="../footer.jsp"/>
+        </div>
     </div>
-</div>
 
-<%--        this checks for application status and let staff process or not--%>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Get the application status from the JSP
-                var applicationStatus = '${requestScope.application.status}';
+    <%--        this checks for application status and let staff process or not--%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the application status from the JSP
+            var applicationStatus = '${requestScope.application.status}';
 
-                // Get the form elements
-                var noteTextarea = document.getElementById('note');
-                var approveButton = document.querySelector('button[name="action"][value="approve"]');
-                var rejectButton = document.querySelector('button[name="action"][value="reject"]');
+            // Get the form elements
+            var noteTextarea = document.getElementById('note');
+            var approveButton = document.querySelector('button[name="action"][value="approve"]');
+            var rejectButton = document.querySelector('button[name="action"][value="reject"]');
 
-                // Check the status and modify the form accordingly
-                if (applicationStatus !== 'đang chờ xử lý') {
-                    // Make the textarea read-only
-                    noteTextarea.readOnly = true;
-                    // Hide the submit buttons
-                    approveButton.style.display = 'none';
-                    rejectButton.style.display = 'none';
-                }
-            });
-        </script>
+            // Check the status and modify the form accordingly
+            if (applicationStatus !== 'đang chờ xử lý') {
+                // Make the textarea read-only
+                noteTextarea.readOnly = true;
+                // Hide the submit buttons
+                approveButton.style.display = 'none';
+                rejectButton.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
