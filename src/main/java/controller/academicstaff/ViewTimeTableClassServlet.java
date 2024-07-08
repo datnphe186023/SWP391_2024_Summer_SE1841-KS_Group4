@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import models.classes.ClassDAO;
 import models.day.Day;
@@ -93,11 +94,17 @@ public class ViewTimeTableClassServlet extends HttpServlet {
             throws ServletException, IOException {
         String classId = request.getParameter("class");
         List<models.classes.Class> listClass = new ClassDAO().getAllClass();
+        WeekDAO weekDAO = new WeekDAO();
+        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         models.classes.Class aclass = new ClassDAO().getClassById(classId);
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
-        WeekDAO weekDAO = new WeekDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        if (schoolyear == null) {
+            schoolyear = schoolYearDAO.getLatest().getId();
+        }
+        if (week == null) {
+            week = weekDAO.getCurrentWeek(new Date());
+        }
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
         List<Week> weekList = weekDAO.getWeeks(schoolyear);
         List<Timetable> timetable = new ArrayList<>();

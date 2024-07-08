@@ -41,6 +41,13 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link" href="attendance">
+                    <i class="fas fa-fw fa-calendar-check"></i>
+                    <span>Xem Điểm Danh</span>
+                </a>
+            </li>
 
             <!-- Nav Item -->
             <li class="nav-item">
