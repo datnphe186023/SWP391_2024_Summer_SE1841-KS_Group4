@@ -101,6 +101,9 @@ public class ClassDAO extends DBContext implements IClassDAO {
             }
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, generateId(getLatest().getId()));
+            if (c.getName().isBlank()) {
+                return "Tên lớp không được để trống";
+            }
             preparedStatement.setString(2, c.getName());
             preparedStatement.setString(3, c.getGrade().getId());
             if (c.getTeacher() != null) {

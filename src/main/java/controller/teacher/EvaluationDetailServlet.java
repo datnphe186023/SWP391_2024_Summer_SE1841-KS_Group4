@@ -31,16 +31,17 @@ public class EvaluationDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IWeekDAO weekDAO = new WeekDAO();
         IEvaluationDAO evaluationDAO = new EvaluationDAO();
-        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         IPupilDAO pupilDAO = new PupilDAO();
         IDayDAO dayDAO = new DayDAO();
         String weekId = request.getParameter("weekId");
         List<Pupil> listPupil = null;
         HttpSession session = request.getSession();
+        SchoolYear schoolYear = null;
         // Get the current date
-        Date currentDate = new Date();
         User user = (User) session.getAttribute("user");
-        SchoolYear schoolYear = schoolYearDAO.getSchoolYearByDate(currentDate);
+        if(!weekId.isBlank()){
+            schoolYear = weekDAO.getWeek(weekId).getSchoolYear();
+        }
         if(schoolYear!=null){
             listPupil = pupilDAO.getListPupilOfTeacherBySchoolYear(schoolYear.getId(),user.getUsername());
         }

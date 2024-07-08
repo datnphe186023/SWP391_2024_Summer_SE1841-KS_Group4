@@ -25,7 +25,13 @@ public interface IEvaluationDAO {
 
     public List<String> EvaluationReportYearly(String pupil_id);
 
+    public int countEvaluationOfWeek(String week_id,String pupil_id);
+    public String PupilReportYearly(String pupil_id,String school_year_id);
+    public List<Evaluation> getEvaluationByWeekandPupilId(String weekId,String pupil_id);
+    public int AccomplishmentAchieveStudents(String schoolyear_id);
+  
     int getEvaluationByPupilIdandStatusGood(String pupilid);
-    
     int getEvaluationByPupilIdandAllStatus(String pupilid);
+
+    public List<String> NumberOfGoodEvaluationsPerYear(String pupil_id);
 }

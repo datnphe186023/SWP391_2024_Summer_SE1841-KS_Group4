@@ -138,7 +138,12 @@
         <div class="card shadow mb-4">
 
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Thực Đơn Theo Tuần</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Thực Đơn Theo Tuần
+            </h6>
+            <h6 style="margin-left: 11px;font-weight: bold">Ghi chú: <a
+                    style="font-weight: normal">Biểu tượng </a><a
+                    style="color: red"> (-) </a><a
+                    style="font-weight: normal"> thể hiện bữa trống</a></h6>
           </div>
           <c:set var="timesOfDay" value="${['Bữa trưa', 'Bữa chiều', 'Bữa chiều phụ']}" />
           <c:set var="daysOfWeek" value="${['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật']}" />
@@ -175,7 +180,13 @@
                       <td>
                         <c:forEach var="menu" items="${requestScope.menuDetailList}">
                           <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
-                            ${menu.getFoodMenu().getFoodDetails()}
+                            <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
+                              ${menu.getFoodMenu().getFoodDetails()}
+                            </c:if>
+                            <c:if test="${menu.getFoodMenu().getFoodDetails() == null }">
+                              <a
+                                      style="color: red"> (-) </a>
+                            </c:if>
                           </c:if>
                         </c:forEach>
                       </td>

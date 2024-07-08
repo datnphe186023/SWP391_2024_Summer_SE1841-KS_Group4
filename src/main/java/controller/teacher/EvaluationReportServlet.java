@@ -37,7 +37,7 @@ public class EvaluationReportServlet extends HttpServlet {
         IClassDAO classDAO = new ClassDAO();
 
         List<Pupil> listPupil =null;
-        List<Week> listWeeks = null;
+        List<Week> listWeeks = weekDAO.getWeeks(schoolYearDAO.getLatest().getId());
         Class classes = new Class();
         HttpSession session = request.getSession();
         // Get the current date

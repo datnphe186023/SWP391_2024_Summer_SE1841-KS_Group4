@@ -238,13 +238,13 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Tên </label>
-                                                <input class="form-control" type="text" name="firstname" value="${requestScope.firstname}"
-                                                       pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" required>
+                                                <input class="form-control" id="firstname" type="text" name="firstname" value="${requestScope.firstname}"
+                                                       pattern="^[a-zA-Z${vietnamesePattern}\s]{1,20}$" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Họ</label>
-                                                <input class="form-control" type="text" name="lastname" value="${requestScope.lastname}"
-                                                       pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" required>
+                                                <input class="form-control" type="text" id="lastname" name="lastname" value="${requestScope.lastname}"
+                                                       pattern="^[A-Za-z${vietnamesePattern}\s]{1,50}$" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Giới tính </label>
@@ -268,45 +268,53 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Ngày sinh</label>
-                                                <input class="form-control" type="date" name="birthday" value="${requestScope.birthday}" required>
+                                                <input class="form-control" id="birthday" type="date" name="birthday" value="${requestScope.birthday}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Địa chỉ</label>
-                                                <input class="form-control" type="text" name="address" value="${requestScope.address}"
-                                                       pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" required>
+                                                <input class="form-control" type="text" id="address" name="address" value="${requestScope.address}"
+                                                       pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,300}$" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Email</label>
-                                                <input class="form-control" type="email" name="email" value="${requestScope.email}" required>
+                                                <input class="form-control" type="email" id="email" name="email" value="${requestScope.email}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Số điện thoại</label>
-                                                <input class="form-control" type="text" pattern="^(0[23578]|09)\d{8}$" name="phone" value="${requestScope.phone}"
+                                                <input class="form-control" type="text" id="phone" pattern="^(0[23578]|09)\d{8}$" name="phone" value="${requestScope.phone}"
                                                        required>
 
 
                                             </div>
-                                            <div class="form-group col-md-12">
-                                                <label class="control-label">Ảnh :</label>
-                                                <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label for="imageUpload" class="form-label"
+                                                       style="cursor: pointer ;margin-left: 14px">Chọn hình ảnh<a
+                                                        style="color: red">(*)</a></label>
+                                                <input type="file" class="form-control" id="imageUpload" required
+                                                       accept="image/*" onchange="previewImage(event)" name="avatar"
+                                                       value="${param.avatar}">
 
-                                                    <div id="myfileupload">
-                                                        <input type="file" id="uploadfile" name="avatar" onchange="readURL(this);" value="${requestScope.avatar}"
-                                                               required/>
-                                                    </div>
-                                                    <div id="thumbbox">
-                                                        <img height="200" width="200" alt="Thumb image" id="thumbimage"
-                                                             style="display: none"/>
-                                                        <a class="removeimg" href="javascript:"></a>
-                                                    </div>
-
-
+                                                <div id="imagePreview" class="mt-3 text-center" style="display: none;">
+                                                    <img id="preview" src="../images${param.avatar}"
+                                                         class="img-fluid rounded-circle" alt="Preview Image">
                                                 </div>
                                             </div>
+                                            <script>
+                                                function previewImage(event) {
+                                                    var reader = new FileReader();
+                                                    reader.onload = function () {
+                                                        var preview = document.getElementById('preview');
+                                                        preview.src = reader.result;
+                                                        document.getElementById('imagePreview').style.display = 'block';
+                                                    };
+                                                    reader.readAsDataURL(event.target.files[0]);
+                                                }
+                                            </script>
                                         </div>
                                         <br>
                                         <button class="btn btn-success" type="submit">Lưu lại</button>
-                                        <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                        <a class="btn btn-danger" data-dismiss="modal"
+                                           id="cancel-button">Hủy bỏ</a>
                                         <br>
                                     </div>
                                 </div>
@@ -413,6 +421,42 @@
     });
 
 
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const birthInput = document.getElementById("birthday");
+
+        // Calculate the minimum date (3 years ago from today)
+        const today = new Date();
+        const minDate = new Date(today.setFullYear(today.getFullYear() - 18));
+        const minDateString = minDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+
+        // Set the minimum date on the input field
+        birthInput.setAttribute("max", minDateString);
+
+        // Add event listener to validate the date
+        document.getElementById("create-form").addEventListener("submit", function (event) {
+            const selectedDate = new Date(birthInput.value);
+            if (selectedDate > minDate) {
+                alert("The birth date must be at least 18 years ago.");
+                event.preventDefault(); // Prevent the form from being submitted
+            }
+        });
+    });
+</script>
+<script>
+    document.getElementById('cancel-button').addEventListener('click', function () {
+        document.getElementById('address').value = '';
+        document.getElementById('lastname').value = '';
+        document.getElementById('firstname').value = '';
+        document.getElementById('gender').value = '';
+        document.getElementById('birthday').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('imageUpload').value = ''; // Reset the image selection
+        document.getElementById('imagePreview').style.display = 'none'; // Hide the image preview
+        document.getElementById('preview').src = ''; // Clear the image source
+    });
 </script>
 <!-- Page level plugins -->
 <script src="../vendor/datatables/jquery.dataTables.min.js"></script>

@@ -88,11 +88,12 @@
                     </div>
 
                     <jsp:useBean id="evaluation" class="models.evaluation.EvaluationDAO"/>
+                    <jsp:useBean id="pupilAttendance" class="models.pupil.PupilAttendanceDAO"/>
                     <c:set var="dateId" value="${requestScope.dateId}"/>
                     <div class="card-body">
                     <form method="post" id="evaluateForm" action="evaluate?action=evaluatePupil">
                         <div class="table-responsive">
-                            <table class="table table-bordered"  width="100%" cellspacing="0">
+                            <table class="table table-bordered"      width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th>STT</th>
@@ -116,12 +117,20 @@
                                         </td>
                                         <td>${pupil.lastName} ${pupil.firstName}</td>
                                         <td class="text-center">
-                                            <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}" >
-                                                <option value="nghỉ học" hidden="" >-</option>
-                                                <option value="nghỉ học" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq "Nghỉ học"?"selected":""}>Nghỉ học</option>
-                                                <option value="Ngoan"  ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Ngoan'?"selected":""} name="evaluationId-good" >Ngoan</option>
-                                                <option value="Chưa ngoan" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Chưa ngoan'?"selected":""} name="evaluationId-bad">Chưa ngoan</option>
-                                            </select>
+                                            <c:choose>
+                                                <c:when test="${pupilAttendance.getAttendanceByPupilAndDay(pupil.id,dateId).status eq 'absent'}">
+                                                    <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}" >
+                                                        <option readonly="" value="nghỉ học" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq "Nghỉ học"?"selected":""}>Nghỉ học</option>
+                                                    </select>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}" required>
+                                                        <option value="" hidden="" >-</option>
+                                                        <option value="Ngoan"  ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Ngoan'?"selected":""} name="evaluationId-good" >Ngoan</option>
+                                                        <option value="Chưa ngoan" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Chưa ngoan'?"selected":""} name="evaluationId-bad">Chưa ngoan</option>
+                                                    </select>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
 
                                         <td class="text-center">
@@ -137,33 +146,12 @@
 
                             <c:if test="${requestScope.teacherClass != null}">
                                 <div class="btn-group-right float-right">
-                                    <button type="button" class="btn btn-success" onclick="confirmAccept('evaluateForm','Bạn có chắc chắn muốn lưu thay đổi ?')"  style="width: 100px">Lưu</button>
+                                    <button type="submit" class="btn btn-success"   style="width: 100px">Lưu</button>
                                 </div>
                             </c:if>
                         </div>
                     </form>
                     </div>
-                    <%-- Begin confirmMessage modal--%>
-                    <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" >Xác nhận thao tác</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" id="confirmMessageTitle">
-                                    <!-- Dynamic message will be inserted here -->
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- End confirmMessage modal--%>
                 </div>
 
             </div>

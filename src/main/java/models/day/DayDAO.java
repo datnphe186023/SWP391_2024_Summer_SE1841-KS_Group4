@@ -99,37 +99,35 @@ public class DayDAO extends DBContext implements IDayDAO{
     }
 
     @Override
-    public void generateDays(Week week) {
+    public void generateDays(List<Week> weeks) {
         try {
-            LocalDate currentDate = Helper.convertDateToLocalDate(week.getStartDate());
-            LocalDate endDate = Helper.convertDateToLocalDate(week.getEndDate());
-            while (!currentDate.isAfter(endDate)) {
-                Day day = new Day();
-                day.setId(generateId(Objects.requireNonNull(getLatest()).getId()));
-                day.setWeek(week);
-                day.setDate(Helper.convertLocalDateToDate(currentDate));
-                addDayToDatabase(day);
-                currentDate = currentDate.plusDays(1);
+            StringBuilder sql = new StringBuilder("insert into Days values ");
+            String newDayId = "";
+            if (getLatest()!=null) {
+                newDayId = generateId(Objects.requireNonNull(getLatest()).getId());
+            } else {
+                newDayId = "W000001";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void addDayToDatabase(Day day) {
-        String sql = "INSERT INTO Days VALUES (?, ?, ?)";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, day.getId());
-            statement.setString(2, day.getWeek().getId());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String sqlDate = dateFormat.format(day.getDate());
-            statement.setString(3, sqlDate);
+            for (Week week : weeks) {
+                LocalDate currentDate = Helper.convertDateToLocalDate(week.getStartDate());
+                LocalDate endDate = Helper.convertDateToLocalDate(week.getEndDate());
+                while (!currentDate.isAfter(endDate)) {
+                    sql.append("('").append(newDayId).append("','").append(week.getId()).append("','")
+                            .append(dateFormat.format(Helper.convertLocalDateToDate(currentDate))).append("'),");
+                    newDayId = generateId(newDayId);
+                    currentDate = currentDate.plusDays(1);
+                }
+            }
+            sql.deleteCharAt(sql.length() - 1);
+            System.out.println(sql);
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
 
     @Override
     public List<Day> getDayByWeek(String weekId) {

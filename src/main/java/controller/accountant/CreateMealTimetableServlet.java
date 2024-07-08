@@ -191,7 +191,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                     }
                 }
 
-                // Retrieve all timeslot and subject selections
+
                  parameterNames = request.getParameterNames();
                 int entryCounter = 1;
                 boolean entryCreated = false; // Flag to check if any entries are created
@@ -229,7 +229,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
 
                     session.setAttribute("toastType", "error");
                     session.setAttribute("toastMessage", "Không có dữ liệu được chọn. Vui lòng không để trống !");
-                    response.sendRedirect("createmealtimetable");
+                    response.sendRedirect("createmealtimetable?weekId="+weekId+"&gradeId="+selectedGradeId);
                 }
             }
 

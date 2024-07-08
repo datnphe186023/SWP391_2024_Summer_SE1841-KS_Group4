@@ -92,10 +92,7 @@
             color: #858796;
         }
 
-             /* Hide the placeholder in the dropdown options */
-         option[hidden] {
-             display: none;
-         }
+
 
     </style>
 
@@ -206,8 +203,8 @@
                                         <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                         <c:forEach var="day" items="${requestScope.dayList}">
                                             <td>
-                                                <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}" required >
-                                                    <option value="" hidden>Chọn suất ăn</option>
+                                                <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}"  >
+                                                    <option value="" >Chọn suất ăn</option>
                                                     <c:forEach var="foodMenu" items="${requestScope.foodMenuList}">
 
                                                         <option value="${foodMenu.id}" name="FoodmenuId_${day.id}_${timeslot.id}_${foodMenu.id}">${foodMenu.getFoodDetails()}</option>
@@ -252,6 +249,10 @@
                             </thead>
                             <tbody>
                             <c:if test="${not empty requestScope.dayList}">
+                                <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a
+                                        style="font-weight: normal">Biểu tượng </a><a
+                                        style="color: red"> (-) </a><a
+                                        style="font-weight: normal"> thể hiện bữa trống</a></p>
                                 <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                     <tr>
                                         <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
@@ -262,7 +263,13 @@
                                                     <c:forEach var="menuDetail" items="${requestScope.menuDetails}">
                                                         <c:if test="${menuDetail.getTimeslot().getId() == timeslot.id && menuDetail.getDay().getId()  == day.id}">
                                                             <!--    <option value="${menuDetail.getFoodMenu().getId()}" name="FoodmenuId_${day.id}_${timeslot.id}_${menuDetail.getFoodMenu().getId()}" selected> -->
-                                                                    ${menuDetail.getFoodMenu().getFoodDetails()}
+                                                                    <c:if test="${menuDetail.getFoodMenu().getFoodDetails() != null }">
+                                                            ${menuDetail.getFoodMenu().getFoodDetails()}
+                                                                    </c:if>
+                                                            <c:if test="${menuDetail.getFoodMenu().getFoodDetails() == null }">
+                                                                <a
+                                                                        style="color: red"> (-) </a>
+                                                            </c:if>
                                                             <!-- </option>-->
                                                         </c:if>
                                                     </c:forEach>
