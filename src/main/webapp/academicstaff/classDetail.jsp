@@ -388,7 +388,11 @@
                                                 <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">là thông tin bắt buộc phải nhập</a></p>
                                                 <div class="col-md-7">
                                                     <div class="form-group">
-                                                        <label class="control-label" for="pupil">Mã - Tên giáo viên<a style="color: red">(*)</a></label>
+                                                        <label class="control-label" for="pupil">Mã - Tên giáo viên Cũ<a style="color: red">*</a></label>
+                                                        <input class="form-control" type="text" value="${requestScope.teacher.id} - ${requestScope.teacher.lastName} ${requestScope.teacher.firstName}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="pupil">Mã - Tên giáo viên Mới<a style="color: red">*</a></label>
                                                         <select class="form-control" id="teacher" name="teacher" required>
                                                             <option value="">-- Chọn Giáo Viên --</option>
                                                             <c:forEach var="teacher" items="${requestScope.teachers}">

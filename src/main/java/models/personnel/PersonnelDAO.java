@@ -121,7 +121,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
                 persons.add(person);
             }
         } catch (Exception e) {
-            System.out.println("error in function");
+            System.out.println("nction");
         }
         return persons;
     }
@@ -152,7 +152,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
 
             }
         } catch (Exception e) {
-            System.out.println("error in function");
+            System.out.println(e);
         }
         return person;
     }
@@ -170,7 +170,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
                 number = resultSet.getInt("numberofpersonbyrole");
             }
         } catch (Exception e) {
-            System.out.println("error in function");
+            System.out.println(e);
         }
         return number;
     }
@@ -315,7 +315,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
                 persons.add(person);
             }
         } catch (Exception e) {
-            System.out.println("error in function");
+            System.out.println(e);
         }
         return persons;
     }
@@ -352,7 +352,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
                 roles.add(role);
             }
         } catch (Exception e) {
-            System.out.println("error in function");
+            System.out.println(e);
         }
         return roles;
     }
@@ -478,7 +478,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
                 persons.add(person);
             }
         } catch (Exception e) {
-            System.out.println("error in function");
+            System.out.println(e);
         }
         return persons;
     }

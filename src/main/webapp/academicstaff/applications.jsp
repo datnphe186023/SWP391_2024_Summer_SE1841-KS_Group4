@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="pupilBean" class="models.pupil.PupilDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +42,7 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Loại đơn</th>
-
+                                    <th>Người gửi</th>
                                     <th>Ngày gửi</th>
                                     <th>Trạng thái</th>
                                     <th>Chi tiết</th>
@@ -53,6 +54,8 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${application.type.name}</td>
+                                        <c:set value="${pupilBean.getPupilByUserId(application.createdBy)}" var="pupil"/>
+                                        <td>${pupil.id} - ${pupil.lastName} ${pupil.firstName}</td>
 
                                         <td>${application.createdAt}</td>
                                         <c:set value="${application.status}" var="s"/>

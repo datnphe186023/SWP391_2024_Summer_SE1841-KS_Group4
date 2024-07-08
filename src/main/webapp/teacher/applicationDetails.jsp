@@ -111,10 +111,10 @@
                                   name="note" id="note" rows="5" required></textarea>
                         <input name="id" value="${requestScope.applicationId}" hidden/>
                         <input name="action" id="actionField" hidden="hidden">
-                        <button type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
+                        <button name="action" value="approve" type="button" class="btn btn-success" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn duyệt đơn này?', 'approve')">
                             Duyệt
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
+                        <button name="action" value="reject" type="button" class="btn btn-danger" onclick="confirmAccept('applicationForm', 'Bạn có chắc chắn muốn từ chối đơn này?', 'reject')">
                             Từ chối
                         </button>
                     </form>

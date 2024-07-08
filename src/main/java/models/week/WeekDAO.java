@@ -67,7 +67,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
                 currentStartDate = currentStartDate.plusWeeks(1);
             }
             sql.deleteCharAt(sql.length() - 1);
-            System.out.println(sql);
+            
             PreparedStatement statement = connection.prepareStatement(sql.toString());
             statement.executeUpdate();
             IDayDAO dayDAO = new DayDAO();
