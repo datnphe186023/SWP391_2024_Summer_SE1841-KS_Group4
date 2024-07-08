@@ -105,7 +105,7 @@ public class DayDAO extends DBContext implements IDayDAO{
             String newDayId = "";
             if (getLatest()!=null) {
                 newDayId = generateId(Objects.requireNonNull(getLatest()).getId());
-            } else {
+            }else {
                 newDayId = "W000001";
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
