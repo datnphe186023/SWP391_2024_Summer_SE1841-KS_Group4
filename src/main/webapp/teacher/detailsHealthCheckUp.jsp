@@ -145,14 +145,16 @@
                                             <strong>Ghi chú:</strong>
                                             <p>${healthCheckUp.notes}</p>
                                         </div>
+
                                     </div>
 
                                 </div>
-                                        <div class="profile-actions">
-                                            <a href="javascript:history.back()">Quay lại</a>
-                                        </div>
+
+                                <div class="btn-group-right float-right">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:history.back()"  style="width: 100px">Quay lại</button>
+                                </div>
                             </div>
-                            
+
                         </main>
                     </div>
                 </div>
