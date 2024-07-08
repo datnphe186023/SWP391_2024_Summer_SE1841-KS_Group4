@@ -32,6 +32,11 @@
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script>
+        function submitForm(){
+            document.getElementById("myForm").submit();
+        }
+    </script>
 </head>
 
 <body id="page-top">
@@ -42,6 +47,17 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Môn Học</h1>
+                <form method="post" action="listsubject" id="myForm">
+                    <div class="col-lg-3 mb-4">
+                        <label for="selectStatus">Chọn trạng thái</label>
+                        <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                            <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                            <option  ${param.status eq 'pending'? "selected" :""} value="pending">Đang chờ xử lý</option>
+                            <option ${param.status eq 'approve'? "selected" :""}  value="approve">Đã được duyệt</option>
+                            <option  ${param.status eq 'decline'? "selected" :""} value="decline">Không được duyệt</option>
+                        </select>
+                    </div>
+                </form>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">Danh Sách Môn Học</h6>
@@ -59,7 +75,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="subject" items="${requestScope.listAllSubject}" varStatus="status">
+                                <c:forEach var="subject" items="${requestScope.listSubject}" varStatus="status">
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${subject.name}</td>

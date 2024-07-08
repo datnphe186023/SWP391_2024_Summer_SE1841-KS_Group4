@@ -1,6 +1,8 @@
 package controller.academicstaff;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +24,23 @@ public class SubjectServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ISubjectDAO subjectDAO = new SubjectDAO();
         IGradeDAO gradeDAO = new GradeDAO();
-        request.setAttribute("listAllSubject",subjectDAO.getAll());
+        String status = request.getParameter("status");
+        List<Subject> subjectList = subjectDAO.getAll();
+        if(status!=null){
+            switch (status){
+                case "all" : subjectList = subjectDAO.getAll();
+                    break;
+                case "pending": subjectList = subjectDAO.getSubjectsByStatus("Đang chờ xử lý");
+                    break;
+                case "approve": subjectList = subjectDAO.getSubjectsByStatus("Đã được duyệt");
+                    break;
+                case "decline": subjectList = subjectDAO.getSubjectsByStatus("Không được duyệt");
+                    break;
+                default:
+                    break;
+            }
+        }
+        request.setAttribute("listAllSubject",subjectList);
         request.setAttribute("listGrade",gradeDAO.getAll());
         request.getRequestDispatcher("subject.jsp").forward(request,response);
        }
