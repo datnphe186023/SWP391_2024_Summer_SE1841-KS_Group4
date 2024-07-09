@@ -67,7 +67,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
                 currentStartDate = currentStartDate.plusWeeks(1);
             }
             sql.deleteCharAt(sql.length() - 1);
-            
+
             PreparedStatement statement = connection.prepareStatement(sql.toString());
             statement.executeUpdate();
             IDayDAO dayDAO = new DayDAO();
@@ -76,7 +76,6 @@ public class WeekDAO extends DBContext implements IWeekDAO {
             e.printStackTrace();
         }
     }
-
 
     private Week getLatest() {
         String sql = "SELECT TOP 1 * FROM Weeks ORDER BY ID DESC";
@@ -211,7 +210,7 @@ public class WeekDAO extends DBContext implements IWeekDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
-                 week = createWeek(resultSet);
+                week = createWeek(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -74,7 +74,7 @@ public class CreateTimetableServlet extends HttpServlet {
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
 
-        ISchoolYearDAO yearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolyearDAO = new SchoolYearDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         IWeekDAO weekDAO = new WeekDAO();
         IGradeDAO gradeDAO = new GradeDAO();
@@ -84,25 +84,59 @@ public class CreateTimetableServlet extends HttpServlet {
 
         String selectedGradeId = request.getParameter("gradeId");
         String weekId = request.getParameter("weekId");
+        String selectedShoolYearId = request.getParameter("schoolyearId");
+        String classId = request.getParameter("classId");
         // get list grade
         List<Grade> listGrade = gradeDAO.getAll();
-        
+
         // get start date and end date
-        Week dateWeek = weekDAO.getWeek(weekId);
+        Week dateWeek = null;
+        if (weekId != null) {
+            dateWeek = weekDAO.getWeek(weekId);
+        }
+
+        Class classSelected = null;
+        if (classId != null) {
+            classSelected = classDAO.getClassById(classId);
+        }
+        // get list school year
+        List<SchoolYear> listSchoolYears = schoolyearDAO.getAll();
 
         // get timeslot
         List<Timeslot> listTimeslot = timeslotDAO.getTimeslotsForTimetable();
-        // get school year latest
-        SchoolYear schoolYear = yearDAO.getLatest();
-        // get list week from now
-        List<Week> listWeek = weekDAO.getWeeksFromNowUntilEndOfSchoolYear(schoolYear.getId());
-        // get list subject by grade id
-        List<Subject> subList = subjectDAO.getSubjectsByGradeId(selectedGradeId);
-        // get list class by grade id
-        List<Class> classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId,schoolYear.getId(),"đã được duyệt");
-        // get list day by week 
-        List<Day> dayList = dayDAO.getDayByWeek(weekId);
 
+        // get school year latest
+        SchoolYear schoolYear = null;
+        if (selectedShoolYearId != null) {
+            schoolYear = schoolyearDAO.getSchoolYear(selectedShoolYearId);
+        }
+
+        // get list week from now
+        List<Week> listWeek = null;
+        if (schoolYear != null) {
+            listWeek = weekDAO.getWeeks(schoolYear.getId());
+        }
+
+        // get list subject by grade id
+        List<Subject> subList = null;
+        if (selectedGradeId != null) {
+            subList = subjectDAO.getSubjectsByGradeId(selectedGradeId);
+        }
+
+        // get list class by grade id
+        List<Class> classList = null;
+        if (selectedGradeId != null && schoolYear != null) {
+            classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId, schoolYear.getId(), "đã được duyệt");
+        }
+
+        // get list day by week 
+        List<Day> dayList = null;
+        if (weekId != null) {
+            dayList = dayDAO.getDayByWeek(weekId);
+        }
+
+        request.setAttribute("classSelected", classSelected);
+        request.setAttribute("listSchoolYears", listSchoolYears);
         request.setAttribute("dateWeek", dateWeek);
         request.setAttribute("dayList", dayList);
         request.setAttribute("subList", subList);
@@ -146,6 +180,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 User user = (User) session.getAttribute("user");
                 // Lấy các tham số chính từ form
                 String classId = request.getParameter("classId");
+                String weekId = request.getParameter("weekId");
 
                 timetable.setaClass(classDAO.getClassById(classId));
                 // Định nghĩa các tham số khác
@@ -175,7 +210,7 @@ public class CreateTimetableServlet extends HttpServlet {
                         session.setAttribute("toastMessage", "Thời khóa biểu của lớp này đã được tạo!");
                         response.sendRedirect("timetable");
                         return; // Dừng lại nếu thời khóa biểu đã tồn tại
-                    } 
+                    }
                 }
 
                 // Tiến hành tạo thời khóa biểu nếu không có mục nào tồn tại
@@ -212,7 +247,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 }
                 response.sendRedirect("timetable");
 
-            } 
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

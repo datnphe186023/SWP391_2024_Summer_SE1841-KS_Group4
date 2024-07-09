@@ -148,12 +148,12 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="height"><strong>Chiều cao (cm) *</strong></label>
-                                                    <input type="number" step="0.1" class="form-control" placeholder="Chiều cao" name="height" title="Chiều cao không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(1?\d{1,2}(\.\d{1})?|200(\.0)?)$">
+                                                    <input type="text" class="form-control" placeholder="Chiều cao" name="height" title="Chiều cao không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(1?\d{1,2}(\.\d{1})?|200(\.0)?)$">
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="weight"><strong>Cân nặng (kg) *</strong></label>
-                                                    <input type="number" step="0.1" class="form-control" placeholder="Cân nặng" name="weight" title="Cân nặng không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(0?\d{1,2}(\.\d{1})?|100(\.0)?)$">
+                                                    <input type="text" class="form-control" placeholder="Cân nặng" name="weight" title="Cân nặng không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(0?\d{1,2}(\.\d{1})?|100(\.0)?)$">
                                                 </div>
 
                                                 <div class="form-group">
