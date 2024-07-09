@@ -94,7 +94,14 @@ public class CreateNotificationServlet extends HttpServlet {
             throws ServletException, IOException {
         String userid = request.getParameter("userid");
         NotificationDAO notifiDAO = new NotificationDAO();
-        String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
+        String id = "N000001";
+        Notification latestNotification = notifiDAO.getLatest();
+        if (latestNotification != null) {
+            String generatedId = notifiDAO.generateId(latestNotification.getId());
+            if (generatedId != null) {
+                id = generatedId;
+            }
+        }
         String heading = request.getParameter("heading");
         String content = request.getParameter("content");
         String create_by = request.getParameter("userid");
