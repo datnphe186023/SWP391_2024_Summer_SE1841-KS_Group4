@@ -30,6 +30,8 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
         app.setStatus(rs.getString("status"));
         app.setCreatedBy(rs.getString("created_by"));
         app.setCreatedAt(rs.getDate("created_at"));
+        app.setStartDate(rs.getDate("start_date"));
+        app.setEndDate(rs.getDate("end_date"));
         IPersonnelDAO personnelDAO = new PersonnelDAO();
         app.setProcessedBy(personnelDAO.getPersonnel(rs.getString("processed_by")));
         return app;
@@ -118,7 +120,7 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
 
     @Override
     public String addApplication(Application application) {
-        String sql = "insert into [Applications] values (?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into [Applications] values (?,?,?,?,?,?,?,?,?,?,?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             if(getLatest()==null){
@@ -133,7 +135,15 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
             preparedStatement.setString(6, application.getStatus());
             preparedStatement.setString(7, application.getCreatedBy());
             preparedStatement.setString(8, Helper.convertDateToLocalDate(application.getCreatedAt()).toString());
-            preparedStatement.setNull(9, Types.VARCHAR);
+            if (application.getStartDate()!=null){
+                preparedStatement.setString(9, Helper.convertDateToLocalDate(application.getStartDate()).toString());
+                preparedStatement.setString(10, Helper.convertDateToLocalDate(application.getEndDate()).toString());
+            } else {
+                preparedStatement.setNull(9, Types.VARCHAR);
+                preparedStatement.setNull(10, Types.VARCHAR);
+            }
+
+            preparedStatement.setNull(11, Types.VARCHAR);
             preparedStatement.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();

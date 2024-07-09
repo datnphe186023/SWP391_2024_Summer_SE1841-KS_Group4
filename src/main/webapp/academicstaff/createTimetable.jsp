@@ -118,7 +118,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-2">
                                         <label for="selectSchoolyear">Chọn năm:</label>
-                                        <select class="form-control" id="selectSchoolyear" name="schoolyearId" onchange="submitForms()" style="width: 87%">
+                                        <select class="form-control" id="selectSchoolyear" name="schoolYearId" onchange="submitForms()" style="width: 87%">
                                             <option>Chọn năm</option>
                                             <c:forEach var="schoolYear" items="${requestScope.listSchoolYears}">
                                                 <option value="${schoolYear.id}" <c:if test="${param.schoolyearId == schoolYear.id}">selected</c:if>>${schoolYear.name}</option>

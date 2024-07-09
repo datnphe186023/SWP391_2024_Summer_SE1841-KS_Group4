@@ -20,7 +20,7 @@ public class ReviewClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IClassDAO classDAO = new ClassDAO();
-        String schoolYearId = request.getParameter("selectedSchoolYearId");
+        String schoolYearId = request.getParameter("schoolYearId");
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         List<SchoolYear> schoolYears = schoolYearDAO.getFutureSchoolYears();
         request.setAttribute("schoolYears", schoolYears);
