@@ -71,25 +71,25 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
     public String createSubject(Subject subject){
       String sql="INSERT INTO [dbo].[Subjects] VALUES (?,?,?,?,?)";
       if(checkSubjectExist(subject.getName(),subject.getGrade().getId())){
-          return "Tạo thất bại!! Môn học đã tồn tại!";
-      }
-      try {
-          PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            return "Tạo thất bại!! Môn học đã tồn tại!";
+        }
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
           if(getLastest()==null){
-              preparedStatement.setString(1, "S000001");
-          } else {
+                preparedStatement.setString(1, "S000001");
+            } else {
               preparedStatement.setString(1,generateId(getLastest().getId()));
-          }
+            }
           preparedStatement.setString(2,subject.getName());
           preparedStatement.setString(3,subject.getGrade().getId());
           preparedStatement.setString(4,subject.getDescription());
           preparedStatement.setString(5,subject.getStatus());
-          preparedStatement.executeUpdate();;
-      } catch (SQLException e) {
-          return "Tạo môn học thất bại!";
-      }
-      return "success";
-  }
+            preparedStatement.executeUpdate();;
+        } catch (SQLException e) {
+            return "Tạo môn học thất bại!";
+        }
+        return "success";
+    }
 
     @Override
     public List<Subject> getAll() {
@@ -146,13 +146,13 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
                 grade.setId(rs.getString("grade_id"));
                 grade.setName(rs.getString("grade_name"));
 
-            subject.setGrade(grade);
-            subject.setDescription(rs.getString("description"));
-            subjects.add(subject);
-        }
+                subject.setGrade(grade);
+                subject.setDescription(rs.getString("description"));
+                subjects.add(subject);
+            }
     } catch (Exception e) {
         e.printStackTrace();
-    }
+        }
         return subjects;
     }
 

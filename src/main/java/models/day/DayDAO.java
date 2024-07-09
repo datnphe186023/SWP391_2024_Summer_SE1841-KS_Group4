@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DayDAO extends DBContext implements IDayDAO{
+public class DayDAO extends DBContext implements IDayDAO {
 
     private Day createDay(ResultSet resultSet) throws SQLException {
         Day day = new Day();
@@ -32,13 +32,13 @@ public class DayDAO extends DBContext implements IDayDAO{
     }
 
     @Override
-    public Day getDayByDate(String date){
-        String sql="select * from days where date = ?";
+    public Day getDayByDate(String date) {
+        String sql = "select * from days where date = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,date);
+            preparedStatement.setString(1, date);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return createDay(resultSet);
             }
         } catch (SQLException e) {
@@ -50,18 +50,18 @@ public class DayDAO extends DBContext implements IDayDAO{
     @Override
     public List<Day> getDaysWithTimetable(String weekId) {
         List<Day> days = new ArrayList<>();
-        String sql = "SELECT DISTINCT d.*\n" +
-                "FROM Days d\n" +
-                "         JOIN Timetables t ON d.id = t.date_id\n" +
-                "WHERE d.week_id = ?;";
-        try{
+        String sql = "SELECT DISTINCT d.*\n"
+                + "FROM Days d\n"
+                + "         JOIN Timetables t ON d.id = t.date_id\n"
+                + "WHERE d.week_id = ?;";
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,weekId);
+            preparedStatement.setString(1, weekId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 days.add(createDay(resultSet));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return days;
@@ -103,9 +103,9 @@ public class DayDAO extends DBContext implements IDayDAO{
         try {
             StringBuilder sql = new StringBuilder("insert into Days values ");
             String newDayId = "";
-            if (getLatest()!=null) {
+            if (getLatest() != null) {
                 newDayId = generateId(Objects.requireNonNull(getLatest()).getId());
-            }else {
+            } else {
                 newDayId = "W000001";
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -120,14 +120,13 @@ public class DayDAO extends DBContext implements IDayDAO{
                 }
             }
             sql.deleteCharAt(sql.length() - 1);
-            
+
             PreparedStatement statement = connection.prepareStatement(sql.toString());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
 
     @Override
     public List<Day> getDayByWeek(String weekId) {
