@@ -125,13 +125,13 @@
                             </span>
                                 </div>
                             </div>
-                            <form action="pupil?action=create" method="post" id="create-form">
+                            <form action="pupil?action=create" method="post" id="create-form" onsubmit="return validateForm()">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <label for="imageUpload" class="form-label"
                                                style="cursor: pointer ;margin-left: 14px">Chọn hình ảnh<a
                                                 style="color: red">(*)</a></label>
-                                        <input type="file" class="form-control" id="imageUpload" required
+                                        <input type="file" class="form-control" id="imageUpload"
                                                accept="image/*" onchange="previewImage(event)" name="avatar"
                                                value="${param.avatar}">
 
@@ -176,26 +176,20 @@
                                                             <label for="address">Địa chỉ<a
                                                                     style="color: red">(*)</a></label>
                                                             <input class="form-control" id="address" name="address"
-                                                                   required value="${param.address}"
-                                                                   pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,300}$"
-                                                                   title="Địa chỉ không được quá 300 kí tự">
+                                                                    value="${param.address}">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="lastName">Họ học sinh<a
                                                                     style="color: red">(*)</a></label>
                                                             <input type="text" class="form-control" id="lastName"
-                                                                   name="lastName" required
-                                                                   value="${param.lastName}"
-                                                                   pattern="^[A-Za-z${vietnamesePattern}\s]{1,60}$"
-                                                                   title="Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 60 kí tự)">
+                                                                   name="lastName"
+                                                                   value="${param.lastName}">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="firstName">Tên học sinh<a
                                                                     style="color: red">(*)</a></label>
                                                             <input type="text" class="form-control" id="firstName" style="width: 70%"
-                                                                   required name="firstName" value="${param.firstName}"
-                                                                   pattern="^[a-zA-Z${vietnamesePattern}\s]{1,20}$"
-                                                                   title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)">
+                                                                    name="firstName" value="${param.firstName}">
                                                         </div>
 
 
@@ -204,27 +198,21 @@
                                                                     style="color: red">(*)</a></label>
                                                             <input type="text" class="form-control"
                                                                    id="firstGuardianName" name="firstGuardianName"
-                                                                   required value="${param.firstGuardianName}"
-                                                                   pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$"
-                                                                   title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
+                                                                    value="${param.firstGuardianName}">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="firstGuardianPhoneNumber" style="">Số điện thoại
                                                                 người giám hộ 1<a style="color: red">(*)</a></label><br>
                                                             <input style="width: 50%" type="text" class="form-control"
-                                                                   required id="firstGuardianPhoneNumber"
+                                                                    id="firstGuardianPhoneNumber"
                                                                    name="firstGuardianPhoneNumber"
-                                                                   value="${param.firstGuardianPhoneNumber}"
-                                                                   pattern="^(0[23578]|09)\d{8}$"
-                                                                   title="Vui lòng nhập đúng định dạng số điện thoại">
+                                                                   value="${param.firstGuardianPhoneNumber}">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="secondGuardianName">Họ tên người giám hộ 2</label>
                                                             <input type="text" class="form-control"
                                                                    id="secondGuardianName" name="secondGuardianName"
-                                                                   value="${param.secondGuardianName}"
-                                                                   pattern="^[A-Za-z${vietnamesePattern}\s]{1,80}$"
-                                                                   title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)">
+                                                                   value="${param.secondGuardianName}">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="secondGuardianPhoneNumber">Số điện thoại người
@@ -232,25 +220,24 @@
                                                             <input style="width: 50%" type="text" class="form-control"
                                                                    id="secondGuardianPhoneNumber"
                                                                    name="secondGuardianPhoneNumber"
-                                                                   value="${param.secondGuardianPhoneNumber}"
-                                                                   pattern="^(0[23578]|09)\d{8}$"
-                                                                   title="Vui lòng nhập đúng định dạng số điện thoại">
+                                                                   value="${param.secondGuardianPhoneNumber}">
                                                         </div>
 
                                                         <div class=" form-group col-md-6">
                                                             <label for="birth" class="form-label">Ngày sinh<a
                                                                     style="color: red">(*)</a></label><br>
                                                             <input type="date" id="birth" class="form-control"
-                                                                   style="width: 70%" name="birth" required
+                                                                   style="width: 70%" name="birth"
                                                                    value="${param.birth}">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label for="gender" class="form-label">Giới tính<a
                                                                     style="color: red; margin-right: 60px">(*)</a></label>
-                                                            <select name="gender" id="gender" required
+                                                            <select name="gender" id="gender"
                                                                     class="form-select"
                                                                     aria-label="Default select example"
                                                                     style="width: 50%;height: 50%;">
+                                                                <option hidden="" value="2">Chọn giới tính</option>
                                                                 <option ${param.gender==1?"selected":""} value="1">Nam
                                                                 </option>
                                                                 <option ${param.gender==0?"selected":""} value="0">Nữ
@@ -262,7 +249,7 @@
                                                             <label for="email">Email<a
                                                                     style="color: red">(*)</a></label>
                                                             <input type="email" class="form-control" id="email"
-                                                                   name="email" required value="${param.email}">
+                                                                   name="email"  value="${param.email}">
                                                             <div class="row" style="margin-top: 20px">
                                                                 <button style="margin:0px 10px" class="btn btn-success"
                                                                         type="submit">Lưu lại
@@ -276,13 +263,11 @@
                                                                     style="color: red">(*)</a></label>
                                                             <textarea name="note" class="form-control" id="parentNote"
                                                                       rows="4" style="height: 60%"
-                                                                      required>${param.note}</textarea>
+                                                                      >${param.note}</textarea>
                                                         </div>
 
                                                     </div>
                                                 </div>
-
-
                                             </div>
 
                                         </div>
@@ -299,22 +284,30 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const birthInput = document.getElementById("birth");
-
-        // Calculate the minimum date (3 years ago from today)
+    document.addEventListener('DOMContentLoaded', function () {
         const today = new Date();
         const minDate = new Date(today.setFullYear(today.getFullYear() - 3));
         const minDateString = minDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
 
         // Set the minimum date on the input field
-        birthInput.setAttribute("max", minDateString);
+        const birthInput = document.getElementById("birth");
 
         // Add event listener to validate the date
         document.getElementById("create-form").addEventListener("submit", function (event) {
-            const selectedDate = new Date(birthInput.value);
+            const selectedDateValue = birthInput.value;
+
+            // Check if the date field is empty
+            if (!selectedDateValue) {
+                toastr.error("Vui lòng chọn ngày sinh");
+                $('.create-pupil').modal('show'); // Show the modal if the toast type is fail
+                event.preventDefault(); // Prevent the form from being submitted
+                return;
+            }
+
+            const selectedDate = new Date(selectedDateValue);
             if (selectedDate > minDate) {
-                alert("The birth date must be at least 3 years ago.");
+                toastr.error("Tuổi của bé phải lớn hơn hoặc bằng 3 tuổi !!!");
+                $('.create-pupil').modal('show'); // Show the modal if the toast type is fail
                 event.preventDefault(); // Prevent the form from being submitted
             }
         });
@@ -322,6 +315,10 @@
 </script>
 <script>
     document.getElementById('cancel-button').addEventListener('click', function () {
+        document.getElementById('imageUpload').value = ''; // Reset the image selection
+        document.getElementById('imagePreview').style.display = 'none'; // Hide the image preview
+        document.getElementById('preview').src = ''; // Clear the image source
+        document.getElementById('gender').value = '';
         document.getElementById('address').value = '';
         document.getElementById('lastName').value = '';
         document.getElementById('firstName').value = '';
@@ -334,6 +331,49 @@
         document.getElementById('parentNote').value = '';
 
     });
+</script>
+<script>
+    function validateForm() {
+        var vietnamesePattern = "ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ";
+        var phoneNumber1 = document.getElementById('firstGuardianPhoneNumber').value;
+        var phoneNumber2 = document.getElementById('secondGuardianPhoneNumber').value;
+        var address = document.getElementById('address').value;
+        var guardianName1 = document.getElementById("firstGuardianName").value;
+        var guardianName2 = document.getElementById("secondGuardianName").value;
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+        // Perform the validation
+        var firstNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,20}$")
+        var lastNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,60}$")
+        var fullNamePattern1 = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
+        var fullNamePattern2 = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
+        var phonePattern1 = /^(?:|(0[23578]|09)\d{8})$/;
+        var phonePattern2 = /^(?:|(0[23578]|09)\d{8})$/;
+        var addressPattern = new RegExp("^[A-Za-z1-9,\\s" + vietnamesePattern + "]{0,300}$");
+
+        if(!firstNamePattern.test(firstName)){
+            toastr.error("Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)");
+            return false; // Prevent form submission
+        }
+        if(!lastNamePattern.test(lastName)){
+            toastr.error("Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 60 kí tự)");
+            return false; // Prevent form submission
+        }
+        if(!(fullNamePattern1.test(guardianName1) && fullNamePattern2.test(guardianName2))){
+            toastr.error("Họ và tên người giám hộ không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)");
+            return false; // Prevent form submission
+        }
+        if (!(phonePattern1.test(phoneNumber1) && phonePattern2.test(phoneNumber2))) {
+            toastr.error("Vui lòng nhập đúng định dạng số điện thoại");
+            return false; // Prevent form submission
+        }
+        if(!addressPattern.test(address)){
+            toastr.error("Địa chỉ không được bỏ trống hoặc quá 300 kí tự");
+            return false; // Prevent form submission
+        }
+
+        return true;
+    }
 </script>
 <!-- Page level plugins -->
 <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
