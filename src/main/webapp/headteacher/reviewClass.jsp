@@ -54,7 +54,7 @@
                         <form action="reviewclass" id="myForm">
                             <div class="year-form">
                                 <label>Chọn năm học</label>
-                                <select class="custom-select" style="width: 40%" aria-label="Default select example" onchange="submitForm()"
+                                <select class="custom-select" style="width: 40%" aria-label="Default select example" onchange="submitForm('myForm')"
                                         name="schoolYearId">
                                     <c:forEach items="${requestScope.schoolYears}" var="year">
                                         <option ${requestScope.selectedSchoolYearId eq year.id ? "selected" : ""}

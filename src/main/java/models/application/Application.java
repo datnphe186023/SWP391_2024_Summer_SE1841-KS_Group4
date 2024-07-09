@@ -13,13 +13,16 @@ public class Application {
     private String status;
     private String createdBy;
     private Date createdAt;
+    private Date startDate;
+    private Date endDate;
     private Personnel processedBy;
 
     public Application() {
     }
 
-    public Application(String id, Date processedAt, ApplicationType type, String details, String processNote,
-                       String status, String createdBy, Date createdAt, Personnel processedBy) {
+    public Application(String id, Date processedAt, ApplicationType type, String details,
+                       String processNote, String status, String createdBy, Date createdAt,
+                       Date startDate, Date endDate, Personnel processedBy) {
         this.id = id;
         this.processedAt = processedAt;
         this.type = type;
@@ -28,6 +31,8 @@ public class Application {
         this.status = status;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.processedBy = processedBy;
     }
 
@@ -101,5 +106,21 @@ public class Application {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

@@ -11,10 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
@@ -74,7 +71,7 @@ public class CreateTimetableServlet extends HttpServlet {
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
 
-        ISchoolYearDAO schoolyearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         IWeekDAO weekDAO = new WeekDAO();
         IGradeDAO gradeDAO = new GradeDAO();
@@ -84,10 +81,23 @@ public class CreateTimetableServlet extends HttpServlet {
 
         String selectedGradeId = request.getParameter("gradeId");
         String weekId = request.getParameter("weekId");
-        String selectedShoolYearId = request.getParameter("schoolyearId");
+        String selectedSchoolYearId = request.getParameter("schoolYearId");
         String classId = request.getParameter("classId");
-        // get list grade
+
+        if (selectedSchoolYearId == null){
+            selectedSchoolYearId = schoolYearDAO.getSchoolYearByDate(new Date()).getId();
+        }
+        List<Week> listWeek = weekDAO.getWeeksFromNowUntilEndOfSchoolYear(selectedSchoolYearId);
         List<Grade> listGrade = gradeDAO.getAll();
+        if (selectedGradeId != null){
+            List<Class> classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId, selectedSchoolYearId, "đã được duyệt");;
+        }
+
+
+
+
+        // get list grade
+
 
         // get start date and end date
         Week dateWeek = null;
@@ -100,22 +110,21 @@ public class CreateTimetableServlet extends HttpServlet {
             classSelected = classDAO.getClassById(classId);
         }
         // get list school year
-        List<SchoolYear> listSchoolYears = schoolyearDAO.getAll();
+        List<SchoolYear> listSchoolYears = schoolYearDAO.getAll();
 
         // get timeslot
         List<Timeslot> listTimeslot = timeslotDAO.getTimeslotsForTimetable();
 
-        // get school year latest
         SchoolYear schoolYear = null;
-        if (selectedShoolYearId != null) {
-            schoolYear = schoolyearDAO.getSchoolYear(selectedShoolYearId);
+        if (selectedSchoolYearId != null) {
+            schoolYear = schoolYearDAO.getSchoolYear(selectedSchoolYearId);
         }
 
         // get list week from now
-        List<Week> listWeek = null;
-        if (schoolYear != null) {
-            listWeek = weekDAO.getWeeks(schoolYear.getId());
-        }
+//        List<Week> listWeek = null;
+//        if (schoolYear != null) {
+//            listWeek = weekDAO.getWeeks(schoolYear.getId());
+//        }
 
         // get list subject by grade id
         List<Subject> subList = null;
@@ -129,7 +138,7 @@ public class CreateTimetableServlet extends HttpServlet {
             classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId, schoolYear.getId(), "đã được duyệt");
         }
 
-        // get list day by week 
+        // get list day by week
         List<Day> dayList = null;
         if (weekId != null) {
             dayList = dayDAO.getDayByWeek(weekId);
@@ -171,24 +180,18 @@ public class CreateTimetableServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 ITimetableDAO timetableDAO = new TimetableDAO();
                 IPersonnelDAO personnelDAO = new PersonnelDAO();
-                ITimeslotDAO timeslotDAO = new TimeslotDAO();
-                ISubjectDAO subjectDAO = new SubjectDAO();
-                IDayDAO dayDAO = new DayDAO();
                 IClassDAO classDAO = new ClassDAO();
                 Timetable timetable = new Timetable();
 
                 User user = (User) session.getAttribute("user");
                 // Lấy các tham số chính từ form
                 String classId = request.getParameter("classId");
-                String weekId = request.getParameter("weekId");
 
                 timetable.setaClass(classDAO.getClassById(classId));
                 // Định nghĩa các tham số khác
                 timetable.setCreatedBy(personnelDAO.getPersonnelByUserId(user.getId()));
                 String status = "đang chờ xử lý";
                 timetable.setStatus(status);
-                String note = "";
-                timetable.setNote(note);
                 timetable.setTeacher(personnelDAO.getTeacherByClass(classId));
 
                 // Thu thập tất cả các `dayId` từ tham số đầu vào
@@ -213,10 +216,15 @@ public class CreateTimetableServlet extends HttpServlet {
                     }
                 }
 
-                // Tiến hành tạo thời khóa biểu nếu không có mục nào tồn tại
                 parameterNames = request.getParameterNames();
-                int entryCounter = 1;
-                boolean entryCreated = false; // Cờ để kiểm tra nếu bất kỳ mục nào được tạo
+                StringBuilder sql = new StringBuilder("insert into Timetables values ");
+                String timetableId = "";
+                if (timetableDAO.getLatestTimetableId()!=null){
+                    timetableId = timetableDAO.generateTimetableId(timetableDAO.getLatestTimetableId());
+                } else {
+                    timetableId = "TB000001";
+                }
+
                 while (parameterNames.hasMoreElements()) {
                     String paramName = parameterNames.nextElement();
                     if (paramName.startsWith("timeslotId_")) {
@@ -226,24 +234,24 @@ public class CreateTimetableServlet extends HttpServlet {
                             String dayId = parts[1];
                             String timeslotId = parts[2];
                             String subjectId = timeslotIdValue; // ID môn học được chọn
-                            String timetableId = timetableDAO.generateTimetableId();
-                            timetable.setId(timetableId);
-                            timetable.setDay(dayDAO.getDayByID(dayId));
-                            timetable.setTimeslot(timeslotDAO.getTimeslotById(timeslotId));
-                            timetable.setSubject(subjectDAO.getSubjectBySubjectId(subjectId));
-                            // Chèn mục thời khóa biểu vào cơ sở dữ liệu
-                            timetableDAO.createTimetable(timetable);
-                            entryCreated = true; // Một mục đã được tạo
+
+                            sql.append("('").append(timetableId).append("','").append(classId).append("','").
+                                    append(timeslotId).append("','").append(dayId).append("','").
+                                    append(subjectId).append("','").append(timetable.getCreatedBy().getId()).
+                                    append("','").append(status).append("',NULL").append(",'").
+                                    append(timetable.getTeacher().getId()).append("'),");
+                            timetableId = timetableDAO.generateTimetableId(timetableId);
                         }
                     }
                 }
-
-                if (entryCreated) {
-                    session.setAttribute("toastType", "success");
+                sql.deleteCharAt(sql.length() - 1);
+                String entryCreated = timetableDAO.createTimetable(sql.toString());
+                if (entryCreated.equals("success")) {
+                    session.setAttribute("toastType", entryCreated);
                     session.setAttribute("toastMessage", "Thời khóa biểu đã được tạo thành công.");
                 } else {
                     session.setAttribute("toastType", "error");
-                    session.setAttribute("toastMessage", "Không có mục thời khóa biểu nào được tạo.");
+                    session.setAttribute("toastMessage", entryCreated);
                 }
                 response.sendRedirect("timetable");
 

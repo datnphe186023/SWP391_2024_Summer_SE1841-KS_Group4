@@ -243,23 +243,15 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     }
 
     @Override
-    public void createTimetable(Timetable timetable) {
-        String sql = "INSERT INTO Timetables "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, timetable.getId());
-            statement.setString(2, timetable.getaClass().getId());
-            statement.setString(3, timetable.getTimeslot().getId());
-            statement.setString(4, timetable.getDay().getId());
-            statement.setString(5, timetable.getSubject().getId());
-            statement.setString(6, timetable.getCreatedBy().getId());
-            statement.setString(7, timetable.getStatus());
-            statement.setString(8, timetable.getNote());
-            statement.setString(9, timetable.getTeacher().getId());
+    public String createTimetable(String sql) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error inserting timetable", e);
+            e.printStackTrace();
+            return "Tạo thất bại!";
         }
+        return "success";
     }
 
     @Override
@@ -349,8 +341,7 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     }
 
     @Override
-    public String generateTimetableId() {
-        String latestId = getLatestTimetableId();
+    public String generateTimetableId(String latestId) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(latestId);
         int number = 0;
@@ -362,8 +353,9 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         return "TB" + result;
     }
 
+    @Override
     // Thêm hàm getLatestTimetableId
-    private String getLatestTimetableId() {
+    public String getLatestTimetableId() {
         String sql = "SELECT TOP 1 id FROM Timetables ORDER BY id DESC";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
