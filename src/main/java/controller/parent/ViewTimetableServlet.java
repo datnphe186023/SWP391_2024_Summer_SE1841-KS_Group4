@@ -77,6 +77,9 @@ public class ViewTimetableServlet extends HttpServlet {
         request.setAttribute("weekList", weekList);
         request.setAttribute("sltedsy", sltedsy);
         request.setAttribute("sltedw", sltedw);
+        request.setAttribute("timetable", timetable);
+        request.setAttribute("timeslotList", timeslotList);
+        request.setAttribute("dayList", dayList);
         request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
     }
 
