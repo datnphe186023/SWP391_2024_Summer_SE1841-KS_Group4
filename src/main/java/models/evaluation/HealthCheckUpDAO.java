@@ -62,12 +62,13 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
         }
         return null;
     }
+
     @Override
     public List<HealthCheckUp> getHealthCheckUpsByPupilAndSchoolYear(String pupilId, String schoolYearId) {
         List<HealthCheckUp> healthCheckUps = new ArrayList<>();
-        String sql = "SELECT h.* FROM HealthCheckUps h " +
-                     "JOIN SchoolYears s ON h.check_up_date BETWEEN s.start_date AND s.end_date " +
-                     "WHERE s.id = ? AND h.pupil_id = ?";
+        String sql = "SELECT h.* FROM HealthCheckUps h "
+                + "JOIN SchoolYears s ON h.check_up_date BETWEEN s.start_date AND s.end_date "
+                + "WHERE s.id = ? AND h.pupil_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, schoolYearId);
@@ -83,7 +84,7 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
         }
         return healthCheckUps;
     }
-    
+
     @Override
     public boolean addHealthCheckUp(HealthCheckUp healthCheckUp) {
         String sql = "INSERT INTO HealthCheckUps (id, pupil_id, check_up_date, height, weight, average_development_stage, blood_pressure, teeth, eyes, ear_nose_throat, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -105,8 +106,6 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
             throw new RuntimeException(e);
         }
     }
-    
-    
 
     @Override
     public String generateHealthCheckUpId() {
@@ -121,7 +120,7 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
         String result = decimalFormat.format(number);
         return "HC" + result;
     }
-    
+
     private String getLatestHealthCheckUpId() {
         String sql = "SELECT TOP 1 id FROM [HealthCheckUps] ORDER BY id DESC";
         try {
@@ -134,6 +133,23 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
             e.printStackTrace();
         }
         return "HC00000"; // Giá trị mặc định nếu không có bản ghi nào trong bảng
+    }
+
+    @Override
+    public boolean healthCheckUpExists(String pupil_id, java.sql.Date checkUpDate) {
+        String sql = "SELECT COUNT(*) FROM [HealthCheckUps] WHERE pupil_id = ? AND check_up_date = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, pupil_id);
+            stmt.setDate(2, checkUpDate);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
