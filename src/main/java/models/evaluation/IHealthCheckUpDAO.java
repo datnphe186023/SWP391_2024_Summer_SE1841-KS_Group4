@@ -1,5 +1,6 @@
 package models.evaluation;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface IHealthCheckUpDAO {
@@ -9,4 +10,5 @@ public interface IHealthCheckUpDAO {
     List<HealthCheckUp> getHealthCheckUpsByPupilAndSchoolYear(String pupilId, String schoolYearId);
     boolean addHealthCheckUp(HealthCheckUp healthCheckUp);
     String generateHealthCheckUpId();
+    boolean healthCheckUpExists(String pupil_id, Date checkUpDate);
 }

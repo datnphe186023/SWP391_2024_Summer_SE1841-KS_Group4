@@ -71,7 +71,7 @@ public class CreateTimetableServlet extends HttpServlet {
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
 
-        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        ISchoolYearDAO schoolyearDAO = new SchoolYearDAO();
         ITimeslotDAO timeslotDAO = new TimeslotDAO();
         IWeekDAO weekDAO = new WeekDAO();
         IGradeDAO gradeDAO = new GradeDAO();
@@ -83,21 +83,8 @@ public class CreateTimetableServlet extends HttpServlet {
         String weekId = request.getParameter("weekId");
         String selectedSchoolYearId = request.getParameter("schoolYearId");
         String classId = request.getParameter("classId");
-
-        if (selectedSchoolYearId == null){
-            selectedSchoolYearId = schoolYearDAO.getSchoolYearByDate(new Date()).getId();
-        }
-        List<Week> listWeek = weekDAO.getWeeksFromNowUntilEndOfSchoolYear(selectedSchoolYearId);
-        List<Grade> listGrade = gradeDAO.getAll();
-        if (selectedGradeId != null){
-            List<Class> classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId, selectedSchoolYearId, "đã được duyệt");;
-        }
-
-
-
-
         // get list grade
-
+        List<Grade> listGrade = gradeDAO.getAll();
 
         // get start date and end date
         Week dateWeek = null;
@@ -110,21 +97,22 @@ public class CreateTimetableServlet extends HttpServlet {
             classSelected = classDAO.getClassById(classId);
         }
         // get list school year
-        List<SchoolYear> listSchoolYears = schoolYearDAO.getAll();
+        List<SchoolYear> listSchoolYears = schoolyearDAO.getAll();
 
         // get timeslot
         List<Timeslot> listTimeslot = timeslotDAO.getTimeslotsForTimetable();
 
+        // get school year latest
         SchoolYear schoolYear = null;
         if (selectedSchoolYearId != null) {
-            schoolYear = schoolYearDAO.getSchoolYear(selectedSchoolYearId);
+            schoolYear = schoolyearDAO.getSchoolYear(selectedSchoolYearId);
         }
 
         // get list week from now
-//        List<Week> listWeek = null;
-//        if (schoolYear != null) {
-//            listWeek = weekDAO.getWeeks(schoolYear.getId());
-//        }
+        List<Week> listWeek = null;
+        if (schoolYear != null) {
+            listWeek = weekDAO.getWeeks(schoolYear.getId());
+        }
 
         // get list subject by grade id
         List<Subject> subList = null;
@@ -138,7 +126,7 @@ public class CreateTimetableServlet extends HttpServlet {
             classList = classDAO.getClassByGradeIdAndSchoolYearAndStatus(selectedGradeId, schoolYear.getId(), "đã được duyệt");
         }
 
-        // get list day by week
+        // get list day by week 
         List<Day> dayList = null;
         if (weekId != null) {
             dayList = dayDAO.getDayByWeek(weekId);
@@ -219,7 +207,7 @@ public class CreateTimetableServlet extends HttpServlet {
                 parameterNames = request.getParameterNames();
                 StringBuilder sql = new StringBuilder("insert into Timetables values ");
                 String timetableId = "";
-                if (timetableDAO.getLatestTimetableId()!=null){
+                if (timetableDAO.getLatestTimetableId() != null) {
                     timetableId = timetableDAO.generateTimetableId(timetableDAO.getLatestTimetableId());
                 } else {
                     timetableId = "TB000001";
