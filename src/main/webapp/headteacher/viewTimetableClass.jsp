@@ -37,30 +37,31 @@
                 }
             });
 
-            function enableWeek() {
+            function enableClass() {
                 var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
-                var weekSelect = document.querySelector('select[name="week"]');
+                var classSelect = document.querySelector('select[name="class"]');
 
                 if (schoolYearSelect.value !== "") {
+                    classSelect.disabled = false;
+                } else {
+                    classSelect.disabled = true;
+                    document.querySelector('select[name="week"]').disabled = true;
+                }
+            }
+
+            function enableWeek() {
+                var classSelect = document.querySelector('select[name="class"]');
+                var weekSelect = document.querySelector('select[name="week"]');
+
+                if (classSelect.value !== "") {
                     weekSelect.disabled = false;
                 } else {
                     weekSelect.disabled = true;
                 }
             }
-            function enableSchoolYear() {
-                var gradeSelect = document.querySelector('select[name="class"]');
-                var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
-                var weekSelect = document.querySelector('select[name="week"]');
 
-                if (gradeSelect.value !== "") {
-                    schoolYearSelect.disabled = false;
-                } else {
-                    schoolYearSelect.disabled = true;
-                    weekSelect.disabled = true;
-                }
-            }
             window.onload = function () {
-                enableSchoolYear();
+                enableClass();
                 enableWeek();
             }
         </script>
@@ -151,27 +152,15 @@
                             </c:if>
                         </div>
                         <form id="schoolYearForm" method="post" action="viewtimetableclass">
-                            <input type="hidden" name="pid" value="${sessionScope.personnel.id}"/>
-                            <input type="hidden" name="id" value="${param.id}"/>
-                            <input type="hidden" name="classId" value="${requestScope.aClass.id}"/>
+                            <input type="hidden" name="pid" value="${sessionScope.personnel.id}" />
+                            <input type="hidden" name="id" value="${param.id}" />
+                            <input type="hidden" name="classId" value="${requestScope.aClass.id}" />
                             <table class="timetable-table table table-bordered text-center">
                                 <div style="margin-bottom: 5px" class="d-flex justify-content-lg-start">
                                     <div class="class-form">
-                                        <label>Lớp
-                                            <select name="class" onchange="enableSchoolYear();
-                                                    this.form.submit();" class="custom-select">
-                                                <option value="" hidden>Lớp</option>
-                                                <c:forEach items="${requestScope.listClass}" var="lc">
-                                                    <option ${classselect eq lc.getId() ? "selected" : ""}
-                                                        value="${lc.getId()}">${lc.getName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="class-form">
                                         <label>Năm học
-                                            <select name="schoolyear" onchange="enableWeek();
-                                                    this.form.submit();" class="custom-select" ${not empty classselect ? '' : 'disabled'}>
+                                            <select name="schoolyear" onchange="enableClass();
+                                                    this.form.submit();" class="custom-select">
                                                 <option value="" hidden>Năm học</option>
                                                 <c:forEach items="${requestScope.schoolYearList}" var="sy">
                                                     <option ${sltedsy eq sy.getId() ? "selected" : ""}
@@ -181,8 +170,20 @@
                                         </label>
                                     </div>
                                     <div class="class-form">
+                                        <label>Lớp
+                                            <select name="class" onchange="enableWeek();
+                                                    this.form.submit();" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
+                                                <option value="" hidden>Lớp</option>
+                                                <c:forEach items="${requestScope.listClass}" var="lc">
+                                                    <option ${classselect eq lc.getId() ? "selected" : ""}
+                                                        value="${lc.getId()}">${lc.getName()}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="class-form">
                                         <label>Tuần học
-                                            <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
+                                            <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty classselect ? '' : 'disabled'}>
                                                 <option value="" hidden>Tuần học</option>
                                                 <c:forEach items="${requestScope.weekList}" var="w">
                                                     <option ${sltedw eq w.getId() ? "selected" : ""}
