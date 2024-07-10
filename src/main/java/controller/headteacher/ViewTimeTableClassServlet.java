@@ -11,7 +11,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import models.classes.ClassDAO;
 import models.day.Day;
@@ -72,11 +74,18 @@ public class ViewTimeTableClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String toastMessage = (String) session.getAttribute("toastMessage");
+        String toastType = (String) session.getAttribute("toastType");
+        if (toastMessage != null && toastType != null) {
+            request.setAttribute("toastMessage", toastMessage);
+            request.setAttribute("toastType", toastType);
+            session.removeAttribute("toastMessage");
+            session.removeAttribute("toastType");
+        }
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
-        List<models.classes.Class> listClass = new ClassDAO().getAllClass();
         request.setAttribute("schoolYearList", schoolYearList);
-        request.setAttribute("listClass", listClass);
         request.getRequestDispatcher("viewTimetableClass.jsp").forward(request, response);
     }
 
@@ -92,12 +101,25 @@ public class ViewTimeTableClassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String classId = request.getParameter("class");
-        List<models.classes.Class> listClass = new ClassDAO().getAllClass();
+        WeekDAO weekDAO = new WeekDAO();
+        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         models.classes.Class aclass = new ClassDAO().getClassById(classId);
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
-        WeekDAO weekDAO = new WeekDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        List<models.classes.Class> listClass = new ClassDAO().getBySchoolYear(schoolyear);
+        if (listClass.isEmpty()) {
+            HttpSession session = request.getSession();
+            session.setAttribute("toastType", "error");
+            session.setAttribute("toastMessage", "Năm này không có lớp học");
+            response.sendRedirect("viewtimetableclass");
+            return;
+        }
+        if (schoolyear == null) {
+            schoolyear = schoolYearDAO.getLatest().getId();
+        }
+        if (week == null) {
+            week = weekDAO.getCurrentWeek(new Date());
+        }
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
         List<Week> weekList = weekDAO.getWeeks(schoolyear);
         List<Timetable> timetable = new ArrayList<>();
