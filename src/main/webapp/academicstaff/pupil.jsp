@@ -115,7 +115,7 @@
 
                 <!-- New School Pupil Modal -->
                 <div class="modal fade create-pupil" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                     aria-hidden="true">
+                     aria-hidden="true" >
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="row">
@@ -237,7 +237,7 @@
                                                                     class="form-select"
                                                                     aria-label="Default select example"
                                                                     style="width: 50%;height: 50%;">
-                                                                <option hidden="" value="2">Chọn giới tính</option>
+                                                                <option hidden="" value="-1">Chọn giới tính</option>
                                                                 <option ${param.gender==1?"selected":""} value="1">Nam
                                                                 </option>
                                                                 <option ${param.gender==0?"selected":""} value="0">Nữ
@@ -345,10 +345,8 @@
         // Perform the validation
         var firstNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,20}$")
         var lastNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,60}$")
-        var fullNamePattern1 = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
-        var fullNamePattern2 = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
-        var phonePattern1 = /^(?:|(0[23578]|09)\d{8})$/;
-        var phonePattern2 = /^(?:|(0[23578]|09)\d{8})$/;
+        var fullNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
+        var phonePattern = /^(?:|(0[23578]|09)\d{8})$/;
         var addressPattern = new RegExp("^[A-Za-z1-9,\\s" + vietnamesePattern + "]{0,300}$");
 
         if(!firstNamePattern.test(firstName)){
@@ -359,11 +357,11 @@
             toastr.error("Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 60 kí tự)");
             return false; // Prevent form submission
         }
-        if(!(fullNamePattern1.test(guardianName1) && fullNamePattern2.test(guardianName2))){
+        if(!(fullNamePattern.test(guardianName1) && fullNamePattern.test(guardianName2))){
             toastr.error("Họ và tên người giám hộ không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)");
             return false; // Prevent form submission
         }
-        if (!(phonePattern1.test(phoneNumber1) && phonePattern2.test(phoneNumber2))) {
+        if (!(phonePattern.test(phoneNumber1) && phonePattern.test(phoneNumber2))) {
             toastr.error("Vui lòng nhập đúng định dạng số điện thoại");
             return false; // Prevent form submission
         }

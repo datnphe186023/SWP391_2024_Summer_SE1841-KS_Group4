@@ -70,8 +70,15 @@
                                             <c:forEach var="evaluation" items="${requestScope.evaluationList}">
                                                 <c:if test="${pupil.id eq evaluation.pupil.id &&
                                                 evaluation.date.id eq day.id}">
-                                                    ${evaluation.evaluation}
-
+                                                    <c:if test="${evaluation.evaluation eq 'Ngoan'}">
+                                                        <span class="badge badge-success">${evaluation.evaluation}</span>
+                                                    </c:if>
+                                                    <c:if test="${evaluation.evaluation eq 'Chưa ngoan'}">
+                                                        <span class="badge badge-danger">${evaluation.evaluation}</span>
+                                                    </c:if>
+                                                    <c:if test="${evaluation.evaluation eq 'Nghỉ học'}">
+                                                        <span class="badge badge-secondary">${evaluation.evaluation}</span>
+                                                    </c:if>
                                                 </c:if>
                                             </c:forEach>
                                             </td>
