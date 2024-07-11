@@ -249,31 +249,33 @@
                             </thead>
                             <tbody>
                             <c:if test="${not empty requestScope.dayList}">
-                                <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a
-                                        style="font-weight: normal">Biểu tượng </a><a
-                                        style="color: red"> (-) </a><a
-                                        style="font-weight: normal"> thể hiện bữa trống</a></p>
+
                                 <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                     <tr>
                                         <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                         <c:forEach var="day" items="${requestScope.dayList}">
                                             <td style="text-align: left;">
-                                              <!--  <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}" disabled > -->
 
+                                            <c:set var="menucheck" value="false"/>
                                                     <c:forEach var="menuDetail" items="${requestScope.menuDetails}">
                                                         <c:if test="${menuDetail.getTimeslot().getId() == timeslot.id && menuDetail.getDay().getId()  == day.id}">
-                                                            <!--    <option value="${menuDetail.getFoodMenu().getId()}" name="FoodmenuId_${day.id}_${timeslot.id}_${menuDetail.getFoodMenu().getId()}" selected> -->
+
                                                                     <c:if test="${menuDetail.getFoodMenu().getFoodDetails() != null }">
-                                                            ${menuDetail.getFoodMenu().getFoodDetails()}
+                                                                             <div style="display:flex ; justify-content:center ;">
+                                                                        ${menuDetail.getFoodMenu().getFoodDetails()}
+                                                                         </div>
+                                                                      <c:set var="menucheck" value="true"/>
                                                                     </c:if>
-                                                            <c:if test="${menuDetail.getFoodMenu().getFoodDetails() == null }">
-                                                                <a
-                                                                        style="color: red"> (-) </a>
-                                                            </c:if>
-                                                            <!-- </option>-->
+
+
                                                         </c:if>
                                                     </c:forEach>
-                                             <!--   </select>-->
+                                                <c:if test="${menucheck eq 'false'}">
+                                                    <div style="display:flex ; justify-content: center">
+                                                        <a style="color: red"> (Bữa trống) </a>
+                                                    </div>
+                                                </c:if>
+
                                             </td>
                                         </c:forEach>
                                     </tr>

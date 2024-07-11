@@ -148,21 +148,28 @@
                                         </c:if>
                                         <c:forEach var="dayOfWeek" items="${daysOfWeek}">
                                             <td>
+                                                <c:set var="menucheck" value="false"/>
                                                 <c:forEach var="menu" items="${requestScope.menuDetailList}">
                                                     <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
                                                         <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
-                                                            ${menu.getFoodMenu().getFoodDetails()}
+                                                            <div style="display:flex ; justify-content: center">
+                                                                    ${menu.getFoodMenu().getFoodDetails()}
+                                                            </div>
+                                                            <c:set var="menucheck" value="true"/>
                                                         </c:if>
-                                                        <c:if test="${menu.getFoodMenu().getFoodDetails() == null }">
-                                                            <a
-                                                                    style="color: red"> (-) </a>
-                                                        </c:if>
+
                                                          <input hidden value="${menu.getId()}" name="menuid" />
                                                         <input hidden value="${requestScope.schoolyear.getId()}" name="sltedsy" />
                                                         <input hidden value="${requestScope.grade.getId()}" name="sltedg" />
                                                         <input hidden value="${requestScope.week.getId()}" name="sltedw" />
                                                     </c:if>
                                                 </c:forEach>
+                                                <c:if test="${menucheck eq 'false'}">
+                                                    <div style="display:flex ; justify-content: center">
+                                                        <a style="color: red"> (Bữa trống) </a>
+                                                    </div>
+
+                                                </c:if>
                                             </td>
                                         </c:forEach>
                                     </tr>

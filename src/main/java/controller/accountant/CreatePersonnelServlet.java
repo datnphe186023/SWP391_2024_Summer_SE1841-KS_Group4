@@ -95,12 +95,13 @@ public class CreatePersonnelServlet extends HttpServlet {
        int role = Integer.parseInt(xrole);
        int gender = Integer.parseInt(xgender);
        String id =generateId(role);
-        if(!checkAge(xbirthday)){
-           message="Thêm nhân viên thất bại!Nhân viên chưa đủ 18 tuổi";
-           session.setAttribute("firstname", xfirstname);
-
-       }
-       else if(!personnelDAO.checkPersonnelPhone(xphone)&&!personnelDAO.checkPersonnelEmail(xemail)){
+//        if(!checkAge(xbirthday)){
+//           message="Thao tác Thất bại ! Chưa đủ 18 tuổi";
+//           session.setAttribute("firstname", xfirstname);
+//
+//       }
+//       else
+       if(!personnelDAO.checkPersonnelPhone(xphone)&&!personnelDAO.checkPersonnelEmail(xemail)){
             personnelDAO.insertPersonnel(id.trim(), xfirstname.trim(), xlastname.trim(), gender, xbirthday.trim(), xaddress.trim(), xemail.trim(), xphone.trim(), role, xavatar.trim());
        message="Thêm nhân viên thành công";
        type = "success" ;
