@@ -97,11 +97,13 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                            <div class="col-md-4 text-right">
-                                <a class="btn btn-success" href="evaluationdetail?weekId=${weekId}">
-                                    <i class="fas fa-fw fa-id-badge"></i> Thông tin chi tiết
-                                </a>
-                            </div>
+                            <c:if test="${requestScope.classes.name != null && weekId  ne '' }">
+                                <div class="col-md-4 text-right">
+                                    <a class="btn btn-success" href="evaluationdetail?weekId=${weekId}">
+                                        <i class="fas fa-fw fa-id-badge"></i> Thông tin chi tiết
+                                    </a>
+                                </div>
+                            </c:if>
                         </div>
                     </div>
                     <div class="card-body">

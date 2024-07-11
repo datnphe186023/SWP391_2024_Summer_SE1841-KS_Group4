@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,6 +94,37 @@ public class PupilAttendanceDAO extends DBContext implements IPupilAttendanceDAO
         return null;
     }
 
+    @Override
+    public boolean checkAttendanceByDay(List<Pupil> listPupil, String dayId) {
+        StringBuilder sql= new StringBuilder("select id from PupilsAttendance where day_id= ? ");
+       if(!listPupil.isEmpty()){
+           sql.append(" and pupil_id in (");
+       }
+        for(int i=0;i<listPupil.size();i++){
+            if(i== listPupil.size()-1){
+                sql.append("'").append(listPupil.get(i).getId()).append("')");
+            }else{
+                sql.append("'").append(listPupil.get(i).getId()).append("',");
+            }
+        }
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+            preparedStatement.setString(1,dayId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int rows=0;
+            while(resultSet.next()){
+                rows++;
+            }
+            if(rows== listPupil.size()){
+                return true;
+            }else if(rows==0){
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 
 
     private PupilAttendance getLatest() {

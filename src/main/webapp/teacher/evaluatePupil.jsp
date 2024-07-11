@@ -27,6 +27,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        const checkAttendance = '<%= request.getAttribute("checkAttendance") %>';
+            $(document).ready(function () {
+                if (checkAttendance === 'notAttendance') {
+                    $('#errorModal').modal('show');
+                }
+            });
+    </script>
+    <script>
         $(document).ready(function () {
             var toastMessage = '<%= session.getAttribute("toastMessage") %>';
             var toastType = '<%= session.getAttribute("toastType") %>';
@@ -43,20 +51,6 @@
             }
         });
     </script>
-    <script>
-        function confirmAccept(formId, msg) {
-            formIdToAccept = formId;
-            document.getElementById('confirmMessageTitle').innerText = msg;
-            $('#confirmMessage').modal('show');
-        }
-        $(document).ready(function () {
-            $('#confirmMessageButton').click(function () {
-                document.getElementById(formIdToAccept).submit();
-
-            });
-        });
-    </script>
-
 </head>
 
 <body id="page-top">
@@ -76,7 +70,7 @@
                         <c:choose>
                             <c:when test="${requestScope.teacherClass == null}">
                                 <h6 class="m-0 font-weight-bold text-primary">Lớp: <a
-                                        style="color: red">Chưa có lớp</a>
+                                        style="color: red">Ngày hôm nay không có lớp</a>
                                 </h6>
                             </c:when>
                             <c:otherwise>
@@ -153,12 +147,34 @@
                     </form>
                     </div>
                 </div>
+            <%--            Modal for message error    --%>
+                <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                            </div>
+                            <div class="modal-body">
+                                Vui lòng điểm danh trước khi đánh giá học sinh !!!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" onclick="goToAttendance()"  >Điểm danh học sinh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%--            Modal for message error    --%>
 
             </div>
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>
 </div>
+<script>
+    function goToAttendance() {
+        window.location.href= 'takeattendance';
+    }
+</script>
 <!-- Page level plugins -->
 <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>

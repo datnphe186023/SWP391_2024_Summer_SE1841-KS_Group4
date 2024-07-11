@@ -74,7 +74,7 @@ public class PupilServlet extends HttpServlet {
                         note);
                 ////   Stage for create pupil
 
-                 if(Helper.formatString(note).isBlank() || avatar.isBlank() || genderRaw.equals("2") || Helper.formatName(firstName).isBlank() || Helper.formatName(lastName).isBlank() || Helper.formatName(firstGuardianName).isBlank()) {
+                 if(Helper.formatString(note).isBlank() || avatar.isBlank() || genderRaw.equals("-1") || Helper.formatName(firstName).isBlank() || Helper.formatName(lastName).isBlank() || Helper.formatName(firstGuardianName).isBlank()) {
                     toastMessage = "Tạo thật bại ! Vui lòng không bỏ trống các trường nhập !";
                     toastType = "error";
                     session.setAttribute("toastMessage", toastMessage);

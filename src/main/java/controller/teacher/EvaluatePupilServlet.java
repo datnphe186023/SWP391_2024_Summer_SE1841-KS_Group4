@@ -22,9 +22,7 @@ import models.evaluation.IEvaluationDAO;
 import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
-import models.pupil.IPupilDAO;
-import models.pupil.Pupil;
-import models.pupil.PupilDAO;
+import models.pupil.*;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
@@ -39,6 +37,7 @@ public class EvaluatePupilServlet extends HttpServlet {
         IPupilDAO pupilDAO = new PupilDAO();
         IClassDAO classDAO = new ClassDAO();
         IDayDAO dayDAO = new DayDAO();
+        IPupilAttendanceDAO pupilAttendanceDAO = new PupilAttendanceDAO();
 
         HttpSession session = request.getSession();
         // Get the current date
@@ -48,14 +47,18 @@ public class EvaluatePupilServlet extends HttpServlet {
         // Convert the Date to a String
         String dateString = formatter.format(currentDate);
         String dateId =null;
-
+        String checkAttendance ="notAttendance";
         User user = (User) session.getAttribute("user");
         List<Pupil> listPupil = pupilDAO.getPupilsByTeacherAndTimetable(user.getUsername().toUpperCase(), dateString);
         String  className = classDAO.getClassNameByTeacherAndTimetable(user.getUsername(), dateString);
         Day day = dayDAO.getDayByDate(dateString);
         if(day!=null){
             dateId = day.getId();
+            if(pupilAttendanceDAO.checkAttendanceByDay(listPupil,dateId)){
+                checkAttendance ="attendance" ;
+            }
         }
+        request.setAttribute("checkAttendance",checkAttendance);
         request.setAttribute("dateId",dateId);
         request.setAttribute("teacherClass",className);
         request.setAttribute("listPupil", listPupil);
@@ -138,21 +141,5 @@ public class EvaluatePupilServlet extends HttpServlet {
             session.setAttribute("toastMessage", toastMessage);
             response.sendRedirect("evaluate");
         }
-    }
-
-    private Date increaseDate(Date currrentDate, int day){
-        Date currentDate = new Date();
-
-        // Create a Calendar object
-        Calendar calendar = Calendar.getInstance();
-
-        // Set the calendar to the current date
-        calendar.setTime(currentDate);
-
-        // Subtract 15 days from the current date
-        calendar.add(Calendar.DAY_OF_MONTH, day);
-
-
-        return calendar.getTime();
     }
 }
