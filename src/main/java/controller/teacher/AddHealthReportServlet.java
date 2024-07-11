@@ -51,69 +51,77 @@ public class AddHealthReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
+
         String pupil_id = request.getParameter("pupil_id");
         IPupilDAO pupilDAO = new PupilDAO();
         HealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
+
         // Get check up date
         String checkUpDateStr = request.getParameter("check_up_date");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date checkUpDate = null;
+        java.util.Date checkUpDate = null;
         try {
             checkUpDate = sdf.parse(checkUpDateStr);
         } catch (ParseException e) {
             e.printStackTrace();
-            // Handle error if date parsing fails
             session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Ngày không hợp lệ , báo cáo sức khỏe của trẻ đã tồn tại!");
+            session.setAttribute("toastMessage", "Ngày không hợp lệ, báo cáo sức khỏe của trẻ đã tồn tại!");
             response.sendRedirect("health-details");
             return;
         }
 
-        // Get height
-        float height = Float.parseFloat(request.getParameter("height"));
-        // Get weight
-        float weight = Float.parseFloat(request.getParameter("weight"));
-        // Get average development stage
-        String averageDevelopmentStage = request.getParameter("average_development_stage");
-        // Get blood pressure
-        String bloodPressure = request.getParameter("blood_pressure");
-        // Get teeth
-        String teeth = request.getParameter("teeth");
-        // Get eyes
-        String eyes = request.getParameter("eyes");
-        // Get Ear - nose - throat
-        String earNoseThroat = request.getParameter("ear_nose_throat");
-        // Get note
-        String note = request.getParameter("note");
+        // Convert java.util.Date to java.sql.Date
+        java.sql.Date sqlCheckUpDate = new java.sql.Date(checkUpDate.getTime());
 
-        // Create new health check up
-        HealthCheckUp healthCheckUp = new HealthCheckUp();
-        healthCheckUp.setId(healthCheckUpDAO.generateHealthCheckUpId());
-        healthCheckUp.setPupil(pupilDAO.getPupilsById(pupil_id));
-        healthCheckUp.setCheckUpDate(checkUpDate);
-        healthCheckUp.setHeight(height);
-        healthCheckUp.setWeight(weight);
-        healthCheckUp.setAverageDevelopmentStage(averageDevelopmentStage);
-        healthCheckUp.setBloodPressure(bloodPressure);
-        healthCheckUp.setTeeth(teeth);
-        healthCheckUp.setEyes(eyes);
-        healthCheckUp.setEarNoseThroat(earNoseThroat);
-        healthCheckUp.setNotes(note);
-
-        boolean success = healthCheckUpDAO.addHealthCheckUp(healthCheckUp);
-        // Set success message and redirect
-        if (success) {
-            session.setAttribute("toastType", "success");
+        // Check if health report already exists
+        boolean checkHealthReportExisted = healthCheckUpDAO.healthCheckUpExists(pupil_id, sqlCheckUpDate);
+        if (checkHealthReportExisted) {
+            session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ đã được tạo!");
         } else {
-            session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ tạo thất bại!");
+            // Get height
+            float height = Float.parseFloat(request.getParameter("height"));
+            // Get weight
+            float weight = Float.parseFloat(request.getParameter("weight"));
+            // Get average development stage
+            String averageDevelopmentStage = request.getParameter("average_development_stage");
+            // Get blood pressure
+            String bloodPressure = request.getParameter("blood_pressure");
+            // Get teeth
+            String teeth = request.getParameter("teeth");
+            // Get eyes
+            String eyes = request.getParameter("eyes");
+            // Get Ear - nose - throat
+            String earNoseThroat = request.getParameter("ear_nose_throat");
+            // Get note
+            String note = request.getParameter("note");
+
+            // Create new health check up
+            HealthCheckUp healthCheckUp = new HealthCheckUp();
+            healthCheckUp.setId(healthCheckUpDAO.generateHealthCheckUpId());
+            healthCheckUp.setPupil(pupilDAO.getPupilsById(pupil_id));
+            healthCheckUp.setCheckUpDate(sqlCheckUpDate);
+            healthCheckUp.setHeight(height);
+            healthCheckUp.setWeight(weight);
+            healthCheckUp.setAverageDevelopmentStage(averageDevelopmentStage);
+            healthCheckUp.setBloodPressure(bloodPressure);
+            healthCheckUp.setTeeth(teeth);
+            healthCheckUp.setEyes(eyes);
+            healthCheckUp.setEarNoseThroat(earNoseThroat);
+            healthCheckUp.setNotes(note);
+
+            boolean success = healthCheckUpDAO.addHealthCheckUp(healthCheckUp);
+            // Set success message and redirect
+            if (success) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ đã được tạo!");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ tạo thất bại!");
+            }
         }
         String redirectUrl = "health-details?pupilid=" + pupil_id + "&&schoolyear=" + request.getParameter("schoolYear");
         response.sendRedirect(redirectUrl);
-        
-
     }
 
     /**

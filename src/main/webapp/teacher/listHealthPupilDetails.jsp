@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Anh Quan
-  Date: 5/23/2024
-  Time: 3:17 PM
-  To change this template use File | Settings | File Templates.
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -47,6 +39,16 @@
                     }
                 }
             });
+
+            function validateDate() {
+                var checkUpDate = document.getElementsByName("check_up_date")[0].value;
+                var currentDate = new Date().toISOString().split('T')[0];
+                if (checkUpDate !== currentDate) {
+                    toastr.error("Ngày kiểm tra sức khỏe phải là ngày hiện tại!");
+                    return false;
+                }
+                return true;
+            }
         </script>
         <style>
             .modal-header {
@@ -131,7 +133,7 @@
                                     </button>
                                 </div>
                                 <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                <form action="addHealthReport" method="post" id="healthReportForm">
+                                <form action="addHealthReport" method="post" id="healthReportForm" onsubmit="return validateDate();">
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -207,6 +209,3 @@
         <script src="../js/demo/datatables-demo.js"></script>
     </body>
 </html>
-
-
-

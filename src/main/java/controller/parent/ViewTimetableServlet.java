@@ -7,11 +7,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import models.classes.ClassDAO;
 import models.day.Day;
 import models.day.DayDAO;
 import models.day.IDayDAO;
+import models.grade.GradeDAO;
+import models.pupil.IPupilDAO;
+import models.pupil.PupilDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.timeslot.ITimeslotDAO;
@@ -19,6 +25,8 @@ import models.timeslot.Timeslot;
 import models.timeslot.TimeslotDAO;
 import models.timetable.Timetable;
 import models.timetable.TimetableDAO;
+import models.user.User;
+import models.week.IWeekDAO;
 import models.week.Week;
 import models.week.WeekDAO;
 
@@ -33,8 +41,45 @@ public class ViewTimetableServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        TimetableDAO timetableDAO = new TimetableDAO();
+        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        HttpSession session = request.getSession();
+        IWeekDAO weekDAO = new WeekDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
+        User user = (User) session.getAttribute("user");
+        Date currentDate = Date.from(Instant.now());
+        String sltedw = "";
+        String sltedsy = "";
+        if (weekDAO.getCurrentWeek(currentDate) != null) {
+            sltedw = weekDAO.getCurrentWeek(currentDate);
+            sltedsy = weekDAO.getYearByWeek(sltedw);
+        } else if (schoolYearDAO.getClosestSchoolYears() != null
+                && schoolYearDAO.CheckPupilInClassOfSchoolYear(
+                        pupilDAO.getPupilByUserId(user.getId()).getId(),
+                        schoolYearDAO.getClosestSchoolYears().getId())) {
+            sltedsy = schoolYearDAO.getClosestSchoolYears().getId();
+            sltedw = weekDAO.getfirstWeekOfClosestSchoolYear(sltedsy).getId();
+        } else {
+            sltedw = weekDAO.getLastWeekOfClosestSchoolYearOfPupil(pupilDAO.getPupilByUserId(user.getId()).getId()).getId();
+            sltedsy = weekDAO.getYearByWeek(sltedw);
+        }
         List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
+        List<Week> weekList = weekDAO.getWeeks(sltedsy);
+        List<Timetable> timetable = new ArrayList<>();
+        ITimeslotDAO timeslotDAO = new TimeslotDAO();
+        List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
+        IDayDAO dayDAO = new DayDAO();
+        List<Day> dayList = dayDAO.getDayByWeek(sltedw);
+        models.classes.Class aclass = new ClassDAO().getClassByPupilIdandSchoolYear(id, sltedsy);
+        timetable = new TimetableDAO().getTimetableByClassAndWeek(aclass.getId(), sltedw, "đã được duyệt");
+        request.setAttribute("aClass", aclass);
         request.setAttribute("schoolYearList", schoolYearList);
+        request.setAttribute("weekList", weekList);
+        request.setAttribute("sltedsy", sltedsy);
+        request.setAttribute("sltedw", sltedw);
+        request.setAttribute("timetable", timetable);
+        request.setAttribute("timeslotList", timeslotList);
+        request.setAttribute("dayList", dayList);
         request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
     }
 
