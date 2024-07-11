@@ -55,6 +55,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
         List<Grade> gradeList = gradeDAO.getGradeByUserId(user.getId());
         List<Week> weekList = weekDAO.getWeeks(sltedsy);
+        request.setAttribute("menustatus","not-enough-data");
         request.setAttribute("schoolYearList",schoolYearList );
         request.setAttribute("gradeList",gradeList );
         request.setAttribute("weekList",weekList);
@@ -85,7 +86,15 @@ public class ViewMealTimetableServlet extends HttpServlet {
         if(grade!=null && week!=null && schoolyear!=null){
             menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear,"đã được duyệt");
         }
-
+        String menustatus ="";
+        if(menuDetailList.size()>0){
+            menustatus = "created";
+        }else if (menuDetailList.isEmpty() && grade!=null && week!=null && schoolyear!=null&& weekDAO.checkWeekInSchoolYear(week,schoolyear)){
+            menustatus = "not-created";
+        }else{
+            menustatus = "not-enough-data";
+        }
+        request.setAttribute("menustatus",menustatus);
         request.setAttribute("sltedg",grade );
         request.setAttribute("sltedsy",schoolyear );
         request.setAttribute("sltedw",week );

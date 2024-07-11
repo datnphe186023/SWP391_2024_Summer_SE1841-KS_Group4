@@ -140,19 +140,18 @@
           <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Thực Đơn Theo Tuần
             </h6>
-            <h6 style="margin-left: 11px;font-weight: bold">Ghi chú: <a
-                    style="font-weight: normal">Biểu tượng </a><a
-                    style="color: red"> (-) </a><a
-                    style="font-weight: normal"> thể hiện bữa trống</a></h6>
+
           </div>
           <c:set var="timesOfDay" value="${['Bữa trưa', 'Bữa chiều', 'Bữa chiều phụ']}" />
           <c:set var="daysOfWeek" value="${['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật']}" />
           <div class="card-body">
             <div class="table-responsive">
+              <c:set value="${requestScope.menuDetailList}" var="menuDetaillist"/>
+              <c:if test="${requestScope.menustatus eq 'created'}">
               <table class="table table-bordered" id="" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th></th>
+                  <th>Thời gian</th>
                   <th>Thứ Hai</th>
                   <th>Thứ Ba</th>
                   <th>Thứ Tư</th>
@@ -164,7 +163,7 @@
                 </thead>
 
                 <tbody>
-                <c:set value="${requestScope.menuDetailList}" var="menuDetaillist"/>
+
                 <c:forEach var="timeOfDay" items="${timesOfDay}">
                   <tr>
                     <c:if test="${timeOfDay == 'Bữa trưa'}" >
@@ -176,25 +175,47 @@
                     <c:if test="${timeOfDay == 'Bữa chiều phụ'}" >
                       <td>Chiều Phụ</td>
                     </c:if>
+
                     <c:forEach var="dayOfWeek" items="${daysOfWeek}">
                       <td>
+                        <c:set var="menucheck" value="false"/>
                         <c:forEach var="menu" items="${requestScope.menuDetailList}">
                           <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
                             <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
+                        <div style="display:flex ; justify-content: center">
                               ${menu.getFoodMenu().getFoodDetails()}
+                        </div>
+                              <c:set var="menucheck" value="true"/>
                             </c:if>
-                            <c:if test="${menu.getFoodMenu().getFoodDetails() == null }">
-                              <a
-                                      style="color: red"> (-) </a>
-                            </c:if>
+
                           </c:if>
                         </c:forEach>
+                        <c:if test="${menucheck eq 'false'}">
+                          <div style="display:flex ; justify-content: center">
+                            <a style="color: red"> (Bữa trống) </a>
+                          </div>
+
+                        </c:if>
                       </td>
                     </c:forEach>
                   </tr>
                 </c:forEach>
                 </tbody>
+
+
+
               </table>
+              </c:if>
+              <c:if test="${requestScope.menustatus eq 'not-enough-data'}">
+                <div style="display:flex ; justify-content: center">
+                  <a style="color: red"> Chọn đầy đủ thời gian để xem thực đơn </a>
+                </div>
+              </c:if>
+              <c:if test="${requestScope.menustatus eq 'not-created'}">
+                <div style="display:flex ; justify-content: center">
+                  <a style="color: red"> Tuần này chưa có thực đơn </a>
+                </div>
+              </c:if>
             </div>
           </div>
         </div>

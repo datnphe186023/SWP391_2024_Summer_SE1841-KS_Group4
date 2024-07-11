@@ -30,7 +30,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
         List<Grade> gradeList = gradeDAO.getAll();
         request.setAttribute("schoolYearList",schoolYearList );
         request.setAttribute("gradeList",gradeList );
-
+        request.setAttribute("menustatus","not-enough-data");
         request.getRequestDispatcher("viewMealTimetable.jsp").forward(request, response);
 
     }
@@ -55,7 +55,15 @@ public class ViewMealTimetableServlet extends HttpServlet {
             menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear,"đã được duyệt");
 
         }
-
+        String menustatus ="";
+        if(menuDetailList.size()>0){
+            menustatus = "created";
+        }else if (menuDetailList.isEmpty() && grade!=null && week!=null && schoolyear!=null&& weekDAO.checkWeekInSchoolYear(week,schoolyear)){
+            menustatus = "not-created";
+        }else{
+            menustatus = "not-enough-data";
+        }
+        request.setAttribute("menustatus",menustatus);
         request.setAttribute("sltedg",grade );
         request.setAttribute("sltedsy",schoolyear );
         request.setAttribute("sltedw",week );

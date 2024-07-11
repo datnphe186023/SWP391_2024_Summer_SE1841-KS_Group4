@@ -214,7 +214,7 @@
                     <!--modal for new personnel-->
                     <div class="modal fade" id="newPersonnelModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
                          data-keyboard="false">
-                        <form action="createpersonnel?action=create" method="POST">
+                        <form action="createpersonnel?action=create" id="create-personnel" method="POST">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
@@ -292,10 +292,10 @@
                                                         style="color: red">(*)</a></label>
                                                 <input type="file" class="form-control" id="imageUpload" required
                                                        accept="image/*" onchange="previewImage(event)" name="avatar"
-                                                       value="${param.avatar}">
+                                                       value="${requestScope.avatar}">
 
                                                 <div id="imagePreview" class="mt-3 text-center" style="display: none;">
-                                                    <img id="preview" src="../images${param.avatar}"
+                                                    <img id="preview" src="../images${requestScope.avatar}"
                                                          class="img-fluid rounded-circle" alt="Preview Image">
                                                 </div>
                                             </div>
@@ -312,7 +312,7 @@
                                             </script>
                                         </div>
                                         <br>
-                                        <button class="btn btn-success" type="submit">Lưu lại</button>
+                                        <button class="btn btn-success" type="submit" id="save-button">Lưu lại</button>
                                         <a class="btn btn-danger" data-dismiss="modal"
                                            id="cancel-button">Hủy bỏ</a>
                                         <br>
@@ -435,13 +435,73 @@
         birthInput.setAttribute("max", minDateString);
 
         // Add event listener to validate the date
-        document.getElementById("create-form").addEventListener("submit", function (event) {
+        document.getElementById("create-personnel").addEventListener("submit", function (event) {
             const selectedDate = new Date(birthInput.value);
             if (selectedDate > minDate) {
                 alert("The birth date must be at least 18 years ago.");
                 event.preventDefault(); // Prevent the form from being submitted
             }
         });
+    });
+</script>
+<script>
+    document.getElementById('save-button').addEventListener('click', function () {
+        const address = document.getElementById('address').value;
+        const lastname = document.getElementById('lastname').value;
+        const firstname = document.getElementById('firstname').value;
+        const gender = document.getElementById('gender').value;
+        const birthday = document.getElementById('birthday').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const imageUpload = document.getElementById('imageUpload').value;
+        const imagePreview = document.getElementById('imagePreview').style.display;
+        const previewSrc = document.getElementById('preview').src;
+            const  pattern2=/^[A-Za-zĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,50}/;
+            const pattern1=/^[a-zA-ZĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,20}$/;
+            const  pattern3=/^[A-Za-z1-9,ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,300}$/;
+            const pattern5=/^(0[23578]|09)\d{8}$/;
+            const pattern4 =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (address === '' ||
+            lastname === '' ||
+            firstname === '' ||
+            gender === '' ||
+            birthday === '' ||
+            email === '' ||
+            phone === '' ||
+            imageUpload === '' ||
+            imagePreview === 'none' ||
+            previewSrc === '') {
+
+            toastr.error("Thao tác thất bại! không được bỏ trống các mục bắt buộc");
+            return;
+        } else {
+            if(pattern1.test(firstname)===false){
+                toastr.error("Thao tác Thất bại ! Tên không được có ký tự đặc biệt hay chữ số và chỉ được nhập tối đa 20 ký tự !");
+
+                return;
+            }
+            if(pattern2.test(lastname)===false){
+                toastr.error("Thao tác thất bại! Họ không được có ký tự đặc biệt hay chữ số và chỉ được nhập tối đa 50 ký tự !");
+                return;
+            }
+            if(isOver18(birthday)===false){
+                toastr.error("Thao tác thất bại! Không đủ 18 tuổi !");
+                return;
+            }
+            if(pattern3.test(address)===false){
+                toastr.error("Thao tác thất bại! Địa chỉ chứa ký tự không hợp lệ!");
+                return;
+            }
+
+            if(pattern4.test(email)===false){
+                toastr.error("Thao tác thất bại! Địa chỉ Email không hợp lệ !");
+                return;
+            }
+            if(pattern5.test(phone)===false){
+                toastr.error("Thao tác thất bại! Số điện thoại phải có 10 chữ số và là số điện thoại Việt Nam");
+                return;
+            }
+        }
     });
 </script>
 <script>
@@ -457,6 +517,24 @@
         document.getElementById('imagePreview').style.display = 'none'; // Hide the image preview
         document.getElementById('preview').src = ''; // Clear the image source
     });
+</script>
+<script>
+    function isOver18(birthDate) {
+        const today = new Date();
+        const birth = new Date(birthDate);
+
+        // Calculate the age
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        const dayDiff = today.getDate() - birth.getDate();
+
+        // Adjust age if the birthday has not yet occurred this year
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;
+        }
+
+        return age >= 18;
+    }
 </script>
 <!-- Page level plugins -->
 <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
