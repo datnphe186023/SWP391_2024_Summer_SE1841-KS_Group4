@@ -34,6 +34,7 @@ public class ViewAttendanceServlet extends HttpServlet {
         IWeekDAO weekDAO = new WeekDAO();
         if (schoolYearId == null) {
             schoolYearId = schoolYearDAO.getLatest().getId();
+            schoolYearId = schoolYearDAO.getClosestSchoolYears().getId();
         }
         request.setAttribute("weeks", weekDAO.getWeeks(schoolYearId));
         request.setAttribute("schoolYearId", schoolYearId);

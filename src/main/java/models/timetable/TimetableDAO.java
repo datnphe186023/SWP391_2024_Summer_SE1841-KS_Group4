@@ -598,7 +598,11 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
 
     @Override
     public void updateTeacherOfTimetable(String classId, String teacherId) {
-        String sql = "update Timetables set teacher_id = ? where class_id = ?";
+        String sql = "UPDATE Timetables\n" +
+                "SET Timetables.teacher_id = ?\n" +
+                "FROM Timetables\n" +
+                "         JOIN dbo.Days D ON D.id = Timetables.date_id\n" +
+                "WHERE D.date > GETDATE() and class_id =?;";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, teacherId);
