@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import models.week.IWeekDAO;
 import models.week.WeekDAO;
+import utils.Helper;
 
 public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
 
@@ -107,8 +108,8 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         if (!schoolYear.getStartDate().after(lastEndDate)) {
             return "Ngày bắt đầu năm học mới phải sau ngày kết thúc năm học cũ";
         }
-        LocalDate startLocalDate = convertToLocalDate(schoolYear.getStartDate());
-        LocalDate endLocalDate = convertToLocalDate(schoolYear.getEndDate());
+        LocalDate startLocalDate = Helper.convertDateToLocalDate(schoolYear.getStartDate());
+        LocalDate endLocalDate = Helper.convertDateToLocalDate(schoolYear.getEndDate());
 
         // Validate that the years are at least 10 months long
         if (ChronoUnit.MONTHS.between(startLocalDate, endLocalDate) < 10) {
@@ -120,10 +121,6 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
             return "Năm học phải được tạo trước khi bắt đầu ít nhất 7 ngày";
         }
         return "success";
-    }
-
-    private LocalDate convertToLocalDate(Date date) {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     private String generateId(String latestId) {

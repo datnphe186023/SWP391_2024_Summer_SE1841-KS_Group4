@@ -39,6 +39,8 @@ public class SendApplicationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
         String details = Helper.formatString(request.getParameter("details"));
+        String startDateRaw = request.getParameter("startDate");
+        String endDateRaw = request.getParameter("endDate");
         IApplicationDAO applicationDAO = new ApplicationDAO();
         Application application = new Application();
         application.setType(applicationDAO.getById(type));
