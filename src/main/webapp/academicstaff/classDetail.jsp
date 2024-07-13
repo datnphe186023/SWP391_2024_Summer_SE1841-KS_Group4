@@ -171,14 +171,6 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                            <div class="mb-4 mr-3">
-                                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Thời khóa
-                                    biểu</a>
-                            </div>
-                            <div class="mb-4 mr-3">
-                                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Báo Cáo Học
-                                    tập</a>
-                            </div>
                         </div>
                         <div class="card shadow mb-4">
 
