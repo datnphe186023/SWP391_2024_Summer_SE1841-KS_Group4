@@ -6,12 +6,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import models.classes.Class;
+import models.classes.ClassDAO;
+import models.classes.IClassDAO;
 import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
+import models.schoolYear.ISchoolYearDAO;
+import models.schoolYear.SchoolYearDAO;
 import models.user.User;
 import utils.Helper;
 
@@ -27,11 +32,31 @@ public class PupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IPupilDAO pupilDAO = new PupilDAO();
-        List<Pupil> listPupil = pupilDAO.getAllPupils();
+
+
+        String status = request.getParameter("status");
+        List<Pupil> listPupils = pupilDAO.getAllPupils();
         String newPupilId = pupilDAO.generateId(pupilDAO.getLatest().getId());
+        if(status!=null){
+            switch (status){
+                case "all" : listPupils = pupilDAO.getAllPupils();
+                    break;
+                case "pending": listPupils = pupilDAO.getPupilByStatus("đang chờ xử lý");
+                    break;
+                case "approve": listPupils = pupilDAO.getPupilByStatus("đang theo học");
+                    break;
+                case "decline": listPupils = pupilDAO.getPupilByStatus("không được duyệt");
+                    break;
+                case "stop":
+                    listPupils=pupilDAO.getPupilByStatus("đã thôi học");
+                    break;
+                default:
+                    break;
+            }
+        }
         request.setAttribute("newPupilId", newPupilId);
-        request.setAttribute("listPupil", listPupil);
-        request.getRequestDispatcher("pupil.jsp").forward(request, response);
+        request.setAttribute("listPupil",listPupils);
+        request.getRequestDispatcher("pupil.jsp").forward(request,response);
     }
 
     @Override
@@ -74,7 +99,9 @@ public class PupilServlet extends HttpServlet {
                         note);
                 ////   Stage for create pupil
 
-                 if(Helper.formatString(note).isBlank() || avatar.isBlank() || genderRaw.equals("-1") || Helper.formatName(firstName).isBlank() || Helper.formatName(lastName).isBlank() || Helper.formatName(firstGuardianName).isBlank()) {
+                 if(email.isBlank() || firstGuardianName.isBlank() || Helper.formatString(note).isBlank() || avatar.isBlank() || genderRaw.equals("-1")
+                         || Helper.formatName(firstName).isBlank() || Helper.formatName(lastName).isBlank()
+                         || Helper.formatName(firstGuardianName).isBlank()) {
                     toastMessage = "Tạo thật bại ! Vui lòng không bỏ trống các trường nhập !";
                     toastType = "error";
                     session.setAttribute("toastMessage", toastMessage);

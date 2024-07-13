@@ -54,6 +54,14 @@
                             <!-- Form section with select elements -->
                             <div class="col-lg-8 d-flex">
                                 <form action="listpupil" id="myForm" class="d-flex w-100">
+                                    <div class="flex-grow-1 mb-4">
+                                        <label>Chọn năm học</label>
+                                        <select class="custom-select " aria-label="Default select example" onchange="submitForm()" name="schoolYear" style="width: 40%">
+                                            <c:forEach items="${requestScope.listSchoolYear}" var="year">
+                                                <option ${schoolYearSelect eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
                                     <div class="me-3 flex-grow-1 mb-4 ">
                                         <label>Chọn lớp</label>
                                         <select class="custom-select " aria-label="Default select example" onchange="submitForm()" name="classes" style="width: 40%">
@@ -64,14 +72,6 @@
                                         </select>
                                     </div>
 
-                                    <div class="flex-grow-1 mb-4">
-                                        <label>Chọn năm học</label>
-                                        <select class="custom-select " aria-label="Default select example" onchange="submitForm()" name="schoolYear" style="width: 40%">
-                                            <c:forEach items="${requestScope.listSchoolYear}" var="year">
-                                                <option ${schoolYearSelect eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -84,12 +84,12 @@
                                 <c:if test="${classesSelect!=null}">
                                     <c:choose>
                                         <c:when test="${requestScope.grade == null}">
-                                            <h6 class="m-0 font-weight-bold text-primary">Khối: <a
+                                            <h6 class="m-0 font-weight-bold text-primary">Lớp: <a
                                                     style="color: red">Chưa chọn lớp</a>
                                             </h6>
                                         </c:when>
                                         <c:otherwise>
-                                            <h6 class="m-0 font-weight-bold text-primary">Khối: <a
+                                            <h6 class="m-0 font-weight-bold text-primary">Lớp: <a
                                             >${requestScope.grade}</a>
                                             </h6>
                                         </c:otherwise>
