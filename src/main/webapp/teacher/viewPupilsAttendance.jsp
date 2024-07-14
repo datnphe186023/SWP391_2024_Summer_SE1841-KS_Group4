@@ -16,6 +16,11 @@
         function submitForm(formId) {
             document.getElementById(formId).submit();
         }
+
+        function resetAndSubmitForm(formId){
+            document.getElementById('weekSelect').selectedIndex = 0;
+            document.getElementById(formId).submit();
+        }
     </script>
 </head>
 <body id="page-top">
@@ -25,7 +30,14 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
-                <h1 class="h3 mb-4 text-gray-800 text-center">Tình trạng điểm danh của học sinh lớp ${requestScope.classes.name}</h1>
+                <h1 class="h3 mb-4 text-gray-800 text-center">
+                    <c:if test="${not empty requestScope.classes}">
+                        Tình trạng điểm danh của học sinh lớp ${requestScope.classes.name}
+                    </c:if>
+                    <c:if test="${empty requestScope.classes}">
+                        Bạn không có lớp trong thời gian này
+                    </c:if>
+                </h1>
 
                 <div class="row">
                     <div class="col-lg-6 mb-4">
@@ -33,13 +45,14 @@
                             <div>
                                 <div class="mb-4">
                                     <label>Chọn năm học</label>
-                                    <select class="custom-select" style="width: 15%" aria-label="Default select example" onchange="submitForm('selectForm')" name="schoolYearId">
+                                    <select id="schoolYearSelect" class="custom-select" style="width: 15%" aria-label="Default select example" onchange="resetAndSubmitForm('selectForm')" name="schoolYearId">
                                         <c:forEach items="${requestScope.schoolYears}" var="year">
                                             <option ${requestScope.schoolYearId eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                         </c:forEach>
                                     </select>
                                     <label class="ml-1">Chọn tuần</label>
-                                    <select class="custom-select" style="width: 30%" aria-label="Default select example" onchange="submitForm('selectForm')" name="weekId">
+                                    <select id="weekSelect" class="custom-select" style="width: 30%" aria-label="Default select example" onchange="submitForm('selectForm')" name="weekId">
+                                        <option value="">- Chọn Tuần -</option>
                                         <c:forEach items="${requestScope.weeks}" var="week">
                                             <option ${requestScope.weekId eq week.id ? "selected" : ""} value="${week.id}">${week.getStartDatetoEndDate()}</option>
                                         </c:forEach>
