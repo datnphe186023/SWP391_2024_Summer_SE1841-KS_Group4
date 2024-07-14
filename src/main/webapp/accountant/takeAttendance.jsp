@@ -38,7 +38,7 @@
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
-                        <h1 class="h3 mb-4 text-gray-800 text-center">Điểm Danh Hôm Nay</h1>
+                        <h1 class="h3 mb-4 text-gray-800 text-center">Chấm Công Hôm Nay</h1>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">

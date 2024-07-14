@@ -75,7 +75,6 @@
                 <div id="collapseAttendance" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="takeattendance">Điểm Danh Học Sinh</a>
-                        <a class="collapse-item" href="attendance">Xem Điểm Danh</a>
                         <a class="collapse-item" href="pupilsattendance">Xem Điểm Danh Học Sinh</a>
                     </div>
                 </div>
