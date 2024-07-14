@@ -564,4 +564,25 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO {
         return list;
     }
 
+    @Override
+    public List<Personnel> getFreeTeacherByDate(String dayId){
+        String sql = "SELECT p.* FROM Personnels p WHERE p.id NOT IN (\n" +
+                "    SELECT t.teacher_id\n" +
+                "    FROM Timetables t\n" +
+                "    WHERE t.date_id = ?\n" +
+                ") and p.id like 'TEA%';";
+        List<Personnel> teacherList = new ArrayList<>();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, dayId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                teacherList.add(createPersonnel(resultSet));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return teacherList;
+    }
+
 }

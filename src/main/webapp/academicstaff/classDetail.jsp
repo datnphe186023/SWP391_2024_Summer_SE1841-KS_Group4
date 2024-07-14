@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="dayBean" class="models.day.DayDAO"/>
+<jsp:useBean id="personnelBean" class="models.personnel.PersonnelDAO"/>
 <html>
 
     <head>
@@ -33,6 +34,7 @@
             String toastType = (String) session.getAttribute("toastType");
             session.removeAttribute("toastMessage");
             session.removeAttribute("toastType");
+            String popUpModal = (String) request.getAttribute("popUpModal");
         %>
         <script>
             $(document).ready(function () {
@@ -45,6 +47,18 @@
                         toastr.error(toastMessage);
                     }
                 }
+                var popUpModal = '<%= popUpModal %>';
+                if (popUpModal === 'true') {
+                    $('#assignTeacher').modal('show');
+                    document.getElementById('substituteCheckbox').checked = true;
+                    document.getElementById('substituteTeacherDiv').style.display = 'block';
+                    document.getElementById('formAction').value = 'assignSubTeacher';
+                    document.getElementById('teacher').style.display = 'none';
+                    document.getElementById('teacherLabel').style.display = 'none';
+                    document.getElementById('assignSubTeacherSubmitButton').style.display = 'block';
+                    document.getElementById('assignTeacherSubmitButton').style.display = 'none';
+                }
+
             });
         </script>
         <script>
@@ -89,6 +103,10 @@
                     }
                 });
             });
+
+            function submit(formId){
+                document.getElementById(formId).submit();
+            }
         </script>
         <!-- Custom fonts for this template-->
         <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -381,10 +399,12 @@
                                             <div class="row">
                                                 <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">là thông tin bắt buộc phải nhập</a></p>
                                                 <div class="col-md-7">
+                                                    <%--  current teacher--%>
                                                     <div class="form-group">
                                                         <label class="control-label" for="pupil">Mã - Tên giáo viên hiện tại<a style="color: red">*</a></label>
                                                         <input class="form-control" type="text" value="${requestScope.teacher.id} - ${requestScope.teacher.lastName} ${requestScope.teacher.firstName}">
                                                     </div>
+                                                        <%-- new teacher --%>
                                                     <div class="form-group">
                                                         <label id="teacherLabel" class="control-label" for="pupil">Mã - Tên giáo viên mới<a style="color: red">*</a></label>
                                                         <select class="form-control" id="teacher" name="teacher" required>
@@ -393,25 +413,28 @@
                                                                 <option value="${teacher.id}" ${param.teacher eq teacher.id ? "selected":""}>${teacher.id} - ${teacher.lastName} ${teacher.firstName}</option>
                                                             </c:forEach>
                                                         </select>
+<%--                                                        class id--%>
                                                         <input hidden value="${requestScope.classes.id}" name="classId">
                                                     </div>
+
+<%--                                                        sub teacher--%>
                                                     <div class="form-group">
                                                         <input type="checkbox" id="substituteCheckbox" name="substituteCheckbox">
                                                         <label for="substituteCheckbox">Phân công giáo viên dạy thay</label>
                                                     </div>
                                                     <div class="form-group" id="substituteTeacherDiv" style="display:none;">
-                                                        <label class="control-label" for="substituteTeacher">Mã - Tên giáo viên Dạy Thay<a style="color: red">*</a></label>
-                                                        <select class="form-control" id="substituteTeacher" name="substituteTeacher">
-                                                            <option value="">-- Chọn Giáo Viên --</option>
-                                                            <c:forEach var="teacher" items="${requestScope.teachers}">
-                                                                <option value="${teacher.id}" ${param.substituteTeacher eq teacher.id ? "selected":""}>${teacher.id} - ${teacher.lastName} ${teacher.firstName}</option>
-                                                            </c:forEach>
-                                                        </select>
                                                         <label class="control-label mt-2" for="days">Chọn ngày<a style="color: red">*</a></label>
-                                                        <select class="form-control" id="days" name="day">
+                                                        <select class="form-control" id="days" name="day" onchange="submit('assignTeacher')">
                                                             <option value="">-- Chọn Ngày --</option>
                                                             <c:forEach var="day" items="${dayBean.getDaysInFutureWithTimetableForClass(requestScope.classes.id)}">
-                                                                <option value="${day.id}" ${param.day eq day.id ? "selected":""}>${day.date}</option>
+                                                                <option value="${day.id}" ${requestScope.dayId eq day.id ? "selected":""}>${day.date}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <label class="control-label" for="substituteTeacher">Mã - Tên giáo viên Dạy Thay<a style="color: red">*</a></label>
+                                                        <select class="form-control" id="substituteTeacher" name="substituteTeacher">
+                                                            <option value="null">-- Chọn Giáo Viên --</option>
+                                                            <c:forEach var="teacher" items="${requestScope.freeTeachers}">
+                                                                <option value="${teacher.id}" ${param.substituteTeacher eq teacher.id ? "selected":""}>${teacher.id} - ${teacher.lastName} ${teacher.firstName}</option>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
