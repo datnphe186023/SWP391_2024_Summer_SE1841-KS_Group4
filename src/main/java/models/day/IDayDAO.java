@@ -10,5 +10,5 @@ public interface IDayDAO {
     List<Day> getFullDayOfWeek(String weekId);
     Day getDayByID(String dateId);
     Day getDayByDate(String date);
-    List<Day> getDaysWithTimetable(String weekId);
+    List<Day> getDaysWithTimetableForClass(String weekId, String classId);
 }

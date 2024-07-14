@@ -71,16 +71,15 @@
                                                      style="width:100px; height:100px; object-fit: cover;">
                                             </td>
                                             <td>${pupil.lastName} ${pupil.firstName}</td>
-                                            <c:set var="day" value="${dayBean.getDayByDate(requestScope.date)}"/>
-                                            <c:set value="${pupilAttendanceBean.getAttendanceByPupilAndDay(pupil.id, day)}" var="attendanceStatus"/>
+                                            <c:set var="day" value="${dayBean.getDayByDate(requestScope.currentDate).id}"/>
+                                            <c:set value="${pupilAttendanceBean.getAttendanceByPupilAndDay(pupil.id, day)}" var="attendance"/>
                                             <td>
-                                                <input type="radio" name="attendance${pupil.id}" value="present" ${attendanceStatus == 'present' ? 'checked' : ''}>
+                                                <input type="radio" name="attendance${pupil.id}" value="present" ${attendance.status == 'present' ? 'checked' : ''}>
                                             </td>
                                             <td>
-                                                <input type="radio" name="attendance${pupil.id}" value="absent" ${attendanceStatus != 'present' ? 'checked' : ''}>
+                                                <input type="radio" name="attendance${pupil.id}" value="absent" ${attendance.status != 'present' ? 'checked' : ''}>
                                             </td>
-                                            <c:set value="${pupilAttendanceBean.getAttendanceByPupilAndDay(pupil.id, day)}" var="attendanceNote"/>
-                                            <td><textarea name="note${pupil.id}" class="form-control" rows="1"></textarea>${attendanceNote}</td>
+                                            <td><textarea name="note${pupil.id}" class="form-control" rows="1">${attendance.note}</textarea></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

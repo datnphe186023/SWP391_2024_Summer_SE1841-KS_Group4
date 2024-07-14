@@ -23,7 +23,7 @@ public interface IPupilDAO {
 
     List<Pupil> getListPupilOfTeacherBySchoolYear(String schoolYearId, String teacherId);
 
-    List<Pupil> getPupilByClassAndSchoolYear(String classId, String schoolYearId);
+    List<Pupil> getPupilByClass(String classId);
 
     List<Pupil> getPupilByStatus(String status);
 

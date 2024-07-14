@@ -4,7 +4,6 @@ import models.grade.GradeDAO;
 import models.grade.IGradeDAO;
 import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
-import models.pupil.Pupil;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
@@ -74,22 +73,19 @@ public class ClassDAO extends DBContext implements IClassDAO {
 
     @Override
     public Class getTeacherClassByYear(String year, String teacherId) {
-        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where teacher_id= ?  and school_year_id= ?";
-        IClassDAO classDAO = new ClassDAO();
-        String classId = "";
+        String sql = "select * from Class c where teacher_id= ? and school_year_id= ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);
             preparedStatement.setString(2, year);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                classId = resultSet.getString(1);
+            if (resultSet.next()) {
+                return createClass(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        Class classes = classDAO.getClassById(classId);
-        return classes;
+        return null;
     }
 
     @Override
@@ -310,23 +306,20 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
-    public Class getClassByPupilIdandSchoolYear(String id, String schoolyear) {
-        String sql = "select class_id from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
-        IClassDAO classDAO = new ClassDAO();
-        String classId = "";
-        try {
+    public Class getClassByPupilIdAndSchoolYear(String id, String schoolYear) {
+        String sql = "select * from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
+        try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
-            preparedStatement.setString(2, schoolyear);
+            preparedStatement.setString(2, schoolYear);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                classId = resultSet.getString(1);
+            if (resultSet.next()) {
+                return createClass(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        Class classes = classDAO.getClassById(classId);
-        return classes;
+        return null;
     }
 
     @Override

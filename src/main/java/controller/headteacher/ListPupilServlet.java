@@ -43,7 +43,7 @@ public class ListPupilServlet extends HttpServlet {
                 request.setAttribute("grade",gradeClass.getName());
             }
 
-        List<Pupil> listPupils = pupilDAO.getPupilByClassAndSchoolYear(classesSelect,schoolYearSelect);
+        List<Pupil> listPupils = pupilDAO.getPupilByClass(classesSelect);
         List<Class> listClass = classDAO.getBySchoolYear(schoolYearSelect);
 
         request.setAttribute("classSelect",classesSelect);
