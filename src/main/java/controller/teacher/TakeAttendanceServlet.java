@@ -41,7 +41,7 @@ public class TakeAttendanceServlet extends HttpServlet {
         List<Pupil> pupils = pupilDAO.getPupilsByTeacherAndTimetable(user.getUsername().toUpperCase(), dateString);
         IClassDAO classDAO = new ClassDAO();
         String className = classDAO.getClassNameByTeacherAndTimetable(user.getUsername(), dateString);
-        request.setAttribute("date", dateString);
+        request.setAttribute("currentDate", dateString);
         request.setAttribute("className", className);
         request.setAttribute("pupils", pupils);
         request.getRequestDispatcher("takeAttendance.jsp").forward(request, response);

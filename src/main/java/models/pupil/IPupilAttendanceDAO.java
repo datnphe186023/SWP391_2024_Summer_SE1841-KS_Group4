@@ -6,4 +6,5 @@ public interface IPupilAttendanceDAO {
     String addAttendance(PupilAttendance pupilAttendance);
     PupilAttendance getAttendanceByPupilAndDay(String pupilId, String dayId);
     boolean checkAttendanceByDay(List<Pupil> listPupil,String dayId);
+    List<PupilAttendance> getAttendanceOfClassByWeek(String classId, String weekId);
 }

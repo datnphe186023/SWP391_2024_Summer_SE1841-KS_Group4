@@ -32,13 +32,13 @@
                         <form action="attendance" id="mergedForm">
                             <div class="mb-4">
                                 <label>Chọn năm học</label>
-                                <select class="custom-select" style="width: 15%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="schoolYearId">
+                                <select class="custom-select" style="width: 10%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="schoolYearId">
                                     <c:forEach items="${requestScope.schoolYears}" var="year">
                                         <option ${requestScope.schoolYearId eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                     </c:forEach>
                                 </select>
                                 <label class="ml-1">Chọn tuần</label>
-                                <select class="custom-select" style="width: 25%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="weekId">
+                                <select class="custom-select" style="width: 15%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="weekId">
                                     <c:forEach items="${requestScope.weeks}" var="week">
                                         <option ${requestScope.weekId eq week.id ? "selected" : ""} value="${week.id}">${week.getStartDatetoEndDate()}</option>
                                     </c:forEach>
@@ -56,7 +56,6 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>STT</th>
                                     <th>Ngày</th>
                                     <th>Giáo viên</th>
                                     <th>Trạng thái điểm danh</th>
@@ -67,11 +66,8 @@
                                 <c:forEach var="day" items="${requestScope.days}" varStatus="status">
                                     <tr>
                                         <fmt:setLocale value="vi_VN" />
-                                        <th scope="row">
-                                            <fmt:formatDate value="${day.date}" pattern="EEEE" />
-                                        </th>
                                         <td>
-                                            <fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" />
+                                            <fmt:formatDate value="${day.date}" pattern="EEEE" /> - <fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" />
                                         </td>
                                         <td>
                                             ${personneBean.getPersonnel(timetableBean.getTeacherByDayId(day.id)).lastName} ${personneBean.getPersonnel(timetableBean.getTeacherByDayId(day.id)).firstName}
