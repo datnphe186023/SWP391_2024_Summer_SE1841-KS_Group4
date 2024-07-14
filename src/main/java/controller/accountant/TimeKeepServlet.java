@@ -1,4 +1,4 @@
-package controller.academicstaff;
+package controller.accountant;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -20,8 +20,8 @@ import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
-@WebServlet(name = "academicstaff/ViewAttendanceServlet", value = "/academicstaff/attendance")
-public class ViewAttendanceServlet extends HttpServlet {
+@WebServlet(name = "accountant/TimeKeepServlet", value = "/accountant/mytimekeeping")
+public class TimeKeepServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //send list of school years
