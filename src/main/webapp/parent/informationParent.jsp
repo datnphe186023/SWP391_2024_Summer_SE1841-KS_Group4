@@ -210,7 +210,7 @@
                                             <div class="row gutters">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     <div class="text-right">
-                                                        <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                                                        <button type="submit" id="submit" name="submit" class="btn btn-primary">Lưu</button>
                                                     </div>
                                                 </div>
                                             </div>

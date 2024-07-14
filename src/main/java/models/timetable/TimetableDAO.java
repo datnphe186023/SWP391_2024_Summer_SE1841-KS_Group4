@@ -372,13 +372,13 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     @Override
     public String updateTimetableOfClass(String teacherId, String classId, String dayId) {
         String sql = "update Timetables set teacher_id = ? where class_id = ? and date_id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, teacherId);
             statement.setString(2, classId);
             statement.setString(3, dayId);
             statement.executeUpdate();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "Thao tác thất bại!";
         }
@@ -614,35 +614,33 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
 
     @Override
     public void updateTeacherOfTimetable(String classId, String teacherId) {
-        String sql = "UPDATE Timetables\n" +
-                "SET Timetables.teacher_id = ?\n" +
-                "FROM Timetables\n" +
-                "         JOIN dbo.Days D ON D.id = Timetables.date_id\n" +
-                "WHERE D.date > GETDATE() and class_id =?;";
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, teacherId);
-            statement.setString(2, classId);
-            statement.executeUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
+        String sql = "update Timetables set teacher_id = ? where class_id = ?";
+        try {
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, teacherId);
+                statement.setString(2, classId);
+                statement.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
 
     @Override
     public String getTeacherByDayId(String dayId) {
         String sql = "select teacher_id from Timetables where date_id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dayId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getString("teacher_id");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
     
-            }
+
+    }

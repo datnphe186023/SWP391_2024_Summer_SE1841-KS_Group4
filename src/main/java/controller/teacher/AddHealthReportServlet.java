@@ -77,7 +77,7 @@ public class AddHealthReportServlet extends HttpServlet {
         boolean checkHealthReportExisted = healthCheckUpDAO.healthCheckUpExists(pupil_id, sqlCheckUpDate);
         if (checkHealthReportExisted) {
             session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ đã được tạo!");
+            session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ đã được tạo!Vui lòng kiểm tra lại!");
         } else {
             // Get height
             float height = Float.parseFloat(request.getParameter("height"));
