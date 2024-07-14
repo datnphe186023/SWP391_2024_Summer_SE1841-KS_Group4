@@ -50,6 +50,15 @@
     </style>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+        function resetClassAndSubmitForm() {
+            document.getElementById("myClass").selectedIndex = 0;
+            document.getElementById("myForm").submit();
+        }
+    </script>
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -59,9 +68,38 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Học Sinh</h1>
+
+                    <c:set var="schoolYearSelect" value="${requestScope.schoolYearSelect}"/>
+                    <c:set var="classesSelect" value="${requestScope.classSelect}"/>
+
+                    <!-- Form section with select elements -->
+
+                <form action="pupil" id="myForm">
+                    <div class="row">
+<%--                        <div class="col-lg-2 mb-4">--%>
+<%--                            <label>Chọn năm học</label>--%>
+<%--                            <select class="custom-select w-70" aria-label="Default select example" onchange="submitForm()" name="schoolYear" style="width: 100%;">--%>
+<%--                                <c:forEach items="${requestScope.listSchoolYear}" var="year">--%>
+<%--                                    <option ${schoolYearSelect eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>--%>
+<%--                                </c:forEach>--%>
+<%--                            </select>--%>
+<%--                        </div>--%>
+                        <div class="col-lg-2 mb-4">
+                            <label for="selectStatus">Chọn trạng thái</label>
+                            <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                                <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                                <option  ${param.status eq 'pending'? "selected" :""} value="pending">Đang chờ xử lý</option>
+                                <option ${param.status eq 'approve'? "selected" :""}  value="approve">Đã được duyệt</option>
+                                <option  ${param.status eq 'decline'? "selected" :""} value="decline">Không được duyệt</option>
+                                <option  ${param.status eq 'stop'? "selected" :""} value="stop">Đã thôi học</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách học sinh</h6>
                         <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                 data-target=".create-pupil">
                             <i class="fas fa-upload"></i> Thêm học sinh
@@ -284,6 +322,53 @@
     </div>
 </div>
 <script>
+    function validateForm() {
+        var vietnamesePattern = "ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ";
+        var phoneNumber1 = document.getElementById('firstGuardianPhoneNumber').value;
+        var phoneNumber2 = document.getElementById('secondGuardianPhoneNumber').value;
+        var address = document.getElementById('address').value;
+        var guardianName1 = document.getElementById("firstGuardianName").value;
+        var guardianName2 = document.getElementById("secondGuardianName").value;
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+        var email = document.getElementById(("email")).value;
+        // Perform the validation
+        var firstNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,20}$")
+        var lastNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,60}$")
+        var fullNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
+        var phonePattern = /^(?:|(0[23578]|09)\d{8})$/;
+        var addressPattern = new RegExp("^[A-Za-z1-9,\\s" + vietnamesePattern + "]{0,300}$");
+        var emailPattern = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
+        if(!firstNamePattern.test(firstName)){
+            toastr.error("Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)");
+            return false; // Prevent form submission
+        }
+        if(!lastNamePattern.test(lastName)){
+            toastr.error("Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 60 kí tự)");
+            return false; // Prevent form submission
+        }
+        if(!(fullNamePattern.test(guardianName1) && fullNamePattern.test(guardianName2))){
+            toastr.error("Họ và tên người giám hộ không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)");
+            return false; // Prevent form submission
+        }
+        if (!(phonePattern.test(phoneNumber1) && phonePattern.test(phoneNumber2))) {
+            toastr.error("Vui lòng nhập đúng định dạng số điện thoại");
+            return false; // Prevent form submission
+        }
+        if(!addressPattern.test(address)){
+            toastr.error("Địa chỉ không được bỏ trống hoặc quá 300 kí tự");
+            return false; // Prevent form submission
+        }
+        if(!emailPattern.test(email)){
+            toastr.error("Vui lòng nhập đúng định dạng email!");
+            return false; // Prevent form submission
+        }
+
+        return true;
+    }
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const today = new Date();
         const minDate = new Date(today.setFullYear(today.getFullYear() - 3));
@@ -331,47 +416,6 @@
         document.getElementById('parentNote').value = '';
 
     });
-</script>
-<script>
-    function validateForm() {
-        var vietnamesePattern = "ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ";
-        var phoneNumber1 = document.getElementById('firstGuardianPhoneNumber').value;
-        var phoneNumber2 = document.getElementById('secondGuardianPhoneNumber').value;
-        var address = document.getElementById('address').value;
-        var guardianName1 = document.getElementById("firstGuardianName").value;
-        var guardianName2 = document.getElementById("secondGuardianName").value;
-        var firstName = document.getElementById("firstName").value;
-        var lastName = document.getElementById("lastName").value;
-        // Perform the validation
-        var firstNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,20}$")
-        var lastNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,60}$")
-        var fullNamePattern = new RegExp("^[A-Za-z\\s" + vietnamesePattern + "]{0,80}$")
-        var phonePattern = /^(?:|(0[23578]|09)\d{8})$/;
-        var addressPattern = new RegExp("^[A-Za-z1-9,\\s" + vietnamesePattern + "]{0,300}$");
-
-        if(!firstNamePattern.test(firstName)){
-            toastr.error("Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)");
-            return false; // Prevent form submission
-        }
-        if(!lastNamePattern.test(lastName)){
-            toastr.error("Họ không được chứa số hoặc kí tự đặc biệt (Tối đa 60 kí tự)");
-            return false; // Prevent form submission
-        }
-        if(!(fullNamePattern.test(guardianName1) && fullNamePattern.test(guardianName2))){
-            toastr.error("Họ và tên người giám hộ không được chứa số hoặc kí tự đặc biệt (Tối đa 80 kí tự)");
-            return false; // Prevent form submission
-        }
-        if (!(phonePattern.test(phoneNumber1) && phonePattern.test(phoneNumber2))) {
-            toastr.error("Vui lòng nhập đúng định dạng số điện thoại");
-            return false; // Prevent form submission
-        }
-        if(!addressPattern.test(address)){
-            toastr.error("Địa chỉ không được bỏ trống hoặc quá 300 kí tự");
-            return false; // Prevent form submission
-        }
-
-        return true;
-    }
 </script>
 <!-- Page level plugins -->
 <script src="../vendor/datatables/jquery.dataTables.min.js"></script>

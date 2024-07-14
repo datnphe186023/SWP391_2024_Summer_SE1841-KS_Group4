@@ -15,7 +15,6 @@ import models.classes.ClassDAO;
 import models.day.Day;
 import models.day.DayDAO;
 import models.day.IDayDAO;
-import models.grade.GradeDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
 import models.schoolYear.SchoolYear;
@@ -70,7 +69,7 @@ public class ViewTimetableServlet extends HttpServlet {
         List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
         IDayDAO dayDAO = new DayDAO();
         List<Day> dayList = dayDAO.getDayByWeek(sltedw);
-        models.classes.Class aclass = new ClassDAO().getClassByPupilIdandSchoolYear(id, sltedsy);
+        models.classes.Class aclass = new ClassDAO().getClassByPupilIdAndSchoolYear(id, sltedsy);
         timetable = new TimetableDAO().getTimetableByClassAndWeek(aclass.getId(), sltedw, "đã được duyệt");
         request.setAttribute("aClass", aclass);
         request.setAttribute("schoolYearList", schoolYearList);
@@ -89,7 +88,7 @@ public class ViewTimetableServlet extends HttpServlet {
         String id = request.getParameter("id");
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
-        models.classes.Class aclass = new ClassDAO().getClassByPupilIdandSchoolYear(id, schoolyear);
+        models.classes.Class aclass = new ClassDAO().getClassByPupilIdAndSchoolYear(id, schoolyear);
         if (aclass == null) {
             List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
             request.setAttribute("toastType", "error");

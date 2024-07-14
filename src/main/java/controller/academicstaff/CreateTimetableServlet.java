@@ -226,7 +226,7 @@ public class CreateTimetableServlet extends HttpServlet {
                             sql.append("('").append(timetableId).append("','").append(classId).append("','").
                                     append(timeslotId).append("','").append(dayId).append("','").
                                     append(subjectId).append("','").append(timetable.getCreatedBy().getId()).
-                                    append("','").append(status).append("',NULL").append(",'").
+                                    append("',N'").append(status).append("',NULL").append(",'").
                                     append(timetable.getTeacher().getId()).append("'),");
                             timetableId = timetableDAO.generateTimetableId(timetableId);
                         }

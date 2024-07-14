@@ -19,10 +19,16 @@ import java.util.List;
 public class SentApplicationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String status = request.getParameter("status");
         IApplicationDAO applicationDAO = new ApplicationDAO();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        List<Application> sentApplications = applicationDAO.getSentApplications(user.getId());
+        List<Application> sentApplications;
+        if (status==null || status.equals("all")) {
+            sentApplications = applicationDAO.getSentApplications(user.getId());
+        } else {
+            sentApplications = applicationDAO.getSentApplicationsWithStatus(user.getId(), status);
+        }
         request.setAttribute("sentApplications", sentApplications);
         request.getRequestDispatcher("sentApplications.jsp").forward(request, response);
     }

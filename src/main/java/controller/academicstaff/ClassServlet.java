@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.*;
 import models.classes.Class;
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
-import models.grade.Grade;
 import models.grade.GradeDAO;
 import models.grade.IGradeDAO;
 import models.personnel.IPersonnelDAO;
@@ -19,7 +18,6 @@ import models.user.User;
 import utils.Helper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
     @WebServlet(name = "academicstaff/ClassServlet", value = "/academicstaff/class")

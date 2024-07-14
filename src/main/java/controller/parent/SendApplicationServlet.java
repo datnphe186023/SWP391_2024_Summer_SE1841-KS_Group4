@@ -11,6 +11,8 @@ import models.user.User;
 import utils.Helper;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -39,25 +41,37 @@ public class SendApplicationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
         String details = Helper.formatString(request.getParameter("details"));
-        IApplicationDAO applicationDAO = new ApplicationDAO();
-        Application application = new Application();
-        application.setType(applicationDAO.getById(type));
-        application.setDetails(details);
-        application.setStatus("đang chờ xử lý");
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        application.setCreatedBy(user.getId());
-        application.setCreatedAt(new Date());
+        String startDateRaw = request.getParameter("startDate");
+        String endDateRaw = request.getParameter("endDate");
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = dateFormat.parse(startDateRaw);
+            Date endDate = dateFormat.parse(endDateRaw);
+            IApplicationDAO applicationDAO = new ApplicationDAO();
+            Application application = new Application();
+            application.setType(applicationDAO.getById(type));
+            application.setDetails(details);
+            application.setStatus("đang chờ xử lý");
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            application.setCreatedBy(user.getId());
+            application.setCreatedAt(new Date());
+            application.setStartDate(startDate);
+            application.setEndDate(endDate);
 
-        //getting result for toast message
-        String result = applicationDAO.addApplication(application);
-        if (result.equals("success")) {
-            session.setAttribute("toastType", "success");
-            session.setAttribute("toastMessage", "Gửi đơn thành công");
-        } else {
-            session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", result);
+            //getting result for toast message
+            String result = applicationDAO.addApplication(application);
+            if (result.equals("success")) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Gửi đơn thành công");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", result);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
 
         response.sendRedirect("sendapplication");
     }

@@ -27,4 +27,5 @@ public interface IPersonnelDAO {
     boolean checkPhoneNumberExists(String phoneNumber);
     Personnel getTeacherByClassAndSchoolYear(String classId, String schoolYearId);
     Personnel getTeacherByClass(String classId);
+    List<Personnel> getFreeTeacherByDate(String dayId);
 }

@@ -370,6 +370,22 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     }
 
     @Override
+    public String updateTimetableOfClass(String teacherId, String classId, String dayId) {
+        String sql = "update Timetables set teacher_id = ? where class_id = ? and date_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, teacherId);
+            statement.setString(2, classId);
+            statement.setString(3, dayId);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Thao tác thất bại!";
+        }
+        return "success";
+    }
+
+    @Override
     public List<Timetable> getTimetableByClassAndWeek(String classId, String weekId, String status) {
         List<Timetable> timetables = new ArrayList<>();
         String sql = "SELECT t.id AS timetable_id,\n"
@@ -600,14 +616,14 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     public void updateTeacherOfTimetable(String classId, String teacherId) {
         String sql = "update Timetables set teacher_id = ? where class_id = ?";
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, teacherId);
-            statement.setString(2, classId);
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, teacherId);
+                statement.setString(2, classId);
+                statement.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
 
     @Override
     public String getTeacherByDayId(String dayId) {
@@ -627,4 +643,4 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
 
     
 
-}
+    }

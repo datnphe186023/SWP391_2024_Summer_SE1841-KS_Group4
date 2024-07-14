@@ -53,9 +53,18 @@ public class ClassDetailServlet extends HttpServlet {
         /// End request for move out class for pupil
         request.setAttribute("listPupil", listPupil);
 
+        // This sends request for assign Sub teacher
+        request.setAttribute("freeTeachers", session.getAttribute("freeTeachers"));
+        request.setAttribute("popUpModal", session.getAttribute("popUpModal"));
+        request.setAttribute("dayId", session.getAttribute("dayId"));
+        session.removeAttribute("freeTeachers");
+        session.removeAttribute("popUpModal");
+        session.removeAttribute("dayId");
+
         //This request for assign teacher to class, sending a list of available teacher
         request.setAttribute("teachers", personnelDAO.getAvailableTeachers(classDAO.getClassById(classId).getSchoolYear().getId()));
         request.getRequestDispatcher("classDetail.jsp").forward(request, response);
+
     }
     
     @Override
@@ -119,6 +128,28 @@ public class ClassDetailServlet extends HttpServlet {
                 session.setAttribute("toastMessage", result);
             }
             response.sendRedirect("classdetail?classId=" + classId);
+        } else if (action.equals("assignSubTeacher")) {
+            String substituteTeacher = request.getParameter("substituteTeacher");
+            String classId = request.getParameter("classId");
+            String dayId= request.getParameter("day");
+            if (substituteTeacher.equals("null")){
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+                session.setAttribute("freeTeachers",personnelDAO.getFreeTeacherByDate(dayId));
+                session.setAttribute("popUpModal", "true");
+                session.setAttribute("dayId", dayId);
+                response.sendRedirect("classdetail?classId=" + classId);
+            } else {
+                ITimetableDAO timetableDAO = new TimetableDAO();
+                String result = timetableDAO.updateTimetableOfClass(substituteTeacher, classId, dayId);
+                if (result.equals("success")) {
+                    session.setAttribute("toastType", "success");
+                    session.setAttribute("toastMessage", "Thao tác thành công");
+                } else {
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("toastMessage", result);
+                }
+                response.sendRedirect("classdetail?classId=" + classId);
+            }
         }
     }
     

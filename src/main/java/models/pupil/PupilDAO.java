@@ -233,18 +233,17 @@ public class PupilDAO extends DBContext implements IPupilDAO {
     }
 
     @Override
-    public List<Pupil> getPupilByClassAndSchoolYear(String classId, String schoolYearId) {
+    public List<Pupil> getPupilByClass(String classId) {
         String sql = "SELECT *\n"
                 + "FROM     Class INNER JOIN\n"
                 + "                  classDetails ON Class.id = classDetails.class_id INNER JOIN\n"
                 + "                  Pupils ON classDetails.pupil_id = Pupils.id INNER JOIN\n"
                 + "                  SchoolYears ON Class.school_year_id = SchoolYears.id\n"
-                + "\t\t\t\t  where class_id= ? and school_year_id= ?";
+                + "\t\t\t\t  where class_id= ?";
         List<Pupil> listPupils = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, classId);
-            preparedStatement.setString(2, schoolYearId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pupil pupil = new Pupil();

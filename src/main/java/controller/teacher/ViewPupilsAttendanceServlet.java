@@ -1,18 +1,19 @@
-package controller.parent;
+package controller.teacher;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import models.classes.Class;
 import models.classes.ClassDAO;
 import models.classes.IClassDAO;
 import models.day.Day;
-import models.day.IDayDAO;
 import models.day.DayDAO;
+import models.day.IDayDAO;
+import models.personnel.IPersonnelDAO;
+import models.personnel.PersonnelDAO;
 import models.pupil.IPupilDAO;
-import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.schoolYear.ISchoolYearDAO;
-import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
 import models.week.IWeekDAO;
@@ -22,48 +23,51 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "parent/ViewAttendanceServlet", value = "/parent/attendance")
-public class ViewAttendanceServlet extends HttpServlet {
+@WebServlet(name = "teacher/ViewPupilsAttendanceServlet", value = "/teacher/pupilsattendance")
+public class ViewPupilsAttendanceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //send list of school years
+        //list of school years
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        List<SchoolYear> schoolYears = schoolYearDAO.getAll();
-        request.setAttribute("schoolYears", schoolYears);
+        request.setAttribute("schoolYears", schoolYearDAO.getAll());
 
-        //send list of weeks
+        //get school year id from select box
         String schoolYearId = request.getParameter("schoolYearId");
-        IWeekDAO weekDAO = new WeekDAO();
-        if (schoolYearId == null) {
+        if (schoolYearId == null){
             schoolYearId = schoolYearDAO.getLatest().getId();
         }
+
+        //get list of weeks for select box
+        IWeekDAO weekDAO = new WeekDAO();
         request.setAttribute("weeks", weekDAO.getWeeks(schoolYearId));
         request.setAttribute("schoolYearId", schoolYearId);
 
-        //get day list within that week
         String weekId = request.getParameter("weekId");
-        if (weekId == null) {
+        if (weekId == null){
             weekId = weekDAO.getCurrentWeek(new Date());
         }
-        if (weekId == null) {
+        if (weekId == null){
             weekId = weekDAO.getfirstWeekOfClosestSchoolYear(schoolYearId).getId();
         }
         request.setAttribute("weekId", weekId);
-        IDayDAO dayDAO = new DayDAO();
+
+
+        //send list of pupils
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("pupilId", user.getUsername());
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(user.getUsername());
-        request.setAttribute("pupilFullName", pupil.getLastName()+" "+pupil.getFirstName());
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        String teacherId = personnelDAO.getPersonnelByUserId(user.getId()).getId();
         IClassDAO classDAO = new ClassDAO();
+        Class classes = classDAO.getTeacherClassByYear(schoolYearId, teacherId);
+        //get day list
+        IDayDAO dayDAO = new DayDAO();
+        request.setAttribute("days", dayDAO.getDaysWithTimetableForClass(weekId, classes.getId()));
+        request.setAttribute("classes", classes);
 
-        List<Day> days = dayDAO.getDaysWithTimetableForClass(weekId, classDAO.getClassByPupilIdAndSchoolYear(pupil.getId(), schoolYearId).getId());
-        request.setAttribute("days", days);
-
-        //direct to jsp
-        request.getRequestDispatcher("viewAttendance.jsp").forward(request, response);
-
+        //get pupil list
+        IPupilDAO pupilDAO = new PupilDAO();
+        request.setAttribute("pupils", pupilDAO.getListPupilsByClass(null, classes.getId()));
+        request.getRequestDispatcher("viewPupilsAttendance.jsp").forward(request, response);
     }
 
     @Override

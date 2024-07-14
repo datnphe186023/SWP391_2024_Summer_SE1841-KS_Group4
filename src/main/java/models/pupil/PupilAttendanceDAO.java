@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -124,6 +125,19 @@ public class PupilAttendanceDAO extends DBContext implements IPupilAttendanceDAO
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    @Override
+    public List<PupilAttendance> getAttendanceOfClassByWeek(String classId, String weekId) {
+        List<PupilAttendance> listPupilAttendance = new ArrayList<>();
+        String sql = "select * from PupilsAttendance";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listPupilAttendance;
     }
 
 
