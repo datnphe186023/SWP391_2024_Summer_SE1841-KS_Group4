@@ -11,7 +11,7 @@
 <jsp:useBean id="personnelAttendanceBean" class="models.personnel.PersonnelAttendanceDAO"/>
 <html>
     <head>
-        <title>Tình Hình Điểm Danh</title>
+        <title>Tình Hình Chấm Công</title>
         <script>
             function submitForm(formId) {
                 document.getElementById(formId).submit();
@@ -27,7 +27,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12 mb-4">
-                                <form action="attendance" id="mergedForm">
+                                <form action="mytimekeeping" id="mergedForm">
                                     <div class="mb-4">
                                         <label>Chọn năm học</label>
                                         <select class="custom-select" style="width: 15%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="schoolYearId">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Tình hình điểm danh của ${requestScope.personnelFullName}</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Tình hình chấm công của ${requestScope.personnelFullName}</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

@@ -147,7 +147,7 @@
                                                     </tbody>
                                                 </table>
                                                 </br>
-                                                <input type="submit" value="Quay Lại" style="width: 20%"/>
+                                                <button class="btn btn-danger" type="button" onclick="goBack()">Quay Lại</button>
                                             </form>
                                         </div>
                                     </div>
@@ -160,7 +160,11 @@
             </div>
         </div>
 
-
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
         <script>
             function previewAvatar(event) {
                 const reader = new FileReader();

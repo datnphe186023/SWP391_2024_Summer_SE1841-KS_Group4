@@ -20,8 +20,8 @@ import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
 import models.personnel.PersonnelDAO;
 
-@WebServlet(name = "headteacher/ViewAttendanceServlet", value = "/headteacher/attendance")
-public class ViewAttendanceServlet extends HttpServlet {
+@WebServlet(name = "headteacher/TimeKeepServlet", value = "/headteacher/mytimekeeping")
+public class TimeKeepServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //send list of school years
