@@ -58,16 +58,17 @@ public class ViewPupilsAttendanceServlet extends HttpServlet {
         //get class id
         String classId = request.getParameter("classId");
         if (classId != null){
+            if (!classId.isBlank()){
+                IDayDAO dayDAO = new DayDAO();
+                request.setAttribute("days", dayDAO.getDaysWithTimetableForClass(weekId, classId));
 
-            IDayDAO dayDAO = new DayDAO();
-            request.setAttribute("days", dayDAO.getDaysWithTimetableForClass(weekId, classId));
-
-            //send list of pupils
-            Class classes = classDAO.getClassById(classId);
-            request.setAttribute("classes", classes);
-            IPupilDAO pupilDAO = new PupilDAO();
-            request.setAttribute("pupils", pupilDAO.getListPupilsByClass(null, classes.getId()));
-            request.setAttribute("classId", classId);
+                //send list of pupils
+                Class classes = classDAO.getClassById(classId);
+                request.setAttribute("classes", classes);
+                IPupilDAO pupilDAO = new PupilDAO();
+                request.setAttribute("pupils", pupilDAO.getListPupilsByClass(null, classes.getId()));
+                request.setAttribute("classId", classId);
+            }
         }
 
 
