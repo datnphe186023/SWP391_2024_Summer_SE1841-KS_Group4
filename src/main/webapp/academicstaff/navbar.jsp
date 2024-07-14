@@ -49,6 +49,13 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="pupilsattendance">
+                    <i class="fas fa-fw fa-calendar-check"></i>
+                    <span>Xem Điểm Danh Học Sinh</span>
+                </a>
+            </li>
+
             <!-- Nav Item -->
             <li class="nav-item">
                 <a class="nav-link" href="pupil">
