@@ -119,18 +119,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                   aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Đơn Từ</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="application">Xử Lý Đơn Từ</a>
-                        <a class="collapse-item" href="sendapplication">Gửi Đơn</a>
-                        <a class="collapse-item" href="sentapplications">Xem Đơn Đã Gửi</a>
-                    </div>
-                </div>
+                <a class="nav-link" href="application">
+                    <i class="fas fa-fw fa-envelope" aria-hidden="true"></i>
+                    <span>Xử Lý Đơn Từ</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="listevent">

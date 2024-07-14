@@ -57,6 +57,11 @@
             });
         });
     </script>
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+    </script>
 
 </head>
 <body id="page-top">
@@ -67,6 +72,19 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Các Thực Đơn</h1>
+                <form action="foodmenus" id="myForm">
+                    <div class="row">
+                        <div class="col-lg-2 mb-4">
+                            <label for="selectStatus">Chọn trạng thái</label>
+                            <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                                <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                                <option  ${param.status eq 'đang chờ xử lý'? "selected" :""} value="đang chờ xử lý">Đang chờ xử lý</option>
+                                <option ${param.status eq 'đã được duyệt'? "selected" :""}  value="đã được duyệt">Đã được duyệt</option>
+                                <option  ${param.status eq 'không được duyệt'? "selected" :""} value="không được duyệt">Không được duyệt</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">Danh Sách Các Thực Đơn</h6>

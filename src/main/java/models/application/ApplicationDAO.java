@@ -213,4 +213,47 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
         }
         return applications;
     }
+
+    @Override
+    public List<Application> getForPersonnelWithStatus(String role, String status) {
+        List<Application> applications = new ArrayList<>();
+        String sql = "SELECT a.*\n" +
+                "FROM Applications a\n" +
+                "JOIN Application_Types at\n" +
+                "ON a.application_type = at.id\n" +
+                "WHERE at.receiver_role = ? and status=?\n" +
+                "ORDER BY id desc";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, role);
+            statement.setString(2, status);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Application application = createApplication(resultSet);
+                applications.add(application);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return applications;
+    }
+
+    @Override
+    public List<Application> getSentApplicationsWithStatus(String senderUserId, String status) {
+        String sql = "select * from [Applications] where created_by = ? and status = ? order by id desc";
+        List<Application> applications = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, senderUserId);
+            preparedStatement.setString(2, status);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Application application = createApplication(resultSet);
+                applications.add(application);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return applications;
+    }
 }

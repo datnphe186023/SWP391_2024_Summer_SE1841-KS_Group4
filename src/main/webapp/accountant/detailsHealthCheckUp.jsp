@@ -131,8 +131,8 @@
                                         </div>
 
                                     </div>
-                                    <div class="profile-actions">
-                                        <a href="javascript:history.back()">Quay lại</a>
+                                    <div class="btn-group-right float-right">
+                                        <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
                                     </div>
                                 </div>
                             </div>

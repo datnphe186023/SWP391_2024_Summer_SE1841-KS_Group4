@@ -13,6 +13,11 @@
     <title>Đơn Từ</title>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+        }
+    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -22,6 +27,19 @@
             <jsp:include page="header-parent.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Đơn Đã Gửi</h1>
+                <form action="sentapplications" id="myForm">
+                    <div class="row">
+                        <div class="col-lg-2 mb-4">
+                            <label for="selectStatus">Chọn trạng thái</label>
+                            <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                                <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                                <option  ${param.status eq 'đang chờ xử lý'? "selected" :""} value="đang chờ xử lý">Đang chờ xử lý</option>
+                                <option ${param.status eq 'đã được duyệt'? "selected" :""}  value="đã được duyệt">Đã được duyệt</option>
+                                <option  ${param.status eq 'không được duyệt'? "selected" :""} value="không được duyệt">Không được duyệt</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Danh Sách Đơn Từ</h6>

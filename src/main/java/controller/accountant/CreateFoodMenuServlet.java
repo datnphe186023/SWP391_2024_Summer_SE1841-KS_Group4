@@ -26,9 +26,16 @@ public class CreateFoodMenuServlet extends HttpServlet {
         session.removeAttribute("toastMessage");
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
+        String status = request.getParameter("status");
         //get list of food menus
         IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
-        List<FoodMenu> foodMenus = foodMenuDAO.getAllFoodMenu("FM000000");
+
+        List<FoodMenu> foodMenus;
+        if (status==null || status.equals("all")) {
+            foodMenus = foodMenuDAO.getAllFoodMenu();
+        } else {
+            foodMenus = foodMenuDAO.getFoodMenuWithStatus(status);
+        }
         request.setAttribute("foodMenus", foodMenus);
         request.getRequestDispatcher("foodMenu.jsp").forward(request, response);
     }
