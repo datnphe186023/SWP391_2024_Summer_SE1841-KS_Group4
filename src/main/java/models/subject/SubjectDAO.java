@@ -215,7 +215,9 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
     @Override
     public String editSubject(Subject subject){
         if(checkSubjectExist(subject.getName(),subject.getGrade().getId())){
-            return "Chỉnh sửa thất bại!! Môn học đã tồn tại!";
+            if (getSubjectBySubjectId(subject.getId()).getName().equals(subject.getName())){
+                return "Chỉnh sửa thất bại!! Môn học đã tồn tại!";
+            }
         }
         String sql = "update [Subjects] set name = ?, grade_id = ?, description = ?, status = ? where id = ?";
         try{

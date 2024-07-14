@@ -146,7 +146,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="${foodMenu.id}details">Thực Đơn Mới<a
+                                                                    <label for="${foodMenu.id}details">Chi tiết thực đơn<a
                                                                             style="color: red">(*)</a></label>
                                                                     <textarea class="form-control" type="text"
                                                                               name="details" id="${foodMenu.id}details" rows="5"
