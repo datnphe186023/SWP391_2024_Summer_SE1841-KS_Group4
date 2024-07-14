@@ -37,6 +37,12 @@
         </script>
         <!-- Custom styles for this page -->
         <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <script>
+            function resetClassAndSubmitForm() {
+                document.getElementById("classes").selectedIndex = 0;
+                document.getElementById("myForm").submit();
+            }
+        </script>
     </head>
 
     <body id="page-top">
@@ -56,7 +62,7 @@
                                 <form action="listpupil" id="myForm" class="d-flex w-100">
                                     <div class="flex-grow-1 mb-4">
                                         <label>Chọn năm học</label>
-                                        <select class="custom-select " aria-label="Default select example" onchange="submitForm()" name="schoolYear" style="width: 40%">
+                                        <select class="custom-select " aria-label="Default select example" onchange="resetClassAndSubmitForm()" name="schoolYear" style="width: 40%">
                                             <c:forEach items="${requestScope.listSchoolYear}" var="year">
                                                 <option ${schoolYearSelect eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                             </c:forEach>
@@ -64,7 +70,7 @@
                                     </div>
                                     <div class="me-3 flex-grow-1 mb-4 ">
                                         <label>Chọn lớp</label>
-                                        <select class="custom-select " aria-label="Default select example" onchange="submitForm()" name="classes" style="width: 40%">
+                                        <select id="classes" class="custom-select " aria-label="Default select example" onchange="submitForm()" name="classes" style="width: 40%">
                                             <option value="">Chọn lớp</option>
                                             <c:forEach items="${requestScope.listClass}" var="c">
                                                 <option ${classesSelect eq c.id ? "selected" : ""} value="${c.id}">${c.name}</option>
