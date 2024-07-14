@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="dayBean" class="models.day.DayDAO"/>
 <html>
 
     <head>
@@ -365,7 +366,8 @@
 
                         <%-- Begin modal for assign teacher to class --%>
                         <div class="modal fade" id="assignTeacher" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <form action="classdetail?action=assignTeacher" method="POST" id="assignTeacherForm">
+                            <form action="classdetail" method="POST" id="assignTeacherForm">
+                                <input type="text" value="assignTeacher" name="action" id="formAction" hidden/>
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body">
@@ -380,11 +382,11 @@
                                                 <p style="margin-left: 11px;font-weight: bold">Ghi chú: <a style="font-weight: normal">Các thông tin có dấu</a><a style="color: red"> (*) </a><a style="font-weight: normal">là thông tin bắt buộc phải nhập</a></p>
                                                 <div class="col-md-7">
                                                     <div class="form-group">
-                                                        <label class="control-label" for="pupil">Mã - Tên giáo viên Cũ<a style="color: red">*</a></label>
+                                                        <label class="control-label" for="pupil">Mã - Tên giáo viên hiện tại<a style="color: red">*</a></label>
                                                         <input class="form-control" type="text" value="${requestScope.teacher.id} - ${requestScope.teacher.lastName} ${requestScope.teacher.firstName}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label" for="pupil">Mã - Tên giáo viên Mới<a style="color: red">*</a></label>
+                                                        <label id="teacherLabel" class="control-label" for="pupil">Mã - Tên giáo viên mới<a style="color: red">*</a></label>
                                                         <select class="form-control" id="teacher" name="teacher" required>
                                                             <option value="">-- Chọn Giáo Viên --</option>
                                                             <c:forEach var="teacher" items="${requestScope.teachers}">
@@ -393,11 +395,34 @@
                                                         </select>
                                                         <input hidden value="${requestScope.classes.id}" name="classId">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <input type="checkbox" id="substituteCheckbox" name="substituteCheckbox">
+                                                        <label for="substituteCheckbox">Phân công giáo viên dạy thay</label>
+                                                    </div>
+                                                    <div class="form-group" id="substituteTeacherDiv" style="display:none;">
+                                                        <label class="control-label" for="substituteTeacher">Mã - Tên giáo viên Dạy Thay<a style="color: red">*</a></label>
+                                                        <select class="form-control" id="substituteTeacher" name="substituteTeacher">
+                                                            <option value="">-- Chọn Giáo Viên --</option>
+                                                            <c:forEach var="teacher" items="${requestScope.teachers}">
+                                                                <option value="${teacher.id}" ${param.substituteTeacher eq teacher.id ? "selected":""}>${teacher.id} - ${teacher.lastName} ${teacher.firstName}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <label class="control-label mt-2" for="days">Chọn ngày<a style="color: red">*</a></label>
+                                                        <select class="form-control" id="days" name="day">
+                                                            <option value="">-- Chọn Ngày --</option>
+                                                            <c:forEach var="day" items="${dayBean.getDaysInFutureWithTimetableForClass(requestScope.classes.id)}">
+                                                                <option value="${day.id}" ${param.day eq day.id ? "selected":""}>${day.date}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <br>
-                                            <button class="btn btn-success" type="button" onclick="confirmAssign('assignTeacherForm', 'Bạn có chắc chắn muốn phân công giáo viên này vào lớp?')">Lưu lại</button>
-                                            <a class="btn btn-danger" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
+                                            <div class="form-group row" style="display: flex;">
+                                                <button id="assignTeacherSubmitButton" class="btn btn-success ml-1" type="button" onclick="confirmAssign('assignTeacherForm', 'Bạn có chắc chắn muốn phân công giáo viên này vào lớp?')">Lưu lại</button>
+                                                <button id="assignSubTeacherSubmitButton" style="display: none" class="btn btn-success ml-1" type="button" onclick="confirmAccept('assignTeacherForm', 'Bạn có chắc chắn muốn phân công giáo viên dạy thay này?')">Lưu lại</button>
+                                                <a class="btn btn-danger ml-1" data-dismiss="modal" id="cancel-button">Hủy bỏ</a>
+                                            </div>
                                             <br>
                                         </div>
                                     </div>
@@ -489,6 +514,25 @@
                 // Toggle the state variable
                 areChecked = !areChecked;
             }
+
+            document.getElementById('substituteCheckbox').addEventListener('change', function() {
+                var substituteTeacherDiv = document.getElementById('substituteTeacherDiv');
+                if (this.checked) {
+                    substituteTeacherDiv.style.display = 'block';
+                    document.getElementById('formAction').value = 'assignSubTeacher';
+                    document.getElementById('teacher').style.display = 'none';
+                    document.getElementById('teacherLabel').style.display = 'none';
+                    document.getElementById('assignSubTeacherSubmitButton').style.display = 'block';
+                    document.getElementById('assignTeacherSubmitButton').style.display = 'none';
+                } else {
+                    substituteTeacherDiv.style.display = 'none';
+                    document.getElementById('formAction').value = 'assignTeacher';
+                    document.getElementById('teacher').style.display = 'block';
+                    document.getElementById('teacherLabel').style.display = 'block';
+                    document.getElementById('assignSubTeacherSubmitButton').style.display = 'none';
+                    document.getElementById('assignTeacherSubmitButton').style.display = 'block';
+                }
+            });
         </script>
         <!-- Page level plugins -->
         <script src="../vendor/datatables/jquery.dataTables.min.js"></script>

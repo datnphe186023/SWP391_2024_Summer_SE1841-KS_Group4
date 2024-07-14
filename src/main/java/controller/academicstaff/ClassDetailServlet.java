@@ -119,6 +119,20 @@ public class ClassDetailServlet extends HttpServlet {
                 session.setAttribute("toastMessage", result);
             }
             response.sendRedirect("classdetail?classId=" + classId);
+        } else if (action.equals("assignSubTeacher")) {
+            String substituteTeacher = request.getParameter("substituteTeacher");
+            String classId = request.getParameter("classId");
+            String dayId= request.getParameter("day");
+            ITimetableDAO timetableDAO = new TimetableDAO();
+            String result = timetableDAO.updateTimetableOfClass(substituteTeacher, classId, dayId);
+            if (result.equals("success")) {
+                session.setAttribute("toastType", "success");
+                session.setAttribute("toastMessage", "Thao tác thành công");
+            } else {
+                session.setAttribute("toastType", "error");
+                session.setAttribute("toastMessage", result);
+            }
+            response.sendRedirect("classdetail?classId=" + classId);
         }
     }
     

@@ -68,6 +68,26 @@ public class DayDAO extends DBContext implements IDayDAO {
         return days;
     }
 
+    @Override
+    public List<Day> getDaysInFutureWithTimetableForClass(String classId) {
+        List<Day> days = new ArrayList<>();
+        String sql = "SELECT DISTINCT d.*\n" +
+                "                FROM Days d\n" +
+                "                JOIN Timetables t ON d.id = t.date_id\n" +
+                "                WHERE d.date > GETDATE() and class_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, classId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                days.add(createDay(resultSet));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
     private Day getLatest() {
         String sql = "SELECT TOP 1 * FROM Days ORDER BY ID DESC";
         try {
