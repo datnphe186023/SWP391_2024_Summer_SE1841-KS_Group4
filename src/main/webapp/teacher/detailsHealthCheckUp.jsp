@@ -151,7 +151,7 @@
                                 </div>
 
                                 <div class="btn-group-right float-right">
-                                    <button type="button" class="btn btn-primary" onclick="javascript:history.back()"  style="width: 100px">Quay lại</button>
+                                    <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
                                 </div>
                             </div>
 

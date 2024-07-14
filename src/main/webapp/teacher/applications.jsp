@@ -28,7 +28,19 @@
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Đơn Từ</h1>
-
+                <form action="application" id="myForm">
+                    <div class="row">
+                        <div class="col-lg-2 mb-4">
+                            <label for="selectStatus">Chọn trạng thái</label>
+                            <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                                <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                                <option  ${param.status eq 'đang chờ xử lý'? "selected" :""} value="đang chờ xử lý">Đang chờ xử lý</option>
+                                <option ${param.status eq 'đã được duyệt'? "selected" :""}  value="đã được duyệt">Đã được duyệt</option>
+                                <option  ${param.status eq 'không được duyệt'? "selected" :""} value="không được duyệt">Không được duyệt</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -36,13 +48,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <jsp:useBean id="pupilBean" class="models.pupil.PupilDAO"/>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th>STT</th>
                                     <th>Loại đơn</th>
-
-                                    <th>Ngày gửi</th>
+                                    <th>Người gửi</th>
+                                    <th>Ngày nghỉ</th>
                                     <th>Trạng thái</th>
                                     <th>Chi tiết</th>
                                 </tr>
@@ -53,8 +66,17 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${application.type.name}</td>
-
-                                        <td>${application.createdAt}</td>
+                                        <td>${pupilBean.getPupilByUserId(application.createdBy).lastName} ${pupilBean.getPupilByUserId(application.createdBy).firstName}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${application.startDate eq application.endDate}">
+                                                    ${application.startDate}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${application.startDate} đến ${application.endDate}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <c:set value="${application.status}" var="s"/>
                                         <c:if test="${s eq 'đã được duyệt'}">
                                             <td><span class="badge badge-success">${s}</span></td>

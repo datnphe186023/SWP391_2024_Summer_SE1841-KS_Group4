@@ -119,6 +119,10 @@
                         </button>
                     </form>
                 </div>
+
+                <div class="btn-group-right float-right">
+                    <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
+                </div>
             </div>
             <%-- Begin confirmMessage modal--%>
             <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">

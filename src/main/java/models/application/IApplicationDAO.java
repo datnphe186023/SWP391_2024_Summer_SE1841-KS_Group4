@@ -12,4 +12,6 @@ public interface IApplicationDAO {
     String addApplication(Application application);
     String processApplication(Application application);
     List<Application> getSentApplications(String senderUserId);
+    List<Application> getForPersonnelWithStatus(String role, String status);
+    List<Application> getSentApplicationsWithStatus(String senderUserId, String status);
 }
