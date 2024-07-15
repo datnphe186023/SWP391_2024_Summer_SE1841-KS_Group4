@@ -80,21 +80,21 @@ public class AddHealthReportServlet extends HttpServlet {
             session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ đã được tạo!Vui lòng kiểm tra lại!");
         } else {
             // Get height
-            float height = Float.parseFloat(request.getParameter("height"));
+            float height = Float.parseFloat(request.getParameter("height").trim());
             // Get weight
-            float weight = Float.parseFloat(request.getParameter("weight"));
+            float weight = Float.parseFloat(request.getParameter("weight").trim());
             // Get average development stage
-            String averageDevelopmentStage = request.getParameter("average_development_stage");
+            String averageDevelopmentStage = request.getParameter("average_development_stage").trim();
             // Get blood pressure
-            String bloodPressure = request.getParameter("blood_pressure");
+            String bloodPressure = request.getParameter("blood_pressure").trim();
             // Get teeth
-            String teeth = request.getParameter("teeth");
+            String teeth = request.getParameter("teeth").trim();
             // Get eyes
-            String eyes = request.getParameter("eyes");
+            String eyes = request.getParameter("eyes").trim();
             // Get Ear - nose - throat
-            String earNoseThroat = request.getParameter("ear_nose_throat");
+            String earNoseThroat = request.getParameter("ear_nose_throat").trim();
             // Get note
-            String note = request.getParameter("note");
+            String note = request.getParameter("note").trim();
 
             // Create new health check up
             HealthCheckUp healthCheckUp = new HealthCheckUp();
