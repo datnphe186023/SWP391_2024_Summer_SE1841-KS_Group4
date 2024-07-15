@@ -39,13 +39,14 @@
                             <div>
                                 <div class="mb-4">
                                     <label>Chọn năm học</label>
-                                    <select class="custom-select" style="width: 8%" aria-label="Default select example" onchange="resetAndSubmitForm('selectForm')" name="schoolYearId">
+                                    <select class="custom-select" style="width: 15%" aria-label="Default select example" onchange="resetAndSubmitForm('selectForm')" name="schoolYearId">
                                         <c:forEach items="${requestScope.schoolYears}" var="year">
                                             <option ${requestScope.schoolYearId eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                         </c:forEach>
                                     </select>
                                     <label class="ml-1">Chọn tuần</label>
-                                    <select class="custom-select" id="weekSelect" style="width: 15%" aria-label="Default select example" name="weekId">
+                                    <select class="custom-select" id="weekSelect" style="width: 25%" aria-label="Default select example" name="weekId">
+                                        <option value="">- Chọn tuần -</option>
                                         <c:forEach items="${requestScope.weeks}" var="week">
                                             <option ${requestScope.weekId eq week.id ? "selected" : ""} value="${week.id}">${week.getStartDatetoEndDate()}</option>
                                         </c:forEach>
