@@ -45,9 +45,9 @@
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
                         <h1 class="h3 mb-4 text-gray-800 text-center">Báo cáo sức khỏe</h1>
-                        
+
                         <div class="card shadow mb-4">
-                            
+
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -74,7 +74,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="btn-group-right float-right">
+                            <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
+                        </div>
                     </div>
                 </div>
                 <jsp:include page="../footer.jsp"/>

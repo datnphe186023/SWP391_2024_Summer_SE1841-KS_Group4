@@ -111,6 +111,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="btn-group-right float-right">
+                            <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
+                        </div>
                     </div>
                     <!-- Health Report Modal -->
                     <div class="modal fade" id="healthReportModal" tabindex="-1" role="dialog" aria-labelledby="healthReportModalLabel" aria-hidden="true">
@@ -139,39 +142,39 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="height"><strong>Chiều cao (cm) *</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Chiều cao" name="height" pattern="^([3-9]\d|1\d{2}|200)(\.\d)?$" title="Chiều cao không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required >
+                                                    <input type="text" class="form-control" placeholder="Chiều cao" name="height" pattern="^\s*([3-9]\d|1\d{2}|200)(\.\d)?\s*$" title="Chiều cao không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required >
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="weight"><strong>Cân nặng (kg) *</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Cân nặng" name="weight" title="Cân nặng không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^(0?[1-9]|[1-9][0-9]|100)(\.\d)?$">
+                                                    <input type="text" class="form-control" placeholder="Cân nặng" name="weight" title="Cân nặng không hợp lệ vui lòng kiểm tra lại!" style="width: 50%" required pattern="^\s*(0?[1-9]|[1-9][0-9]|100)(\.\d)?\s*$">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="average_development_stage"><strong>Giai đoạn phát triển *</strong></label>
-                                                    <input class="form-control" placeholder="Giai đoạn phát triển (trung bình,...)" type="text" name="average_development_stage" pattern="^[A-Za-z1-9 ,\\s]{1,100}$" title="Giai đoạn phát triển không được chứa kí tự đặc biệt hoặc vượt quá 100 kí tự!" style="width: 70%" required />
+                                                    <input class="form-control" placeholder="Giai đoạn phát triển (trung bình,...)" type="text" name="average_development_stage" pattern="^[A-Za-z1-9 ${vietnamesePattern},\\s]{1,100}$" title="Giai đoạn phát triển không được chứa kí tự đặc biệt hoặc vượt quá 100 kí tự!" style="width: 70%" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="blood_pressure"><strong>Huyết áp *</strong></label>
-                                                    <input type="text" placeholder="Huyết áp (.. / ..)" class="form-control" name="blood_pressure" title="Chỉ số huyết áp không hợp lệ vui lòng kiểm tra lại!" style="width: 60%" required pattern="^(1?[0-9]{2})/(1?[0-9]{2})$">
+                                                    <input type="text" placeholder="Huyết áp (.. / ..)" class="form-control" name="blood_pressure" title="Chỉ số huyết áp không hợp lệ vui lòng kiểm tra lại!" style="width: 60%" required pattern="^\s*(1?[0-9]{2})/(1?[0-9]{2})\s*$">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="teeth"><strong>Răng *</strong></label>
                                                     <input type="text" placeholder="Răng (tốt,...)" class="form-control" name="teeth" title="Kết quả đánh giá không được chứa kí tự đặc biệt hoặc vượt quá 30 kí tự!
-                                                           " pattern="^[A-Za-z1-9 ,\\s]{1,30}$" style="width: 60%" required />
+                                                           " pattern="^[A-Za-z1-9 ${vietnamesePattern},\\s]{1,30}$" style="width: 60%" required />
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="eyes"><strong>Mắt *</strong></label>
-                                                    <input type="text" placeholder="Mắt (.. / ..)" class="form-control" name="eyes" title="Kết quả đánh giá không được chứa kí tự đặc biệt hoặc vượt quá kí tự cho phép!" required style="width: 60%" pattern="^(1?[0-9])/(1?[0-9])$">
+                                                    <input type="text" placeholder="Mắt (.. / ..)" class="form-control" name="eyes" title="Kết quả đánh giá không được chứa kí tự đặc biệt hoặc vượt quá kí tự cho phép!" required style="width: 60%" pattern="^\s*(1?[0-9])/(1?[0-9])\s*$">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="ear_nose_throat"><strong>Tai mũi họng *</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Tai mũi họng (tốt,...)" pattern="^[A-Za-z1-9 ,\\s]{1,30}$" title="Thông số không được để trống , chứa kí tự đặc biệt hoặc vượt quá kí tự cho phép!
+                                                    <input type="text" class="form-control" placeholder="Tai mũi họng (tốt,...)" pattern="^[A-Za-z1-9 ${vietnamesePattern},\\s]{1,30}$" title="Thông số không được để trống , chứa kí tự đặc biệt hoặc vượt quá kí tự cho phép!
                                                            " name="ear_nose_throat" style="width:60%" required />
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="notes"><strong>Ghi chú *</strong></label>
-                                                    <textarea class="form-control" placeholder="Ghi chú" name="note" pattern="^[A-Za-z1-9 ,\\s]{1,1000}$" title="Ghi chú không hợp lệ vui lòng kiểm tra lại!" name="notes" rows="2" required></textarea>
+                                                    <textarea class="form-control" placeholder="Ghi chú" name="note" pattern="^[A-Za-z1-9 ${vietnamesePattern},\\s]{1,1000}$" title="Ghi chú không hợp lệ vui lòng kiểm tra lại!" name="notes" rows="2" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
