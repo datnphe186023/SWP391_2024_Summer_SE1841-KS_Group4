@@ -344,7 +344,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 + "JOIN Timetables t ON c.id = t.class_id\n"
                 + "JOIN Days d ON t.date_id = d.id\n"
                 + "WHERE t.teacher_id = ?\n"
-                + "  AND ? = d.date;\n";
+                + "  AND ? = d.date and t.status = 'đã được duyệt';\n";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);
