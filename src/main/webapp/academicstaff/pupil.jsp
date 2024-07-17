@@ -76,14 +76,6 @@
 
                 <form action="pupil" id="myForm">
                     <div class="row">
-<%--                        <div class="col-lg-2 mb-4">--%>
-<%--                            <label>Chọn năm học</label>--%>
-<%--                            <select class="custom-select w-70" aria-label="Default select example" onchange="submitForm()" name="schoolYear" style="width: 100%;">--%>
-<%--                                <c:forEach items="${requestScope.listSchoolYear}" var="year">--%>
-<%--                                    <option ${schoolYearSelect eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>--%>
-<%--                                </c:forEach>--%>
-<%--                            </select>--%>
-<%--                        </div>--%>
                         <div class="col-lg-2 mb-4">
                             <label for="selectStatus">Chọn trạng thái</label>
                             <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
@@ -286,7 +278,7 @@
                                                         <div class="form-group col-md-6">
                                                             <label for="email">Email<a
                                                                     style="color: red">(*)</a></label>
-                                                            <input type="email" class="form-control" id="email"
+                                                            <input type="text" class="form-control" id="email"
                                                                    name="email"  value="${param.email}">
                                                             <div class="row" style="margin-top: 20px">
                                                                 <button style="margin:0px 10px" class="btn btn-success"
