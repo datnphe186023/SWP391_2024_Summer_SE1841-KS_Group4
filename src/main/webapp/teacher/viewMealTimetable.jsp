@@ -148,7 +148,7 @@
                         <div class="table-responsive">
                             <c:set value="${requestScope.menuDetailList}" var="menuDetaillist"/>
                             <c:if test="${requestScope.menustatus eq 'created'}">
-                                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
                                         <th>Thời gian</th>
@@ -161,49 +161,26 @@
                                         <th>Chủ Nhật</th>
                                     </tr>
                                     </thead>
-
                                     <tbody>
-
                                     <c:forEach var="timeOfDay" items="${timesOfDay}">
                                         <tr>
-                                            <c:if test="${timeOfDay == 'Bữa trưa'}" >
-                                                <td>Trưa</td>
-                                            </c:if>
-                                            <c:if test="${timeOfDay == 'Bữa chiều'}" >
-                                                <td>Chiều</td>
-                                            </c:if>
-                                            <c:if test="${timeOfDay == 'Bữa chiều phụ'}" >
-                                                <td>Chiều Phụ</td>
-                                            </c:if>
-
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${timeOfDay == 'Bữa trưa'}">Trưa</c:when>
+                                                    <c:when test="${timeOfDay == 'Bữa chiều'}">Chiều</c:when>
+                                                    <c:when test="${timeOfDay == 'Bữa chiều phụ'}">Chiều Phụ</c:when>
+                                                </c:choose>
+                                            </td>
                                             <c:forEach var="dayOfWeek" items="${daysOfWeek}">
                                                 <td>
-                                                    <c:set var="menucheck" value="false"/>
-                                                    <c:forEach var="menu" items="${requestScope.menuDetailList}">
-                                                        <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
-                                                            <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
-                                                    <div style="display:flex ; justify-content: center">
-                                                                ${menu.getFoodMenu().getFoodDetails()}
+                                                    <div >
+                                                        <c:out value="${menuMap[timeOfDay][dayOfWeek] != null ? menuMap[timeOfDay][dayOfWeek] : '(Bữa trống)'}" />
                                                     </div>
-                                                                <c:set var="menucheck" value="true"/>
-                                                            </c:if>
-
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <c:if test="${menucheck eq 'false'}">
-                                                        <div style="display:flex ; justify-content: center">
-                                                            <a style="color: red"> (Bữa trống) </a>
-                                                        </div>
-
-                                                    </c:if>
                                                 </td>
                                             </c:forEach>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
-
-
-
                                 </table>
                             </c:if>
                             <c:if test="${requestScope.menustatus eq 'not-enough-data'}">

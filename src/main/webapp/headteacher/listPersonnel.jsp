@@ -97,15 +97,7 @@
 
                     </div>
                     <%--End : Select item    --%>
-                    <div class="col-lg-4" style="display: flex; justify-content: end">
-                        <div>
-                            <button class="btn btn-primary" >
-                                <a style="color:white "  href="waitlistpersonnel">ĐANG CHỜ PHÊ DUYỆT (${requestScope.waitlist.size()})</a>
-                            </button>
-                        </div>
-
-
-                    </div>
+                   
                 </div>
 
 
