@@ -11,6 +11,8 @@
 <%@ page import="models.schoolYear.SchoolYear" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.classes.Class" %>
+<%@ page import="models.personnel.IPersonnelDAO" %>
+<%@ page import="models.personnel.PersonnelDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -139,9 +141,18 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="listpersonnel">
-                    <i class="fas fa-fw fa-user-friends"></i>
-                    <span>Quản lý nhân sự</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePersonnelmanage"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cheese"></i>
+                    <span>Quản lý nhân sự </span></a>
+                <div id="collapsePersonnelmanage" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="listpersonnel">Danh sách nhân viên</a>
+                        <% IPersonnelDAO personnelDAO = new PersonnelDAO(); %>
+                        <a class="collapse-item" href="waitlistpersonnel">Phê duyệt nhân viên(<%=personnelDAO.getPersonnelByStatus("đang chờ xử lý").size()%>)</a>
+
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item">

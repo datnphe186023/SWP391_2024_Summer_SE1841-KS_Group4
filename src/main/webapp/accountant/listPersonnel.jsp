@@ -445,7 +445,8 @@
     });
 </script>
 <script>
-    document.getElementById('save-button').addEventListener('click', function () {
+    document.getElementById('save-button').addEventListener('click', function(event) {
+        const role = document.getElementById('role').value;
         const address = document.getElementById('address').value;
         const lastname = document.getElementById('lastname').value;
         const firstname = document.getElementById('firstname').value;
@@ -456,12 +457,16 @@
         const imageUpload = document.getElementById('imageUpload').value;
         const imagePreview = document.getElementById('imagePreview').style.display;
         const previewSrc = document.getElementById('preview').src;
-            const  pattern2=/^[A-Za-zĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,50}/;
+            const  pattern2=/^[a-zA-ZĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,50}$/;
             const pattern1=/^[a-zA-ZĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,20}$/;
             const  pattern3=/^[A-Za-z1-9,ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ\s]{1,300}$/;
             const pattern5=/^(0[23578]|09)\d{8}$/;
             const pattern4 =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        let hasError = false;
         if (address === '' ||
+            role === '' ||
             lastname === '' ||
             firstname === '' ||
             gender === '' ||
@@ -477,35 +482,51 @@
         } else {
             if(pattern1.test(firstname)===false){
                 toastr.error("Thao tác Thất bại ! Tên không được có ký tự đặc biệt hay chữ số và chỉ được nhập tối đa 20 ký tự !");
+                hasError = true;
 
-                return;
             }
             if(pattern2.test(lastname)===false){
                 toastr.error("Thao tác thất bại! Họ không được có ký tự đặc biệt hay chữ số và chỉ được nhập tối đa 50 ký tự !");
-                return;
+                hasError = true;
+
             }
             if(isOver18(birthday)===false){
                 toastr.error("Thao tác thất bại! Không đủ 18 tuổi !");
-                return;
+                hasError = true;
+
             }
             if(pattern3.test(address)===false){
                 toastr.error("Thao tác thất bại! Địa chỉ chứa ký tự không hợp lệ!");
-                return;
+                hasError = true;
+
             }
 
             if(pattern4.test(email)===false){
                 toastr.error("Thao tác thất bại! Địa chỉ Email không hợp lệ !");
-                return;
+                hasError = true;
+
             }
             if(pattern5.test(phone)===false){
                 toastr.error("Thao tác thất bại! Số điện thoại phải có 10 chữ số và là số điện thoại Việt Nam");
-                return;
+                hasError = true;
+
             }
+            if (!allowedExtensions.exec(imageUpload)) {
+                toastr.error("Chỉ các tập tin .jpg, .jpeg, và .png được cho phép.");
+                hasError = true;
+
+
+            }
+            if (hasError) {
+                event.preventDefault(); // Prevent form submission if there are errors
+            }
+
         }
     });
 </script>
 <script>
     document.getElementById('cancel-button').addEventListener('click', function () {
+        document.getElementById('role').value = '';
         document.getElementById('address').value = '';
         document.getElementById('lastname').value = '';
         document.getElementById('firstname').value = '';
