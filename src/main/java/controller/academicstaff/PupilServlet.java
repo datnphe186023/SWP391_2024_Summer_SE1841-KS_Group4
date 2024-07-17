@@ -99,10 +99,26 @@ public class PupilServlet extends HttpServlet {
                         note);
                 ////   Stage for create pupil
 
-                 if(email.isBlank() || firstGuardianName.isBlank() || Helper.formatString(note).isBlank() || avatar.isBlank() || genderRaw.equals("-1")
+                 if(address.isBlank() || email.isBlank() || firstGuardianName.isBlank() || Helper.formatString(note).isBlank() || avatar.isBlank() || genderRaw.equals("-1")
                          || Helper.formatName(firstName).isBlank() || Helper.formatName(lastName).isBlank()
                          || Helper.formatName(firstGuardianName).isBlank()) {
-                    toastMessage = "Tạo thật bại ! Vui lòng không bỏ trống các trường nhập !";
+                     if(address.isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường địa chỉ !";
+                     }else if(email.isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường email !";
+                     }else if(Helper.formatName(firstGuardianName).isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường họ tên người giám hộ 1 !";
+                     }else if(Helper.formatString(note).isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường ghi chú !";
+                     }else if(avatar.isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường hình ảnh !";
+                     }else if(genderRaw.equals("-1")){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường giới tính !";
+                     }else if(Helper.formatName(firstName).isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường tên !";
+                     }else if(Helper.formatName(lastName).isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường họ !";
+                     }
                     toastType = "error";
                     session.setAttribute("toastMessage", toastMessage);
                     session.setAttribute("toastType", toastType);
@@ -175,8 +191,6 @@ public class PupilServlet extends HttpServlet {
                         request.getRequestDispatcher("pupil.jsp").forward(request,response);
                         }
                 }
-
-
             }
         }
     }
