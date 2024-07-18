@@ -73,6 +73,7 @@ public class UpdatePupilsServlet extends HttpServlet {
         pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber").trim());
         pupil.setAddress(request.getParameter("address").trim());
         pupil.setParentSpecialNote(request.getParameter("note").trim());
+        pupil.setEmail(request.getParameter("email").trim());
         String birthdayStr = request.getParameter("birthday");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = null;

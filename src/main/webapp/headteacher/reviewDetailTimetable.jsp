@@ -37,6 +37,25 @@
                     }
                 }
             });
+
+            var formIdToAccept;
+
+            function setAction(action) {
+                document.getElementById('actionField').value = action;
+            }
+
+            function confirmAccept(formId, action, msg) {
+                formIdToAccept = formId;
+                setAction(action);
+                document.getElementById('confirmMessageTitle').innerText = msg;
+                $('#confirmMessage').modal('show');
+            }
+
+            $(document).ready(function () {
+                $('#confirmMessageButton').click(function () {
+                    document.getElementById(formIdToAccept).submit();
+                });
+            });
         </script>
         <style>
             #selectWeek {
@@ -97,12 +116,12 @@
 
     <body id="page-top">
         <div id="wrapper">
-            <jsp:include page="navbar.jsp"/>
+            <jsp:include page="navbar.jsp" />
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <jsp:include page="../header.jsp"/>
+                    <jsp:include page="../header.jsp" />
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid" style="width: 90%">
@@ -115,15 +134,13 @@
                                 </h2>
                                 </br>
                                 <h5 class="row justify-content-center">
-                                    Thời khóa biểu áp dụng từ ngày 
-                                    <fmt:formatDate value="${requestScope.week.startDate}" pattern="dd/MM/yyyy"/> 
-                                    đến ngày 
-                                    <fmt:formatDate value="${requestScope.week.endDate}" pattern="dd/MM/yyyy"/>
+                                    Thời khóa biểu áp dụng từ ngày
+                                    <fmt:formatDate value="${requestScope.week.startDate}" pattern="dd/MM/yyyy" />
+                                    đến ngày
+                                    <fmt:formatDate value="${requestScope.week.endDate}" pattern="dd/MM/yyyy" />
                                 </h5>
                             </div>
                         </div>
-
-
 
                         <table class="timetable-table table table-bordered text-center">
                             <thead>
@@ -159,39 +176,65 @@
                                     </tr>
                                 </c:forEach>
                             </tbody>
+
                         </table>
-                        <p>Chú thích*: (-) không có dữ liệu</p>
+                        
                         <form action="review-detail-timetable" method="post" id="reviewForm">
                             <div class="btn-container" style="display: flex; justify-content: center;">
                                 <div style="width: 33%">
-                                    <textarea rows="4" name="note" placeholder="Ghi chú" style="width: 100%;"></textarea><br>
+                                    <textarea class="form-control" rows="4" name="note" placeholder="Ghi chú" style="width: 100%;"></textarea><br>
                                     <input type="hidden" name="action" id="actionField">
                                     <div class="btn-group-left" style="display: flex; justify-content: space-between; margin-top: 10px;">
-                                        <button type="submit" class="btn btn-success" style="width: 100px;" onclick="setAction('approve')">Duyệt</button>
-                                        <button type="submit" class="btn btn-danger" style="width: 100px;" onclick="setAction('reject')">Từ chối</button>
+                                        <button type="button" class="btn btn-success" style="width: 100px;" onclick="confirmAccept('reviewForm', 'approve', 'Bạn có chắc chắn muốn duyệt thời khóa biểu này?')">Duyệt</button>
+                                        <button type="button" class="btn btn-danger" style="width: 100px;" onclick="confirmAccept('reviewForm', 'reject', 'Bạn có chắc chắn muốn từ chối thời khóa biểu này?')">Từ chối</button>
+                                    </div>
+                                </div>
+                                <div style="width: 33%">
+                                    
+                                </div>
+                                <div style="width: 33%">
+                                    <div class="btn-group-right float-right">
+                                        <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px;margin-top: 140px;">Quay lại</button>
                                     </div>
                                 </div>
                             </div>
+
                         </form>
 
-                        <script>
-                            function setAction(action) {
-                                document.getElementById('actionField').value = action;
-                            }
-                        </script>
-
-
+                        <%-- Begin confirmMessage modal --%>
+                        <div class="modal fade" id="confirmMessage" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Xác nhận thao tác</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="confirmMessageTitle">
+                                        <!-- Dynamic message will be inserted here -->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-primary" id="confirmMessageButton">Xác Nhận</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%-- End confirmMessage modal --%>
 
                     </div>
                     <!-- /.container-fluid -->
+
+                    <jsp:include page="../footer.jsp" />
                 </div>
                 <!-- End of Main Content -->
 
-                <jsp:include page="../footer.jsp"/>
             </div>
             <!-- End of Content Wrapper -->
 
         </div>
         <!-- End of Page Wrapper -->
     </body>
+
 </html>

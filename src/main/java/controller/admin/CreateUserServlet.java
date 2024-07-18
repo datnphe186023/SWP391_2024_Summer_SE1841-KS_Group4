@@ -62,24 +62,29 @@ public class CreateUserServlet extends HttpServlet {
             throws ServletException, IOException {
         Map<Integer, String> roleMap = new HashMap<>();
 
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
+        roleMap.put(0, "QUẢN TRỊ VIÊN");
+        roleMap.put(1, "HIỆU TRƯỞNG");
+        roleMap.put(2, "GIÁO VỤ");
+        roleMap.put(3, "KẾ TOÁN");
+        roleMap.put(4, "GIÁO VIÊN");
+        roleMap.put(5, "PHỤ HUYNH");
 
         HttpSession session = request.getSession();
         String error = (String) session.getAttribute("error");
-        String success = (String) session.getAttribute("success");     
-        if (error!=null) {
+        String errors = (String) session.getAttribute("errors");
+        String success = (String) session.getAttribute("success");
+        if (error != null) {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Không có tài khoản nào được chọn.");
-            session.removeAttribute(error);
-        } else if(success!=null){
+            session.removeAttribute("error");
+        } else if (success != null) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Tạo tài khoản mới thành công.");
-            session.removeAttribute(success);
+            session.removeAttribute("success");
+        } else if (errors != null) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Tạo tài khoản mới thất bại.");
+            session.removeAttribute("errors");
         }
         request.setAttribute("listPupils", new PupilDAO().getPupilNonUserId());
         request.setAttribute("listPersonnel", new PersonnelDAO().getPersonnelNonUserId());

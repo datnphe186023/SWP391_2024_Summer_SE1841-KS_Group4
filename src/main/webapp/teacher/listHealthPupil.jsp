@@ -84,7 +84,7 @@
                                                 <th scope="row">${status.index + 1}</th>
                                                 <td>${pupil.id}</td>
                                                 <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                <td><a href="health-details?pupilid=${pupil.id}&&schoolyear=${requestScope.checkYear}"
+                                                <td><a href="health-details?pupilid=${pupil.id}&schoolyear=${requestScope.checkYear}"
                                                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
                                             </tr>
                                         </c:forEach>

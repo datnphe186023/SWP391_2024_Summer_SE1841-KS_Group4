@@ -198,7 +198,7 @@
                                                             nhập</a></p>
                                                         <div class="form-group col-md-6">
                                                             <label for="id">Mã học sinh</label>
-                                                            <input type="text" class="form-control" id="id"
+                                                            <input type="text" class="form-control" id="id" name="id"
                                                                    style="width: 70%" value="${requestScope.newPupilId}"
                                                                    readonly>
                                                         </div>
@@ -264,9 +264,9 @@
                                                             <label for="gender" class="form-label">Giới tính<a
                                                                     style="color: red; margin-right: 60px">(*)</a></label>
                                                             <select name="gender" id="gender"
-                                                                    class="form-select"
+                                                                    class="custom-select"
                                                                     aria-label="Default select example"
-                                                                    style="width: 50%;height: 50%;">
+                                                                    style="width: 53%;height: 50%;">
                                                                 <option hidden="" value="-1">Chọn giới tính</option>
                                                                 <option ${param.gender==1?"selected":""} value="1">Nam
                                                                 </option>

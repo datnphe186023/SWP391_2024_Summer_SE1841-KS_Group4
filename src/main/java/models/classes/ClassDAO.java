@@ -13,6 +13,7 @@ import utils.Helper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -96,7 +97,13 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 return "Lớp phải được tạo trước khi năm học bắt đầu 7 ngày";
             }
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, generateId(getLatest().getId()));
+            String newClassId;
+            if (getLatest() != null) {
+                newClassId = generateId(getLatest().getId());
+            } else {
+                newClassId = "C000001";
+            }
+            preparedStatement.setString(1, newClassId);
             if (c.getName().isBlank()) {
                 return "Tên lớp không được để trống";
             }
@@ -116,7 +123,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
             return "Thao tác thất bại. Lớp đã tồn tại";
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            return "Vui lòng tạo năm học trước khi tạo lớp";
         }
         return "success";
     }
@@ -179,7 +186,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
 
     @Override
     public String reviewClass(String newStatus, String id) {
-        String sql = "update [Class] set [status]= ? where [id] = ?";
+        String sql = "update [Class] set [status]= ?, [teacher_id] = ? where [id] = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             if (newStatus.equals("accept")) {
@@ -188,7 +195,8 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 newStatus = "không được duyệt";
             }
             preparedStatement.setString(1, newStatus);
-            preparedStatement.setString(2, id);
+            preparedStatement.setNull(2, Types.VARCHAR);
+            preparedStatement.setString(3, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -290,11 +298,12 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
-    public Class getClassByTeacherId(String id) {
-        String sql = "select * from [Class] where teacher_id = ?";
+    public Class getClassByTeacherIdandSchoolYearId(String id, String schoolyear) {
+        String sql = "select * from [Class] where teacher_id = ? and school_year_id=?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
+            preparedStatement.setString(2, schoolyear);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return createClass(resultSet);
@@ -308,7 +317,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
     @Override
     public Class getClassByPupilIdAndSchoolYear(String id, String schoolYear) {
         String sql = "select * from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, schoolYear);
@@ -344,7 +353,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 + "JOIN Timetables t ON c.id = t.class_id\n"
                 + "JOIN Days d ON t.date_id = d.id\n"
                 + "WHERE t.teacher_id = ?\n"
-                + "  AND ? = d.date and t.status = 'đã được duyệt';\n";
+                + "  AND ? = d.date and t.status = N'đã được duyệt';\n";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);

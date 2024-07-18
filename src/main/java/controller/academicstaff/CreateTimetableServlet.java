@@ -111,7 +111,7 @@ public class CreateTimetableServlet extends HttpServlet {
         // get list week from now
         List<Week> listWeek = null;
         if (schoolYear != null) {
-            listWeek = weekDAO.getWeeks(schoolYear.getId());
+            listWeek = weekDAO.getWeeksFromNowUntilEndOfSchoolYear(schoolYear.getId());
         }
 
         // get list subject by grade id

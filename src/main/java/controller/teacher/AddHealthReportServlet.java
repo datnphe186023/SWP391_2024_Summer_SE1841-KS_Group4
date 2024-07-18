@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import models.evaluation.HealthCheckUp;
 import models.evaluation.HealthCheckUpDAO;
+import models.evaluation.IHealthCheckUpDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
 
@@ -54,21 +55,11 @@ public class AddHealthReportServlet extends HttpServlet {
 
         String pupil_id = request.getParameter("pupil_id");
         IPupilDAO pupilDAO = new PupilDAO();
-        HealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
+        IHealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
 
         // Get check up date
-        String checkUpDateStr = request.getParameter("check_up_date");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date checkUpDate = null;
-        try {
-            checkUpDate = sdf.parse(checkUpDateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Ngày không hợp lệ, báo cáo sức khỏe của trẻ đã tồn tại!");
-            response.sendRedirect("health-details");
-            return;
-        }
+        java.util.Date checkUpDate = new Date();
+
 
         // Convert java.util.Date to java.sql.Date
         java.sql.Date sqlCheckUpDate = new java.sql.Date(checkUpDate.getTime());
@@ -120,7 +111,7 @@ public class AddHealthReportServlet extends HttpServlet {
                 session.setAttribute("toastMessage", "Báo cáo sức khỏe của trẻ tạo thất bại!");
             }
         }
-        String redirectUrl = "health-details?pupilid=" + pupil_id + "&&schoolyear=" + request.getParameter("schoolYear");
+        String redirectUrl = "health-details?pupilid=" + pupil_id + "&schoolyear=" + request.getParameter("schoolYear");
         response.sendRedirect(redirectUrl);
     }
 

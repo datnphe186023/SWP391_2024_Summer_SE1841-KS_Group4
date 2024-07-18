@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="pupilBean" class="models.pupil.PupilDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,7 +87,8 @@
                                         </div>
                                     </div>
                                     <div class="profile-card">
-                                        <img src="${pageContext.request.contextPath}/images/${sessionScope.pupil.avatar}" alt="User Avatar">
+                                        <c:set var="pupil" value="${pupilBean.getPupilByUserId(sessionScope.pupil.userId)}"/>
+                                        <img src="${pageContext.request.contextPath}/images/${pupil.avatar}" alt="User Avatar">
                                         <div class="profile-info">
                                             <h3>${pupil.lastName} ${pupil.firstName}</h3>
 

@@ -40,27 +40,26 @@
                         <div class="container-fluid">
                             <h1 class="h3 mb-4 text-gray-800 text-center">TẠO TÀI KHOẢN</h1>
                             <div class="row">
-                                <div class="col-lg-6 mb-4">                            
-                                    <div>
-                                        <label >VAI TRÒ</label>
-                                        <select class="form-control-sm" name="role" id="roleSelect" onchange="redirectToServlet()">
-                                            <option value="6">ALL (ROLE)</option>
-                                            <option value="0">ADMIN</option>
-                                            <option value="1">HEADTEACHER</option>
-                                            <option value="2">ACADEMIC STAFF</option>
-                                            <option value="3">ACCOUNTANT</option>
-                                            <option value="4">TEACHER</option>
-                                            <option value="5">PARENT</option>
-                                        </select>  
-                                    </div>
-                                    <div class="d-flex justify-content-lg-between">
-                                        <button type="button" onclick="selectAll()" class="btn btn-success btn-sm mb-1">CHỌN TẤT CẢ</button>
-                                        <button type="button" onclick="deselectAll()" class="btn btn-danger btn-sm">BỎ CHỌN TẤT CẢ</button>
-                                        <button type="submit" class="btn btn-primary btn-sm mb-1">TẠO TÀI KHOẢN</button>
-                                    </div>
-
+                                <div class="col-lg-2 mb-4">
+                                    <label for="roleSelect"> VAI TRÒ</label>
+                                    <select class="custom-select" name="role" id="roleSelect" onchange="redirectToServlet()">
+                                        <option value="6">TẤT CẢ (VAI TRÒ)</option>
+                                        <option value="0">NHÂN VIÊN IT</option>
+                                        <option value="1">HIỆU TRƯỞNG</option>
+                                        <option value="2">GIÁO VỤ</option>
+                                        <option value="3">KẾ TOÁN</option>
+                                        <option value="4">GIÁO VIÊN</option>
+                                        <option value="5">PHỤ HUYNH</option>
+                                    </select>  
                                 </div>
-
+                                <div class="col-lg-10 d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <button type="button" onclick="selectAll()" class="btn btn-success">CHỌN TẤT CẢ</button>
+                                    </div>
+                                    <div style="margin-left: 10px">
+                                        <button type="button" onclick="deselectAll()" class="btn btn-danger">BỎ CHỌN TẤT CẢ</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -74,7 +73,7 @@
                                         <thead>
                                         <th>STT</th>
                                         <th>HỌ VÀ TÊN</th>
-                                        <th>ID</th>
+                                        <th hidden>ID</th>
                                         <th>EMAIL</th>
                                         <th>VAI TRÒ</th>
                                         <th>TRẠNG THÁI</th>
@@ -87,10 +86,12 @@
                                             <tr>
                                                 <th scope="row">${count}</th>
                                                 <td>${personnel.getLastName()} ${personnel.getFirstName()}</td>
-                                                <td>${personnel.getId()}</td>
+                                                <td hidden="">${personnel.getId()}</td>
                                                 <td>${personnel.getEmail()}</td>
                                                 <td>${roleMap[personnel.getRoleId()]}</td>
-                                                <td>${personnel.getStatus()}</td>
+                                                <td style="color: #0f6848" >
+                                                    <label class="badge btn-success text-uppercase">${personnel.getStatus()}</label>
+                                                </td>
                                                 <td>
                                                     <input type="checkbox" name="user_checkbox" value="${personnel.getId()}">
                                                 </td>
@@ -101,10 +102,12 @@
                                             <tr>
                                                 <th scope="row">${count}</th>
                                                 <td>${pupil.getLastName()} ${pupil.getFirstName()}</td>
-                                                <td>${pupil.getId()}</td>
+                                                <td hidden>${pupil.getId()}</td>
                                                 <td>${pupil.getEmail()}</td>
-                                                <td>Parent</td>
-                                                <td>${pupil.getStatus()}</td>
+                                                <td>PHỤ HUYNH</td>
+                                                <td style="color: #0f6848">
+                                                    <label class="badge badge-success text-uppercase">${pupil.getStatus()}</label>
+                                                </td>
                                                 <td>
                                                     <input type="checkbox" name="user_checkbox" value="${pupil.getId()}">
                                                 </td>
@@ -118,12 +121,12 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-around">
+                        <div class="d-flex justify-content-end">
                             <div>
-                                <button type="button" onclick="Back()" class="btn btn-danger btn-sm">QUAY LẠI</button>
+                                <button type="button" onclick="Back()" class="btn btn-danger">QUAY LẠI</button>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1">TẠO TÀI KHOẢN</button>
+                            <div style="margin-left: 10px">
+                                <button type="submit" class="btn btn-primary">TẠO TÀI KHOẢN</button>
                             </div>
                         </div>
                     </form>  

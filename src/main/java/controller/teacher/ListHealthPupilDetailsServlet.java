@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin;
+package controller.teacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,19 +11,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import models.user.IUserDAO;
-import models.user.User;
-import models.user.UserDAO;
+import models.evaluation.HealthCheckUp;
+import models.evaluation.HealthCheckUpDAO;
+import models.evaluation.IHealthCheckUpDAO;
+import models.pupil.IPupilDAO;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
+import models.schoolYear.ISchoolYearDAO;
+import models.schoolYear.SchoolYear;
+import models.schoolYear.SchoolYearDAO;
 
 /**
  *
- * @author TuyenCute
+ * @author Admin
  */
-public class ManagerUserServlet extends HttpServlet {
+public class ListHealthPupilDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +45,10 @@ public class ManagerUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManagerUserServlet</title>");
+            out.println("<title>Servlet listHealthPupilDetailsServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ManagerUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet listHealthPupilDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,7 +66,30 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        HttpSession session = request.getSession();
+        String toastType = "", toastMessage = "";
+        if (session.getAttribute("toastType") != null) {
+            toastType = session.getAttribute("toastType").toString();
+            toastMessage = session.getAttribute("toastMessage").toString();
+        }
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+        request.setAttribute("toastType", toastType);
+        request.setAttribute("toastMessage", toastMessage);
+        // get pupil by pupil id
+        String pupilId = request.getParameter("pupilid");
+        String schoolYearId = request.getParameter("schoolyear");
+        
+        IPupilDAO pupilDAO = new PupilDAO();
+        Pupil pupil = pupilDAO.getPupilsById(pupilId);
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        SchoolYear schoolYear = schoolYearDAO.getSchoolYear(schoolYearId);
+        IHealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
+        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getHealthCheckUpsByPupilAndSchoolYear(pupilId, schoolYearId);
+        request.setAttribute("listHealthCheckUp", listHealthCheckUp);
+        request.setAttribute("pupil", pupil);
+        request.setAttribute("schoolYear", schoolYear);
+        request.getRequestDispatcher("listHealthPupilDetails.jsp").forward(request, response);
     }
 
     /**
@@ -77,47 +103,7 @@ public class ManagerUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Map<Integer, String> roleMap = new HashMap<>();
-        Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "NHÂN VIÊN IT");
-        roleMap.put(1, "HIỆU TRƯỞNG");
-        roleMap.put(2, "GIÁO VỤ");
-        roleMap.put(3, "KẾ TOÁN");
-        roleMap.put(4, "GIÁO VIÊN");
-        roleMap.put(5, "PHỤ HUYNH");
-
-        roleDis.put((byte) 0, "HOẠT ĐỘNG");
-        roleDis.put((byte) 1, "KHÔNG HOẠT ĐỘNG");
-        IUserDAO userDAO = new UserDAO();
-        List<User> list;
-        list = userDAO.getListUser();
-        HttpSession session = request.getSession();
-        String error = (String) session.getAttribute("error");
-        String success = (String) session.getAttribute("success");
-        String successedit = (String) session.getAttribute("successedit");
-        String erroredit = (String) session.getAttribute("erroredit");
-        if (error != null) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Không Thành Công");
-            session.removeAttribute("error");
-        } else if (success != null) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Đặt Lại Mật Khẩu Thành Công");
-            session.removeAttribute("success");
-        }
-        if (successedit != null) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Cập Nhật Thông Tin Thành Công");
-            session.removeAttribute("successedit");
-        } else if (erroredit != null) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Cập Nhật Thông Tin Không Thành Công, Email Đã Được Đăng Ký");
-            session.removeAttribute("erroredit");
-        }
-        request.setAttribute("list", list);
-        request.setAttribute("roleMap", roleMap);
-        request.setAttribute("roleDis", roleDis);
-        request.getRequestDispatcher("../admin/managerUser.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

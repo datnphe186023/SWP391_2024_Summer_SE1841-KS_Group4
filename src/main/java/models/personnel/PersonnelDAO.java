@@ -339,7 +339,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO {
 
     @Override
     public List<Role> getAllPersonnelRole() {
-        String sql = "select DISTINCT r.id,r.description from Roles r join Personnels p on r.id= p.role_id";
+        String sql = "select DISTINCT r.id,r.description from Roles r where id !=5";
         List<Role> roles = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);

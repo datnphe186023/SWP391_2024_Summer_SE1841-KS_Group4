@@ -21,6 +21,7 @@
         <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <!-- Custom styles for this template-->
         <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     </head>
 
@@ -34,7 +35,7 @@
             <div class="container-fluid">
                 <c:set value="${requestScope.sltedsy}" var="sltedsy"/>
         
-                <form action="schoolyearsummerize" method="post">
+                <form action="schoolyearsummarize" method="post">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Tổng Kết Khen Thưởng Học Sinh</h1>
                 <div class="card mb-4">
                     <div class="card-body">

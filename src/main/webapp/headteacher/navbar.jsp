@@ -37,6 +37,37 @@
         <!-- Custom styles for this template-->
         <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable({
+                    language: {
+                        sProcessing: "Đang xử lý...",
+                        sLengthMenu: "Xem _MENU_ mục",
+                        sZeroRecords: "Không tìm thấy dòng nào phù hợp",
+                        sInfo: "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                        sInfoEmpty: "Đang xem 0 đến 0 trong tổng số 0 mục",
+                        sInfoFiltered: "(được lọc từ _MAX_ mục)",
+                        sInfoPostFix: "",
+                        sSearch: "Tìm:",
+                        sUrl: "",
+                        sEmptyTable: "Không có dữ liệu trong bảng",
+                        sLoadingRecords: "Đang tải...",
+                        sInfoThousands: ",",
+                        oPaginate: {
+                            sFirst: "Đầu",
+                            sLast: "Cuối",
+                            sNext: "Tiếp",
+                            sPrevious: "Trước"
+                        },
+                        oAria: {
+                            sSortAscending: ": Sắp xếp thứ tự tăng dần",
+                            sSortDescending: ": Sắp xếp thứ tự giảm dần"
+                        }
+                    }
+                });
+            });
+        </script>
+
     </head>
 
     <body id="page-top">
@@ -57,15 +88,10 @@
             <!-- Nav Item -->
             <!-- Nav Item - Timekeeping -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimekeeping" aria-expanded="true" aria-controls="collapseTimekeeping">
+                <a class="nav-link" href="mytimekeeping">
                     <i class="fas fa-fw fa-clock"></i>
-                    <span>Chấm Công</span>
+                    <span>Chấm Công Của Tôi</span>
                 </a>
-                <div id="collapseTimekeeping" class="collapse" aria-labelledby="headingTimekeeping" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="mytimekeeping">Chấm Công của tôi</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -82,10 +108,13 @@
                             <%
                                 List<SchoolYear> futureSchoolYears = schoolYearDAO.getFutureSchoolYears();
                                 int totalClasses = 0;
-                                for (SchoolYear schoolYear : futureSchoolYears) {
-                                    String schoolYearId = schoolYear.getId();
-                                    totalClasses += classDAO.getByStatus("đang chờ xử lý", schoolYearId).size();
+                                if(!futureSchoolYears.isEmpty()){
+                                    for (SchoolYear schoolYear : futureSchoolYears) {
+                                        String schoolYearId = schoolYear.getId();
+                                        totalClasses += classDAO.getByStatus("đang chờ xử lý", schoolYearId).size();
+                                    }
                                 }
+
                             %>
                             Lớp Chờ Phê Duyệt (<%= totalClasses %>)
                         </a>
@@ -102,7 +131,6 @@
                 </a>
                 <div id="collapseTimetable" class="collapse" aria-labelledby="headingTimetable" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="timetable">Danh Sách Thời Khóa Biểu</a>
                         <% ITimetableDAO timetableDAO = new TimetableDAO(); %>
                         <a class="collapse-item" href="reviewtimetable">Đang Chờ Phê Duyệt(<%=timetableDAO.getListTimetableByStatus("đang chờ xử lý").size()%>)</a>
                         <a class="collapse-item" href="viewtimetableclass">Xem Thời Khóa Biểu</a>
@@ -184,7 +212,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="schoolyearsummerize">
+                <a class="nav-link" href="schoolyearsummarize">
                     <i class="fas fa-fw fa-bars"></i>
                     <span>Tổng kết khen thưởng học sinh</span></a>
             </li>

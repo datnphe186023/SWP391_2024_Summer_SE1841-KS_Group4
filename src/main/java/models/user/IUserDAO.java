@@ -20,7 +20,7 @@ public interface IUserDAO {
 
     boolean updateNewPassword(String newPassword, String userId);
 
-    void createNewUser(String user_name, String email, int role_id, byte isDisable);
+    boolean createNewUser(String user_name, String email, int role_id, byte isDisable);
 
     List<User> getUserByRole(int id);
 

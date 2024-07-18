@@ -47,15 +47,15 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String toastType = "", toastMessage = "";
-        if (session.getAttribute("toastType") != null) {
-            toastType = session.getAttribute("toastType").toString();
-            toastMessage = session.getAttribute("toastMessage").toString();
+        String toastType = (String) session.getAttribute("toastType");
+        String toastMessage = (String) session.getAttribute("toastMessage");
+
+        if (toastType != null && toastMessage != null) {
+            request.setAttribute("toastType", toastType);
+            request.setAttribute("toastMessage", toastMessage);
+            session.removeAttribute("toastType");
+            session.removeAttribute("toastMessage");
         }
-        session.removeAttribute("toastType");
-        session.removeAttribute("toastMessage");
-        request.setAttribute("toastType", toastType);
-        request.setAttribute("toastMessage", toastMessage);
 
         String classId = request.getParameter("classId");
         String weekId = request.getParameter("weekId");
@@ -109,7 +109,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
             boolean success;
 
             if (action == null) {
-                response.sendRedirect("timetable");
+                response.sendRedirect("reviewtimetable");
             } else if (action.equals("approve")) {
                 String newStatus = "đã được duyệt";
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
@@ -133,9 +133,9 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
                 }
 
             }
-            response.sendRedirect("timetable");
+            response.sendRedirect("reviewtimetable");
 
-            // Xóa các thuộc tính phiên sau khi sử dụng
+            // Xóa các thuộc tính session sau khi sử dụng
             session.removeAttribute("classId");
             session.removeAttribute("weekId");
             session.removeAttribute("status");
