@@ -42,7 +42,7 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
 
     @Override
     public Notification getLatest() {
-        String sql = "select TOP 1 * from [Notifications] order by id desc";
+                                                                                                                         String sql = "select TOP 1 * from [Notifications] order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();

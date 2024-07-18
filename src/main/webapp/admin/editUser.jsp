@@ -121,10 +121,10 @@
                                                     <tbody>
                                                         <tr>
                                                             <td><div class="form-group col-md-12">
-                                                                    <h5>USER ID :</h5><input placeholder="USER ID" type="text" name="userId" value="${user.getId()}" readonly=""/>
+                                                                    <h5>ID NGƯỜI DÙNG :</h5><input placeholder="USER ID" type="text" name="userId" value="${user.getId()}" readonly=""/>
                                                                 </div></td>
                                                             <td><div class="form-group col-md-12">
-                                                                    <h5>USER NAME : </h5> <input placeholder="USER NAME" type="text" name="userName" value="${user.getUsername()}" readonly=""/><br />
+                                                                    <h5>TÊN NGƯỜI DÙNG : </h5> <input placeholder="USER NAME" type="text" name="userName" value="${user.getUsername()}" readonly=""/><br />
                                                                 </div></td>
                                                         </tr>
                                                         <tr>
@@ -132,12 +132,12 @@
                                                                     <h5>VAI TRÒ <a style="color: red">*</a> : </h5> 
                                                                     <select style="border-radius: 5px" name="role">
                                                                         <option value="${user.getRoleId()}" hidden="">${roleMap[user.getRoleId()]}</option>
-                                                                        <option value="0">Admin</option>
-                                                                        <option value="1">Head Teacher</option>
-                                                                        <option value="2">Academic Staff</option>
-                                                                        <option value="3">Accountant</option>
-                                                                        <option value="4">Teacher</option>
-                                                                        <option value="5">Parent</option>
+                                                                        <option value="0">QUẢN TRỊ VIÊN</option>
+                                                                        <option value="1">HIỆU TRƯỞNG</option>
+                                                                        <option value="2">GIÁO VỤ</option>
+                                                                        <option value="3">KẾ TOÁN</option>
+                                                                        <option value="4">GIÁO VIÊN</option>
+                                                                        <option value="5">PHỤ HUYNH</option>
                                                                     </select><br />
                                                                 </div></td>
                                                             <td>
@@ -151,8 +151,8 @@
                                                                     <h5>TRẠNG THÁI <a style="color: red">*</a> :  </h5> 
                                                                     <select style="border-radius: 5px" name="active">
                                                                         <option value="${user.getIsDisabled()}" hidden="">${roleDis[user.getIsDisabled()]}</option>
-                                                                        <option value="0">Active</option>
-                                                                        <option value="1">Disable</option>
+                                                                        <option value="0">HOẠT ĐỘNG</option>
+                                                                        <option value="1">KHÔNG HOẠT ĐỘNG</option>
                                                                     </select><br />
                                                                 </div></td>
 

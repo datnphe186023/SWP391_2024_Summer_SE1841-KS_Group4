@@ -40,18 +40,17 @@
 
                         <h1 class="h3 mb-4 text-gray-800 text-center">QUẢN LÝ TÀI KHOẢN</h1>
                         <div class="row">
-                            <div class="col-lg-6 mb-4">
-
+                            <div class="col-lg-2 mb-4">
                                 <div>
                                     <label>VAI TRÒ</label>
-                                    <select class="form-control-sm" name="role" id="roleSelect" onchange="redirectToServlet()">
-                                        <option value="6">ALL (ROLE)</option>
-                                        <option value="0">ADMIN</option>
-                                        <option value="1">HEADTEACHER</option>
-                                        <option value="2">ACADEMIC STAFF</option>
-                                        <option value="3">ACCOUNTANT</option>
-                                        <option value="4">TEACHER</option>
-                                        <option value="5">PARENT</option>
+                                    <select class="custom-select" name="role" id="roleSelect" onchange="redirectToServlet()">
+                                        <option value="6">TẤT CẢ (VAI TRÒ)</option>
+                                        <option value="0">QUẢN TRỊ VIÊN</option>
+                                        <option value="1">HIỆU TRƯỞNG</option>
+                                        <option value="2">GIÁO VỤ</option>
+                                        <option value="3">KẾ TOÁN</option>
+                                        <option value="4">GIÁO VIÊN</option>
+                                        <option value="5">PHỤ HUYNH</option>
                                     </select>                                   
                                 </div>
                             </div>
@@ -83,7 +82,7 @@
                                                     <td>${roleMap[u.getRoleId()]}</td>
                                                     <td>${roleDis[u.getIsDisabled()]}</td>
                                                     <td>
-                                                        <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn btn-success btn-sm mb-1">CHỈNH SỬA</button></a></br>
+                                                        <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn btn-success btn-sm mb-1">CHỈNH SỬA</button></a>
                                                         <a class="detail-button" href="resetpassword?email=${u.getEmail()}"><button class="btn btn-danger btn-sm">ĐẶT LẠI MẬT KHẨU</button></a>
                                                     </td>
                                                 </tr>

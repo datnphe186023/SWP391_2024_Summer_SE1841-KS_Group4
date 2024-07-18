@@ -79,15 +79,15 @@ public class ManagerUserServlet extends HttpServlet {
             throws ServletException, IOException {
         Map<Integer, String> roleMap = new HashMap<>();
         Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
+        roleMap.put(0, "QUẢN TRỊ VIÊN");
+        roleMap.put(1, "HIỆU TRƯỞNG");
+        roleMap.put(2, "GIÁO VỤ");
+        roleMap.put(3, "KẾ TOÁN");
+        roleMap.put(4, "GIÁO VIÊN");
+        roleMap.put(5, "PHỤ HUYNH");
 
-        roleDis.put((byte) 0, "Active");
-        roleDis.put((byte) 1, "Disable");
+        roleDis.put((byte) 0, "HOẠT ĐỘNG");
+        roleDis.put((byte) 1, "KHÔNG HOẠT ĐỘNG");
         IUserDAO userDAO = new UserDAO();
         List<User> list;
         list = userDAO.getListUser();
