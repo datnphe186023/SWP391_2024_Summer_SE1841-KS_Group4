@@ -261,7 +261,13 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
         String sql = "insert into [FoodMenus] values (?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, generateId(Objects.requireNonNull(getLatest()).getId()));
+            String newId;
+            if (getLatest()!=null){
+                newId = generateId(getLatest().getId());
+            } else {
+                newId = "FM000001";
+            }
+            statement.setString(1, newId);
             statement.setString(2, foodMenu.getFoodDetails());
             statement.setString(3, "đang chờ xử lý");
             statement.executeUpdate();

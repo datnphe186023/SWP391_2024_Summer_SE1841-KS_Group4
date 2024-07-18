@@ -71,7 +71,8 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     @Override
     public boolean createNoti(Notification notification) {
         String sqlNotification = "INSERT INTO Notifications (id, heading, details, created_by, created_at) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement statementNotification = connection.prepareStatement(sqlNotification);) {
+        try{
+            PreparedStatement statementNotification = connection.prepareStatement(sqlNotification);
             statementNotification.setString(1, notification.getId());
             statementNotification.setString(2, notification.getHeading());
             statementNotification.setString(3, notification.getDetails());

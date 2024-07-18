@@ -33,8 +33,6 @@ public class DashboardTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        request.setAttribute("schoolYearLastest",schoolYearDAO.getLatest().getId());
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 
 

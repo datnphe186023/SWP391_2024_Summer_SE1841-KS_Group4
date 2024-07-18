@@ -19,6 +19,37 @@
         <!-- Custom styles for this template-->
         <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable({
+                    language: {
+                        sProcessing: "Đang xử lý...",
+                        sLengthMenu: "Xem _MENU_ mục",
+                        sZeroRecords: "Không tìm thấy dòng nào phù hợp",
+                        sInfo: "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                        sInfoEmpty: "Đang xem 0 đến 0 trong tổng số 0 mục",
+                        sInfoFiltered: "(được lọc từ _MAX_ mục)",
+                        sInfoPostFix: "",
+                        sSearch: "Tìm:",
+                        sUrl: "",
+                        sEmptyTable: "Không có dữ liệu trong bảng",
+                        sLoadingRecords: "Đang tải...",
+                        sInfoThousands: ",",
+                        oPaginate: {
+                            sFirst: "Đầu",
+                            sLast: "Cuối",
+                            sNext: "Tiếp",
+                            sPrevious: "Trước"
+                        },
+                        oAria: {
+                            sSortAscending: ": Sắp xếp thứ tự tăng dần",
+                            sSortDescending: ": Sắp xếp thứ tự giảm dần"
+                        }
+                    }
+                });
+            });
+        </script>
+
     </head>
 
     <body id="page-top">
@@ -82,7 +113,7 @@
 
             <!-- Nav Item - Quản lý học sinh -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/teacher/listpupil?schoolYear=${requestScope.schoolYearLastest}">
+                <a class="nav-link" href="${pageContext.request.contextPath}/teacher/listpupil">
                     <i class='fas fa-fw fa-solid fa-graduation-cap'></i>
                     <span>Quản lý học sinh</span>
                 </a>
@@ -106,7 +137,7 @@
 
             <!-- Nav Item - Báo cáo sức khỏe -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/teacher/list-pupil?schoolYear=${requestScope.schoolYearLastest}">
+                <a class="nav-link" href="${pageContext.request.contextPath}/teacher/list-pupil">
                     <i class='fas fa-fw fa-hand-holding-heart'></i>
                     <span>Báo cáo sức khỏe</span>
                 </a>

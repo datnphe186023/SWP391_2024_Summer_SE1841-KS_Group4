@@ -28,6 +28,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
             function submitForm() {
                 document.getElementById("myForm").submit();
@@ -52,6 +53,7 @@
                                     <div>
                                         <label >Chọn năm học</label>
                                         <select class="custom-select" style="width: 25%"  aria-label="Default select example" onchange="submitForm()" name="schoolYear">
+                                            <option value="">- Chọn Năm Học -</option>
                                             <c:forEach items="${requestScope.listSchoolYear}" var="year" >
                                                 <option ${yearChecked eq year.id ? "selected" : ""} value="${year.id}"  >${year.name}</option>
                                             </c:forEach>

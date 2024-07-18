@@ -73,9 +73,20 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
     public String createNewSchoolYear(SchoolYear schoolYear) {
         String sql = "insert into SchoolYears values(?,?,?,?,?,?)";
         try {
+            if (getLatest()!=null){
+                Date lastEndDate = getLatest().getEndDate();
+                if (!schoolYear.getStartDate().after(lastEndDate)) {
+                    return "Ngày bắt đầu năm học mới phải sau ngày kết thúc năm học cũ";
+                }
+            }
             if (validateSchoolYear(schoolYear).equals("success")) {
                 PreparedStatement statement = connection.prepareStatement(sql);
-                String newSchoolYearId = generateId(getLatest().getId());
+                String newSchoolYearId;
+                if (getLatest()!=null){
+                    newSchoolYearId = generateId(getLatest().getId());
+                } else {
+                    newSchoolYearId = "SY000001";
+                }
                 statement.setString(1, newSchoolYearId);
                 statement.setString(2, schoolYear.getName());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -104,10 +115,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         if (!schoolYear.getEndDate().after(schoolYear.getStartDate())) {
             return "Ngày kết thúc không thể trước ngày bắt đầu";
         }
-        Date lastEndDate = getLatest().getEndDate();
-        if (!schoolYear.getStartDate().after(lastEndDate)) {
-            return "Ngày bắt đầu năm học mới phải sau ngày kết thúc năm học cũ";
-        }
+
         LocalDate startLocalDate = Helper.convertDateToLocalDate(schoolYear.getStartDate());
         LocalDate endLocalDate = Helper.convertDateToLocalDate(schoolYear.getEndDate());
 

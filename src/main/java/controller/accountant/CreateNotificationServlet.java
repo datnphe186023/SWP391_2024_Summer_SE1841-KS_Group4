@@ -124,12 +124,14 @@ public class CreateNotificationServlet extends HttpServlet {
             for (String s : listrole_id) {
                 int roleid = Integer.parseInt(s);
                 List<User> user = new UserDAO().getUserByRole(5);
+                Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+                boolean succes = notifiDAO.createNoti(notifi);
                 for (User u : user) {
-                    Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+
                     NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
-                    boolean succes = notifiDAO.createNoti(notifi);
+
                     boolean success = notifiDAO.createNotiDetails(notifidetails);
-                    if (succes == true && success == true) {
+                    if (succes && success) {
                         session.setAttribute("toastType", "success");
                         session.setAttribute("toastMessage", "Gửi Thông Báo Thành Công");
                     } else {

@@ -54,7 +54,12 @@ public class SendEventServlet extends HttpServlet {
                 request.setAttribute("toastType", toastType);
                 request.getRequestDispatcher("sendEvent.jsp").forward(request, response);
             }else {
-                String newId = eventDAO.generateId(eventDAO.getLastest().getId());
+                String newId;
+                if (eventDAO.getLastest()!=null){
+                    newId = eventDAO.generateId(eventDAO.getLastest().getId());
+                } else {
+                    newId = "E000001";
+                }
                 Event event = new Event(newId, personnelDAO.getPersonnel(user.getUsername()), Helper.formatString(heading), Helper.formatString(details));
                 String result = eventDAO.createEvent(event);
                 if (result.equals("success")) {

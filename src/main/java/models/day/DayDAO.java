@@ -53,7 +53,7 @@ public class DayDAO extends DBContext implements IDayDAO {
         String sql = "SELECT DISTINCT d.*\n"
                 + "FROM Days d\n"
                 + "         JOIN Timetables t ON d.id = t.date_id\n"
-                + "WHERE d.week_id = ? and class_id = ?;";
+                + "WHERE d.week_id = ? and class_id = ? order by ID asc;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, weekId);
@@ -127,7 +127,7 @@ public class DayDAO extends DBContext implements IDayDAO {
             if (getLatest() != null) {
                 newDayId = generateId(Objects.requireNonNull(getLatest()).getId());
             } else {
-                newDayId = "W000001";
+                newDayId = "D000001";
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (Week week : weeks) {
