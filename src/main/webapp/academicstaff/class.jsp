@@ -67,6 +67,7 @@
                                     <th>STT</th>
                                     <th>Tên Lớp</th>
                                     <th>Khối</th>
+                                    <th>Giáo viên</th>
                                     <th>Trạng thái</th>
                                     <th>Thông Tin Lớp</th>
                                 </tr>
@@ -78,6 +79,14 @@
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${classes.name}</td>
                                         <td>${classes.grade.name}</td>
+                                        <td>
+                                            <c:if test="${classes.teacher.id == null}">
+                                                Chưa được sắp xếp
+                                            </c:if>
+                                            <c:if test="${classes.teacher != null}">
+                                                ${classes.teacher.lastName} ${classes.teacher.firstName}
+                                            </c:if>
+                                        </td>
                                         <c:set value="${classes.status}" var="s"/>
                                         <c:if test="${s eq 'đã được duyệt'}">
                                             <td><span class="badge badge-success">${s}</span></td>

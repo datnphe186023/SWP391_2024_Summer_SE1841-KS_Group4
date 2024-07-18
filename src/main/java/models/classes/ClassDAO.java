@@ -13,6 +13,7 @@ import utils.Helper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -185,7 +186,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
 
     @Override
     public String reviewClass(String newStatus, String id) {
-        String sql = "update [Class] set [status]= ? where [id] = ?";
+        String sql = "update [Class] set [status]= ?, [teacher_id] = ? where [id] = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             if (newStatus.equals("accept")) {
@@ -194,7 +195,8 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 newStatus = "không được duyệt";
             }
             preparedStatement.setString(1, newStatus);
-            preparedStatement.setString(2, id);
+            preparedStatement.setNull(2, Types.VARCHAR);
+            preparedStatement.setString(3, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
