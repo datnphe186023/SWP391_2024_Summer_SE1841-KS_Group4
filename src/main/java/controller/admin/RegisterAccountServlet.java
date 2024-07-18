@@ -81,6 +81,7 @@ public class RegisterAccountServlet extends HttpServlet {
         // Lấy giá trị của các checkbox được chọn từ request
         String[] selectedUserIds = request.getParameterValues("user_checkbox");
         HttpSession session = request.getSession();
+        boolean u;
         // Kiểm tra nếu không có checkbox nào được chọn
         if (selectedUserIds == null || selectedUserIds.length == 0) {
             session.setAttribute("error", "error");
@@ -92,28 +93,57 @@ public class RegisterAccountServlet extends HttpServlet {
             for (String username : selectedUserIds) {
                 switch (username.substring(0, 2)) {
                     case "HS":
-                        userDAO.createNewUser(username, pupilDAO.getPupilsById(username).getEmail(), 5, (byte) 0);
+                        u = userDAO.createNewUser(username, pupilDAO.getPupilsById(username).getEmail(), 5, (byte) 0);
+                        if (u == true) {
+                            session.setAttribute("success", "success");
+                        } else {
+                            session.setAttribute("errors", "errors");
+                        }
                         break;
                     case "AC":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 3, (byte) 0);
+                        u = userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 3, (byte) 0);
+                        if (u == true) {
+                            session.setAttribute("success", "success");
+                        } else {
+                            session.setAttribute("errors", "errors");
+                        }
                         break;
                     case "HT":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 1, (byte) 0);
+                        u = userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 1, (byte) 0);
+                        if (u == true) {
+                            session.setAttribute("success", "success");
+                        } else {
+                            session.setAttribute("errors", "errors");
+                        }
                         break;
                     case "TE":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 4, (byte) 0);
+                        u = userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 4, (byte) 0);
+                        if (u == true) {
+                            session.setAttribute("success", "success");
+                        } else {
+                            session.setAttribute("errors", "errors");
+                        }
                         break;
                     case "AS":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 2, (byte) 0);
+                        u = userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 2, (byte) 0);
+                        if (u == true) {
+                            session.setAttribute("success", "success");
+                        } else {
+                            session.setAttribute("errors", "errors");
+                        }
                         break;
                     case "AD":
-                        userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 0, (byte) 0);
+                        u = userDAO.createNewUser(username, personnelDAO.getPersonnel(username).getEmail(), 0, (byte) 0);
+                        if (u == true) {
+                            session.setAttribute("success", "success");
+                        } else {
+                            session.setAttribute("errors", "errors");
+                        }
                         break;
                     default:
                         break;
                 }
             }
-            session.setAttribute("success", "success");
             response.sendRedirect("createuser");
         }
     }

@@ -71,15 +71,20 @@ public class CreateUserServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         String error = (String) session.getAttribute("error");
+        String errors = (String) session.getAttribute("errors");
         String success = (String) session.getAttribute("success");
         if (error != null) {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Không có tài khoản nào được chọn.");
-            session.removeAttribute(error);
+            session.removeAttribute("error");
         } else if (success != null) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Tạo tài khoản mới thành công.");
-            session.removeAttribute(success);
+            session.removeAttribute("success");
+        } else if (errors != null) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Tạo tài khoản mới thất bại.");
+            session.removeAttribute("errors");
         }
         request.setAttribute("listPupils", new PupilDAO().getPupilNonUserId());
         request.setAttribute("listPersonnel", new PersonnelDAO().getPersonnelNonUserId());

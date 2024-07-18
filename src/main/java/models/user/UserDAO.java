@@ -240,7 +240,7 @@ public class UserDAO extends DBContext implements IUserDAO {
     }
 
     @Override
-    public void createNewUser(String user_name, String email, int role_id, byte isDisable) {
+    public boolean createNewUser(String user_name, String email, int role_id, byte isDisable) {
         String sql = "insert into [User] values(?,?,?,?,?,?,?) ";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -264,11 +264,13 @@ public class UserDAO extends DBContext implements IUserDAO {
             Email.sendEmail(email, "Tạo tài khoản Mầm Non Bono thành công", "Tên tài khoản: " + user_name.toLowerCase() + "||Mật khẩu: " + password);
             updatePersonnelUserId(user_name, userId);
             updatePupilsUserId(user_name, userId);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 
     private String generatePassword() {
