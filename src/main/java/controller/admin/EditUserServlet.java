@@ -65,7 +65,7 @@ public class EditUserServlet extends HttpServlet {
             throws ServletException, IOException {
         Map<Integer, String> roleMap = new HashMap<>();
         Map<Byte, String> roleDis = new HashMap<>();
-        roleMap.put(0, "QUẢN TRỊ VIÊN");
+        roleMap.put(0, "NHÂN VIÊN IT");
         roleMap.put(1, "HIỆU TRƯỞNG");
         roleMap.put(2, "GIÁO VỤ");
         roleMap.put(3, "KẾ TOÁN");

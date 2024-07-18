@@ -45,7 +45,7 @@
                                     <label>VAI TRÒ</label>
                                     <select class="custom-select" name="role" id="roleSelect" onchange="redirectToServlet()">
                                         <option value="6">TẤT CẢ (VAI TRÒ)</option>
-                                        <option value="0">QUẢN TRỊ VIÊN</option>
+                                        <option value="0">NHÂN VIÊN IT</option>
                                         <option value="1">HIỆU TRƯỞNG</option>
                                         <option value="2">GIÁO VỤ</option>
                                         <option value="3">KẾ TOÁN</option>
@@ -80,7 +80,9 @@
                                                     <td>${u.getId()}</td>
                                                     <td>${u.getEmail()}</td>
                                                     <td>${roleMap[u.getRoleId()]}</td>
-                                                    <td>${roleDis[u.getIsDisabled()]}</td>
+                                                    <td>
+                                                        <label class="badge badge-success">${roleDis[u.getIsDisabled()]}</label>
+                                                        </td>
                                                     <td>
                                                         <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn btn-success btn-sm mb-1">CHỈNH SỬA</button></a>
                                                         <a class="detail-button" href="resetpassword?email=${u.getEmail()}"><button class="btn btn-danger btn-sm">ĐẶT LẠI MẬT KHẨU</button></a>
