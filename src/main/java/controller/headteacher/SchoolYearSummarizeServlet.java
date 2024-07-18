@@ -17,30 +17,34 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "SchoolYearSummerizeServlet", value = "/headteacher/schoolyearsummerize")
-public class SchoolYearSummerizeServlet extends HttpServlet {
+@WebServlet(name = "SchoolYearSummarizeServlet", value = "/headteacher/schoolyearsummarize")
+public class SchoolYearSummarizeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ISchoolYearDAO  schoolYearDAO = new SchoolYearDAO();
         IPupilDAO pupilDAO = new PupilDAO();
         IEvaluationDAO evaluationDAO = new EvaluationDAO();
-        SchoolYear sltedsy = schoolYearDAO.getClosestSchoolYears();
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
-        List<Pupil> pupils = pupilDAO.getPupilBySchoolYear(sltedsy.getId());
-        int numberOfPupilInSchoolYear = pupils.size();
-        int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
-        Date currentDate = Date.from(Instant.now());
-        boolean display = true;
-        if(currentDate.before(sltedsy.getEndDate())){
-          display = false;
-        }
-        request.setAttribute("display", display);
-        request.setAttribute("numberOfPupilInSchoolYear", numberOfPupilInSchoolYear);
-        request.setAttribute("numberOfGoodPupil", numberOfGoodPupil);
         request.setAttribute("schoolYearList", schoolYearList);
-        request.setAttribute("sltedsy", sltedsy);
-        request.setAttribute("pupils", pupils);
-        request.getRequestDispatcher("SchoolYearSummerize.jsp").forward(request, response);
+        if (schoolYearDAO.getClosestSchoolYears()!=null){
+            SchoolYear sltedsy = schoolYearDAO.getClosestSchoolYears();
+
+            List<Pupil> pupils = pupilDAO.getPupilBySchoolYear(sltedsy.getId());
+            int numberOfPupilInSchoolYear = pupils.size();
+            int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
+            Date currentDate = Date.from(Instant.now());
+            boolean display = true;
+            if(currentDate.before(sltedsy.getEndDate())){
+                display = false;
+            }
+            request.setAttribute("display", display);
+            request.setAttribute("numberOfPupilInSchoolYear", numberOfPupilInSchoolYear);
+            request.setAttribute("numberOfGoodPupil", numberOfGoodPupil);
+
+            request.setAttribute("sltedsy", sltedsy);
+            request.setAttribute("pupils", pupils);
+        }
+        request.getRequestDispatcher("schoolYearSummarize.jsp").forward(request, response);
     }
 
     @Override
@@ -65,7 +69,7 @@ public class SchoolYearSummerizeServlet extends HttpServlet {
         request.setAttribute("schoolYearList", schoolYearList);
         request.setAttribute("sltedsy", sltedsy);
         request.setAttribute("pupils", pupils);
-        request.getRequestDispatcher("SchoolYearSummerize.jsp").forward(request, response);
+        request.getRequestDispatcher("schoolYearSummarize.jsp").forward(request, response);
     }
 
 

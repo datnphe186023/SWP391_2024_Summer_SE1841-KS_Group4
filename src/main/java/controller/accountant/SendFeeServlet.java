@@ -69,7 +69,12 @@ public class SendFeeServlet extends HttpServlet {
         String formattedTotalFee = formatNumberWithDot(totalFee);
 
         NotificationDAO notifiDAO = new NotificationDAO();
-        String id = notifiDAO.generateId(notifiDAO.getLatest().getId());
+        String id;
+        if (notifiDAO.getLatest()!=null){
+            id = notifiDAO.generateId(notifiDAO.getLatest().getId());
+        } else {
+            id = "N000001";
+        }
         String heading = "HỌC PHÍ KÌ TIẾP THEO: " + formattedTotalFee + " VNĐ";
         String details = "Học Phí: " + formattedHocphi + " VNĐ, " + "Bảo Hiểm: " + formattedBaohiem + " VNĐ, "
                 + "Cơ Sở Vật Chất: " + formattedCsvatchat + " VNĐ, " + "Đồng Phục: " + formattedDongphuc + " VNĐ";

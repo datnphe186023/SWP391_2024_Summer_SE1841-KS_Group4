@@ -96,7 +96,13 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 return "Lớp phải được tạo trước khi năm học bắt đầu 7 ngày";
             }
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, generateId(getLatest().getId()));
+            String newClassId;
+            if (getLatest()!=null){
+                newClassId = generateId(getLatest().getId());
+            }else {
+                newClassId = "C000001";
+            }
+            preparedStatement.setString(1, newClassId);
             if (c.getName().isBlank()) {
                 return "Tên lớp không được để trống";
             }
@@ -116,7 +122,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
             return "Thao tác thất bại. Lớp đã tồn tại";
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            return "Vui lòng tạo năm học trước khi tạo lớp";
         }
         return "success";
     }
@@ -344,7 +350,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 + "JOIN Timetables t ON c.id = t.class_id\n"
                 + "JOIN Days d ON t.date_id = d.id\n"
                 + "WHERE t.teacher_id = ?\n"
-                + "  AND ? = d.date and t.status = 'đã được duyệt';\n";
+                + "  AND ? = d.date and t.status = N'đã được duyệt';\n";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);

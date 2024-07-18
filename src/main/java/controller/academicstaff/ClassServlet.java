@@ -43,8 +43,10 @@ public class ClassServlet extends HttpServlet {
                 schoolYearId = request.getParameter("schoolYearId");
             }
             if (schoolYearId == null) {
-                SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
-                schoolYearId = latestSchoolYear.getId();
+                if (schoolYearDAO.getLatest()!=null){
+                    SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
+                    schoolYearId = latestSchoolYear.getId();
+                }
             }
             List<Class> classes = classDAO.getBySchoolYear(schoolYearId);
             request.setAttribute("classes", classes);

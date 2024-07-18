@@ -77,16 +77,16 @@
         <servlet-class>controller.headteacher.ReviewDetailTimetableServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listHealthPupil</servlet-name>
-        <servlet-class>controller.teacher.listHealthPupil</servlet-class>
+        <servlet-name>ListHealthPupil</servlet-name>
+        <servlet-class>controller.teacher.ListHealthPupil</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>pupilHealthCheckupServlet</servlet-name>
-        <servlet-class>controller.teacher.pupilHealthCheckupServlet</servlet-class>
+        <servlet-name>PupilHealthCheckupServlet</servlet-name>
+        <servlet-class>controller.teacher.PupilHealthCheckupServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listHealthPupilDetailsServlet</servlet-name>
-        <servlet-class>controller.teacher.listHealthPupilDetailsServlet</servlet-class>
+        <servlet-name>ListHealthPupilDetailsServlet</servlet-name>
+        <servlet-class>controller.teacher.ListHealthPupilDetailsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewHealthCheckUpServlet</servlet-name>
@@ -153,16 +153,16 @@
         <url-pattern>/headteacher/review-detail-timetable</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listHealthPupil</servlet-name>
+        <servlet-name>ListHealthPupil</servlet-name>
         <url-pattern>/teacher/list-pupil</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>pupilHealthCheckupServlet</servlet-name>
+        <servlet-name>PupilHealthCheckupServlet</servlet-name>
         <url-pattern>/teacher/health-check-up</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listHealthPupilDetailsServlet</servlet-name>
-        <url-pattern>/teacher/health-details</url-pattern>
+        <servlet-name>ListHealthPupilDetailsServlet</servlet-name>
+        <url-pattern>/teacher/tails</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewHealthCheckUpServlet</servlet-name>

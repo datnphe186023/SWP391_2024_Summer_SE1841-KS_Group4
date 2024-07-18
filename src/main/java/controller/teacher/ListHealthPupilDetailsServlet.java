@@ -7,28 +7,26 @@ package controller.teacher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import models.notification.Notification;
-import models.notification.NotificationDAO;
-import models.notification.NotificationDetails;
-import models.personnel.PersonnelDAO;
-import models.user.User;
-import models.user.UserDAO;
+import models.evaluation.HealthCheckUp;
+import models.evaluation.HealthCheckUpDAO;
+import models.evaluation.IHealthCheckUpDAO;
+import models.pupil.IPupilDAO;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
+import models.schoolYear.ISchoolYearDAO;
+import models.schoolYear.SchoolYear;
+import models.schoolYear.SchoolYearDAO;
 
 /**
  *
- * @author TuyenCute
+ * @author Admin
  */
-@WebServlet(name = "/teacher/CreateNotificationServlet", urlPatterns = {"/teacher/createnotifi"})
-public class CreateNotificationServlet extends HttpServlet {
+public class ListHealthPupilDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +45,10 @@ public class CreateNotificationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateNotificationServlet</title>");
+            out.println("<title>Servlet listHealthPupilDetailsServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateNotificationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet listHealthPupilDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,7 +76,20 @@ public class CreateNotificationServlet extends HttpServlet {
         session.removeAttribute("toastMessage");
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
-        request.getRequestDispatcher("createNotification.jsp").forward(request, response);
+        // get pupil by pupil id
+        String pupilId = request.getParameter("pupilid");
+        String schoolYearId = request.getParameter("schoolyear");
+        
+        IPupilDAO pupilDAO = new PupilDAO();
+        Pupil pupil = pupilDAO.getPupilsById(pupilId);
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        SchoolYear schoolYear = schoolYearDAO.getSchoolYear(schoolYearId);
+        IHealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
+        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getHealthCheckUpsByPupilAndSchoolYear(pupilId, schoolYearId);
+        request.setAttribute("listHealthCheckUp", listHealthCheckUp);
+        request.setAttribute("pupil", pupil);
+        request.setAttribute("schoolYear", schoolYear);
+        request.getRequestDispatcher("listHealthPupilDetails.jsp").forward(request, response);
     }
 
     /**
@@ -92,56 +103,7 @@ public class CreateNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userid = request.getParameter("userid");
-        NotificationDAO notifiDAO = new NotificationDAO();
-        String id = "N000001";
-        Notification latestNotification = notifiDAO.getLatest();
-        if (latestNotification != null) {
-            String generatedId = notifiDAO.generateId(latestNotification.getId());
-            if (generatedId != null) {
-                id = generatedId;
-            }
-        }
-        String heading = request.getParameter("heading");
-        String content = request.getParameter("content");
-        String create_by = request.getParameter("userid");
-        String submitDateStr = request.getParameter("submitDate");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày bạn mong muốn
-        Date create_at = null;
-        try {
-            create_at = dateFormat.parse(submitDateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        HttpSession session = request.getSession();
-        try {
-            List<User> user = new UserDAO().getUserByRoleIdandTeacherId(5, create_by);
-            if (user.size() == 0) {
-                session.setAttribute("toastType", "error");
-                session.setAttribute("toastMessage", "Bạn Chưa Được Phân Công Lớp");
-                response.sendRedirect("createnotifi");
-            }
-            Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-            boolean succes = notifiDAO.createNoti(notifi);
-            for (User u : user) {
-
-                NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
-
-                boolean success = notifiDAO.createNotiDetails(notifidetails);
-                if (succes && success) {
-                    session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Gửi Thông Báo Thành Công");
-                } else {
-                    session.setAttribute("toastType", "error");
-                    session.setAttribute("toastMessage", "Gửi Thông Báo Thất Bại");
-                }
-            }
-
-            response.sendRedirect("createnotifi");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        processRequest(request, response);
     }
 
     /**

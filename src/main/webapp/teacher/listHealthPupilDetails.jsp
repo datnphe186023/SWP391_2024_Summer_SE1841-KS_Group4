@@ -34,16 +34,6 @@
                     }
                 }
             });
-
-            function validateDate() {
-                var checkUpDate = document.getElementsByName("check_up_date")[0].value;
-                var currentDate = new Date().toISOString().split('T')[0];
-                if (checkUpDate !== currentDate) {
-                    toastr.error("Ngày kiểm tra sức khỏe phải là ngày hiện tại!");
-                    return false;
-                }
-                return true;
-            }
         </script>
         <style>
             .modal-header {
@@ -135,10 +125,6 @@
                                                     <input class="form-control" type="text" name="pupil_id_display" value="${requestScope.pupil.id}" disabled style="width: 36%" />
                                                     <input type="hidden" name="pupil_id" value="${requestScope.pupil.id}" />
                                                     <input type="hidden" name="schoolYear" value="${requestScope.schoolYear.id}" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="check_up_date"><strong>Ngày khám *</strong></label>
-                                                    <input class="form-control" type="date" name="check_up_date" title="Ngày khám không được để trống!" style="width: 50%" required />
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="height"><strong>Chiều cao (cm) *</strong></label>

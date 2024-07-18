@@ -1,7 +1,6 @@
 package controller.teacher;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,8 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "teacher/ListPupilServlet", value = "/teacher/listpupil")
-public class ListPupilServlet extends HttpServlet {
+public class ListHealthPupil extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +31,7 @@ public class ListPupilServlet extends HttpServlet {
         IPersonnelDAO personnelDAO = new PersonnelDAO();
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         IClassDAO classDAO = new ClassDAO();
-        
+
         HttpSession session = request.getSession();
 
         User user = null;
@@ -67,7 +65,7 @@ public class ListPupilServlet extends HttpServlet {
                 gradeTeacher = classes.getGrade().getName();
                 classTeacher = classes.getName();
             }
-            
+
         }
         List<SchoolYear> listSchoolYear = schoolYearDAO.getAll();
         request.setAttribute("teacherGrade", gradeTeacher);
@@ -75,7 +73,7 @@ public class ListPupilServlet extends HttpServlet {
         request.setAttribute("checkYear", yearSelected);
         request.setAttribute("listPupil", listPupil);
         request.setAttribute("listSchoolYear", listSchoolYear);
-        request.getRequestDispatcher("listPupil.jsp").forward(request, response);
+        request.getRequestDispatcher("listHealthPupil.jsp").forward(request, response);
     }
     
     @Override

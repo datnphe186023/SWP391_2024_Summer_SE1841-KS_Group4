@@ -116,8 +116,8 @@
                                     <th>Ảnh</th>
                                     <th>Họ và tên</th>
                                     <th>Ngày sinh</th>
-                                    <th>Tổng số buổi nghỉ không phép trong tuần</th>
-                                    <th>Số phiếu bé ngoan của trẻ</th>
+                                    <th>Tổng số buổi nghỉ trong tuần</th>
+                                    <th>Số lượt đánh giá ngoan của trẻ</th>
                                 </tr>
                                 </thead>
                                 <tbody>

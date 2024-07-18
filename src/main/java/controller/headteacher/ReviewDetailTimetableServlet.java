@@ -109,7 +109,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
             boolean success;
 
             if (action == null) {
-                response.sendRedirect("timetable");
+                response.sendRedirect("reviewtimetable");
             } else if (action.equals("approve")) {
                 String newStatus = "đã được duyệt";
                 success = timetableDAO.updateTimetableStatus(classId, weekId, newStatus, note, oldStatus);
@@ -133,7 +133,7 @@ public class ReviewDetailTimetableServlet extends HttpServlet {
                 }
 
             }
-            response.sendRedirect("timetable");
+            response.sendRedirect("reviewtimetable");
 
             // Xóa các thuộc tính phiên sau khi sử dụng
             session.removeAttribute("classId");

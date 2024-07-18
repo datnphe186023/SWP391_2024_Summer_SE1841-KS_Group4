@@ -198,7 +198,7 @@
                                                             nhập</a></p>
                                                         <div class="form-group col-md-6">
                                                             <label for="id">Mã học sinh</label>
-                                                            <input type="text" class="form-control" id="id"
+                                                            <input type="text" class="form-control" id="id" name="id"
                                                                    style="width: 70%" value="${requestScope.newPupilId}"
                                                                    readonly>
                                                         </div>
