@@ -88,15 +88,10 @@
             <!-- Nav Item -->
             <!-- Nav Item - Timekeeping -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimekeeping" aria-expanded="true" aria-controls="collapseTimekeeping">
+                <a class="nav-link" href="mytimekeeping">
                     <i class="fas fa-fw fa-clock"></i>
-                    <span>Chấm Công</span>
+                    <span>Chấm Công Của Tôi</span>
                 </a>
-                <div id="collapseTimekeeping" class="collapse" aria-labelledby="headingTimekeeping" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="mytimekeeping">Chấm Công của tôi</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
