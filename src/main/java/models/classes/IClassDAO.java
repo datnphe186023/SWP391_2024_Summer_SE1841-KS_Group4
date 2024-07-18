@@ -25,8 +25,8 @@ public interface IClassDAO {
     List<Class> getClassesByGradeAndSchoolYear(String classId, String gradeId, String schoolYearId);
 
     String assignTeacherToClass(String teacherId, String classId);
-
-    Class getClassByTeacherId(String id);
+    
+    Class getClassByTeacherIdandSchoolYearId(String id, String schoolyear);
 
     Class getClassByPupilIdAndSchoolYear(String id, String schoolYear);
 

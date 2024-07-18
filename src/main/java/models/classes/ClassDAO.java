@@ -98,9 +98,9 @@ public class ClassDAO extends DBContext implements IClassDAO {
             }
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             String newClassId;
-            if (getLatest()!=null){
+            if (getLatest() != null) {
                 newClassId = generateId(getLatest().getId());
-            }else {
+            } else {
                 newClassId = "C000001";
             }
             preparedStatement.setString(1, newClassId);
@@ -298,11 +298,12 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
-    public Class getClassByTeacherId(String id) {
-        String sql = "select * from [Class] where teacher_id = ?";
+    public Class getClassByTeacherIdandSchoolYearId(String id, String schoolyear) {
+        String sql = "select * from [Class] where teacher_id = ? and school_year_id=?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
+            preparedStatement.setString(2, schoolyear);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return createClass(resultSet);
@@ -316,7 +317,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
     @Override
     public Class getClassByPupilIdAndSchoolYear(String id, String schoolYear) {
         String sql = "select * from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, schoolYear);

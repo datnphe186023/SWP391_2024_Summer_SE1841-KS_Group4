@@ -7,7 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import models.classes.ClassDAO;
 import models.day.Day;
 import models.day.DayDAO;
@@ -34,7 +36,7 @@ public class ViewTimetableServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("id");
         List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
-        models.classes.Class aclass = new ClassDAO().getClassByTeacherId(id);
+        models.classes.Class aclass = new ClassDAO().getClassByTeacherIdandSchoolYearId(id, new SchoolYearDAO().getClosestSchoolYears().getId());
         request.setAttribute("aClass", aclass);
         request.setAttribute("schoolYearList", schoolYearList);
         request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
@@ -43,10 +45,11 @@ public class ViewTimetableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id");
         String classId = request.getParameter("classId");
-        models.classes.Class aclass = new ClassDAO().getClassById(classId);
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
+        models.classes.Class aclass = new ClassDAO().getClassByTeacherIdandSchoolYearId(id, schoolyear);
         WeekDAO weekDAO = new WeekDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();

@@ -136,6 +136,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td><div class="form-group col-md-12">
+                                                                    <h5>Email : </h5> <input type="text" name="email" value="${pupil.email}" style="width: 200%" disabled=""/><br />
+                                                                </div></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><div class="form-group col-md-12">
                                                                     <h5>Địa chỉ : </h5> <input type="text" name="address" value="${pupil.address}" style="width: 200%" disabled=""/><br />
                                                                 </div></td>
                                                         </tr>

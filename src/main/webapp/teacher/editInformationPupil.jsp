@@ -67,7 +67,7 @@
                 background-color: #c82333;
             }
             input[readonly] {
-                background-color: wheat; /* Màu nền giống với disabled */
+                background-color: #e9ecf3; /* Màu nền giống với disabled */
                 color: black; /* Màu chữ giống với disabled */
                 cursor: not-allowed; /* Con trỏ chuột giống với disabled */
                 border: 1px solid #ddd; /* Đường viền nhẹ */
@@ -79,12 +79,8 @@
                 box-shadow: none;
             }
 
-            /* Ngăn không cho tương tác */
-            input[readonly] {
-                pointer-events: none; /* Ngăn không cho tương tác */
-            }
             textarea[readonly] {
-                background-color: wheat; /* Màu nền giống với disabled */
+                background-color: #e9ecf3; /* Màu nền giống với disabled */
                 color: black; /* Màu chữ giống với disabled */
                 cursor: not-allowed; /* Con trỏ chuột giống với disabled */
                 border: 1px solid #ddd; /* Đường viền nhẹ */
@@ -96,10 +92,6 @@
                 box-shadow: none;
             }
 
-            /* Ngăn không cho tương tác */
-            textarea[readonly] {
-                pointer-events: none; /* Ngăn không cho tương tác */
-            }
         </style>
         <script>
             function goBack() {
@@ -127,7 +119,8 @@
                 var secondGuardianName = document.getElementsByName("second_guardian_name")[0].value.trim();
                 var secondGuardianPhone = document.getElementsByName("secondGuardianPhoneNumber")[0].value.trim();
                 var address = document.getElementsByName("address")[0].value.trim();
-                var namePupil = document.getElementsByName("name_pupil")[0].value.trim();
+                var lastName = document.getElementsByName("lastName")[0].value.trim();
+                var firstName = document.getElementsByName("firstName")[0].value.trim();
 
                 // Validate address
                 if (address === "") {
@@ -150,10 +143,6 @@
                     toastr.error("Số điện thoại người giám hộ thứ nhất không được để trống");
                     return false;
                 }
-                if (!isValidPhone(firstGuardianPhone)) {
-                    toastr.error("Số điện thoại người giám hộ thứ nhất không hợp lệ");
-                    return false;
-                }
 
                 // Validate second guardian's name and phone
                 if (secondGuardianName !== "" && secondGuardianPhone === "") {
@@ -168,14 +157,24 @@
                     toastr.error("Họ tên người giám hộ thứ hai chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
                     return false;
                 }
-                if (secondGuardianPhone !== "" && !isValidPhone(secondGuardianPhone)) {
-                    toastr.error("Số điện thoại người giám hộ thứ hai không hợp lệ");
+
+                // Validate first name
+                if (firstName === "") {
+                    toastr.error("Tên của bé không được để trống");
+                    return false;
+                }
+                if (!isValidName(firstName)) {
+                    toastr.error("Tên của bé chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
                     return false;
                 }
 
-                // Validate pupil's name
-                if (namePupil === "") {
-                    toastr.error("Họ tên của bé không được để trống");
+                // Validate last name
+                if (lastName === "") {
+                    toastr.error("Họ của bé không được để trống");
+                    return false;
+                }
+                if (!isValidName(lastName)) {
+                    toastr.error("Họ của bé chỉ được nhập chữ cái và không được chứa ký tự đặc biệt");
                     return false;
                 }
 
@@ -184,10 +183,6 @@
 
             function isValidName(name) {
                 return /^[A-Za-z\s\-àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳỹỷỹỵđĐ]+$/.test(name);
-            }
-
-            function isValidPhone(phone) {
-                return /^[0-9]{10}$/.test(phone);
             }
         </script>
 
@@ -228,64 +223,80 @@
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td><div class="form-group col-md-12">
-                                                                <h5>ID Người Dùng :</h5><input value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" type="text" name="userId" readonly=""/>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>ID Người Dùng :</h5><input class="form-control-sm" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" type="text" name="userId" readonly=""/>
                                                             </div></td>
-                                                        <td><div class="form-group col-md-6">
-                                                                <h5>ID : </h5> <input value="${pupil.id}" type="text" name="id" readonly=""/><br />
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>ID : </h5> <input class="form-control-sm" value="${pupil.id}" type="text" name="id" readonly=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự" required=""/><br />
+                                                                <input class="form-control form-control-sm" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
                                                                 <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" maxlength="10" title="Chỉ nhập số" required=""/><br />
+                                                                <input class="form-control form-control-sm" type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" minlength="10" maxlength="10" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> 
-                                                                <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự"/><br />
+                                                                <input class="form-control form-control-sm" type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
                                                                 <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> 
-                                                                <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" maxlength="10" pattern="[0-9]+" title="Chỉ nhập số"/><br />
+                                                                <input class="form-control form-control-sm" type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" maxlength="10" minlength="10" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><div class="form-group col-md-6">    
-                                                                <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
+                                                        <td>
+                                                            <div class="form-group col-md-8">
+                                                                <h5>Họ của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <input class="form-control form-control-sm" type="text" name="lastName" value="${pupil.lastName}" required="">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group col-md-8">
+                                                                <h5>Tên của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <input class="form-control form-control-sm" type="text" name="firstName" value="${pupil.firstName}" required="">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Ngày sinh của bé<a style="color: red">(*)</a> : </h5> 
+                                                                <input class="form-control form-control-sm" type="date" name="birthday" value="${pupil.birthday}" title="Ngày sinh của bé" required=""/><br />
                                                             </div></td>
-                                                <input type="hidden" name="first_name" value="${pupil.firstName}"/>
-                                                <input type="hidden" name="last_name" value="${pupil.lastName}"/></td>
-                                                <td>
-                                                    <div class="form-group col-md-12">
-                                                        <h5>Ngày sinh của bé<a style="color: red">(*)</a> : </h5> 
-                                                        <input type="date" name="birthday" value="${pupil.birthday}" title="Ngày sinh của bé" readonly=""/><br />
-                                                    </div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><div class="form-group col-md-6">
-                                                            <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
-                                                            <textarea type="text" name="address" value="${pupil.address}" style="width: 200%" title="Tối đa 50 kí tự" required="" maxlength="50">${pupil.address}</textarea><br />
-                                                        </div></td>
-                                                    <td><div class="form-group col-md-6">
-                                                            <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
-                                                            <textarea type="text" name="note" style="width: 200%" value="${pupil.parentSpecialNote}" title="Tối đa 500 kí tự" maxlength="500"></textarea><br/>
-                                                        </div></td>
-                                                </tr>
-                                                <tr>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Email<a style="color: red">(*)</a> : </h5> 
+                                                                <input class="form-control form-control-sm" type="email" name="email" value="${pupil.email}" title="email" required=""/><br />
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-6">
+                                                                <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
+                                                                <textarea class="form-control form-control-sm" type="text" name="address" value="${pupil.address}" style="width: 200%" title="Tối đa 50 kí tự" required="" maxlength="50">${pupil.address}</textarea><br />
+                                                            </div></td>
+                                                        <td><div class="form-group col-md-6">
+                                                                <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
+                                                                <textarea class="form-control form-control-sm" type="text" name="note" style="width: 200%" value="${pupil.parentSpecialNote}" title="Tối đa 500 kí tự" maxlength="500"></textarea><br/>
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
                                                 <p>Chú ý : Những Tiêu Đề Có Dấu (*) Là Những Tiêu Đề Được Chỉnh Sửa.</p>
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="form-buttons">
-                                                <button type="button" onclick="redirectToPreviousPage()" class="btn btn-danger">Quay Lại</button></a>
-                                                <button type="submit" class="btn btn-success">Lưu</button>
+                                            <div class="d-flex justify-content-end">
+                                                <div class="m-2">
+                                                    <button type="button" onclick="redirectToPreviousPage()" class="btn btn-danger">Quay Lại</button></a>
+                                                </div>
+                                                <div class="m-2">
+                                                    <button type="submit" class="btn btn-success">Lưu</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -299,7 +310,7 @@
         </div>
         <script>
             function redirectToPreviousPage() {
-                window.location.href = 'pupilprofile?id=${pupil.id}&schoolYear=${requestScope.schoolYear}';
+                window.location.href = 'pupilprofile?id=${pupil.id}';
             }
         </script>
     </body>
