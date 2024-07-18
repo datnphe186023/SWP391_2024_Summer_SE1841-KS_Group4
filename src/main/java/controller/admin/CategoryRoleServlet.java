@@ -67,12 +67,12 @@ public class CategoryRoleServlet extends HttpServlet {
         List<Personnel> listPersonnel = new ArrayList<>();
         List<Pupil> listPupils = new ArrayList<>();
         Map<Integer, String> roleMap = new HashMap<>();
-        roleMap.put(0, "Admin");
-        roleMap.put(1, "Headteacher");
-        roleMap.put(2, "Academic Staff");
-        roleMap.put(3, "Accountant");
-        roleMap.put(4, "Teacher");
-        roleMap.put(5, "Parent");
+        roleMap.put(0, "NHÂN VIÊN IT");
+        roleMap.put(1, "HIỆU TRƯỞNG");
+        roleMap.put(2, "GIÁO VỤ");
+        roleMap.put(3, "KẾ TOÁN");
+        roleMap.put(4, "GIÁO VIÊN");
+        roleMap.put(5, "PHỤ HUYNH");
         switch (role_id) {
             case "0":
                 listPersonnel = new PersonnelDAO().getPersonnelByRoleAndNonUserId(0);

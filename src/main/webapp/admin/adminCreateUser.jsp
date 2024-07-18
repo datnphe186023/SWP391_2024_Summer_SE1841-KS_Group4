@@ -44,7 +44,7 @@
                                     <label for="roleSelect"> VAI TRÒ</label>
                                     <select class="custom-select" name="role" id="roleSelect" onchange="redirectToServlet()">
                                         <option value="6">TẤT CẢ (VAI TRÒ)</option>
-                                        <option value="0">QUẢN TRỊ VIÊN</option>
+                                        <option value="0">NHÂN VIÊN IT</option>
                                         <option value="1">HIỆU TRƯỞNG</option>
                                         <option value="2">GIÁO VỤ</option>
                                         <option value="3">KẾ TOÁN</option>
@@ -90,7 +90,7 @@
                                                 <td>${personnel.getEmail()}</td>
                                                 <td>${roleMap[personnel.getRoleId()]}</td>
                                                 <td style="color: #0f6848" >
-                                                    <label class="badge btn-success">${personnel.getStatus()}</label>
+                                                    <label class="badge btn-success text-uppercase">${personnel.getStatus()}</label>
                                                 </td>
                                                 <td>
                                                     <input type="checkbox" name="user_checkbox" value="${personnel.getId()}">
@@ -104,9 +104,9 @@
                                                 <td>${pupil.getLastName()} ${pupil.getFirstName()}</td>
                                                 <td hidden>${pupil.getId()}</td>
                                                 <td>${pupil.getEmail()}</td>
-                                                <td>Parent</td>
+                                                <td>PHỤ HUYNH</td>
                                                 <td style="color: #0f6848">
-                                                    <label class="badge badge-success">${pupil.getStatus()}</label>
+                                                    <label class="badge badge-success text-uppercase">${pupil.getStatus()}</label>
                                                 </td>
                                                 <td>
                                                     <input type="checkbox" name="user_checkbox" value="${pupil.getId()}">
