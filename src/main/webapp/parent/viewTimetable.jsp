@@ -137,8 +137,8 @@
                             <input type="hidden" name="id" value="${param.id}"/>
                             <input type="hidden" name="classId" value="${requestScope.aClass.id}"/>
                             <table class="timetable-table table table-bordered text-center">
-                                <div style="margin-bottom: 5px" class="d-flex justify-content-lg-start">
-                                    <div class="class-form">
+                                <div class="d-flex justify-content-lg-start">
+                                    <div class="class-form m-2">
                                         <label>Năm học
                                             <select name="schoolyear" onchange="enableWeek();
                                                     this.form.submit();" class="custom-select">
@@ -150,7 +150,7 @@
                                             </select>
                                         </label>
                                     </div>
-                                    <div class="class-form">
+                                    <div class="class-form m-2">
                                         <label>Tuần học
                                             <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
                                                 <option value="" hidden>Tuần học</option>

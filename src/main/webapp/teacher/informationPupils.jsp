@@ -67,7 +67,7 @@
                 background-color: #c82333;
             }
             input[readonly] {
-                background-color: wheat; /* Màu nền giống với disabled */
+                background-color: #e9ecf3; /* Màu nền giống với disabled */
                 color: black; /* Màu chữ giống với disabled */
                 cursor: not-allowed; /* Con trỏ chuột giống với disabled */
                 border: 1px solid #ddd; /* Đường viền nhẹ */
@@ -79,12 +79,8 @@
                 box-shadow: none;
             }
 
-            /* Ngăn không cho tương tác */
-            input[readonly] {
-                pointer-events: none; /* Ngăn không cho tương tác */
-            }
             textarea[readonly] {
-                background-color: wheat; /* Màu nền giống với disabled */
+                background-color: #e9ecf3; /* Màu nền giống với disabled */
                 color: black; /* Màu chữ giống với disabled */
                 cursor: not-allowed; /* Con trỏ chuột giống với disabled */
                 border: 1px solid #ddd; /* Đường viền nhẹ */
@@ -96,10 +92,6 @@
                 box-shadow: none;
             }
 
-            /* Ngăn không cho tương tác */
-            textarea[readonly] {
-                pointer-events: none; /* Ngăn không cho tương tác */
-            }
         </style>
         <script>
             $(document).ready(function () {
@@ -154,54 +146,70 @@
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td><div class="form-group col-md-12">
-                                                                <h5>ID Người Dùng :</h5><input placeholder="ID Người Dùng" type="text" name="userId" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" readonly=""/>
-                                                                <input name="user_id" type="hidden" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" />
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Mã Người Dùng :</h5><input class="form-control-sm" placeholder="ID Người Dùng" type="text" name="userId" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" readonly=""/>
+                                                                <input  name="user_id" type="hidden" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
-                                                                <h5>ID : </h5> <input placeholder="ID" type="text" name="id" value="${pupil.id}" readonly=""/><br />
-                                                            </div></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ nhất : </h5> <input type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{1,20}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" readonly/><br />
-                                                            </div></td>
-                                                        <td><div class="form-group col-md-8">
-
-                                                                <h5>Số điện thoại người giám hộ thứ nhất :</h5> <input type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." readonly/><br />
-                                                            </div></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ hai : </h5> <input type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{30}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" readonly/><br />
-                                                            </div></td>
-                                                        <td><div class="form-group col-md-8">
-                                                                <h5>Số điện thoại người giám hộ thứ hai :</h5> <input type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." readonly/><br />
+                                                                <h5>Mã Học Sinh : </h5> <input class="form-control-sm" placeholder="ID" type="text" name="id" value="${pupil.id}" readonly=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">    
-                                                                <h5>Họ tên bé :</h5> <input type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}" readonly="" /><br />
+                                                                <h5>Họ tên bé :</h5> <input class="form-control-sm" type="text" name="name_pupil" value="${pupil.lastName} ${pupil.firstName}"  readonly="" /><br />
                                                             </div></td>
+                                                        <td>
+                                                            <div class="form-group col-md-8">
+                                                                <h5>Ngày sinh của bé : </h5> <input class="form-control-sm" type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Họ tên người giám hộ thứ nhất : </h5> <input class="form-control-sm" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{1,20}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" readonly/><br />
+                                                            </div></td>
+                                                        <td><div class="form-group col-md-8">
+
+                                                                <h5>Số điện thoại người giám hộ thứ nhất :</h5> <input class="form-control-sm" type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." readonly/><br />
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Họ tên người giám hộ thứ hai : </h5> <input class="form-control-sm" type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" pattern="^[A-Za-z,${vietnamesePattern}\s]{30}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)" readonly/><br />
+                                                            </div></td>
+                                                        <td><div class="form-group col-md-8">
+                                                                <h5>Số điện thoại người giám hộ thứ hai :</h5> <input class="form-control-sm" type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại." readonly/><br />
+                                                            </div></td>
+                                                    </tr>
+                                                    <tr>
+
                                                 <input type="hidden" name="first_name" value="${pupil.firstName}"/>
                                                 <input type="hidden" name="last_name" value="${pupil.lastName}"/>
-                                                <td><div class="form-group col-md-12">
-                                                        <h5>Ngày sinh của bé : </h5> <input type="date" name="birthday" value="${pupil.birthday}" readonly=""/><br />
-                                                    </div></td>
+
                                                 </tr>
                                                 <tr>
-                                                    <td><div class="form-group col-md-6">
-                                                            <h5>Địa chỉ : </h5> <textarea type="text" name="address" value="" style="width: 200%" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự" readonly>${pupil.address}</textarea><br />
+                                                    <td><div class="form-group col-md-6">    
+                                                            <h5>Email :</h5> <input class="form-control-sm" type="text" name="email" value="${pupil.email}"  readonly="" /><br />
                                                         </div></td>
-                                                    <td><div class="form-group col-md-6">
-                                                            <h5>Ghi chú :</h5> <textarea type="text" name="note" style="width: 200%" readonly>${pupil.parentSpecialNote}</textarea><br/>
+                                                    <td><div class="form-group col-md-5">
+                                                            <h5>Ghi chú :</h5> <textarea class="form-control-sm" type="text" name="note" style="width: 200%" readonly>${pupil.parentSpecialNote}</textarea><br/>
+                                                        </div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><div class="form-group col-md-auto">
+                                                            <h5>Địa chỉ : </h5> <textarea class="form-control-sm" type="text" name="address" value="" style="width: 200%" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự" readonly>${pupil.address}</textarea><br />
                                                         </div></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="form-buttons">
-                                                <button onclick="goBack()" type="button" class="btn btn-danger">Quay Lại</button>
-                                                <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
+                                            <div class="d-flex justify-content-end">
+                                                <div class="m-2">
+                                                    <button onclick="goBack()" type="button" class="btn btn-danger">Quay Lại</button>
+                                                </div>
+                                                <div class="m-2">
+                                                    <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
+                                                </div>
+
                                             </div>
                                         </form>
                                     </div>
@@ -215,7 +223,7 @@
         </div>
         <script>
             function goBack() {
-                window.location.href = 'listpupil?schoolYear=${requestScope.schoolYear}';
+                window.location.href = 'listpupil';
             }
         </script>
     </body>
