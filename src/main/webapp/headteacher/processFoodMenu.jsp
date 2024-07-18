@@ -83,8 +83,8 @@
 
                                 <c:forEach items="${foodMenuList}" var="fml" varStatus="status">
                                     <tr>
-                                        <th scope="row">${status.index + 1}</th>
-                                        <td>${fml.getFoodDetails()}</td>
+                                        <th scope="row" >${status.index + 1}</th>
+                                        <td >${fml.getFoodDetails()}</td>
 
                                             <c:if test="${fml.getStatus() eq 'đã được duyệt'}">
                                         <td style="color: #0f6848">
@@ -106,16 +106,14 @@
                                             <c:if test="${fml.getStatus() eq 'đang chờ xử lý'}">
                                                 <form action="processfoodmenu" method="post">
                                                 <input hidden name="foodid" value="${fml.getId()}"/>
-                                                    <div class="btn-container">
-                                                        <div class="d-flex justify-content-end">
+
+                                                    <div class="d-flex flex-column align-items-center">
+
+                                                            <button type="submit" class="btn btn-sm btn-success shadow-sm btn-custom-width" style="width: 100%" name="action" value="accept">Chấp nhận</button>
+                                                            <button type="submit"  class="btn btn-sm btn-danger shadow-sm btn-custom-width" style="width: 100%" name="action" value="deny">Từ chối</button>
 
                                                         </div>
-                                                        <div class="btn-group-right">
-                                                            <button type="submit" class="btn btn-success" style="width: 40%" name="action" value="accept">Chấp nhận</button>
-                                                            <button type="submit"  class="btn btn-danger" style="width: 40%" name="action" value="deny">Từ chối</button>
 
-                                                        </div>
-                                                    </div>
 
                                                 </form>
                                         </c:if>

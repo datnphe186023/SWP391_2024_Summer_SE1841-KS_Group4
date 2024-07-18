@@ -55,7 +55,16 @@ public class ViewMealTimetableServlet extends HttpServlet {
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
         List<Grade> gradeList = gradeDAO.getGradeByUserId(user.getId());
         List<Week> weekList = weekDAO.getWeeks(sltedsy);
-        request.setAttribute("menustatus","not-enough-data");
+
+        List<MenuDetail>  menuDetailList = foodMenuDAO.getMenuDetails(sltedg,sltedw,sltedsy,"đã được duyệt");
+
+        String menustatus ="";
+        if(menuDetailList.size()>0){
+            menustatus = "created";
+        }else if (menuDetailList.isEmpty()){
+            menustatus = "not-created";
+        }
+        request.setAttribute("menustatus",menustatus);
         request.setAttribute("schoolYearList",schoolYearList );
         request.setAttribute("gradeList",gradeList );
         request.setAttribute("weekList",weekList);
@@ -70,18 +79,23 @@ public class ViewMealTimetableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String grade = request.getParameter("grade");
+
         String week = request.getParameter("week");
         GradeDAO gradeDAO = new GradeDAO();
         String schoolyear = request.getParameter("schoolyear");
+
         FoodMenuDAO foodMenuDAO = new FoodMenuDAO();
         WeekDAO weekDAO = new WeekDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        IPupilDAO pupilDAO = new PupilDAO();
+
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
         List<Grade> gradeList = gradeDAO.getGradeByUserId(user.getId());
         List<Week> weekList = weekDAO.getWeeks(schoolyear);
         List<FoodMenu> foodMenuList = foodMenuDAO.getAllFoodMenu();
         List<MenuDetail> menuDetailList = new ArrayList<>();
+
+        String grade = gradeDAO.getGradeFromPupilIdAndSchoolYearId(schoolyear,pupilDAO.getPupilByUserId(user.getId()).getId());
 
         if(grade!=null && week!=null && schoolyear!=null){
             menuDetailList = foodMenuDAO.getMenuDetails(grade,week,schoolyear,"đã được duyệt");

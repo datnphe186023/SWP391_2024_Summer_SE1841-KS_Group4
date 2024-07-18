@@ -83,36 +83,20 @@
                     <c:set var="sltedw" value="${requestScope.sltedw}"/>
                     <c:set var="sltedsy" value="${requestScope.sltedsy}"/>
 
-                        <div style="display: flex; justify-content: space-evenly;">
-                            <div class="class-form">
-                                <label>Khối Lớp
-                                <input disabled id="grade" value="${requestScope.grade.getName()}"/>
-                                </label>
-                            </div>
 
-                            <div class="class-form">
-                                <label>Năm học
-                                <input disabled id="schoolyear" value="${requestScope.schoolyear.getName()}"/>
-                                </label>
-                            </div>
-
-                            <div class="class-form">
-                                <label>Tuần học
-                                <input disabled id="week" value="${requestScope.week.getStartDatetoEndDate()}"/>
-                                </label>
-                            </div>
-
-                        </div>
-
+                </div>
+                <div class=" my-3">
+                    <button class="btn btn-primary mx-2" style="width: 200px">
+                        <a style="color: white; text-decoration: none;" href="waitlistmealtimetable">Quay lại danh sách</a>
+                    </button>
                 </div>
                 <form action="processmealtimetable" method="post" id="process">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Thực Đơn Theo Tuần</h6>
-                        <h6 style="margin-left: 11px;font-weight: bold">Ghi chú: <a
-                                style="font-weight: normal">Biểu tượng </a><a
-                                style="color: red"> (-) </a><a
-                                style="font-weight: normal"> thể hiện bữa trống</a></h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><label  >Khối Lớp :</label> ${requestScope.grade.getName()}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><label >Năm học :</label> ${requestScope.schoolyear.getName()}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><label >Tuần học :</label> ${requestScope.week.getStartDatetoEndDate()}</h6>
+
                     </div>
 
                     <c:set var="timesOfDay" value="${['Bữa trưa', 'Bữa chiều', 'Bữa chiều phụ']}" />
@@ -152,7 +136,7 @@
                                                 <c:forEach var="menu" items="${requestScope.menuDetailList}">
                                                     <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
                                                         <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
-                                                            <div style="display:flex ; justify-content: center">
+                                                            <div style="display:flex ; justify-content: left">
                                                                     ${menu.getFoodMenu().getFoodDetails()}
                                                             </div>
                                                             <c:set var="menucheck" value="true"/>
@@ -185,16 +169,13 @@
                 <div class="d-flex justify-content-end">
 
                 </div>
-                <div class="btn-group-right">
-                <c:if test="${requestScope.enable eq true}">
-                    <button type="submit" form="process" class="btn btn-success" style="width: 100px" name="action" value="accept">Chấp nhận</button>
-                    <button type="submit" form="process" class="btn btn-danger" style="width: 100px" name="action" value="deny">Từ chối</button>
-                </c:if>
+                    <div class=" my-3">
+                        <c:if test="${requestScope.enable eq true}">
+                            <button type="submit" form="process" class="btn btn-success mx-2" style="width: 150px" name="action" value="accept">Chấp nhận</button>
+                            <button type="submit" form="process" class="btn btn-danger mx-2" style="width: 150px" name="action" value="deny">Từ chối</button>
+                        </c:if>
 
-                    <button class="btn btn-primary" >
-                        <a style="color:white "  href="waitlistmealtimetable">Quay lại danh sách</a>
-                    </button>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>

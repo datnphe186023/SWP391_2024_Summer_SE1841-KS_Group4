@@ -182,7 +182,7 @@
                         <c:forEach var="menu" items="${requestScope.menuDetailList}">
                           <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
                             <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
-                        <div style="display:flex ; justify-content: center">
+                        <div style="display:flex ; justify-content: left">
                               ${menu.getFoodMenu().getFoodDetails()}
                         </div>
                               <c:set var="menucheck" value="true"/>

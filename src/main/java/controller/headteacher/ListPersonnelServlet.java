@@ -73,10 +73,12 @@ public class ListPersonnelServlet extends HttpServlet {
         List<String> statuss = new ArrayList<>();
         List<Personnel> waitlist = new ArrayList<>();
         IPersonnelDAO personnelDAO = new PersonnelDAO();
-        persons = personnelDAO.getPersonnelByStatus("đang làm việc");
+        persons = personnelDAO.getAllPersonnels();
         roles = personnelDAO.getAllPersonnelRole();
         statuss = personnelDAO.getAllStatus();
         waitlist = personnelDAO.getPersonnelByStatus("đang chờ xử lý");
+        request.setAttribute("selectedstatus", "all");
+        request.setAttribute("selectedrole", "all");
         request.setAttribute("message", message);
         request.setAttribute("type", type);
         request.setAttribute("persons", persons);

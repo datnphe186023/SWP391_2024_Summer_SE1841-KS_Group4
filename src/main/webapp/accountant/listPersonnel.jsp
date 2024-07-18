@@ -88,10 +88,10 @@
                                                     value="${r.getId()}">${r.getVNeseDescription()}</option>
                                         </c:forEach>
                                         <c:if test="${sltedrole eq 'all'}">
-                                            <option value="all" selected>Hiện toàn bộ</option>
+                                            <option value="all" selected>Hiện toàn bộ chức vụ</option>
                                         </c:if>
                                         <c:if test="${sltedrole ne'all'}">
-                                            <option value="all">Hiện toàn bộ</option>
+                                            <option value="all">Hiện toàn bộ chức vụ</option>
                                         </c:if>
                                     </select>
                                     </label>
@@ -106,10 +106,10 @@
                                             <option ${sltedstatus eq r ? "selected" : ""} value="${r}">${r}</option>
                                         </c:forEach>
                                         <c:if test="${sltedstatus eq 'all'}">
-                                            <option value="all" selected>Hiện toàn bộ</option>
+                                            <option value="all" selected>Hiện toàn bộ trạng thái</option>
                                         </c:if>
                                         <c:if test="${sltedstatus ne'all'}">
-                                            <option value="all">Hiện toàn bộ</option>
+                                            <option value="all">Hiện toàn bộ trạng thái</option>
                                         </c:if>
                                     </select>
                                     </label>
@@ -190,7 +190,7 @@
                                                 <td>${p.getBirthday()} </td>
                                                 <td>
                                                     <c:if test="${p.getRoleId()== 0}">
-                                                        Admin
+                                                        Nhân viên IT
                                                     </c:if>
                                                     <c:if test="${p.getRoleId()==1}">
                                                         Hiệu trưởng

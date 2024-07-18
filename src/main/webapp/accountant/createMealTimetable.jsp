@@ -164,20 +164,33 @@
 
                             <input class="form-control" name="year" value="${requestScope.newYear.getName()}" disabled  style="width: 70%">
                         </div>
+                        <style>
+                            .custom-badge {
+                                width: 70%; /* Adjust the width as needed */
+                                height: 40px; /* Adjust the height as needed */
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 16px; /* Adjust the font size as needed */
+                            }
+
+                        </style>
+
                         <c:if test="${requestScope.enable == 'false'}">
                             <div class="form-group col-md-2">
-                                <label>Trạng thái :</label>
+                                <label>Trạng thái :</label> <br>
                                 <c:if test="${requestScope.status == 'đang chờ xử lý'}">
-                                <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width:auto; color: #4c67ff  ">
-                                 </c:if>
+                                    <span class="badge custom-badge badge-info text-center">${requestScope.status}</span>
+                                </c:if>
                                 <c:if test="${requestScope.status == 'đã được duyệt'}">
-                                    <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width:auto; color: #5bff36">
+                                    <span class="badge custom-badge badge-success text-center">${requestScope.status}</span>
                                 </c:if>
                                 <c:if test="${requestScope.status == 'năm học không tồn tại !'}">
-                                    <input class="form-control" name="status" value="${requestScope.status}" disabled  style="width: auto; color: #ff1425">
+                                    <span class="badge custom-badge badge-danger text-center">${requestScope.status}</span>
                                 </c:if>
                             </div>
                         </c:if>
+
                         <input class="form-control" hidden name="gradeid" value="${requestScope.selectedGradeId}">
                         <input class="form-control" hidden name="weekId" value="${requestScope.weekId}">
 
@@ -261,7 +274,7 @@
                                                         <c:if test="${menuDetail.getTimeslot().getId() == timeslot.id && menuDetail.getDay().getId()  == day.id}">
 
                                                                     <c:if test="${menuDetail.getFoodMenu().getFoodDetails() != null }">
-                                                                             <div style="display:flex ; justify-content:center ;">
+                                                                             <div style="display:flex ; justify-content:left ;">
                                                                         ${menuDetail.getFoodMenu().getFoodDetails()}
                                                                          </div>
                                                                       <c:set var="menucheck" value="true"/>

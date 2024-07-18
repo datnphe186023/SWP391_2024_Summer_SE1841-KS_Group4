@@ -110,7 +110,7 @@
                                     <td>${p.getBirthday()} </td>
                                     <td>
                                         <c:if test="${p.getRoleId()== 0}">
-                                            Admin
+                                            Nhân viên IT
                                         </c:if>
                                         <c:if test="${p.getRoleId()==1}">
                                             Hiệu trưởng
@@ -128,19 +128,25 @@
                                     <c:if test="${p.getStatus() != null}">
                                         <c:choose>
                                             <c:when test="${p.getStatus() == 'đang làm việc'}">
-                                                <td style=" color: #4fff33;">${p.getStatus()}</td>
+                                                <td >
+                                                    <span class="badge badge-success">${p.getStatus()}</span>
+                                                </td>
                                             </c:when>
                                             <c:when test="${p.getStatus() == 'đang chờ xử lý'}">
-                                                <td style=" color: #ff2848;">${p.getStatus()}</td>
+                                                <td>
+                                                    <span class="badge badge-warning">${p.getStatus()}</span>
+                                                </td>
                                             </c:when>
                                             <c:otherwise>
-                                                <td style="color: #4c67ff;">${p.getStatus()}</td>
+                                                <td >
+                                                    <span class="badge badge-info">${p.getStatus()}</span>
+                                                </td>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:if>
                                     <td>
 
-                                        <a href="viewpersonnel?id=${p.getId()}"
+                                        <a href="viewpersonnel?id=${p.getId()}&page=waitlist"
                                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
                                             tin chi tiết</a>
                                     </td>

@@ -82,7 +82,7 @@ public class ListPersonnelServlet extends HttpServlet {
             List<String> statuss = new ArrayList<>();
             List<Personnel> waitlist = new ArrayList<>();
             IPersonnelDAO personnelDAO = new PersonnelDAO();
-            persons = personnelDAO.getPersonnelByStatus("đang làm việc");
+            persons = personnelDAO.getAllPersonnels();
             roles = personnelDAO.getAllPersonnelRole();
             statuss = personnelDAO.getAllStatus();
             waitlist = personnelDAO.getPersonnelByStatus("đang chờ xử lý");
@@ -100,7 +100,18 @@ public class ListPersonnelServlet extends HttpServlet {
                     request.setAttribute("role", xrole);
                     request.setAttribute("avatar", xavatar);
                 }
+                session.removeAttribute("firstname");
+                session.removeAttribute("lastname");
+                session.removeAttribute("birthday");
+                session.removeAttribute("address");
+                session.removeAttribute("gender");
+                session.removeAttribute("email");
+                session.removeAttribute("phone");
+                session.removeAttribute("role");
+                session.removeAttribute("avatar");
             }
+            request.setAttribute("selectedstatus", "all");
+            request.setAttribute("selectedrole", "all");
             request.setAttribute("persons", persons);
             request.setAttribute("roles", roles);
             request.setAttribute("waitlist", waitlist);
@@ -108,19 +119,19 @@ public class ListPersonnelServlet extends HttpServlet {
             request.getRequestDispatcher("listPersonnel.jsp").forward(request, response);
             session.removeAttribute("message");
             session.removeAttribute("type");
-     if(type!=null ) {
-
-             session.removeAttribute("firstname");
-             session.removeAttribute("lastname");
-             session.removeAttribute("birthday");
-             session.removeAttribute("address");
-             session.removeAttribute("gender");
-             session.removeAttribute("email");
-             session.removeAttribute("phone");
-             session.removeAttribute("role");
-             session.removeAttribute("avatar");
-
-     }
+//     if(type!=null ) {
+//
+//             session.removeAttribute("firstname");
+//             session.removeAttribute("lastname");
+//             session.removeAttribute("birthday");
+//             session.removeAttribute("address");
+//             session.removeAttribute("gender");
+//             session.removeAttribute("email");
+//             session.removeAttribute("phone");
+//             session.removeAttribute("role");
+//             session.removeAttribute("avatar");
+//
+//     }
     } 
 
     /** 

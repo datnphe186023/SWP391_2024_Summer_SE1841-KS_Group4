@@ -57,10 +57,10 @@
                                                         value="${r.getId()}">${r.getVNeseDescription()}</option>
                                             </c:forEach>
                                             <c:if test="${sltedrole eq 'all'}">
-                                                <option value="all" selected>Hiện toàn bộ</option>
+                                                <option value="all" selected>Hiện toàn bộ chức vụ</option>
                                             </c:if>
                                             <c:if test="${sltedrole ne'all'}">
-                                                <option value="all">Hiện toàn bộ</option>
+                                                <option value="all">Hiện toàn bộ chức vụ</option>
                                             </c:if>
                                         </select>
                                     </label>
@@ -75,10 +75,10 @@
                                                 <option ${sltedstatus eq r ? "selected" : ""} value="${r}">${r}</option>
                                             </c:forEach>
                                             <c:if test="${sltedstatus eq 'all'}">
-                                                <option value="all" selected>Hiện toàn bộ</option>
+                                                <option value="all" selected>Hiện toàn bộ trạng thái</option>
                                             </c:if>
                                             <c:if test="${sltedstatus ne'all'}">
-                                                <option value="all">Hiện toàn bộ</option>
+                                                <option value="all">Hiện toàn bộ trạng thái</option>
                                             </c:if>
                                         </select>
                                     </label>
@@ -150,7 +150,7 @@
                                         <td>${p.getBirthday()} </td>
                                         <td>
                                             <c:if test="${p.getRoleId()== 0}">
-                                                Admin
+                                                Nhân viên IT
                                             </c:if>
                                             <c:if test="${p.getRoleId()==1}">
                                                 Hiệu trưởng
@@ -168,13 +168,19 @@
                                         <c:if test="${p.getStatus() != null}">
                                             <c:choose>
                                                 <c:when test="${p.getStatus() == 'đang làm việc'}">
-                                                    <td style=" color: #4fff33;">${p.getStatus()}</td>
+                                                    <td >
+                                                        <span class="badge badge-success">${p.getStatus()}</span>
+                                                    </td>
                                                 </c:when>
                                                 <c:when test="${p.getStatus() == 'đang chờ xử lý'}">
-                                                    <td style=" color: #ff2848;">${p.getStatus()}</td>
+                                                    <td>
+                                                        <span class="badge badge-warning">${p.getStatus()}</span>
+                                                    </td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td style="color: #4c67ff;">${p.getStatus()}</td>
+                                                    <td >
+                                                        <span class="badge badge-info">${p.getStatus()}</span>
+                                                    </td>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:if>
@@ -184,7 +190,7 @@
                                                         <button class="btn btn-dark" type="submit">Xem thông tin chi tiết</button>
                                                     </form>
                                                 -->
-                                            <a href="viewpersonnel?id=${p.getId()}"
+                                            <a href="viewpersonnel?id=${p.getId()}&page=list"
                                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
                                                 tin chi tiết</a>
                                         </td>
@@ -197,96 +203,7 @@
                 </div>
 
                 <!--modal for new personnel-->
-                <div class="modal fade" id="newPersonnelModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
-                     data-keyboard="false">
-                    <form action="createpersonnel?action=create" method="POST">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="form-group col-md-12">
-                                        <span class="thong-tin-thanh-toan">
-                                            <h5>Tạo Nhân Viên Mới</h5>
-                                        </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Chức vụ </label>
-                                            <select class="form-control" name="role" id="role" required>
-                                                <option value="" hidden selected>Chọn chức vụ</option>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Hiệu trưởng</option>
-                                                <option value="2">Giáo Vụ</option>
-                                                <option value="3">Nhân viên kế toán</option>
-                                                <option value="4">Giáo viên</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Tên </label>
-                                            <input class="form-control" type="text" name="firstname"
-                                                   pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Họ</label>
-                                            <input class="form-control" type="text" name="lastname"
-                                                   pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Giới tính </label>
-                                            <select class="form-control" name="gender" id="gender" required>
-                                                <option value="" hidden selected>Chọn giới tính</option>
-                                                <option value="0">Nữ</option>
-                                                <option value="1">Nam</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Ngày sinh</label>
-                                            <input class="form-control" type="date" name="birthday" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Địa chỉ</label>
-                                            <input class="form-control" type="text" name="address"
-                                                   pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Email</label>
-                                            <input class="form-control" type="email" name="email" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="control-label">Số điện thoại</label>
-                                            <input class="form-control" type="text" pattern="^(0[23578]|09)\d{8}$" name="phone"
-                                                   required>
 
-
-                                        </div>
-                                        <div class="form-group col-md-12">
-                                            <label class="control-label">Ảnh :</label>
-                                            <div class="form-group col-md-12">
-
-                                                <div id="myfileupload">
-                                                    <input type="file" id="uploadfile" name="avatar" onchange="readURL(this);"
-                                                           required/>
-                                                </div>
-                                                <div id="thumbbox">
-                                                    <img height="200" width="200" alt="Thumb image" id="thumbimage"
-                                                         style="display: none"/>
-                                                    <a class="removeimg" href="javascript:"></a>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <button class="btn btn-success" type="submit">Lưu lại</button>
-                                    <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
         <jsp:include page="../footer.jsp"/>
