@@ -51,6 +51,21 @@
             }
         });
     </script>
+    <style>
+        .evaluation-input {
+            width: 100%;
+            height: 40px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .evaluation-input input, .evaluation-input select {
+            display: inline-block;
+            vertical-align: middle;
+            align-content: center;
+        }
+    </style>
+
 </head>
 
 <body id="page-top">
@@ -110,22 +125,21 @@
                                                  style="width:100px; height:100px; object-fit: cover;">
                                         </td>
                                         <td>${pupil.lastName} ${pupil.firstName}</td>
-                                        <td class="text-center">
+                                        <td class="text-center" style="align-content: center">
                                             <c:choose>
                                                 <c:when test="${pupilAttendance.getAttendanceByPupilAndDay(pupil.id,dateId).status eq 'absent'}">
-                                                    <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}" >
-                                                        <option readonly="" value="nghỉ học" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq "Nghỉ học"?"selected":""}>Nghỉ học</option>
-                                                    </select>
+                                                    <input value="Nghỉ học" name="evaluation-${pupil.id}" readonly type="text" class="evaluation-input">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <select class="form-control mt-4" aria-label="Default select example" name="evaluation-${pupil.id}" required>
-                                                        <option value="" hidden="" >-</option>
-                                                        <option value="Ngoan"  ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Ngoan'?"selected":""} name="evaluationId-good" >Ngoan</option>
+                                                    <select class="form-control evaluation-input" aria-label="Default select example" name="evaluation-${pupil.id}" required>
+                                                        <option value="" hidden="">-</option>
+                                                        <option value="Ngoan" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Ngoan'?"selected":""} name="evaluationId-good">Ngoan</option>
                                                         <option value="Chưa ngoan" ${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).evaluation eq 'Chưa ngoan'?"selected":""} name="evaluationId-bad">Chưa ngoan</option>
                                                     </select>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
+
 
                                         <td class="text-center">
                                             <textarea class="mt-2" rows="3" name="notes-${pupil.id}">${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).notes}</textarea>

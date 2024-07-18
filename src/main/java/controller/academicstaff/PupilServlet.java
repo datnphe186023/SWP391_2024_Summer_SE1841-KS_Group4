@@ -109,6 +109,11 @@ public class PupilServlet extends HttpServlet {
                          || Helper.formatName(firstGuardianName).isBlank()) {
                      if(address.isBlank()){
                          toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường địa chỉ !";
+                     }
+                     else if(Helper.formatName(firstName).isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường tên !";
+                     }else if(Helper.formatName(lastName).isBlank()){
+                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường họ !";
                      }else if(email.isBlank()){
                          toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường email !";
                      }else if(Helper.formatName(firstGuardianName).isBlank()){
@@ -119,10 +124,6 @@ public class PupilServlet extends HttpServlet {
                          toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường hình ảnh !";
                      }else if(genderRaw.equals("-1")){
                          toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường giới tính !";
-                     }else if(Helper.formatName(firstName).isBlank()){
-                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường tên !";
-                     }else if(Helper.formatName(lastName).isBlank()){
-                         toastMessage="Tạo thật bại ! Vui lòng không bỏ trống trường họ !";
                      }
                     toastType = "error";
                     session.setAttribute("toastMessage", toastMessage);
