@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import models.timetable.ITimetableDAO;
+import models.timetable.Timetable;
 import models.timetable.TimetableDAO;
 import models.timetable.TimetableDTO;
 

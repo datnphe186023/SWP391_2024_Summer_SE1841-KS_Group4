@@ -128,31 +128,44 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     @Override
     public List<TimetableDTO> getListTimetableByStatus(String status) {
         List<TimetableDTO> timetables = new ArrayList<>();
-        String sql = "SELECT DISTINCT "
-                + "    temp.class_id, "
-                + "    w.id AS week_id, "
-                + "    w.start_date, "
-                + "    w.end_date, "
-                + "    temp.created_by, "
-                + "    temp.status, "
-                + "    temp.note, " // Thêm trường note vào truy vấn SQL
-                + "    temp.teacher_id "
-                + "FROM ( "
-                + "    SELECT "
-                + "        t.class_id, "
-                + "        d.week_id, "
-                + "        t.created_by, "
-                + "        t.status, "
-                + "        t.teacher_id, "
-                + "        t.note, " // Thêm trường note
-                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id ORDER BY t.id) AS row_num "
-                + "    FROM "
-                + "        [BoNo_Kindergarten].[dbo].[Timetables] t "
-                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id "
-                + "    WHERE t.status = ? " // Filter by status
-                + ") AS temp "
-                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id "
-                + "WHERE temp.row_num = 1;";
+        String sql = "SELECT DISTINCT \n"
+                + "    temp.class_id, \n"
+                + "    w.id AS week_id, \n"
+                + "    w.start_date, \n"
+                + "    w.end_date, \n"
+                + "    temp.created_by, \n"
+                + "    temp.status, \n"
+                + "    temp.note,  -- Thêm trường note vào câu truy vấn SQL\n"
+                + "    temp.teacher_id \n"
+                + "FROM (\n"
+                + "    SELECT \n"
+                + "        t.id, \n"
+                + "        t.class_id, \n"
+                + "        d.week_id, \n"
+                + "        t.created_by, \n"
+                + "        t.status, \n"
+                + "        t.note,  -- Lấy trường note từ bảng Timetables\n"
+                + "        t.teacher_id, \n"
+                + "        ROW_NUMBER() OVER (PARTITION BY t.class_id, d.week_id, t.status ORDER BY t.id) AS row_num \n"
+                + "    FROM \n"
+                + "        [BoNo_Kindergarten].[dbo].[Timetables] t \n"
+                + "    JOIN [BoNo_Kindergarten].[dbo].[Days] d ON t.date_id = d.id \n"
+                + "    WHERE t.status = ? \n"
+                + ") AS temp \n"
+                + "JOIN [BoNo_Kindergarten].[dbo].[Weeks] w ON temp.week_id = w.id \n"
+                + "WHERE temp.row_num = 1 \n"
+                + "AND ( \n"
+                + "    NOT EXISTS ( \n"
+                + "        SELECT 1 \n"
+                + "        FROM [BoNo_Kindergarten].[dbo].[Timetables] t2 \n"
+                + "        JOIN [BoNo_Kindergarten].[dbo].[Days] d2 ON t2.date_id = d2.id \n"
+                + "        WHERE temp.class_id = t2.class_id \n"
+                + "        AND temp.week_id = d2.week_id \n"
+                + "        AND temp.status <> t2.status \n"
+                + "        AND t2.id < temp.id \n"
+                + "    ) \n"
+                + "    OR temp.row_num = 1 \n"
+                + ");";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, status);  // Set status parameter
@@ -616,14 +629,14 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
     public void updateTeacherOfTimetable(String classId, String teacherId) {
         String sql = "update Timetables set teacher_id = ? where class_id = ?";
         try {
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, teacherId);
-                statement.setString(2, classId);
-                statement.executeUpdate();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, teacherId);
+            statement.setString(2, classId);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
     @Override
     public String getTeacherByDayId(String dayId) {
@@ -641,6 +654,4 @@ public class TimetableDAO extends DBContext implements ITimetableDAO {
         return null;
     }
 
-    
-
-    }
+}
