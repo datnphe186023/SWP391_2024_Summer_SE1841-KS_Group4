@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="personnelBean" class="models.personnel.PersonnelDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,13 +77,14 @@
                                         </div>
                                     </div>
                                     <div class="profile-card">
-                                        <img src="${pageContext.request.contextPath}/images/${sessionScope.personnel.avatar}" alt="User Avatar">
+                                        <c:set var="personnel" value="${personnelBean.getPersonnelByUserId(sessionScope.personnel.userId)}"/>
+                                        <img src="${pageContext.request.contextPath}/images/${personnel.avatar}" alt="User Avatar">
                                         <div class="profile-info">
                                             <h3>${personnel.lastName} ${personnel.firstName}</h3>
                                             <br/>
                                             <p><strong>ID:</strong> ${personnel.userId}</p>
                                             <br/>
-                                            <p><strong>Giới tính:</strong> ${sessionScope.personnel.gender ? 'Nam' : 'Nữ'}</p>
+                                            <p><strong>Giới tính:</strong> ${personnel.gender ? 'Nam' : 'Nữ'}</p>
                                             <br/>
                                             <p><strong>Ngày sinh:</strong> ${personnel.birthday}</p>
                                             <br/>

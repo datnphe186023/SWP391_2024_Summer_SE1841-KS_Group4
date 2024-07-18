@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="pupilBean" class="models.pupil.PupilDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,9 +45,10 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 medium">${sessionScope.pupil.lastName} ${sessionScope.pupil.firstName}</span>
+                            <c:set var="pupil" value="${pupilBean.getPupilByUserId(sessionScope.pupil.userId)}"/>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 medium">${pupil.lastName} ${pupil.firstName}</span>
                             <img class="img-profile rounded-circle"
-                                 src="../images/${sessionScope.pupil.avatar}">
+                                 src="../images/${pupil.avatar}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

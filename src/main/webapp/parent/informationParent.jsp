@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="pupilBean" class="models.pupil.PupilDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +30,7 @@
                 }
             });
         </script>
-        
+
         <script>
             function submitForm() {
                 var newPassword = document.getElementById("newPassword").value;
@@ -91,6 +92,33 @@
             }
 
         </script>
+        <script>
+            function resetForm() {
+                document.getElementById('informationUpdate').reset();
+            }
+        </script>
+        <style>
+
+
+            .button-container {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .button-container div {
+                flex: 1;
+            }
+
+            .button-container div:first-child {
+                text-align: left;
+            }
+
+            .button-container div:last-child {
+                text-align: right;
+            }
+
+        </style>
     </head>
     <body id="page-top">
         <div id="wrapper">
@@ -112,7 +140,8 @@
                                         <div class="account-settings">
                                             <div class="user-profile">
                                                 <div class="user-avatar">
-                                                    <img src="../images/${sessionScope.pupil.avatar}" alt="Maxwell Admin">
+                                                    <c:set var="pupil" value="${pupilBean.getPupilByUserId(sessionScope.pupil.userId)}"/>
+                                                    <img src="${pageContext.request.contextPath}/images/${pupil.avatar}" alt="User Avatar">
                                                 </div>
                                                 <h5 class="user-name">${pupil.lastName} ${pupil.firstName}</h5>
                                                 <button type="button" id="submit" name="submit" class="btn btn-primary" data-toggle="modal" data-target="#changePasswordModal">Đổi mật khẩu</button>
@@ -126,7 +155,7 @@
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                        <form action="update" method="post" onsubmit="return validateForm()">
+                                        <form action="update" method="post" id="informationUpdate" onsubmit="return validateForm()">
                                             <div class="row gutters">
                                                 <p>Chú ý : Những Tiêu Đề Có Dấu (*) Là Những Tiêu Đề Được Chỉnh Sửa</p>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -208,12 +237,19 @@
                                                 </div>
                                             </div>
                                             <div class="row gutters">
-                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                    <div class="text-right">
+                                                <div class="button-container">
+                                                    <div>
+                                                        <button type="button" class="btn btn-primary" onclick="history.back()">Quay lại</button>
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-danger" onclick="resetForm()">Hủy</button>
                                                         <button type="submit" id="submit" name="submit" class="btn btn-primary">Lưu</button>
                                                     </div>
+
                                                 </div>
                                             </div>
+
+
                                         </form>
                                         <!-- Password Change Modal -->
                                         <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">

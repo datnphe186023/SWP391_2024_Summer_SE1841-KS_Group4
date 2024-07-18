@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="personnelBean" class="models.personnel.PersonnelDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +42,31 @@
                 }
             }
         </script>
+        <script>
+            function resetForm() {
+                document.getElementById('informationUpdate').reset();
+            }
+        </script>
+        <style>
+            .button-container {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+            }
 
+            .button-container div {
+                flex: 1;
+            }
+
+            .button-container div:first-child {
+                text-align: left;
+            }
+
+            .button-container div:last-child {
+                text-align: right;
+            }
+
+        </style>
     </head>
 
     <body id="page-top">
@@ -64,7 +89,8 @@
                                         <div class="account-settings">
                                             <div class="user-profile">
                                                 <div class="user-avatar">
-                                                    <img src="${pageContext.request.contextPath}/images/${sessionScope.personnel.avatar}" alt="Maxwell Admin">
+                                                    <c:set var="personnel" value="${personnelBean.getPersonnelByUserId(sessionScope.personnel.userId)}"/>
+                                                    <img src="${pageContext.request.contextPath}/images/${personnel.avatar}" alt="User Avatar">
                                                 </div>
                                                 <h5 class="user-name">${personnel.lastName} ${personnel.firstName}</h5>
                                                 <button type="button" id="submit" name="submit" class="btn btn-primary" data-toggle="modal" data-target="#changePasswordModal">Đổi mật khẩu</button>
@@ -78,7 +104,7 @@
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                        <form action="${pageContext.request.contextPath}/update-information" method="post">
+                                        <form action="${pageContext.request.contextPath}/update-information" id="informationUpdate" method="post">
                                             <div class="row gutters">
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -103,8 +129,8 @@
                                                     <div class="form-group">
                                                         <label for="gender">Giới tính *</label>
                                                         <select class="form-control" id="gender" name="gender" style="width: 30%;">
-                                                            <option value="true" ${sessionScope.personnel.gender ? 'selected' : ''}>Nam</option>
-                                                            <option value="false" ${!sessionScope.personnel.gender ? 'selected' : ''}>Nữ</option>
+                                                            <option value="true" ${personnel.gender ? 'selected' : ''}>Nam</option>
+                                                            <option value="false" ${!personnel.gender ? 'selected' : ''}>Nữ</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -137,10 +163,15 @@
                                                 </div>
                                             </div>
                                             <div class="row gutters">
-                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                    <div class="text-right">
+                                                <div class="button-container">
+                                                    <div>
+                                                        <button type="button" class="btn btn-primary" onclick="history.back()">Quay lại</button>
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-danger" onclick="resetForm()">Hủy</button>
                                                         <button type="submit" id="submit" name="submit" class="btn btn-primary">Lưu</button>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </form>
