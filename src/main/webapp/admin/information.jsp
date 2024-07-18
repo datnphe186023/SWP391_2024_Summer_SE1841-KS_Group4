@@ -106,28 +106,28 @@
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
                                         <form action="${pageContext.request.contextPath}/update-information" id="informationUpdate" method="post">
                                             <div class="row gutters">
-
+                                                <p>Chú ý : Những Tiêu Đề Có Dấu (*) Là Những Tiêu Đề Được Chỉnh Sửa</p>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="id">ID Người dùng * </label>
+                                                        <label for="id">ID Người dùng</label>
                                                         <input class="form-control" placeholder="User Id" type="text" name="userId" value="${personnel.userId}" disabled style="width: 32%;"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="firstName">Tên *</label>
+                                                        <label for="firstName">Tên <a style="color: red">(*)</a></label>
                                                         <input style="width: 50%;" class="form-control" placeholder="Tên" type="text" name="first_name" value="${personnel.firstName}" pattern="^[a-zA-Z${vietnamesePattern}\s]{1,50}$" title="Tên không được chứa số hoặc kí tự đặc biệt (Tối đa 50 kí tự)"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="lastName">Họ *</label>
+                                                        <label for="lastName">Họ <a style="color: red">(*)</a></label>
                                                         <input style="width: 40%;" type="text" class="form-control" placeholder="Họ" name="last_name" value="${personnel.lastName}" pattern="^[A-Za-z${vietnamesePattern}\s]{1,20}$" title="Họ và tên không được chứa số hoặc kí tự đặc biệt (Tối đa 20 kí tự)"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="gender">Giới tính *</label>
+                                                        <label for="gender">Giới tính <a style="color: red">(*)</a></label>
                                                         <select class="form-control" id="gender" name="gender" style="width: 30%;">
                                                             <option value="true" ${personnel.gender ? 'selected' : ''}>Nam</option>
                                                             <option value="false" ${!personnel.gender ? 'selected' : ''}>Nữ</option>
@@ -138,26 +138,26 @@
                                             <div class="row gutters">
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="birthDay">Ngày sinh *</label>
+                                                        <label for="birthDay">Ngày sinh</label>
                                                         <input class="form-control" type="date" name="birthday" value="${personnel.birthday}" disabled style="width: 40%;"/>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email">Email *</label>
+                                                        <label for="email">Email <a style="color: red">(*)</a></label>
                                                         <input style="width: 60%;" class="form-control" type="email" placeholder="email" name="email" value="${personnel.email}"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="phoneNumber">Số điện thoại *</label>
+                                                        <label for="phoneNumber">Số điện thoại <a style="color: red">(*)</a></label>
                                                         <input style="width: 40%;" type="text" class="form-control" placeholder="Số điện thoại" name="phone_number" value="${personnel.phoneNumber}" pattern="^0\d{9}$" title="Số điện thoại không hợp lệ vui lòng kiểm tra lại."/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="address">Địa chỉ *</label>
+                                                        <label for="address">Địa chỉ <a style="color: red">(*)</a></label>
                                                         <textarea class="form-control" placeholder="Địa chỉ" name="address" rows="2" pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,100}$" title="Địa chỉ không được quá 100 kí tự">${personnel.address}</textarea>
                                                     </div>
                                                 </div>

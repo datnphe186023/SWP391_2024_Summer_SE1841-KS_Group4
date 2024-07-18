@@ -162,7 +162,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListHealthPupilDetailsServlet</servlet-name>
-        <url-pattern>/teacher/tails</url-pattern>
+        <url-pattern>/teacher/health-details</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewHealthCheckUpServlet</servlet-name>
