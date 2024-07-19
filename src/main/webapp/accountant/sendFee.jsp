@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TẠO THÔNG BÁO HỌC PHÍ KÌ TIẾP THEO</title>
+        <title>TẠO THÔNG BÁO HỌC PHÍ THÁNG TIẾP THEO</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -80,7 +80,7 @@
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
-                        <h1 class="h3 mb-4 text-gray-800 text-center">TẠO THÔNG BÁO HỌC PHÍ KÌ TIẾP THEO</h1>
+                        <h1 class="h3 mb-4 text-gray-800 text-center">TẠO THÔNG BÁO HỌC PHÍ THÁNG TIẾP THEO</h1>
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary"></h6>
@@ -93,7 +93,7 @@
                                         <input type="hidden" id="submitDate" name="submitDate">
                                         <div style="display: flex;">
                                             <div style="flex: 1; padding: 20px;">
-                                                <h2 style="background-color: #3b97e0; padding: 10px; color: white;">HỌC PHÍ KỲ TIẾP THEO</h2>
+                                                <h2 style="background-color: #3b97e0; padding: 10px; color: white;">HỌC PHÍ THÁNG TIẾP THEO</h2>
                                                 <input name="hocphi" type="text" placeholder="Nhập học phí" id="nextTermFee" oninput="calculateTotal(); validateInput(event);" min="0" required> VNĐ</br>
                                                 <label style="margin-top: 10px" for="insuranceFee">CÁC LOẠI PHÍ KHÁC :</label></br>
                                                 <input name="baohiem" type="checkbox" class="extraFee" value="500000" onclick="calculateTotal()">PHÍ BẢO HIỂM</br>

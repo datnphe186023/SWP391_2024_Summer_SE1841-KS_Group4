@@ -57,16 +57,7 @@ public class ResetPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        UserDAO dao = new UserDAO();
-        dao.resetPassword(email);
-        HttpSession session = request.getSession();
-        if (dao.resetPassword(email) == true) {
-            session.setAttribute("success", "success");
-        } else {
-            session.setAttribute("error", "error");
-        }
-        request.getRequestDispatcher("manageruser").forward(request, response);
+
     }
 
     /**
@@ -80,7 +71,16 @@ public class ResetPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("email");
+        UserDAO dao = new UserDAO();
+        boolean a = dao.resetPassword(email);
+        HttpSession session = request.getSession();
+        if (a == true) {
+            session.setAttribute("success", "success");
+        } else {
+            session.setAttribute("error", "error");
+        }
+        request.getRequestDispatcher("manageruser").forward(request, response);
     }
 
     /**
