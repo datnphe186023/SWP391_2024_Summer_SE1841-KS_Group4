@@ -145,7 +145,8 @@ public class UserDAO extends DBContext implements IUserDAO {
 
     @Override
     public boolean updateUser(User user) {
-        if (isEmailExist(user.getEmail())) {
+        String currentEmail = getCurrentEmailById(user.getId());
+        if (!user.getEmail().equals(currentEmail) && isEmailExist(user.getEmail())) {
             return false; // Email đã tồn tại
         }
         String sql = "Update dbo.[User] set email=? , role_id=?, isDisabled=? where id=?";
@@ -161,6 +162,21 @@ public class UserDAO extends DBContext implements IUserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private String getCurrentEmailById(String userId) {
+        String sql = "SELECT email FROM dbo.[User] WHERE id=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
