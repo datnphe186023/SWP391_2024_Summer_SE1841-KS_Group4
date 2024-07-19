@@ -38,7 +38,7 @@
         }
         table.table-bordered, table.table-bordered th, table.table-bordered td {
             border: 2px solid black;
-            text-align: center;
+            text-align: left;
         }
         .accept-button , decltine-button , return-button {
             color: #001C41;
@@ -126,7 +126,7 @@
                                                         <p class="mb-0"><strong class="pr-1">Tên:</strong>${p.getLastName()} ${p.getFirstName()}</p>
                                                         <p class="mb-0"><strong class="pr-1">Chức vụ:</strong>
                                                             <c:if test="${p.getRoleId()== 0}">
-                                                                Admin
+                                                                Nhân viên IT
                                                             </c:if>
                                                             <c:if test="${p.getRoleId()==1}">
                                                                 Hiệu trưởng
@@ -160,13 +160,19 @@
                                                                 <c:if test="${p.getStatus() != null}">
                                                                     <c:choose>
                                                                         <c:when test="${p.getStatus() == 'đang làm việc'}">
-                                                                            <td style="text-align: left; color: #4fff33;">${p.getStatus()}</td>
+                                                                            <td >
+                                                                                <span class="badge badge-success">${p.getStatus()}</span>
+                                                                            </td>
                                                                         </c:when>
                                                                         <c:when test="${p.getStatus() == 'đang chờ xử lý'}">
-                                                                            <td style="text-align: left; color: #ff2848;">${p.getStatus()}</td>
+                                                                            <td>
+                                                                                <span class="badge badge-warning">${p.getStatus()}</span>
+                                                                            </td>
                                                                         </c:when>
                                                                         <c:otherwise>
-                                                                            <td style="text-align: left; color: #4c67ff;">${p.getStatus()}</td>
+                                                                            <td >
+                                                                                <span class="badge badge-info">${p.getStatus()}</span>
+                                                                            </td>
                                                                         </c:otherwise>
                                                                     </c:choose>
                                                                 </c:if>
@@ -208,18 +214,23 @@
 
                                                     <div >
 
-                                                        <div class="row" style="text-align: center; align-content: center">
+                                                        <div class="row text-center align-content-center my-3">
                                                             <c:if test="${p.getStatus() == 'đang chờ xử lý'}">
-                                                                <div class="col-lg-4"><a class="accept-button" onclick="submitForm('accept', '${p.getId()}')">Chấp nhận</a></div>
-                                                                <div class="col-lg-4"><a class="decline-button" onclick="submitForm('decline', '${p.getId()}')">Từ chối</a> </div>
+                                                                <div class="col-lg-4">
+                                                                    <button class="btn btn-success w-100" onclick="submitForm('accept', '${p.getId()}')">Chấp nhận</button>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <button class="btn btn-danger w-100" onclick="submitForm('decline', '${p.getId()}')">Từ chối</button>
+                                                                </div>
+
                                                             </c:if>
                                                             <c:if test="${p.getStatus() != 'đang chờ xử lý'}">
                                                                 <div class="col-lg-4"></div>
                                                                 <div class="col-lg-4"></div>
                                                             </c:if>
-                                                            <div class="col-lg-4"><a class="return-button" onclick="redirect()">Danh sách nhân viên</a></div>
-
-
+                                                            <div class="col-lg-4">
+                                                                <button class="btn btn-info w-100" onclick="redirect()">Quay Lại </button>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -263,13 +274,13 @@
 <!--===============================================================================================-->
 <!--===============================================================================================-->
 <script>
-    // JavaScript Function to Redirect to Product Details Page
     function redirect() {
-        // Assuming x is your result set containing product details
-        // Replace this line with the correct way to retrieve product ID from your data
-
-        // Redirect to the product details page with the product ID
-        window.location.href = "listpersonnel";
+        var xpage = '<%= request.getAttribute("page") %>';
+        if (xpage === "list") {
+            window.location.href = "listpersonnel";
+        } else {
+            window.location.href = "waitlistpersonnel";
+        }
     }
 </script>
 <script>

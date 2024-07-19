@@ -103,7 +103,8 @@ public class CreateMealTimetableServlet extends HttpServlet {
             }
         }
         try {
-            listWeek = weekDAO.getWeeks(yearDAO.getClosestSchoolYears().getId());
+
+            listWeek = weekDAO.getWeeksFromNowUntilEndOfSchoolYear(yearDAO.getClosestSchoolYears().getId());
         }catch(Exception e){
             request.setAttribute("listTimeslot", listTimeslot);
             enable = false;
@@ -111,7 +112,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Không tìm thấy năm học hiện tại!");
             request.setAttribute("status", "năm học không tồn tại !");
-            System.out.println("năm học không tồn tại !");
+
             request.getRequestDispatcher("createMealTimetable.jsp").forward(request, response);
             return;
         }
@@ -123,7 +124,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
            request.setAttribute("menuDetails", menuDetails);
            request.setAttribute("status", status);
         }
-        System.out.println(enable);
+
         request.setAttribute("dateWeek", dateWeek);
         request.setAttribute("dayList", dayList);
         request.setAttribute("subList", subList);
@@ -151,6 +152,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                 response.sendRedirect("createmealtimetable");
             } else if (action.equals("create-foodmenu")) {
 
+
                 HttpSession session = request.getSession();
                 ITimetableDAO timetableDAO = new TimetableDAO();
                 IPersonnelDAO personnelDAO = new PersonnelDAO();
@@ -158,7 +160,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                 ISubjectDAO subjectDAO = new SubjectDAO();
                 IDayDAO dayDAO = new DayDAO();
                 IClassDAO classDAO = new ClassDAO();
-
+                IWeekDAO weekDAO = new WeekDAO();
                 IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
                 IGradeDAO gradeDAO = new GradeDAO();
                 Timetable timetable = new Timetable();
@@ -168,6 +170,7 @@ public class CreateMealTimetableServlet extends HttpServlet {
                 String status = "đang chờ xử lý";
                 String selectedGradeId = request.getParameter("gradeid");
                 String weekId = request.getParameter("weekId");
+
 
                 // Thu thập tất cả các `dayId` từ tham số đầu vào
                 Enumeration<String> parameterNames = request.getParameterNames();

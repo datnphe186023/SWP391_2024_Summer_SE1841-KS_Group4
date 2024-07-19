@@ -125,7 +125,7 @@
                                                                 <p class="mb-0"><strong class="pr-1">Tên:</strong>${p.getLastName()} ${p.getFirstName()}</p>
                                                                 <p class="mb-0"><strong class="pr-1">Chức vụ:</strong>
                                                                     <c:if test="${p.getRoleId()== 0}">
-                                                                        Admin
+                                                                        Nhân viên IT
                                                                     </c:if>
                                                                     <c:if test="${p.getRoleId()==1}">
                                                                         Hiệu trưởng
@@ -211,16 +211,15 @@
                                                         <div style="height: 26px"></div>
                                                         <div >
 
-                                                            <div class="row" style="text-align: center; align-content: center">
+                                                            <div class="row text-center align-content-center my-3">
 
 
-                                                                <div class="col-lg-4"></div>
+                                                                    <div class="col-lg-4"></div>
+                                                                    <div class="col-lg-4"></div>
 
-                                                                <div class="col-lg-4"></div>
-
-                                                                <div class="col-lg-4"><a class="return-button" onclick="redirect()">Danh sách nhân viên</a></div>
-
-
+                                                                <div class="col-lg-4">
+                                                                    <button class="btn btn-info w-100" onclick="redirect()">Danh sách nhân viên</button>
+                                                                </div>
                                                             </div>
 
 

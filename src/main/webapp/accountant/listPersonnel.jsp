@@ -26,6 +26,37 @@
             document.getElementById("myForm").submit();
         }
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                language: {
+                    sProcessing: "Đang xử lý...",
+                    sLengthMenu: "Xem _MENU_ mục",
+                    sZeroRecords: "Không tìm thấy dòng nào phù hợp",
+                    sInfo: "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    sInfoEmpty: "Đang xem 0 đến 0 trong tổng số 0 mục",
+                    sInfoFiltered: "(được lọc từ _MAX_ mục)",
+                    sInfoPostFix: "",
+                    sSearch: "Tìm:",
+                    sUrl: "",
+                    sEmptyTable: "Không có dữ liệu trong bảng",
+                    sLoadingRecords: "Đang tải...",
+                    sInfoThousands: ",",
+                    oPaginate: {
+                        sFirst: "Đầu",
+                        sLast: "Cuối",
+                        sNext: "Tiếp",
+                        sPrevious: "Trước"
+                    },
+                    oAria: {
+                        sSortAscending: ": Sắp xếp thứ tự tăng dần",
+                        sSortDescending: ": Sắp xếp thứ tự giảm dần"
+                    }
+                }
+            });
+        });
+    </script>
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -57,10 +88,10 @@
                                                     value="${r.getId()}">${r.getVNeseDescription()}</option>
                                         </c:forEach>
                                         <c:if test="${sltedrole eq 'all'}">
-                                            <option value="all" selected>Hiện toàn bộ</option>
+                                            <option value="all" selected>Hiện toàn bộ chức vụ</option>
                                         </c:if>
                                         <c:if test="${sltedrole ne'all'}">
-                                            <option value="all">Hiện toàn bộ</option>
+                                            <option value="all">Hiện toàn bộ chức vụ</option>
                                         </c:if>
                                     </select>
                                     </label>
@@ -75,10 +106,10 @@
                                             <option ${sltedstatus eq r ? "selected" : ""} value="${r}">${r}</option>
                                         </c:forEach>
                                         <c:if test="${sltedstatus eq 'all'}">
-                                            <option value="all" selected>Hiện toàn bộ</option>
+                                            <option value="all" selected>Hiện toàn bộ trạng thái</option>
                                         </c:if>
                                         <c:if test="${sltedstatus ne'all'}">
-                                            <option value="all">Hiện toàn bộ</option>
+                                            <option value="all">Hiện toàn bộ trạng thái</option>
                                         </c:if>
                                     </select>
                                     </label>
@@ -159,7 +190,7 @@
                                                 <td>${p.getBirthday()} </td>
                                                 <td>
                                                     <c:if test="${p.getRoleId()== 0}">
-                                                        Admin
+                                                        Nhân viên IT
                                                     </c:if>
                                                     <c:if test="${p.getRoleId()==1}">
                                                         Hiệu trưởng

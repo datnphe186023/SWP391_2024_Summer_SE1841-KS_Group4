@@ -20,6 +20,7 @@ import java.util.Date;
 
 import models.personnel.IPersonnelDAO;
 import models.personnel.PersonnelDAO;
+import utils.Helper;
 
 /**
  *
@@ -102,7 +103,7 @@ public class CreatePersonnelServlet extends HttpServlet {
 //       }
 //       else
        if(!personnelDAO.checkPersonnelPhone(xphone)&&!personnelDAO.checkPersonnelEmail(xemail)){
-            personnelDAO.insertPersonnel(id.trim(), xfirstname.trim(), xlastname.trim(), gender, xbirthday.trim(), xaddress.trim(), xemail.trim(), xphone.trim(), role, xavatar.trim());
+            personnelDAO.insertPersonnel(id.trim(), Helper.formatName(xfirstname.trim()) ,Helper.formatName(xlastname.trim()) , gender, xbirthday.trim(), xaddress.trim(), xemail.trim(), xphone.trim(), role, xavatar.trim());
        message="Thêm nhân viên thành công";
        type = "success" ;
        }else if(personnelDAO.checkPersonnelPhone(xphone)&&personnelDAO.checkPersonnelEmail(xemail)){

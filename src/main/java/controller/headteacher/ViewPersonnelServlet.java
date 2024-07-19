@@ -63,12 +63,14 @@ public class ViewPersonnelServlet extends HttpServlet {
         String message = (String) session.getAttribute("message");
         String type = (String) session.getAttribute("type");
         String xid = request.getParameter("id");
+        String xpage = request.getParameter("page");
         Personnel person ;
         IPersonnelDAO personnelDAO = new PersonnelDAO();
         person = personnelDAO.getPersonnel(xid);
        request.setAttribute("person", person);
        request.setAttribute("message", message);
        request.setAttribute("type", type);
+       request.setAttribute("page", xpage);
         request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
         session.removeAttribute("message");
         session.removeAttribute("type");

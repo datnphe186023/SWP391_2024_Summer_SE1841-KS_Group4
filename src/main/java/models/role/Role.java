@@ -31,7 +31,7 @@ public class Role {
     public String getVNeseDescription(){
         switch(this.id){
             case "0":
-                return "Admin";
+                return "Nhân viên IT";
             case "1":
                 return "Hiệu trưởng";
             case "2":

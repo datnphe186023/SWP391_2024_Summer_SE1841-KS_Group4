@@ -97,17 +97,7 @@
                             <c:set var="sltedsy" value="${requestScope.sltedsy}"/>
                             <form action="viewmealtimetable" method="post">
                                 <div style="display: flex; justify-content: space-evenly;">
-                                    <div class="class-form">
-                                        <label>Khối Lớp
-                                            <select name="grade" onchange="enableSchoolYear();this.form.submit();" class="custom-select" >
-                                                <option value="" hidden>Khối Lớp</option>
-                                                <c:forEach items="${requestScope.gradeList}" var="g">
-                                                    <option ${sltedg eq g.getId() ? "selected" : ""}
-                                                        value="${g.getId()}">${g.getName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <input type="hidden" name="grade" value="${sltedg}"/>
 
                                     <div class="class-form">
                                         <label>Năm học
@@ -185,7 +175,7 @@
                                                     <c:forEach var="menu" items="${requestScope.menuDetailList}">
                                                         <c:if test="${menu.getTimeslot().getName() == timeOfDay && menu.getDay().convertToWeekDay() == dayOfWeek}">
                                                             <c:if test="${menu.getFoodMenu().getFoodDetails() != null }">
-                                                    <div style="display:flex ; justify-content: center">
+                                                    <div style="display:flex ; justify-content: left">
                                                                 ${menu.getFoodMenu().getFoodDetails()}
                                                     </div>
                                                                 <c:set var="menucheck" value="true"/>
