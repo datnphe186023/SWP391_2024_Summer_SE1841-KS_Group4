@@ -84,10 +84,13 @@
                                                         <label class="badge badge-success">${roleDis[u.getIsDisabled()]}</label>
                                                     </td>
                                                     <td>
-                                                        <a class="detail-button" href="edituser?id=${u.getId()}"><button class="btn btn-success btn-sm mb-1">CHỈNH SỬA</button></a>
+                                                        <form action="edituser" method="post" style="display: inline;">
+                                                            <input type="hidden" name="id" value="${u.getId()}">
+                                                            <button type="submit" class="btn btn-primary btn-sm mb-1">CHỈNH SỬA</button>
+                                                        </form>
                                                         <form action="resetpassword" method="post" style="display: inline;">
                                                             <input type="hidden" name="email" value="${u.getEmail()}">
-                                                            <button type="submit" class="btn btn-danger btn-sm">ĐẶT LẠI MẬT KHẨU</button>
+                                                            <button type="submit" class="btn btn-danger btn-sm mb-1">ĐẶT LẠI MẬT KHẨU</button>
                                                         </form>
                                                     </td>
                                                 </tr>
