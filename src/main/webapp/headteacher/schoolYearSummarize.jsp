@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="evaluationBean" class="models.evaluation.EvaluationDAO"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +42,7 @@
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-sm-6 font-weight-bold">Năm Học:</div>
-                            <select style="border-radius: 8px" name="year" id="schoolyear" style="border-radius: 8px" onchange="this.form.submit()">
+                            <select name="year" id="schoolyear" style="border-radius: 8px" onchange="this.form.submit()">
                                 <option hidden="">Chọn Năm Học</option>
                                 <c:forEach items="${requestScope.schoolYearList}" var="schoolYear">
                                     <option ${sltedsy.id eq schoolYear.id ? "selected":""} value="${schoolYear.id}">${schoolYear.name}</option>
@@ -85,14 +86,16 @@
                                                 <th>Tên</th>
                                                 <th>Giới Tính</th>
                                                 <th>Ngày sinh</th>
-
+                                                <th>Giáo viên phụ trách</th>
                                                 <th>Số phiếu Bé Ngoan</th>
                                                 <th>Cháu ngoan Bác Hồ</th>
+                                                <th>Đánh giá của giáo viên</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <div style="color: red">${requestScope.error}</div>
                                             <c:forEach items="${requestScope.pupils}" var="p" varStatus="status">
+                                                <c:set var="evaluation" value="${evaluationBean.getSchoolYearSummarize(p.getId(), requestScope.sltedsy.id)}"/>
                                                 <tr>
                                                     <th scope="row">${status.index + 1}</th>
 
@@ -107,13 +110,15 @@
                                                         </c:if>
                                                     </td>
                                                     <td>${p.getBirthday()} </td>
+                                                    <td>${evaluation.teacher.getLastName()} ${evaluation.teacher.getFirstName()}</td>
 
                                                     <td>
-                                                            ${p.getYearEvaluation(sltedsy.getId())}
+                                                            ${evaluation.goodTicket}
                                                     </td>
                                                     <td>
-                                                            ${p.Evaluate(sltedsy.getId())}
+                                                            ${evaluation.title}
                                                     </td>
+                                                    <td>${evaluation.teacherNote}</td>
                                                 </tr>
                                             </c:forEach>
                                             </tbody>

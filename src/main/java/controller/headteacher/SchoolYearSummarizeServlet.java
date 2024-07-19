@@ -11,6 +11,8 @@ import models.pupil.PupilDAO;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
+import models.week.IWeekDAO;
+import models.week.WeekDAO;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -25,16 +27,17 @@ public class SchoolYearSummarizeServlet extends HttpServlet {
         IPupilDAO pupilDAO = new PupilDAO();
         IEvaluationDAO evaluationDAO = new EvaluationDAO();
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
+        IWeekDAO weekDAO = new WeekDAO();
         request.setAttribute("schoolYearList", schoolYearList);
-        if (schoolYearDAO.getClosestSchoolYears()!=null){
-            SchoolYear sltedsy = schoolYearDAO.getClosestSchoolYears();
+        if (schoolYearDAO.getLatest()!=null){
+            SchoolYear sltedsy = schoolYearDAO.getLatest();
 
             List<Pupil> pupils = pupilDAO.getPupilBySchoolYear(sltedsy.getId());
             int numberOfPupilInSchoolYear = pupils.size();
             int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
             Date currentDate = Date.from(Instant.now());
             boolean display = true;
-            if(currentDate.before(sltedsy.getEndDate())){
+            if(currentDate.after(weekDAO.getLastWeek(sltedsy.getId()).getStartDate())){
                 display = false;
             }
             request.setAttribute("display", display);
