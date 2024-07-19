@@ -73,7 +73,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="listnotification?user_id=${sessionScope.pupil.userId}">
+                <a class="nav-link" href="listnotification">
                     <i class="fas fa-fw fa-solid fa-bell"></i>
                     <span>Thông Báo</span></a>
             </li>

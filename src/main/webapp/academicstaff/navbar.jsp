@@ -145,9 +145,8 @@
                 </a>
                 <div id="collapseNoti" class="collapse" aria-labelledby="headingNoti" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-<!--                        <a class="collapse-item" href="listnotification?user_id=${sessionScope.personnel.userId}">Danh Sách Thông Báo</a>-->
                         <a class="collapse-item" href="createnotifi">Tạo Thông Báo</a>
-                        <a class="collapse-item" href="listsentnotifi?user_id=${sessionScope.personnel.id}">Thông Báo Đã Gửi</a>
+                        <a class="collapse-item" href="listsentnotifi">Thông Báo Đã Gửi</a>
                     </div>
                 </div>
             </li>

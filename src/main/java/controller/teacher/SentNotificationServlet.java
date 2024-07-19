@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.accountant;
+package controller.teacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,18 +11,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
-import models.personnel.Personnel;
 
 /**
  *
  * @author TuyenCute
  */
-@WebServlet(name = "ListNotificationServlet", urlPatterns = {"/accountant/listnotification"})
-public class ListNotificationServlet extends HttpServlet {
+@WebServlet(name = "/teacher/SentNotificationServlet", urlPatterns = {"/teacher/sentnotifidetails"})
+public class SentNotificationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class ListNotificationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListNotificationServlet</title>");
+            out.println("<title>Servlet SentNotificationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListNotificationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SentNotificationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,13 +62,6 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Personnel personnel = (Personnel) session.getAttribute("personnel");
-        String userId = personnel.getUserId();
-        NotificationDAO notifiDAO = new NotificationDAO();
-        List<Notification> notifi = notifiDAO.getListNotifiByUserId(userId);
-        request.setAttribute("notifi", notifi);
-        request.getRequestDispatcher("listNotification.jsp").forward(request, response);
 
     }
 
@@ -83,7 +76,23 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String id = request.getParameter("id");
+        String createby = request.getParameter("createby");
+        Notification notifi = new Notification();
+        NotificationDAO notificationDAO = new NotificationDAO();
+        notifi = notificationDAO.getNotificationById(id);
+        List<Integer> role_id = notificationDAO.getRoleSentNotifiByIdandCreatBy(id, createby);
+        Map<Integer, String> roleMap = new HashMap<>();
+        roleMap.put(0, "QUẢN TRỊ VIÊN");
+        roleMap.put(1, "HIỆU TRƯỞNG");
+        roleMap.put(2, "GIÁO VỤ");
+        roleMap.put(3, "KẾ TOÁN");
+        roleMap.put(4, "GIÁO VIÊN");
+        roleMap.put(5, "PHỤ HUYNH");
+        request.setAttribute("roleMap", roleMap);
+        request.setAttribute("listrole_id", role_id);
+        request.setAttribute("notifi", notifi);
+        request.getRequestDispatcher("sentNotificationDetails.jsp").forward(request, response);
     }
 
     /**

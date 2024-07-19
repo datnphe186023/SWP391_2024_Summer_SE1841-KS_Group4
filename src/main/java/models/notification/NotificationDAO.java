@@ -42,7 +42,7 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
 
     @Override
     public Notification getLatest() {
-                                                                                                                         String sql = "select TOP 1 * from [Notifications] order by id desc";
+        String sql = "select TOP 1 * from [Notifications] order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -71,7 +71,7 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     @Override
     public boolean createNoti(Notification notification) {
         String sqlNotification = "INSERT INTO Notifications (id, heading, details, created_by, created_at) VALUES (?, ?, ?, ?, ?)";
-        try{
+        try {
             PreparedStatement statementNotification = connection.prepareStatement(sqlNotification);
             statementNotification.setString(1, notification.getId());
             statementNotification.setString(2, notification.getHeading());
@@ -169,6 +169,28 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
                 listnotifi.add(createNotifi(rs));
             }
             return listnotifi;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Integer> getRoleSentNotifiByIdandCreatBy(String id, String create_by) {
+        List<Integer> listrole = new ArrayList<>();
+        String sql = "SELECT DISTINCT role_id\n"
+                + "FROM [BoNo_Kindergarten].[dbo].[Notifications] n\n"
+                + "INNER JOIN NotificationDetails nd ON n.id = nd.notification_id\n"
+                + "INNER JOIN [User] u ON u.id = nd.receiver_id\n"
+                + "WHERE n.id = ? AND created_by = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, id);
+            ps.setString(2, create_by);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listrole.add(rs.getInt(1));
+            }
+            return listrole;
         } catch (SQLException e) {
             e.printStackTrace();
         }

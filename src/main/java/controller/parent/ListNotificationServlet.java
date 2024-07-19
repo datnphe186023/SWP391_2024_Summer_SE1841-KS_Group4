@@ -11,9 +11,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
+import models.pupil.Pupil;
 
 /**
  *
@@ -60,7 +62,9 @@ public class ListNotificationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userid = request.getParameter("user_id");
+        HttpSession session = request.getSession();
+        Pupil pupil = (Pupil) session.getAttribute("pupil");
+        String userid = pupil.getUserId();
         NotificationDAO notifiDAO = new NotificationDAO();
         List<Notification> notifi = notifiDAO.getListNotifiByUserId(userid);
         request.setAttribute("notifi", notifi);
