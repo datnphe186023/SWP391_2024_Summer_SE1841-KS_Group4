@@ -31,4 +31,6 @@ public interface INotificationDAO {
     List<Notification> getListNotifiByUserId(String userId);
 
     List<Notification> getListSentNotifiById(String id);
+    
+    List<Integer> getRoleSentNotifiByIdandCreatBy(String id, String create_by);
 }

@@ -60,15 +60,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${notifi}" var="notifi" varStatus="status">
-                                            <tr>
-                                                <th scope="row">${status.index + 1}</th>
-                                                <td>${notifi.getHeading()}</td>
-                                                <td>${notifi.getCreatedAt()}</td>
-                                                <td><a href="sentnotifidetails?id=${notifi.getId()}&createby=${notifi.createdBy.id}"><button class="btn btn-primary">XEM CHI TIẾT</button></a>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
+                                            <c:forEach items="${notifi}" var="notifi" varStatus="status">
+                                                <tr>
+                                                    <th scope="row">${status.index + 1}</th>
+                                                    <td>${notifi.getHeading()}</td>
+                                                    <td>${notifi.getCreatedAt()}</td>
+                                                    <td>
+                                                        <form action="sentnotifidetails" method="post">
+                                                            <input hidden="" value="${notifi.getId()}" name="id"/>
+                                                            <input hidden="" value="${notifi.createdBy.id}" name="createby"/>
+                                                            <button type="submit" class="btn btn-primary">XEM CHI TIẾT</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
