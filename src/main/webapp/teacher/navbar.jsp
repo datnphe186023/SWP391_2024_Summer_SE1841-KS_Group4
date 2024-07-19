@@ -148,11 +148,17 @@
 
             <!-- Nav Item - Đánh giá học sinh hằng ngày -->
             <li class="nav-item">
-
-                <a class="nav-link" href="evaluate">
-                    <i class='fas fa-fw fa-star'></i>
-                    <span>Đánh giá học sinh <br> hằng ngày</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvaluate"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-solid fa-bell"></i>
+                    <span>Đánh giá học sinh</span>
                 </a>
+                <div id="collapseEvaluate" class="collapse" aria-labelledby="headingEvaluate" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="evaluate"><span>Đánh giá học sinh <br> hằng ngày</span></a>
+                        <a class="collapse-item" href="schoolyearsummarize">Tổng kết năm học</a>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item">

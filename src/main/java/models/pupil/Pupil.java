@@ -2,12 +2,12 @@ package models.pupil;
 
 import models.evaluation.EvaluationDAO;
 import models.evaluation.IEvaluationDAO;
+import models.evaluation.SchoolYearSummarize;
 import models.personnel.Personnel;
 import models.week.IWeekDAO;
 import models.week.WeekDAO;
 
 import java.util.Date;
-import java.util.List;
 
 public class Pupil {
     private String id;
@@ -192,7 +192,7 @@ public class Pupil {
             }
         return result;
     }
-    public String Evaluate(String School_year_id){
+    public String evaluate(String School_year_id){
         IEvaluationDAO dao = new EvaluationDAO();
         IWeekDAO weekDAO = new WeekDAO();
         String evaluation = dao.PupilReportYearly(this.id,School_year_id);
@@ -206,6 +206,12 @@ public class Pupil {
             }
         }
         return result;
+    }
+
+    public boolean isSummarized(String schoolYearId){
+        IEvaluationDAO evaluationDAO = new EvaluationDAO();
+        SchoolYearSummarize schoolYearSummarize = evaluationDAO.getSchoolYearSummarize(getId(), schoolYearId);
+        return schoolYearSummarize != null;
     }
 
 }

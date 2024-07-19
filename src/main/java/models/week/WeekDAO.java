@@ -251,6 +251,23 @@ public class WeekDAO extends DBContext implements IWeekDAO {
         return false;
     }
 
+    @Override
+    public Week getLastWeek(String schoolYearId){
+        String sql = "select top 1 * from [Weeks] where school_year_id = ? order by id desc";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, schoolYearId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return createWeek(resultSet);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 
 }

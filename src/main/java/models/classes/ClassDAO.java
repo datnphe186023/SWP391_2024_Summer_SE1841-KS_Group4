@@ -84,7 +84,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
                 return createClass(resultSet);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -298,23 +298,6 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
-    public Class getClassByTeacherIdandSchoolYearId(String id, String schoolyear) {
-        String sql = "select * from [Class] where teacher_id = ? and school_year_id=?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, id);
-            preparedStatement.setString(2, schoolyear);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return createClass(resultSet);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    @Override
     public Class getClassByPupilIdAndSchoolYear(String id, String schoolYear) {
         String sql = "select * from classDetails cd join Class c on cd.class_id= c.id  where pupil_id= ? and c.school_year_id = ?";
         try {
@@ -329,21 +312,6 @@ public class ClassDAO extends DBContext implements IClassDAO {
             throw new RuntimeException(e);
         }
         return null;
-    }
-
-    @Override
-    public List<Class> getAllClass() {
-        List<Class> listClass = new ArrayList<>();
-        String sql = "select * from [Class]";
-        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Class aclass = createClass(rs);
-                listClass.add(aclass);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listClass;
     }
 
     @Override
@@ -368,21 +336,4 @@ public class ClassDAO extends DBContext implements IClassDAO {
         return null;
     }
 
-    @Override
-    public Class getClassByPupilIDandSchoolYearId(String pupilId, String schoolYearId) {
-        String sql = "SELECT * FROM Class c inner join classDetails cd on c.id = cd.class_id where cd.pupil_id=? and c.school_year_id=?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, pupilId);
-            ps.setString(2, schoolYearId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Class c = createClass(rs);
-                    return c;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

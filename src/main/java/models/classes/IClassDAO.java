@@ -26,13 +26,7 @@ public interface IClassDAO {
 
     String assignTeacherToClass(String teacherId, String classId);
     
-    Class getClassByTeacherIdandSchoolYearId(String id, String schoolyear);
-
     Class getClassByPupilIdAndSchoolYear(String id, String schoolYear);
 
-    List<Class> getAllClass();
-
     String getClassNameByTeacherAndTimetable(String teacherId, String date);
-
-    Class getClassByPupilIDandSchoolYearId(String pupilId, String schoolYearId);
 }

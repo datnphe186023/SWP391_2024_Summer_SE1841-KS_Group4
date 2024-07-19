@@ -2,6 +2,8 @@ package models.evaluation;
 
 import models.day.Day;
 import models.day.DayDAO;
+import models.personnel.IPersonnelDAO;
+import models.personnel.PersonnelDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
@@ -413,59 +415,22 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
         return list;
     }
 
-    public int AccomplishmentAchieveStudents(String schoolyear_id) {
-        int number = 0;
-        String sql = "WITH GoodDays AS (\n" +
-                "    SELECT\n" +
-                "    SY.id,e.pupil_id,\n" +
-                "    COUNT(E.evaluation) AS good_day\n" +
-                "    FROM\n" +
-                "    Evaluations E\n" +
-                "    JOIN dbo.Days D ON D.id = E.date_id\n" +
-                "    JOIN dbo.Weeks W ON D.week_id = W.id\n" +
-                "    JOIN dbo.SchoolYears SY ON W.school_year_id = SY.id\n" +
-                "    WHERE\n" +
-                "    SY.id = ? and\n" +
-                "     E.evaluation = 'Ngoan'\n" +
-                "    GROUP BY\n" +
-                "    SY.id,e.pupil_id\n" +
-                "    ),\n" +
-                "    TotalDays AS (\n" +
-                "    SELECT\n" +
-                "    SY.id,e.pupil_id,\n" +
-                "    COUNT(E.evaluation) AS day\n" +
-                "    FROM\n" +
-                "    Evaluations E\n" +
-                "    JOIN dbo.Days D ON D.id = E.date_id\n" +
-                "    JOIN dbo.Weeks W ON D.week_id = W.id\n" +
-                "    JOIN dbo.SchoolYears SY ON W.school_year_id = SY.id\n" +
-                "where\n" +
-                "    SY.id = ?\n" +
-                "    GROUP BY\n" +
-                "    SY.id,e.pupil_id\n" +
-                "    )\n" +
-                "SELECT\n" +
-                "    T1.id,\n" +
-                "    T1.good_day,\n" +
-                "    T1.pupil_id,\n" +
-                "    T2.day\n" +
-                "FROM\n" +
-                "    GoodDays T1\n" +
-                "        JOIN TotalDays T2 ON T1.pupil_id = T2.pupil_id\n" +
-                "where T1.id =? and good_day >= day/2 ;";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, schoolyear_id);
-            preparedStatement.setString(2, schoolyear_id);
-            preparedStatement.setString(3, schoolyear_id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                number += 1;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public int AccomplishmentAchieveStudents(String schoolYearId) {
+        int result = 0;
+        String sql = "SELECT COUNT(*) as count\n" +
+                "FROM SchoolYearSummarizeReport\n" +
+                "WHERE title = N'Đạt' AND schoolyear_id = ?;\n";
+        try{
+             PreparedStatement statement = connection.prepareStatement(sql);
+             statement.setString(1, schoolYearId);
+             ResultSet resultSet = statement.executeQuery();
+             if (resultSet.next()) {
+                 result = resultSet.getInt("count");
+             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return number;
+        return result;
     }
     @Override
     public int getEvaluationByPupilIdandStatusGood(String pupilid) {
@@ -535,5 +500,77 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
        }
        return list;
     }
+
+    @Override
+    public SchoolYearSummarize getSchoolYearSummarize(String pupilId, String schoolYearId) {
+        String sql = "select * from [SchoolYearSummarizeReport] where pupil_id = ? and schoolyear_id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, pupilId);
+            statement.setString(2, schoolYearId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                SchoolYearSummarize schoolYearSummarize = new SchoolYearSummarize();
+                IPupilDAO pupilDAO = new PupilDAO();
+                IPersonnelDAO personnelDAO = new PersonnelDAO();
+                schoolYearSummarize.setPupil(pupilDAO.getPupilsById(resultSet.getString("pupil_id")));
+                schoolYearSummarize.setSchoolYearId(resultSet.getString("schoolyear_id"));
+                schoolYearSummarize.setTitle(resultSet.getString("title"));
+                schoolYearSummarize.setGoodTicket(resultSet.getString("good_ticket"));
+                schoolYearSummarize.setTeacherNote(resultSet.getString("teacher_note"));
+                schoolYearSummarize.setTeacher(personnelDAO.getPersonnel(resultSet.getString("teacher_id")));
+                return schoolYearSummarize;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public String updateSchoolYearSummarize(SchoolYearSummarize schoolYearSummarize) {
+        String res;
+        if (getSchoolYearSummarize(schoolYearSummarize.getPupil().getId(), schoolYearSummarize.getSchoolYearId())!=null){
+            res = editSchoolYearSummarize(schoolYearSummarize);
+        } else {
+            res = addSchoolYearSummarize(schoolYearSummarize);
+        }
+        return res;
+    }
+
+    private String addSchoolYearSummarize(SchoolYearSummarize schoolYearSummarize){
+        String sql = "insert into [SchoolYearSummarizeReport] values (?, ?, ?, ?, ? ,?)";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, schoolYearSummarize.getPupil().getId());
+            statement.setString(2, schoolYearSummarize.getSchoolYearId());
+            statement.setString(3, schoolYearSummarize.getTeacher().getId());
+            statement.setString(4, schoolYearSummarize.getGoodTicket());
+            statement.setString(5, schoolYearSummarize.getTitle());
+            statement.setString(6, schoolYearSummarize.getTeacherNote());
+            statement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Thao tác thất bại!";
+        }
+        return "success";
+    }
+
+    private String editSchoolYearSummarize(SchoolYearSummarize schoolYearSummarize){
+        String sql = "update [SchoolYearSummarizeReport] set title = ?, teacher_note = ? where pupil_id = ? and schoolyear_id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, schoolYearSummarize.getTitle());
+            statement.setString(2, schoolYearSummarize.getTeacherNote());
+            statement.setString(3, schoolYearSummarize.getPupil().getId());
+            statement.setString(4, schoolYearSummarize.getSchoolYearId());
+            statement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "Thao tác thất bại!";
+        }
+        return "success";
+    }
+
 
 }

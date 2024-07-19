@@ -88,7 +88,7 @@ public class ExportExcelServlet extends HttpServlet {
             row.createCell(3).setCellValue(pupil.getGender() ? "Nam" : "Nữ");
             row.createCell(4).setCellValue(pupil.getBirthday().toString());
             row.createCell(5).setCellValue(pupil.getYearEvaluation(schoolyearId));
-            row.createCell(6).setCellValue(pupil.Evaluate(schoolyearId));
+            row.createCell(6).setCellValue(pupil.evaluate(schoolyearId));
         }
 
         // Thiết lập các tiêu đề HTTP để thông báo trình duyệt tải về file

@@ -15,4 +15,5 @@ public interface IWeekDAO {
     public Week getLastWeekOfClosestSchoolYearOfPupil(String id);
     public Week getfirstWeekOfClosestSchoolYear(String id);
     public boolean checkWeekInSchoolYear(String week_id,String year_id);
+    Week getLastWeek(String schoolYearId);
 }

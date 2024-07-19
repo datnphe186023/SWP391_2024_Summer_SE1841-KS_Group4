@@ -28,10 +28,14 @@ public interface IEvaluationDAO {
     public int countEvaluationOfWeek(String week_id,String pupil_id);
     public String PupilReportYearly(String pupil_id,String school_year_id);
     public List<Evaluation> getEvaluationByWeekandPupilId(String weekId,String pupil_id);
-    public int AccomplishmentAchieveStudents(String schoolyear_id);
+    int AccomplishmentAchieveStudents(String schoolYearId);
   
     int getEvaluationByPupilIdandStatusGood(String pupilid);
     int getEvaluationByPupilIdandAllStatus(String pupilid);
 
     public List<String> NumberOfGoodEvaluationsPerYear(String pupil_id);
+
+    SchoolYearSummarize getSchoolYearSummarize(String pupilId, String schoolYearId);
+
+    String updateSchoolYearSummarize(SchoolYearSummarize schoolYearSummarize);
 }
