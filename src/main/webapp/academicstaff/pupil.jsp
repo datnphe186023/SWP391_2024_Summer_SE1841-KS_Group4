@@ -135,6 +135,7 @@
                                                     <td class="text-center">
                                                         <form method="post" action="pupilprofile">
                                                             <input hidden="" value="${pupil.id}" name="id"/>
+                                                            <input hidden="" value="view" name="action"/>
                                                             <button type="submit" class="btn btn-primary"> Thông tin chi tiết</button>
                                                         </form>
                                                     </td>

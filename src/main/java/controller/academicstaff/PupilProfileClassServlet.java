@@ -61,14 +61,6 @@ public class PupilProfileClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String classId = request.getParameter("classId");
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.setAttribute("classId", classId);
-        request.getRequestDispatcher("editInformationPupilsClass.jsp").forward(request, response);
-
     }
 
     /**
@@ -82,28 +74,37 @@ public class PupilProfileClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        HttpSession session = request.getSession();
-        String classId = "";
-        classId = request.getParameter("classId");
-        request.setAttribute("classId", classId);
-        session.removeAttribute("classId");
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(id);
-        String success = (String) session.getAttribute("success");
-        String error = (String) session.getAttribute("error");
-        if (success != null) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Cập nhật thông tin thành công");
-            session.removeAttribute(success);
+        String action = request.getParameter("action");
+        if (action.equalsIgnoreCase("edit")) {
+            String id = request.getParameter("id");
+            IPupilDAO pupilDAO = new PupilDAO();
+            Pupil pupil = pupilDAO.getPupilsById(id);
+            request.setAttribute("pupil", pupil);
+            request.getRequestDispatcher("editInformationPupil.jsp").forward(request, response);
+        } else {
+            String id = request.getParameter("id");
+            HttpSession session = request.getSession();
+            String classId = "";
+            classId = request.getParameter("classId");
+            request.setAttribute("classId", classId);
+            session.removeAttribute("classId");
+            IPupilDAO pupilDAO = new PupilDAO();
+            Pupil pupil = pupilDAO.getPupilsById(id);
+            String success = (String) session.getAttribute("success");
+            String error = (String) session.getAttribute("error");
+            if (success != null) {
+                request.setAttribute("toastType", "success");
+                request.setAttribute("toastMessage", "Cập nhật thông tin thành công");
+                session.removeAttribute(success);
+            }
+            if (error != null) {
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "Cập nhật thông tin thất bại");
+                session.removeAttribute(error);
+            }
+            request.setAttribute("pupil", pupil);
+            request.getRequestDispatcher("informationPupilsClass.jsp").forward(request, response);
         }
-        if (error != null) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Cập nhật thông tin thất bại");
-            session.removeAttribute(error);
-        }
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("informationPupilsClass.jsp").forward(request, response);
     }
 
     /**

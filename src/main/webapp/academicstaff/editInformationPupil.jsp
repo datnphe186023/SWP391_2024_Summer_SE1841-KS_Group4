@@ -219,6 +219,7 @@
                                     <div class="card-body">
                                         <form action="updatepupils" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
+                                            <input type="hidden" value="noedit" name="action"/>
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -316,7 +317,7 @@
         </div>
         <script>
             function redirectToPreviousPage() {
-                window.location.href = 'pupilprofile?id=${pupil.id}';
+                window.history.back();
             }
         </script>
     </body>
