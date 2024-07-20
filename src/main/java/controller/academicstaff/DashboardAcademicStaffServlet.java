@@ -18,6 +18,7 @@ import models.classes.ClassDAO;
 import models.classes.IClassDAO;
 import models.day.DayDAO;
 import models.day.IDayDAO;
+import models.event.EventDAO;
 import models.personnel.IPersonnelAttendanceDAO;
 import models.personnel.PersonnelAttendanceDAO;
 import models.pupil.IPupilDAO;
@@ -45,6 +46,7 @@ public class DashboardAcademicStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        EventDAO eventDAO = new EventDAO();
         IPupilDAO pupilDAO = new PupilDAO();
         IClassDAO classDAO = new ClassDAO();
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
@@ -65,6 +67,7 @@ public class DashboardAcademicStaffServlet extends HttpServlet {
             User user = (User)session.getAttribute("user");
             request.setAttribute("attendance",personnelAttendanceDAO.getAttendanceByPersonnelAndDay(user.getUsername(), dayDAO.getDayByDate(formattedDate).getId()));
         }
+        request.setAttribute("listEvents",eventDAO.getFutureEvent(2));
 
         request.setAttribute("numberOfStudent",pupilDAO.getPupilByStatus("đang theo học").size());
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);

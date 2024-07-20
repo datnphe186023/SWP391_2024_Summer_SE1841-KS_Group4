@@ -136,7 +136,7 @@
                                 <h6 class="m-0 font-weight-bold text-primary">Danh sách sự kiện</h6>
                             </div>
                             <c:choose>
-                            <c:when test="${requestScope.listClass.size() > 0}">
+                            <c:when test="${requestScope.listEvents.size() > 0}">
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

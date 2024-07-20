@@ -24,7 +24,7 @@ public class EventDAO extends DBContext implements IEventDAO {
         event.setCreatedBy(personnelDAO.getPersonnel(resultSet.getString("created_by")));
         event.setHeading(resultSet.getString("heading"));
         event.setDetails(resultSet.getString("details"));
-        event.setDate(resultSet.getDate("day"));
+        event.setDate(resultSet.getDate("date"));
         return event;
     }
 
