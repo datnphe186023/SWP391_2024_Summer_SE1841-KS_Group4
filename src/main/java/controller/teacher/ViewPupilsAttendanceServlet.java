@@ -34,40 +34,43 @@ public class ViewPupilsAttendanceServlet extends HttpServlet {
         //get school year id from select box
         String schoolYearId = request.getParameter("schoolYearId");
         if (schoolYearId == null){
-            schoolYearId = schoolYearDAO.getLatest().getId();
+            if (schoolYearDAO.getLatest()!=null){
+                schoolYearId = schoolYearDAO.getLatest().getId();
+            }
         }
+        if (schoolYearId != null){
+            //get list of weeks for select box
+            IWeekDAO weekDAO = new WeekDAO();
+            request.setAttribute("weeks", weekDAO.getWeeks(schoolYearId));
+            request.setAttribute("schoolYearId", schoolYearId);
 
-        //get list of weeks for select box
-        IWeekDAO weekDAO = new WeekDAO();
-        request.setAttribute("weeks", weekDAO.getWeeks(schoolYearId));
-        request.setAttribute("schoolYearId", schoolYearId);
-
-        String weekId = request.getParameter("weekId");
-        if (weekId == null){
-            weekId = weekDAO.getCurrentWeek(new Date());
-        }
-        if (weekId == null){
-            weekId = weekDAO.getfirstWeekOfClosestSchoolYear(schoolYearId).getId();
-        }
-        request.setAttribute("weekId", weekId);
+            String weekId = request.getParameter("weekId");
+            if (weekId == null){
+                weekId = weekDAO.getCurrentWeek(new Date());
+            }
+            if (weekId == null){
+                weekId = weekDAO.getfirstWeekOfClosestSchoolYear(schoolYearId).getId();
+            }
+            request.setAttribute("weekId", weekId);
 
 
-        //send list of pupils
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        IPersonnelDAO personnelDAO = new PersonnelDAO();
-        String teacherId = personnelDAO.getPersonnelByUserId(user.getId()).getId();
-        IClassDAO classDAO = new ClassDAO();
-        Class classes = classDAO.getTeacherClassByYear(schoolYearId, teacherId);
-        if (classes != null){
-            //get day list
-            IDayDAO dayDAO = new DayDAO();
-            request.setAttribute("days", dayDAO.getDaysWithTimetableForClass(weekId, classes.getId()));
-            request.setAttribute("classes", classes);
+            //send list of pupils
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            IPersonnelDAO personnelDAO = new PersonnelDAO();
+            String teacherId = personnelDAO.getPersonnelByUserId(user.getId()).getId();
+            IClassDAO classDAO = new ClassDAO();
+            Class classes = classDAO.getTeacherClassByYear(schoolYearId, teacherId);
+            if (classes != null){
+                //get day list
+                IDayDAO dayDAO = new DayDAO();
+                request.setAttribute("days", dayDAO.getDaysWithTimetableForClass(weekId, classes.getId()));
+                request.setAttribute("classes", classes);
 
-            //get pupil list
-            IPupilDAO pupilDAO = new PupilDAO();
-            request.setAttribute("pupils", pupilDAO.getListPupilsByClass(null, classes.getId()));
+                //get pupil list
+                IPupilDAO pupilDAO = new PupilDAO();
+                request.setAttribute("pupils", pupilDAO.getListPupilsByClass(null, classes.getId()));
+            }
         }
         request.getRequestDispatcher("viewPupilsAttendance.jsp").forward(request, response);
     }
