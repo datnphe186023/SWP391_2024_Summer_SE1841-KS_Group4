@@ -91,6 +91,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <h4 class="h4 mb-2 text-gray-800">Ngày diễn ra<span class="text-danger">*</span></h4>
+                                <input type="date" class="form-control" style="width: 40%" name="date" required>
+                            </div>
+                            <div class="form-group">
                                 <h4 class="h4 mb-2 text-gray-800">Chi tiết <span class="text-danger">*</span></h4>
                                 <textarea class="form-control mb-4" type="text" placeholder="Tối đa 10000 kí tự" name="details" aria-placeholder="" rows="5" required>${param.details}</textarea>
                             </div>

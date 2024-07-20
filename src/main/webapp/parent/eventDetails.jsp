@@ -1,4 +1,5 @@
-<%@ page import="models.event.Event" %><%--
+<%@ page import="models.event.Event" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: datng
   Date: 22-Jun-24
@@ -30,9 +31,15 @@
                                         if (details != null) {
                                             details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
                                         }
+                                        Date eventDate = event.getDate();
                                     %>
                                     <div class="col-sm-9" id="details">
                                         <%= details %>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-9" id="event-date">
+                                        <strong>Ngày:</strong> <%= eventDate %>
                                     </div>
                                 </div>
                             </div>

@@ -51,6 +51,7 @@
                                                 <tr>
                                                     <th scope="row">${status.index + 1}</th>
                                                     <td>${event.heading}</td>
+                                                    <td>${event.date}</td>
                                                     <td>
                                                         ${event.createdBy.lastName} ${event.createdBy.firstName}
                                                     </td>
