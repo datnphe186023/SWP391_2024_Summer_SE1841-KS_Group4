@@ -120,24 +120,25 @@ public class CreateNotificationServlet extends HttpServlet {
                 session.setAttribute("toastType", "error");
                 session.setAttribute("toastMessage", "Bạn Chưa Được Phân Công Lớp");
                 response.sendRedirect("createnotifi");
-            }
-            Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
-            boolean succes = notifiDAO.createNoti(notifi);
-            for (User u : user) {
+            } else {
+                Notification notifi = new Notification(id, heading.trim(), content.trim(), new PersonnelDAO().getPersonnel(create_by), create_at);
+                boolean succes = notifiDAO.createNoti(notifi);
+                for (User u : user) {
 
-                NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
+                    NotificationDetails notifidetails = new NotificationDetails(id, u.getId());
 
-                boolean success = notifiDAO.createNotiDetails(notifidetails);
-                if (succes && success) {
-                    session.setAttribute("toastType", "success");
-                    session.setAttribute("toastMessage", "Gửi Thông Báo Thành Công");
-                } else {
-                    session.setAttribute("toastType", "error");
-                    session.setAttribute("toastMessage", "Gửi Thông Báo Thất Bại");
+                    boolean success = notifiDAO.createNotiDetails(notifidetails);
+                    if (succes && success) {
+                        session.setAttribute("toastType", "success");
+                        session.setAttribute("toastMessage", "Gửi Thông Báo Thành Công");
+                    } else {
+                        session.setAttribute("toastType", "error");
+                        session.setAttribute("toastMessage", "Gửi Thông Báo Thất Bại");
+                    }
                 }
-            }
 
-            response.sendRedirect("createnotifi");
+                response.sendRedirect("createnotifi");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
