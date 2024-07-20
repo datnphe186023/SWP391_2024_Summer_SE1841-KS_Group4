@@ -64,16 +64,16 @@ public class DashboardParentServlet extends HttpServlet {
         List<Event> events = eventDAO.getFutureEvent(user.getRoleId());
         Date currentDate = Date.from(Instant.now());
         String evaluation = "";
-        String takeattendance = "";
+        String takeAttendance = "";
         if(weekDAO.getCurrentWeek(currentDate)==null){
             evaluation = "Đang không trong năm học";
-            takeattendance = "Đang không trong năm học";
+            takeAttendance = "Đang không trong năm học";
         }else{
             if( evaluationDAO.getEvaluationByPupilIdAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate))!=null){
                 evaluation = evaluationDAO.getEvaluationByPupilIdAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getEvaluation();
             }
             if(pupilAttendanceDAO.getAttendanceByPupilAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate))!=null){
-                takeattendance = pupilAttendanceDAO.getAttendanceByPupilAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getStatus();
+                takeAttendance = pupilAttendanceDAO.getAttendanceByPupilAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getStatus();
             }
         }
 
@@ -84,7 +84,7 @@ public class DashboardParentServlet extends HttpServlet {
         }
         request.setAttribute("listEvents", events);
         request.setAttribute("evaluation", evaluation);
-        request.setAttribute("takeAttendance", takeattendance);
+        request.setAttribute("takeAttendance", takeAttendance);
         request.setAttribute("notifications", notifications);
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 

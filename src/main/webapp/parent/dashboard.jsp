@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
 
@@ -52,24 +52,15 @@
                                         </div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <c:if test="${requestScope.takeAttendance!=null}">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.takeAttendance eq 'present'?"Có mặt":"Vắng" }</div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-${requestScope.takeAttendance eq "present"?"success":"danger"}" role="progressbar"
-                                                                 style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
-                                                                 aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </c:if>
-                                                <c:if test="${requestScope.takeAttendance==null}">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Chưa cập nhật</div>
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-warning" role="progressbar"
-                                                             style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
-                                                             aria-valuemax="1000"></div>
-                                                    </div>
-                                                </c:if>
+                                                <c:choose>
+                                                    <c:when test="${requestScope.takeAttendance eq 'Đang không trong năm học'}">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Đang không trong năm học</div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.takeAttendance eq 'present' ? "Có mặt" : "Vắng"}</div>
+                                                    </c:otherwise>
+                                                </c:choose>
+
                                             </div>
 
                                         </div>
@@ -95,21 +86,9 @@
                                             <div class="col-auto">
                                                 <c:if test="${requestScope.evaluation ne ''}">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.evaluation}</div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-info role="progressbar"
-                                                                 style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
-                                                                 aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
                                                 </c:if>
                                                 <c:if test="${requestScope.evaluation eq ''}">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Chưa cập nhật</div>
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                             style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
-                                                             aria-valuemax="1000"></div>
-                                                    </div>
                                                 </c:if>
                                             </div>
 
