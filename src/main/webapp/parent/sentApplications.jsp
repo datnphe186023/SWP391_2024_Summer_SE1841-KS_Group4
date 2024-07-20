@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +66,7 @@
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${application.type.name}</td>
                                         <td>${application.details}</td>
-                                        <td>${application.createdAt}</td>
+                                        <td><fmt:formatDate value="${application.createdAt}" pattern="dd/MM/yyyy"/></td>
                                         <td>${application.processNote}</td>
                                         <c:set value="${application.status}" var="s"/>
                                         <c:if test="${s eq 'đã được duyệt'}">
@@ -77,7 +78,7 @@
                                         <c:if test="${s eq 'không được duyệt'}">
                                             <td><span class="badge badge-danger">${s}</span>  </td>
                                         </c:if>
-                                        <td>${application.processedAt}</td>
+                                        <td><fmt:formatDate value="${application.processedAt}" pattern="dd/MM/yyyy"/></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
