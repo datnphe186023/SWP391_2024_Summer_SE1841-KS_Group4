@@ -287,9 +287,6 @@
                                                     <tr>
                                                         <td><div class="form-group col-md-12">
                                                                 <h5>Ảnh<a style="color: red">(*)</a>  : </h5>
-                                                                <c:if test="${not empty pupil.avatar}">
-                                                                    <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${pupil.avatar}" alt="Avatar hiện tại" width="100%" height="100%">
-                                                                </c:if>
                                                                 <input hidden name="currentAvatar" value="${pupil.avatar}"/>
                                                                 <input class="form-control form-control-sm" type="file" name="image"/>
                                                             </div></td>
