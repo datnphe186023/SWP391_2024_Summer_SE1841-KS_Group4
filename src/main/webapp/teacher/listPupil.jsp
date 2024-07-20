@@ -53,7 +53,6 @@
                                     <div>
                                         <label >Chọn năm học</label>
                                         <select class="custom-select" style="width: 25%"  aria-label="Default select example" onchange="submitForm()" name="schoolYear">
-                                            <option value="">- Chọn Năm Học -</option>
                                             <c:forEach items="${requestScope.listSchoolYear}" var="year" >
                                                 <option ${yearChecked eq year.id ? "selected" : ""} value="${year.id}"  >${year.name}</option>
                                             </c:forEach>
