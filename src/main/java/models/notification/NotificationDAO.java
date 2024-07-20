@@ -90,23 +90,6 @@ public class NotificationDAO extends DBContext implements INotificationDAO {
     }
 
     @Override
-    public List<Notification> getListNotifiByRoleId(int role_id) {
-        List<Notification> listNoti = new ArrayList<>();
-        String sql = "select * from [Notifications] n inner join NotificationDetails nd on n.id = nd.notification_id where receiver_id=? order by n.id desc";
-        try (PreparedStatement ps = connection.prepareStatement(sql);) {
-            ps.setInt(1, role_id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Notification notifi = createNotifi(rs);
-                listNoti.add(notifi);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listNoti;
-    }
-
-    @Override
     public Notification getNotificationById(String id) {
         String sql = "select * from [Notifications] where id = ?";
         Notification notifi = new Notification();

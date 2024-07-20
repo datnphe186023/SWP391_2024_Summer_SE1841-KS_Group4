@@ -16,8 +16,6 @@ public interface INotificationDAO {
 
     Notification createNotifi(ResultSet resultSet) throws SQLException;
 
-    List<Notification> getListNotifiByRoleId(int role_id);
-
     boolean createNoti(Notification notification);
 
     boolean createNotiDetails(NotificationDetails notificationdetails);
