@@ -39,7 +39,7 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
         if(weekDAO.getCurrentWeek(currentDate)!=null){
             sltedw = weekDAO.getCurrentWeek(currentDate);
             sltedy = weekDAO.getYearByWeek(sltedw);
-        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.CheckPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
+        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.checkPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
             sltedy = schoolYearDAO.getClosestSchoolYears().getId();
             sltedw = weekDAO.getfirstWeekOfClosestSchoolYear(sltedy).getId();
         }
