@@ -39,7 +39,7 @@ public class TakeAttendanceServlet extends HttpServlet {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(date);
-        List<Personnel> personnel = personnelDAO.getPersonnelByStatus("đang làm việc");
+        List<Personnel> personnel = personnelDAO.getPersonnelAttendance();
         request.setAttribute("date", dateString);
         request.setAttribute("personnel", personnel);
         request.getRequestDispatcher("takeAttendance.jsp").forward(request, response);

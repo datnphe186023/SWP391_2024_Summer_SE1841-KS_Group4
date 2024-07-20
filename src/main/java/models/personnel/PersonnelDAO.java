@@ -16,7 +16,7 @@ import utils.DBContext;
  *
  * @author asus
  */
-public class PersonnelDAO extends DBContext implements IPersonnelDAO{
+public class PersonnelDAO extends DBContext implements IPersonnelDAO {
 
     private Personnel createPersonnel(ResultSet resultSet) throws SQLException {
         Personnel person = new Personnel();
@@ -500,36 +500,68 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO{
     }
 
     @Override
-    public Personnel getTeacherByClassAndSchoolYear(String classId, String schoolYearId){
-        String sql="Select teacher_id from class where id= ? and school_year_id = ?";
+    public Personnel getTeacherByClassAndSchoolYear(String classId, String schoolYearId) {
+        String sql = "Select teacher_id from class where id= ? and school_year_id = ?";
         try {
-         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-         preparedStatement.setString(1,classId);
-         preparedStatement.setString(2,schoolYearId);
-         ResultSet resultSet = preparedStatement.executeQuery();
-         if(resultSet.next()){
-             return getPersonnel(resultSet.getString(1));
-         }
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, classId);
+            preparedStatement.setString(2, schoolYearId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return getPersonnel(resultSet.getString(1));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
-    
+
     @Override
-    public Personnel getTeacherByClass(String classId){
-        String sql="Select teacher_id from class where id= ?";
+    public Personnel getTeacherByClass(String classId) {
+        String sql = "Select teacher_id from class where id= ?";
         try {
-         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-         preparedStatement.setString(1,classId);
-         ResultSet resultSet = preparedStatement.executeQuery();
-         if(resultSet.next()){
-             return getPersonnel(resultSet.getString(1));
-         }
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, classId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return getPersonnel(resultSet.getString(1));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public List<Personnel> getPersonnelAttendance() {
+        List<Personnel> list = new ArrayList<>();
+        String sql = "SELECT * \n"
+                + "FROM Personnels \n"
+                + "WHERE status = N'đang làm việc' \n"
+                + "AND (role_id = 1 OR role_id = 2 OR role_id = 3 OR role_id = 4);";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Personnel p = new Personnel();
+                p.setId(rs.getString(1));
+                p.setFirstName(rs.getString(2));
+                p.setLastName(rs.getString(3));
+                p.setGender(rs.getBoolean(4));
+                p.setBirthday(rs.getDate(5));
+                p.setAddress(rs.getString(6));
+                p.setEmail(rs.getString(7));
+                p.setPhoneNumber(rs.getString(8));
+                p.setRoleId(rs.getInt(9));
+                p.setStatus(rs.getString(10));
+                p.setAvatar(rs.getString(11));
+                p.setUserId(rs.getString(12));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

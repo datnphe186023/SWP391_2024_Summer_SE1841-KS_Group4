@@ -15,6 +15,7 @@ public interface IPersonnelDAO {
     List<Personnel> getPersonnelNonUserId();
     List<Personnel> getPersonnelByRoleAndNonUserId(int id);
     List<Personnel> getPersonnelByStatus(String status);
+    List<Personnel> getPersonnelAttendance();
     boolean updatePersonnelStatus(String pId, String status);
     List<Role> getAllPersonnelRole();
     boolean updatePerson(Personnel person);
