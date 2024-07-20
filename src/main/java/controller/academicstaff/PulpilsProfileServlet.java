@@ -87,12 +87,12 @@ public class PulpilsProfileServlet extends HttpServlet {
         if (success != null) {
             request.setAttribute("toastType", "success");
             request.setAttribute("toastMessage", "Cập nhật thông tin thành công");
-            session.removeAttribute(success);
+            session.removeAttribute("success");
         }
         if (error != null) {
             request.setAttribute("toastType", "error");
             request.setAttribute("toastMessage", "Cập nhật thông tin thất bại");
-            session.removeAttribute(error);
+            session.removeAttribute("error");
         }
         request.setAttribute("pupil", pupil);
         request.getRequestDispatcher("informationPupils.jsp").forward(request, response);
