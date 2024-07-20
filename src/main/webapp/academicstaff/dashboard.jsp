@@ -32,8 +32,156 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
-                    <%--      Your code          --%>
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Chào mừng đến với Bono Kindergarten</h1>
+                </div>
+
+                <!-- Content Row -->
+                <div class="row">
+
+                    <!-- Menu Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-${requestScope.attendance.status eq "present"?"success":"danger"} shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-${requestScope.attendance.status eq "present"?"success":"danger"} text-uppercase mb-1">
+                                            Chấm công hôm nay
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <c:if test="${requestScope.attendance!=null}">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.attendance.status eq 'present'?"Có mặt":"Vắng" }</div>
+                                                    <div class="col">
+                                                        <div class="progress progress-sm mr-2">
+                                                            <div class="progress-bar bg-${requestScope.attendance.status eq "present"?"success":"danger"}" role="progressbar"
+                                                                 style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
+                                                                 aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
+                                                <c:if test="${requestScope.attendance==null}">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Chưa cập nhật</div>
+                                                    <div class="progress progress-sm mr-2">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                             style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
+                                                             aria-valuemax="1000"></div>
+                                                    </div>
+                                                </c:if>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-star text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Số học sinh đang theo học
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.numberOfStudent}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <c:choose>
+                                            <c:when test="${requestScope.listClass.size() > 0}">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    Số lớp trong năm học ${requestScope.listClass.get(0).schoolYear.name}
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.listClass.size()}</div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    Chưa có lớp học trong năm
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-fw fa-graduation-cap text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event List -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Danh sách sự kiện</h6>
+                            </div>
+                            <c:choose>
+                            <c:when test="${requestScope.listClass.size() > 0}">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Tên sự kiện</th>
+                                                <th>Ngày</th>
+                                                <th>Người gửi</th>
+                                                <th>Chi tiết</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach var="event" items="${requestScope.listEvents}" varStatus="status">
+                                                <tr>
+                                                    <th scope="row">${status.index + 1}</th>
+                                                    <td>${event.heading}</td>
+                                                    <td>${event.date}</td>
+                                                    <td>
+                                                            ${event.createdBy.lastName} ${event.createdBy.firstName}
+                                                    </td>
+                                                    <td class="text-center"><a href="eventDetail?id=${event.id}"
+                                                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="card-body">
+                                        <div class="alert alert-info text-center" role="alert">
+                                            <strong>Không có sự kiện nào</strong>
+                                            <p>Hiện tại không có sự kiện nào được lên lịch.</p>
+                                            <i class="fas fa-calendar-alt fa-2x"></i>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                                </c:choose>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
         <jsp:include page="../footer.jsp"/>
     </div>
