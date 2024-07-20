@@ -11,7 +11,7 @@
 <jsp:useBean id="dayBean" class="models.day.DayDAO"/>
 <html>
     <head>
-        <title>Chấm công</title>
+        <title>Điểm Danh</title>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
@@ -40,71 +40,61 @@
                     <div class="container-fluid">
                         <h1 class="h3 mb-4 text-gray-800 text-center">Chấm Công Hôm Nay</h1>
 
-                        <c:choose>
-                            <c:when test="${requestScope.personnel != null}">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Danh sách Nhân Sự</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <form action="taketimekeep" method="post">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                    <thead>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Danh sách Nhân Sự</h6>
+                            </div>
+                            <div class="card-body">
+                                <form action="takeattendance" method="post">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>Mã Nhân Sự</th>
+                                                    <th>Ảnh</th>
+                                                    <th>Họ và tên</th>
+                                                    <th>Có mặt</th>
+                                                    <th>Vắng</th>
+                                                    <th>Ghi chú</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="personnel" items="${requestScope.personnel}" varStatus="status">
                                                     <tr>
-                                                        <th>STT</th>
-                                                        <th>Mã Nhân Sự</th>
-                                                        <th>Ảnh</th>
-                                                        <th>Họ và tên</th>
-                                                        <th>Có mặt</th>
-                                                        <th>Vắng</th>
-                                                        <th>Ghi chú</th>
+                                                        <th scope="row">${status.index + 1}</th>
+                                                        <td>${personnel.id}</td>
+                                                        <td style="width: 20%;">
+                                                            <img src="../images/${personnel.avatar}"
+                                                                 class="mx-auto d-block"
+                                                                 style="width:100px; height: 160px; object-fit: cover;">
+                                                        </td>
+                                                        <td>${personnel.lastName} ${personnel.firstName}</td>
+                                                        <c:set var="day" value="${dayBean.getDayByDate(requestScope.date)}"/>
+                                                        <c:set value="${personnelAttendanceBean.getAttendanceByPersonnelAndDay(personnel.id, day.id)}" var="attendanceStatus"/>
+                                                        <td>
+                                                            <input type="radio" name="attendance${personnel.id}" value="present" ${attendanceStatus.status == 'present' ? 'checked' : ''}>
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" name="attendance${personnel.id}" value="absent" ${attendanceStatus.status != 'present' ? 'checked' : ''}>
+                                                        </td>
+                                                        <c:set value="${personnelAttendanceBean.getAttendanceByPersonnelAndDay(personnel.id, day.id)}" var="attendanceNote"/>
+                                                        <td>
+                                                            <textarea name="note${personnel.id}" class="form-control" rows="1">${attendanceNote.note}</textarea>
+                                                        </td>
                                                     </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:forEach var="personnel" items="${requestScope.personnel}" varStatus="status">
-                                                        <tr>
-                                                            <th scope="row">${status.index + 1}</th>
-                                                            <td>${personnel.id}</td>
-                                                            <td style="width: 20%;">
-                                                                <img src="../images/${personnel.avatar}"
-                                                                     class="mx-auto d-block"
-                                                                     style="width:100px; height: 160px; object-fit: cover;">
-                                                            </td>
-                                                            <td>${personnel.lastName} ${personnel.firstName}</td>
-                                                            <c:set var="day" value="${dayBean.getDayByDate(requestScope.date)}"/>
-                                                            <c:set value="${personnelAttendanceBean.getAttendanceByPersonnelAndDay(personnel.id, day.id)}" var="attendanceStatus"/>
-                                                            <td>
-                                                                <input type="radio" name="attendance${personnel.id}" value="present" ${attendanceStatus.status == 'present' ? 'checked' : ''}>
-                                                            </td>
-                                                            <td>
-                                                                <input type="radio" name="attendance${personnel.id}" value="absent" ${attendanceStatus.status != 'present' ? 'checked' : ''}>
-                                                            </td>
-                                                            <td>
-                                                                <textarea name="note${personnel.id}" class="form-control" rows="1">${attendanceStatus.note}</textarea>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <c:if test="${requestScope.personnel != null}">
-                                                <div class="form-group float-right">
-                                                    <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
-                                                </div>
-                                            </c:if>
-                                        </form>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="card shadow mb-4">
-                                    <div class="card-body" style="display: flex; justify-content: center">
-                                        <p style="color: red">  Hôm nay không có lịch !</p>
-                                    </div>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
+                                    <c:if test="${requestScope.personnel != null}">
+                                        <div class="form-group float-right">
+                                            <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
+                                        </div>
+                                    </c:if>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <jsp:include page="../footer.jsp"/>

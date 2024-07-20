@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="evaluationBean" class="models.evaluation.EvaluationDAO"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +109,7 @@
                                                             Nữ
                                                         </c:if>
                                                     </td>
-                                                    <td><fmt:formatDate value="${p.getBirthday()}" pattern="dd/MM/yyyy"/> </td>
+                                                    <td>${p.getBirthday()} </td>
                                                     <td>${evaluation.teacher.getLastName()} ${evaluation.teacher.getFirstName()}</td>
 
                                                     <td>

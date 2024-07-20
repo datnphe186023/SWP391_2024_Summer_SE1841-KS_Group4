@@ -178,22 +178,4 @@ public class EventDAO extends DBContext implements IEventDAO {
         }
         return  false;
     }
-
-    @Override
-    public List<Event> getFutureEvent(int role) {
-        List<Event> events = new ArrayList<>();
-        String sql = "select * from [Events] join dbo.eventDetails eD on Events.id = eD.event_id\n" +
-                "         where date > GETDATE() and eD.participant = ?";
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, role);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                events.add(createEvent(resultSet));
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return events;
-    }
 }

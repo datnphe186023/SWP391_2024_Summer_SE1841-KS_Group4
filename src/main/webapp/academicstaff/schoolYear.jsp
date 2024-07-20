@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,8 +54,8 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${schoolYear.name}</td>
-                                        <td><fmt:formatDate value="${schoolYear.startDate}" pattern="dd/MM/yyyy"/> </td>
-                                        <td><fmt:formatDate value="${schoolYear.endDate}" pattern="dd/MM/yyyy"/> </td>
+                                        <td>${schoolYear.startDate}</td>
+                                        <td>${schoolYear.endDate}</td>
                                         <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary" data-toggle="modal"

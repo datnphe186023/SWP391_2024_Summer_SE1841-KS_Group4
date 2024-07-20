@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -52,7 +51,7 @@
                                                 <tr>
                                                     <th scope="row">${status.index + 1}</th>
                                                     <td>${event.heading}</td>
-                                                    <td><fmt:formatDate value="${event.date}" pattern="dd/MM/yyyy"/> </td>
+                                                    <td>${event.date}</td>
                                                     <td>
                                                         ${event.createdBy.lastName} ${event.createdBy.firstName}
                                                     </td>

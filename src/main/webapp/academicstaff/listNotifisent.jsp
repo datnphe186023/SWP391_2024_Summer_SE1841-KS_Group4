@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -65,7 +64,7 @@
                                                 <tr>
                                                     <th scope="row">${status.index + 1}</th>
                                                     <td>${notifi.getHeading()}</td>
-                                                    <td><fmt:formatDate value="${notifi.getCreatedAt()}" pattern="dd/MM/yyyy"/> </td>
+                                                    <td>${notifi.getCreatedAt()}</td>
                                                     <td>
                                                         <form action="sentnotifidetails" method="post">
                                                             <input hidden="" value="${notifi.getId()}" name="id"/>

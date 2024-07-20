@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="evaluationBean" class="models.evaluation.EvaluationDAO"/>
 <%--
   Created by IntelliJ IDEA.
@@ -90,7 +89,7 @@
                                                             Nữ
                                                         </c:if>
                                                     </td>
-                                                    <td><fmt:formatDate value="${pupil.getBirthday()}" pattern="dd/MM/yyyy"/>  </td>
+                                                    <td>${pupil.getBirthday()} </td>
 
                                                     <c:if test="${pupil.isSummarized(requestScope.schoolYearId) eq true}">
                                                         <c:set value="${evaluationBean.getSchoolYearSummarize(pupil.id, requestScope.schoolYearId)}" var="evaluation"/>

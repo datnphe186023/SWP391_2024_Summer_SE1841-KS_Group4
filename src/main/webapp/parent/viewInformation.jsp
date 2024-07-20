@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="pupilBean" class="models.pupil.PupilDAO"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,7 +117,7 @@
                                                     <p><strong>Họ tên bé:</strong> ${pupil.lastName} ${pupil.firstName}</p>
                                                 </div>
                                                 <div>
-                                                    <p><strong>Ngày sinh của bé:</strong> <fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy"/> </p>
+                                                    <p><strong>Ngày sinh của bé:</strong> ${pupil.birthday}</p>
                                                 </div>
                                                 <div>
                                                     <p><strong>Email:</strong> ${pupil.email}</p>
