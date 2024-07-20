@@ -48,25 +48,33 @@ public class ViewTimetableServlet extends HttpServlet {
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
         models.classes.Class aclass = new ClassDAO().getTeacherClassByYear(schoolyear, id);
-        WeekDAO weekDAO = new WeekDAO();
-        SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
-        List<Week> weekList = weekDAO.getWeeks(schoolyear);
-        List<Timetable> timetable = new ArrayList<>();
-        ITimeslotDAO timeslotDAO = new TimeslotDAO();
-        List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
-        IDayDAO dayDAO = new DayDAO();
-        List<Day> dayList = dayDAO.getDayByWeek(week);
-        timetable = new TimetableDAO().getTimetableByClassAndWeek(classId, week, "đã được duyệt");
-        request.setAttribute("timetable", timetable);
-        request.setAttribute("timeslotList", timeslotList);
-        request.setAttribute("sltedsy", schoolyear);
-        request.setAttribute("sltedw", week);
-        request.setAttribute("schoolYearList", schoolYearList);
-        request.setAttribute("weekList", weekList);
-        request.setAttribute("dayList", dayList);
-        request.setAttribute("aClass", aclass);
-        request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
+        if (aclass == null) {
+            List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Bạn chưa được phân công năm này hãy chọn lại");
+            request.setAttribute("schoolYearList", schoolYearList);
+            request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
+        } else {
+            WeekDAO weekDAO = new WeekDAO();
+            SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+            List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
+            List<Week> weekList = weekDAO.getWeeks(schoolyear);
+            List<Timetable> timetable = new ArrayList<>();
+            ITimeslotDAO timeslotDAO = new TimeslotDAO();
+            List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
+            IDayDAO dayDAO = new DayDAO();
+            List<Day> dayList = dayDAO.getDayByWeek(week);
+            timetable = new TimetableDAO().getTimetableByClassAndWeek(classId, week, "đã được duyệt");
+            request.setAttribute("timetable", timetable);
+            request.setAttribute("timeslotList", timeslotList);
+            request.setAttribute("sltedsy", schoolyear);
+            request.setAttribute("sltedw", week);
+            request.setAttribute("schoolYearList", schoolYearList);
+            request.setAttribute("weekList", weekList);
+            request.setAttribute("dayList", dayList);
+            request.setAttribute("aClass", aclass);
+            request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
+        }
     }
 
     @Override
