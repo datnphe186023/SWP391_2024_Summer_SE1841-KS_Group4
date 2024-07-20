@@ -54,21 +54,9 @@
                                             <div class="col-auto">
                                                 <c:if test="${requestScope.attendance!=null}">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.attendance.status eq 'present'?"Có mặt":"Vắng" }</div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-${requestScope.attendance.status eq "present"?"success":"danger"}" role="progressbar"
-                                                                 style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
-                                                                 aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
                                                 </c:if>
                                                 <c:if test="${requestScope.attendance==null}">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Chưa cập nhật</div>
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-warning" role="progressbar"
-                                                             style="width: 100%" aria-valuenow="3000" aria-valuemin="0"
-                                                             aria-valuemax="1000"></div>
-                                                    </div>
                                                 </c:if>
                                             </div>
 
