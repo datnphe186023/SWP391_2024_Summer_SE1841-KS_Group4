@@ -19,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        
+
     </head>
 
     <body id="page-top">
@@ -29,8 +29,120 @@
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Welcome to Bono Kindergarten</h1>
+                        </div>
 
+                        <!-- Content Row -->
+                        <div class="row">
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Tổng số học sinh
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.listPupilInClass}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-group fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <!-- Menu Card Example -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    Tổng số đơn từ
+                                                </div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.sumApplication}</div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-utensils fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notifications Card Example -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    Thông báo
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.sumNotification}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-bell fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event List -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Danh sách sự kiện</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Event</th>
+                                                        <th>Date</th>
+                                                        <th>Location</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Sports Day</td>
+                                                        <td>2024-07-30</td>
+                                                        <td>School Ground</td>
+                                                        <td>Annual sports day for all students.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Art Exhibition</td>
+                                                        <td>2024-08-15</td>
+                                                        <td>School Auditorium</td>
+                                                        <td>Exhibition of students' artworks.</td>
+                                                    </tr>
+                                                    <!-- Add more events here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
                 <jsp:include page="../footer.jsp"/>
             </div>
