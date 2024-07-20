@@ -397,7 +397,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
 
     @Override
     public boolean updatePupil(Pupil pupil) {
-        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?, first_name=?, last_name=?, birthday=?, email=? where id=?";
+        String sql = "update dbo.[Pupils] set first_guardian_name=?, first_guardian_phone_number=?, second_guardian_name=?, second_guardian_phone_number=?, address=?, parent_special_note=?, first_name=?, last_name=?, birthday=?, email=?, avatar=? where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, pupil.getfirstGuardianName());
@@ -410,7 +410,8 @@ public class PupilDAO extends DBContext implements IPupilDAO {
             ps.setString(8, pupil.getLastName());
             ps.setDate(9, new java.sql.Date(pupil.getBirthday().getTime()));
             ps.setString(10, pupil.getEmail());
-            ps.setString(11, pupil.getId());
+            ps.setString(11, pupil.getAvatar());
+            ps.setString(12, pupil.getId());
             ps.executeUpdate();
             return true;
         } catch (Exception ex) {

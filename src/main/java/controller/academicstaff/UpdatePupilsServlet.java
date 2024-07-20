@@ -77,6 +77,13 @@ public class UpdatePupilsServlet extends HttpServlet {
         String birthdayStr = request.getParameter("birthday");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = null;
+        String avatar = request.getParameter("image");
+        String currentAvatar = request.getParameter("currentAvatar");
+        if (avatar.isEmpty() || avatar.isBlank()) {
+            pupil.setAvatar(currentAvatar);
+        } else {
+            pupil.setAvatar(avatar);
+        }
         try {
             birthday = formatter.parse(birthdayStr);
             pupil.setBirthday(birthday);
@@ -105,7 +112,7 @@ public class UpdatePupilsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
     }
 
     /**

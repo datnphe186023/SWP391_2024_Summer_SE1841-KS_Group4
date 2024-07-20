@@ -73,9 +73,17 @@ public class UpdatePupilsClassServlet extends HttpServlet {
         pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber").trim());
         pupil.setAddress(request.getParameter("address").trim());
         pupil.setParentSpecialNote(request.getParameter("note").trim());
+        pupil.setEmail(request.getParameter("email").trim());
         String birthdayStr = request.getParameter("birthday");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = null;
+        String avatar = request.getParameter("image");
+        String currentAvatar = request.getParameter("currentAvatar");
+        if (avatar.isEmpty() || avatar.isBlank()) {
+            pupil.setAvatar(currentAvatar);
+        } else {
+            pupil.setAvatar(avatar);
+        }
         try {
             birthday = formatter.parse(birthdayStr);
             pupil.setBirthday(birthday);
