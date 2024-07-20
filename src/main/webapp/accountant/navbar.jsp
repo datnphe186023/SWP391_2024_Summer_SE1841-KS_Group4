@@ -85,7 +85,7 @@
                 </a>
                 <div id="collapseTimekeeping" class="collapse" aria-labelledby="headingTimekeeping" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="takeattendance">Chấm Công Hôm Nay</a>
+                        <a class="collapse-item" href="takemykeep">Chấm Công Hôm Nay</a>
                         <a class="collapse-item" href="mytimekeeping">Chấm Công Của Tôi</a>
                     </div>
                 </div>

@@ -18,8 +18,8 @@ import models.personnel.PersonnelAttendance;
 import models.personnel.PersonnelAttendanceDAO;
 import models.personnel.PersonnelDAO;
 
-@WebServlet(name = "accountant/TakeAttendanceServlet", value = "/accountant/takeattendance")
-public class TakeAttendanceServlet extends HttpServlet {
+@WebServlet(name = "accountant/TakeMyKeepServlet", value = "/accountant/takemykeep")
+public class TakeMyKeepServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
