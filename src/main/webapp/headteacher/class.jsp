@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
+
     <title>Quản Lý Lớp Học</title>
     <script>
         function submitForm() {

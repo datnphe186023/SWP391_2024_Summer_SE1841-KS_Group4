@@ -5,7 +5,7 @@
 <html lang="en">
 
     <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
+
         <title>Cập nhật thông tin</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

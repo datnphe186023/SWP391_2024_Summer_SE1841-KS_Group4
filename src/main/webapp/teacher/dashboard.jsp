@@ -29,7 +29,7 @@
                 <div id="content">
                     <jsp:include page="../header.jsp"/>
                     <div class="container-fluid">
-
+                    <img src="../image/logo.png">
                     </div>
                 </div>
                 <jsp:include page="../footer.jsp"/>
