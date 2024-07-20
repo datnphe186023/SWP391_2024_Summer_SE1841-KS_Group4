@@ -68,7 +68,6 @@ public class DashboardAcademicStaffServlet extends HttpServlet {
             request.setAttribute("attendance",personnelAttendanceDAO.getAttendanceByPersonnelAndDay(user.getUsername(), dayDAO.getDayByDate(formattedDate).getId()));
         }
         request.setAttribute("listEvents",eventDAO.getFutureEvent(2));
-
         request.setAttribute("numberOfStudent",pupilDAO.getPupilByStatus("đang theo học").size());
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 

@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,36 +78,6 @@
                         </div>
                     </div>
 
-                    <!-- Menu Card Example -->
-<%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
-<%--                        <div class="card border-left-info shadow h-100 py-2">--%>
-<%--                            <div class="card-body">--%>
-<%--                                <div class="row no-gutters align-items-center">--%>
-<%--                                    <div class="col mr-2">--%>
-<%--                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">--%>
-<%--                                            Đội ngũ giáo viên--%>
-<%--                                        </div>--%>
-<%--                                        <div class="row no-gutters align-items-center">--%>
-<%--                                            <div class="col-auto">--%>
-<%--                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">trên 80% giáo viên có bằng thạc sĩ</div>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col">--%>
-<%--                                                <div class="progress progress-sm mr-2">--%>
-<%--                                                    <div class="progress-bar bg-info" role="progressbar"--%>
-<%--                                                         style="width: 50%" aria-valuenow="80" aria-valuemin="0"--%>
-<%--                                                         aria-valuemax="100"></div>--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="col-auto">--%>
-<%--                                        <i class="fas fa-users fa-2x text-gray-300"></i>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-
                     <!-- Notifications Card Example -->
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-warning shadow h-100 py-2">
@@ -116,7 +87,7 @@
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                            Thông báo
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.notifications} thông báo</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.notifications} Thông báo mới</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-bell fa-2x text-gray-300"></i>
@@ -153,7 +124,7 @@
                                                     <tr>
                                                         <th scope="row">${status.index + 1}</th>
                                                         <td>${event.heading}</td>
-                                                        <td>${event.date}</td>
+                                                        <td><fmt:formatDate value="${event.date}" pattern="dd/MM/yyyy"/></td>
                                                         <td>
                                                                 ${event.createdBy.lastName} ${event.createdBy.firstName}
                                                         </td>

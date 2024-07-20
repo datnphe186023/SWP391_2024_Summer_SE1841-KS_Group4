@@ -52,8 +52,8 @@ public class DashboardAccountantServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         List<Event> events = eventDAO.getFutureEvent(user.getRoleId());
 
-        int notifications = notificationDAO.getListNotifiByRoleId(user.getRoleId()).size();
-        if(notificationDAO.getListNotifiByRoleId(user.getRoleId()).isEmpty()){
+        int notifications = notificationDAO.getListNotifiByUserId(user.getId()).size();
+        if(notificationDAO.getListNotifiByUserId(user.getId()).isEmpty()){
             notifications = 0;
         }
         int pupils = pupilDAO.getPupilByStatus("đang theo học").size();
