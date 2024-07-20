@@ -13,5 +13,6 @@ public interface IEventDAO {
     Event getLastest();
     boolean checkExistEvent(String heading);
     List<Event> getFutureEvent(int role);
+    List<Event> getFutureEvent();
 
 }
