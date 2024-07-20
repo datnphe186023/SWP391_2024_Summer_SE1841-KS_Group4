@@ -18,8 +18,8 @@ import models.personnel.PersonnelAttendance;
 import models.personnel.PersonnelAttendanceDAO;
 import models.personnel.PersonnelDAO;
 
-@WebServlet(name = "accountant/TakeMyKeepServlet", value = "/accountant/takemykeep")
-public class TakeMyKeepServlet extends HttpServlet {
+@WebServlet(name = "accountant/TakeTimeKeepServlet", value = "/accountant/taketimekeep")
+public class TakeTimeKeepServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,9 +39,13 @@ public class TakeMyKeepServlet extends HttpServlet {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(date);
-        List<Personnel> personnel = personnelDAO.getPersonnelAttendance();
-        request.setAttribute("date", dateString);
-        request.setAttribute("personnel", personnel);
+        IDayDAO dayDAO = new DayDAO();
+        if (dayDAO.getDayByDate(dateString)!=null){
+            List<Personnel> personnel = personnelDAO.getPersonnelAttendance();
+            request.setAttribute("date", dateString);
+            request.setAttribute("personnel", personnel);
+        }
+
         request.getRequestDispatcher("takeTimeKeep.jsp").forward(request, response);
     }
 
@@ -60,14 +64,6 @@ public class TakeMyKeepServlet extends HttpServlet {
         String result = "";
         HttpSession session = request.getSession();
 
-        // Check if the day exists before processing attendance
-        if (dayDAO.getDayByDate(dateString) == null) {
-            session.setAttribute("toastType", "error");
-            session.setAttribute("toastMessage", "Đang trong kì nghỉ");
-            response.sendRedirect("takemykeep");
-            return; 
-        }
-
         while (params.hasMoreElements()) {
             String name = params.nextElement();
             if (name.startsWith("attendance")) {
@@ -81,7 +77,6 @@ public class TakeMyKeepServlet extends HttpServlet {
                 result = personnelAttendanceDAO.addAttendance(personnelAttendance);
             }
         }
-
         //sending result
         if (result.equals("success")) {
             session.setAttribute("toastType", "success");
@@ -90,7 +85,7 @@ public class TakeMyKeepServlet extends HttpServlet {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", result);
         }
-        response.sendRedirect("takemykeep");
+        response.sendRedirect("taketimekeep");
     }
 
 }

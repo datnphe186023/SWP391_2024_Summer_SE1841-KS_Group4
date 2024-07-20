@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="personnelBean" class="models.personnel.PersonnelDAO"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +87,7 @@
                                             <br/>
                                             <p><strong>Giới tính:</strong> ${personnel.gender ? 'Nam' : 'Nữ'}</p>
                                             <br/>
-                                            <p><strong>Ngày sinh:</strong> ${personnel.birthday}</p>
+                                            <p><strong>Ngày sinh:</strong> <fmt:formatDate value="${personnel.birthday}" pattern="dd/MM/yyyy"/> </p>
                                             <br/>
                                             <p><strong>Địa chỉ</strong> ${personnel.address}</p>
                                             <br/>

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="bean" class="models.pupil.PupilDAO"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
@@ -70,7 +71,7 @@
                                 <div class="row mb-3">
                                     <div class="col-sm-3 font-weight-bold">Thời gian gửi:</div>
                                     <div class="col-sm-9" id="createdAt">
-                                        ${notifi.createdAt}
+                                        <fmt:formatDate value="${notifi.createdAt}" pattern="dd/MM/yyyy"/>
                                     </div>
                                 </div>
                             </div>

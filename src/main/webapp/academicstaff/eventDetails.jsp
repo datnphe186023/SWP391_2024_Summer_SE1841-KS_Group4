@@ -1,5 +1,6 @@
 <%@ page import="models.event.Event" %>
-<%@ page import="java.util.Date" %><%--
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: datng
   Date: 22-Jun-24
@@ -31,7 +32,9 @@
                                 if (details != null) {
                                     details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
                                 }
-                                Date eventDate = event.getDate();
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                             String eventDate = dateFormat.format(event.getDate());
+
                             %>
                             <div class="col-sm-9" id="details">
                                 <%= details %>
