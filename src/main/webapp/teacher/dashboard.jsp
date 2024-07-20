@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            
+
 
                             <!-- Menu Card Example -->
                             <div class="col-xl-4 col-md-6 mb-4">
@@ -72,11 +72,11 @@
                                                     <div class="col-auto">
                                                         <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.sumApplication}</div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-utensils fa-2x text-gray-300"></i>
+                                                <i class="fas fa-paper-plane fa-2x text-gray-300"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -110,40 +110,52 @@
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Danh sách sự kiện</h6>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Event</th>
-                                                        <th>Date</th>
-                                                        <th>Location</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Sports Day</td>
-                                                        <td>2024-07-30</td>
-                                                        <td>School Ground</td>
-                                                        <td>Annual sports day for all students.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Art Exhibition</td>
-                                                        <td>2024-08-15</td>
-                                                        <td>School Auditorium</td>
-                                                        <td>Exhibition of students' artworks.</td>
-                                                    </tr>
-                                                    <!-- Add more events here -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <c:choose>
+                                        <c:when test="${requestScope.listEvents.size() > 0}">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>STT</th>
+                                                                <th>Tên sự kiện</th>
+                                                                <th>Ngày</th>
+                                                                <th>Người gửi</th>
+                                                                <th>Chi tiết</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach var="event" items="${requestScope.listEvents}" varStatus="status">
+                                                                <tr>
+                                                                    <th scope="row">${status.index + 1}</th>
+                                                                    <td>${event.heading}</td>
+                                                                    <td>${event.date}</td>
+                                                                    <td>
+                                                                        ${event.createdBy.lastName} ${event.createdBy.firstName}
+                                                                    </td>
+                                                                    <td class="text-center"><a href="eventDetail?id=${event.id}"
+                                                                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="card-body">
+                                                <div class="alert alert-info text-center" role="alert">
+                                                    <strong>Không có sự kiện nào</strong>
+                                                    <p>Hiện tại không có sự kiện nào được lên lịch.</p>
+                                                    <i class="fas fa-calendar-alt fa-2x"></i>
+                                                </div>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
 
-                    <img src="../image/logo.png">
 
                     </div>
 
