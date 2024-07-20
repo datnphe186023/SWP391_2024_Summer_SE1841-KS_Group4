@@ -42,7 +42,7 @@ public class TakeMyKeepServlet extends HttpServlet {
         List<Personnel> personnel = personnelDAO.getPersonnelAttendance();
         request.setAttribute("date", dateString);
         request.setAttribute("personnel", personnel);
-        request.getRequestDispatcher("takeAttendance.jsp").forward(request, response);
+        request.getRequestDispatcher("takeTimeKeep.jsp").forward(request, response);
     }
 
     @Override

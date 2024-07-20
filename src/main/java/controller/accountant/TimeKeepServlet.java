@@ -55,7 +55,7 @@ public class TimeKeepServlet extends HttpServlet {
         request.setAttribute("days", days);
 
         //direct to jsp
-        request.getRequestDispatcher("viewAttendance.jsp").forward(request, response);
+        request.getRequestDispatcher("viewTimeKeep.jsp").forward(request, response);
 
     }
 
