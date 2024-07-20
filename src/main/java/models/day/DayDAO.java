@@ -214,4 +214,21 @@ public class DayDAO extends DBContext implements IDayDAO {
         return days;
     }
 
+    public String getDateIDbyDay(Date day){
+        String id ="";
+        String sql = "SELECT id FROM Days WHERE date = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, new java.sql.Date(day.getTime()));
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()) {
+                id =rs.getString("id");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
 }

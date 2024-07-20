@@ -2,6 +2,7 @@ package models.day;
 
 import models.week.Week;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IDayDAO {
@@ -12,4 +13,5 @@ public interface IDayDAO {
     Day getDayByDate(String date);
     List<Day> getDaysWithTimetableForClass(String weekId, String classId);
     List<Day> getDaysInFutureWithTimetableForClass(String classId);
+    public String getDateIDbyDay(Date day);
 }

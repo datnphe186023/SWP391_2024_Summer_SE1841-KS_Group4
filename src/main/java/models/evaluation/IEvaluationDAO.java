@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface IEvaluationDAO {
 
+    public Evaluation getEvaluationByPupilIdAndDay(String pupilId, String dateId);
     boolean createEvaluation(Evaluation evaluation);
 
     boolean checkEvaluationExist(String pupilId, String dateId);
