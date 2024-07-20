@@ -275,7 +275,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         String previousId = "SY" + String.format("%06d", numericalPart - 1);
 
         if (getSchoolYear(previousId) != null) {
-            Date lastEndDate = getLatest().getEndDate();
+            Date lastEndDate = getSchoolYear(previousId).getEndDate();
             if (!schoolYear.getStartDate().after(lastEndDate)) {
                 return "Ngày bắt đầu năm học mới phải sau ngày kết thúc năm học cũ";
             }
