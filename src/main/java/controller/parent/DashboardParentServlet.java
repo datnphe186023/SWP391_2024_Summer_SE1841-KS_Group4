@@ -66,21 +66,25 @@ public class DashboardParentServlet extends HttpServlet {
         String evaluation = "";
         String takeattendance = "";
         if(weekDAO.getCurrentWeek(currentDate)==null){
-            evaluation = "đang không trong năm học";
-            takeattendance = "đang không trong năm học";
+            evaluation = "Đang không trong năm học";
+            takeattendance = "Đang không trong năm học";
         }else{
-            evaluation = evaluationDAO.getEvaluationByPupilIdAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getEvaluation();
-            takeattendance = pupilAttendanceDAO.getAttendanceByPupilAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getStatus();
+            if( evaluationDAO.getEvaluationByPupilIdAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate))!=null){
+                evaluation = evaluationDAO.getEvaluationByPupilIdAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getEvaluation();
+            }
+            if(pupilAttendanceDAO.getAttendanceByPupilAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate))!=null){
+                takeattendance = pupilAttendanceDAO.getAttendanceByPupilAndDay(pupilDAO.getPupilByUserId(user.getId()).getId(),dayDAO.getDateIDbyDay(currentDate)).getStatus();
+            }
         }
 
 
-        int notifications = notificationDAO.getListNotifiByRoleId(user.getRoleId()).size();
-        if(notificationDAO.getListNotifiByRoleId(user.getRoleId()).isEmpty()){
+        int notifications = notificationDAO.getListNotifiByUserId(user.getId()).size();
+        if(notificationDAO.getListNotifiByUserId(user.getId()).isEmpty()){
             notifications = 0;
         }
         request.setAttribute("listEvents", events);
         request.setAttribute("evaluation", evaluation);
-        request.setAttribute("takeattendance", takeattendance);
+        request.setAttribute("takeAttendance", takeattendance);
         request.setAttribute("notifications", notifications);
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 
