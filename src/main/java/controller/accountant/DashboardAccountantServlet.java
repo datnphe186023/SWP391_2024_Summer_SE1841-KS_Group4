@@ -7,10 +7,24 @@ package controller.accountant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.event.Event;
+import models.event.EventDAO;
+import models.event.IEventDAO;
+import models.notification.INotificationDAO;
+import models.notification.NotificationDAO;
+import models.personnel.IPersonnelDAO;
+import models.personnel.Personnel;
+import models.personnel.PersonnelDAO;
+import models.pupil.IPupilDAO;
+import models.pupil.Pupil;
+import models.pupil.PupilDAO;
+import models.user.User;
 
 /**
  *
@@ -31,6 +45,23 @@ public class DashboardAccountantServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        IPupilDAO pupilDAO = new PupilDAO();
+        IPersonnelDAO personnelDAO = new PersonnelDAO();
+        INotificationDAO notificationDAO = new NotificationDAO();
+        IEventDAO eventDAO = new EventDAO();
+        User user = (User) request.getSession().getAttribute("user");
+        List<Event> events = eventDAO.getFutureEvent(user.getRoleId());
+
+        int notifications = notificationDAO.getListNotifiByRoleId(user.getRoleId()).size();
+        if(notificationDAO.getListNotifiByRoleId(user.getRoleId()).isEmpty()){
+            notifications = 0;
+        }
+        int pupils = pupilDAO.getPupilByStatus("đang theo học").size();
+        int personnels = personnelDAO.getPersonnelByStatus("đang làm việc").size();
+        request.setAttribute("listEvents",events);
+        request.setAttribute("pupils", pupils);
+        request.setAttribute("personnels", personnels);
+        request.setAttribute("notifications", notifications);
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 
 
