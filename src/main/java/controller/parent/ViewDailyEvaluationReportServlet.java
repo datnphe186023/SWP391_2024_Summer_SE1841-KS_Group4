@@ -7,6 +7,7 @@ import models.evaluation.Evaluation;
 import models.evaluation.EvaluationDAO;
 import models.evaluation.IEvaluationDAO;
 import models.pupil.IPupilDAO;
+import models.pupil.Pupil;
 import models.pupil.PupilDAO;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYear;
@@ -36,6 +37,7 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
         String sltedw = "";
         String sltedy = "";
         String display= "week";
+        Pupil pupil = pupilDAO.getPupilByUserId(user.getId());
         if(weekDAO.getCurrentWeek(currentDate)!=null){
             sltedw = weekDAO.getCurrentWeek(currentDate);
             sltedy = weekDAO.getYearByWeek(sltedw);
@@ -52,6 +54,7 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
         List<Evaluation> evaluationList = evaluationDAO.getEvaluationByWeekandPupilId(sltedw,pupilDAO.getPupilByUserId(user.getId()).getId());
         int good_day = evaluationDAO.countEvaluationOfWeek(sltedw,pupilDAO.getPupilByUserId(user.getId()).getId());
         Week choosenweek = weekDAO.getWeek(sltedw);
+        request.setAttribute("pupil", pupil);
         request.setAttribute("good_day",good_day);
         request.setAttribute("cweek",choosenweek);
         request.setAttribute("schoolYearList", schoolYears);
@@ -75,9 +78,7 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
         String sltedy = request.getParameter("schoolyear");
         String sltedw = request.getParameter("week");
         String display = request.getParameter("display");
-        System.out.println(sltedw);
-        System.out.println(sltedy);
-        System.out.println(display);
+        Pupil pupil = pupilDAO.getPupilByUserId(user.getId());
         if(display.equalsIgnoreCase("week")&&sltedw==null&&sltedy==null){
             response.sendRedirect("viewdailyevaluationreport");
         }
@@ -93,7 +94,7 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
             List<SchoolYear> schoolYears = schoolYearDAO.getListSchoolYearsByPupilID(pupilDAO.getPupilByUserId(user.getId()).getId());
             List<Week> weekList = weekDAO.getWeeks(sltedy);
 
-
+            request.setAttribute("pupil", pupil);
             request.setAttribute("schoolYearList", schoolYears);
             request.setAttribute("weekList",weekList);
 
@@ -112,7 +113,7 @@ public class ViewDailyEvaluationReportServlet extends HttpServlet {
                 good_day.add(Integer.parseInt(parts[1]));
                 week.add(Integer.parseInt(parts[2]));
             }
-
+            request.setAttribute("pupil", pupil);
             request.setAttribute("schoolYears",schoolYears);
             request.setAttribute("good_day",good_day);
             request.setAttribute("week",week);
