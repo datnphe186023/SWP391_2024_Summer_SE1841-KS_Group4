@@ -24,6 +24,7 @@ public interface IPupilDAO {
     List<Pupil> getListPupilOfTeacherBySchoolYear(String schoolYearId, String teacherId);
 
     List<Pupil> getPupilByClass(String classId);
+    int getSumPupilInClass(String classId);
 
     List<Pupil> getPupilByStatus(String status);
 

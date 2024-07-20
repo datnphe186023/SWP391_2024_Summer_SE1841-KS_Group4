@@ -29,4 +29,5 @@ public interface IClassDAO {
     Class getClassByPupilIdAndSchoolYear(String id, String schoolYear);
 
     String getClassNameByTeacherAndTimetable(String teacherId, String date);
+    Class getClassNameByTeacher(String teacherId);
 }
