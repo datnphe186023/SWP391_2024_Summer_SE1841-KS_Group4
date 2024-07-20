@@ -37,7 +37,7 @@
             <div class="container-fluid">
                 <h1 class="h3 mb-4 text-gray-800 text-center">Báo cáo sức khỏe</h1>
                 <div class="row">
-                    <div class="col-md-3" >
+                    <div class="col-md-4" >
                     <form action="viewhealthreport" method="post">
                         <div class="class-form" >
                             <label>Năm học
@@ -67,7 +67,7 @@
                             .fake-select {
                                 display: inline-block;
                                 width: 75%;
-                                height: calc(1.5em + .75rem + 2px);
+                                height: 70%;
                                 padding: .375rem 1.75rem .375rem .75rem;
                                 font-size: 1rem;
                                 font-weight: 400;
@@ -82,6 +82,7 @@
                                 appearance: none;
                             }
                         </style>
+
                     <div class="class-form" >
                         <label>Báo cáo</label><br>
                         <div class="fake-select" >
@@ -96,7 +97,7 @@
 
                     <c:set var="c" value="${requestScope.healthCheckUpList}"/>
                     <c:if test="${requestScope.selectedReport == 'overall'}">
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
@@ -266,6 +267,7 @@
 
 
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
                                 <script type="text/javascript">
                                     var labels = [];
                                     var systolicData = [];
@@ -323,14 +325,8 @@
                     </c:if>
 
                     <c:if test="${requestScope.selectedReport == 'detail'}">
-                        <style>
-                            .center-container {
 
-                                justify-content: center;
-
-                            }
-                        </style>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                         <div class="row">
 
                             <div class="col-md-3">
