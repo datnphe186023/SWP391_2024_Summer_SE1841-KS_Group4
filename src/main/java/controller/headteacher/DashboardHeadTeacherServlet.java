@@ -7,15 +7,30 @@ package controller.headteacher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.classes.ClassDAO;
+import models.classes.IClassDAO;
+import models.day.DayDAO;
+import models.day.IDayDAO;
+import models.event.Event;
+import models.event.EventDAO;
+import models.event.IEventDAO;
+import models.personnel.IPersonnelAttendanceDAO;
+import models.personnel.PersonnelAttendanceDAO;
 import models.pupil.IPupilDAO;
 import models.pupil.PupilDAO;
 import models.schoolYear.ISchoolYearDAO;
 import models.schoolYear.SchoolYearDAO;
+import models.user.User;
 
 /**
  *
@@ -36,6 +51,30 @@ public class DashboardHeadTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        IPupilDAO pupilDAO = new PupilDAO();
+        IClassDAO classDAO = new ClassDAO();
+        ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
+        IDayDAO dayDAO = new DayDAO();
+        IPersonnelAttendanceDAO personnelAttendanceDAO = new PersonnelAttendanceDAO();
+        HttpSession session = request.getSession();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
+        String formattedDate = formatter.format(new Date());
+        if(schoolYearDAO.getClosestSchoolYears()!=null){
+            request.setAttribute("listClass",classDAO.getByStatus("đã được duyệt",schoolYearDAO.getClosestSchoolYears().getId()));
+        }else if(schoolYearDAO.getSchoolYearByDate(new Date())!=null) {
+            request.setAttribute("listClass",classDAO.getByStatus("đã được duyệt",schoolYearDAO.getSchoolYearByDate(new Date()).getId()));
+        }else {
+            request.setAttribute("listClass",null);
+        }
+        if( dayDAO.getDayByDate(formattedDate)!=null){
+            User user = (User)session.getAttribute("user");
+            request.setAttribute("attendance",personnelAttendanceDAO.getAttendanceByPersonnelAndDay(user.getUsername(), dayDAO.getDayByDate(formattedDate).getId()));
+        }
+        IEventDAO eventDAO = new EventDAO();
+        request.setAttribute("listEvents", eventDAO.getFutureEvent());
+
+        request.setAttribute("numberOfStudent",pupilDAO.getPupilByStatus("đang theo học").size());
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 
 

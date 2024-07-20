@@ -196,4 +196,21 @@ public class EventDAO extends DBContext implements IEventDAO {
         }
         return events;
     }
+
+    @Override
+    public List<Event> getFutureEvent() {
+        List<Event> events = new ArrayList<>();
+        String sql = "select * from [Events]\n" +
+                "         where date > GETDATE()";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                events.add(createEvent(resultSet));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return events;
+    }
 }
