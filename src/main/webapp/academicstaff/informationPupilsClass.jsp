@@ -139,7 +139,7 @@
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <c:set var="vietnamesePattern" value="aáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸ\s]+"/>
-                                        <form action="pupilprofileclass" method="get">
+                                        <form action="pupilprofileclass" method="post">
                                             <input type="hidden" name="avatar" value="${pupil.avatar}"/>
                                             <input type="hidden" name="id" value="${pupil.id}"/>
                                             <input type="hidden" name="classId" value="${requestScope.classId}"/>
@@ -207,6 +207,7 @@
                                                     <button onclick="goBack()" type="button" class="btn btn-danger">Quay Lại</button>
                                                 </div>
                                                 <div class="m-2">
+                                                    <input hidden value="edit" name="action"/>
                                                     <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
                                                 </div>
 

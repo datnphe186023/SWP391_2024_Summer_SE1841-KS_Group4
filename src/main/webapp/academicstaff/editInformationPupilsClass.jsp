@@ -220,6 +220,7 @@
                                         <form action="updatepupilsclass" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
                                             <input type="hidden" name="classId" value="${requestScope.classId}"/>
+                                            <input type="hidden" value="noedit" name="action"/>
                                             <table>
                                                 <tbody>
                                                     <tr>

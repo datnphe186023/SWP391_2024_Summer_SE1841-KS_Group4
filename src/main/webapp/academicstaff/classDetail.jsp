@@ -242,6 +242,7 @@
                                                         <form method="post" action="pupilprofileclass">
                                                             <input hidden="" value="${pupil.id}" name="id"/>
                                                             <input hidden="" value="${sessionScope.classId}" name="classId"/>
+                                                            <input hidden="" value="view" name="action"/>
                                                             <button type="submit" class="btn btn-primary">   Thông tin chi tiết</button>
                                                         </form>
                                                     </td>

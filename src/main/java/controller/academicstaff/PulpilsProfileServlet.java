@@ -59,11 +59,6 @@ public class PulpilsProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("editInformationPupil.jsp").forward(request, response);
 
     }
 
@@ -78,24 +73,33 @@ public class PulpilsProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(id);
-        HttpSession session = request.getSession();
-        String success = (String) session.getAttribute("success");
-        String error = (String) session.getAttribute("error");
-        if (success != null) {
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Cập nhật thông tin thành công");
-            session.removeAttribute("success");
+        String action = request.getParameter("action");
+        if (action.equalsIgnoreCase("edit")) {
+            String id = request.getParameter("id");
+            IPupilDAO pupilDAO = new PupilDAO();
+            Pupil pupil = pupilDAO.getPupilsById(id);
+            request.setAttribute("pupil", pupil);
+            request.getRequestDispatcher("editInformationPupil.jsp").forward(request, response);
+        } else {
+            String id = request.getParameter("id");
+            IPupilDAO pupilDAO = new PupilDAO();
+            Pupil pupil = pupilDAO.getPupilsById(id);
+            HttpSession session = request.getSession();
+            String success = (String) session.getAttribute("success");
+            String error = (String) session.getAttribute("error");
+            if (success != null) {
+                request.setAttribute("toastType", "success");
+                request.setAttribute("toastMessage", "Cập nhật thông tin thành công");
+                session.removeAttribute("success");
+            }
+            if (error != null) {
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "Cập nhật thông tin thất bại");
+                session.removeAttribute("error");
+            }
+            request.setAttribute("pupil", pupil);
+            request.getRequestDispatcher("informationPupils.jsp").forward(request, response);
         }
-        if (error != null) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Cập nhật thông tin thất bại");
-            session.removeAttribute("error");
-        }
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("informationPupils.jsp").forward(request, response);
     }
 
     /**
