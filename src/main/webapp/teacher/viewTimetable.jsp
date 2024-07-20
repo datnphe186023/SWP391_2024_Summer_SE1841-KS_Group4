@@ -140,9 +140,9 @@
                             </c:if>
                         </div>
                         <form id="schoolYearForm" method="post" action="view-timetable">
-                            <input type="hidden" name="pid" value="${sessionScope.personnel.id}"/>
-                            <input type="hidden" name="id" value="${param.id}"/>
-                            <input type="hidden" name="classId" value="${requestScope.aClass.id}"/>
+                            <input hidden=""  name="pid" value="${sessionScope.personnel.id}"/>
+                            <input hidden=""  name="id" value="${param.id}"/>
+                            <input hidden=""  name="classId" value="${requestScope.aClass.id}"/>
                             <table class="timetable-table table table-bordered text-center">
                                 <div class="d-flex justify-content-lg-start">
                                     <div class="class-form m-2">
