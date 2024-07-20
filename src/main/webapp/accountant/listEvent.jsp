@@ -42,6 +42,7 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Tên sự kiện</th>
+                                    <th>Ngày</th>
                                     <th>Người gửi</th>
                                     <th>Chi tiết</th>
                                 </tr>
@@ -51,6 +52,7 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${event.heading}</td>
+                                        <td>${event.date}</td>
                                         <td>
                                             ${event.createdBy.lastName} ${event.createdBy.firstName}
                                         </td>
