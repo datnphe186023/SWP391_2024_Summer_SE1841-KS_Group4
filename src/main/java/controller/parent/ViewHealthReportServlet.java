@@ -13,7 +13,6 @@ import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.user.User;
 import models.week.IWeekDAO;
-import models.week.Week;
 import models.week.WeekDAO;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class ViewHealthReportServlet extends HttpServlet {
         if(weekDAO.getCurrentWeek(currentDate)!=null){
             sltedw = weekDAO.getCurrentWeek(currentDate);
             sltedy = weekDAO.getYearByWeek(sltedw);
-        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.CheckPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
+        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.checkPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
             sltedy = schoolYearDAO.getClosestSchoolYears().getId();
             sltedw = weekDAO.getfirstWeekOfClosestSchoolYear(sltedy).getId();
         }

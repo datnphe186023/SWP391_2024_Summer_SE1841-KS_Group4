@@ -36,10 +36,7 @@ public class SchoolYearSummarizeServlet extends HttpServlet {
             int numberOfPupilInSchoolYear = pupils.size();
             int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
             Date currentDate = Date.from(Instant.now());
-            boolean display = true;
-            if(currentDate.after(weekDAO.getLastWeek(sltedsy.getId()).getStartDate())){
-                display = false;
-            }
+            boolean display = currentDate.after(weekDAO.getLastWeek(sltedsy.getId()).getStartDate());
             request.setAttribute("display", display);
             request.setAttribute("numberOfPupilInSchoolYear", numberOfPupilInSchoolYear);
             request.setAttribute("numberOfGoodPupil", numberOfGoodPupil);
@@ -62,10 +59,7 @@ public class SchoolYearSummarizeServlet extends HttpServlet {
         int numberOfPupilInSchoolYear = pupils.size();
         int numberOfGoodPupil =  evaluationDAO.AccomplishmentAchieveStudents(sltedsy.getId());
         Date currentDate = Date.from(Instant.now());
-        boolean display = true;
-        if(currentDate.before(sltedsy.getEndDate())){
-            display = false;
-        }
+        boolean display = !currentDate.before(sltedsy.getEndDate());
         request.setAttribute("display", display);
         request.setAttribute("numberOfPupilInSchoolYear", numberOfPupilInSchoolYear);
         request.setAttribute("numberOfGoodPupil", numberOfGoodPupil);

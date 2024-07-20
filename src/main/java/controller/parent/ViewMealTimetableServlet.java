@@ -42,7 +42,7 @@ public class ViewMealTimetableServlet extends HttpServlet {
             sltedw = weekDAO.getCurrentWeek(currentDate);
             sltedsy = weekDAO.getYearByWeek(sltedw);
             sltedg = gradeDAO.getGradeFromPupilIdAndSchoolYearId(sltedsy,pupilDAO.getPupilByUserId(user.getId()).getId());
-        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.CheckPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
+        }else if(schoolYearDAO.getClosestSchoolYears()!=null && schoolYearDAO.checkPupilInClassOfSchoolYear(pupilDAO.getPupilByUserId(user.getId()).getId(),schoolYearDAO.getClosestSchoolYears().getId())) {
             sltedsy = schoolYearDAO.getClosestSchoolYears().getId();
             sltedw = weekDAO.getfirstWeekOfClosestSchoolYear(sltedsy).getId();
             sltedg = gradeDAO.getGradeFromPupilIdAndSchoolYearId(sltedsy,pupilDAO.getPupilByUserId(user.getId()).getId());

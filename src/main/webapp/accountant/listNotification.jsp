@@ -65,7 +65,11 @@
                                                     <th scope="row">${status.index + 1}</th>
                                                     <td>${notifi.getHeading()}</td>
                                                     <td>${notifi.getCreatedAt()}</td>
-                                                    <td><a href="notificationdetails?id=${notifi.getId()}"><button class="btn btn-primary">XEM CHI TIẾT</button></a>
+                                                    <td>
+                                                        <form action="notificationdetails" method="Post">
+                                                            <input hidden value="${notifi.getId()}" name="id"/>
+                                                            <button type="submit" class="btn btn-primary">XEM CHI TIẾT</button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

@@ -125,6 +125,7 @@
 
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary"> Đánh giá Theo Tuần: ${requestScope.cweek.getStartDatetoEndDate()} </h6>
+                            <h6 class="m-0 font-weight-bold text-primary"> Học sinh : ${requestScope.pupil.getLastName()} ${requestScope.pupil.getFirstName()} </h6>
                             <c:if test="${requestScope.good_day != null}">
                             <h6 class="m-0 font-weight-bold text-primary"> Số buổi ngoan:  ${requestScope.good_day}/5 </h6>
                             </c:if>
@@ -184,6 +185,7 @@
 
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary"> Đánh giá Theo Năm học</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"> Học sinh : ${requestScope.pupil.getLastName()} ${requestScope.pupil.getFirstName()} </h6>
 
                         </div>
 

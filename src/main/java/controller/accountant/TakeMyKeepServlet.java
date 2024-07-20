@@ -18,8 +18,8 @@ import models.personnel.PersonnelAttendance;
 import models.personnel.PersonnelAttendanceDAO;
 import models.personnel.PersonnelDAO;
 
-@WebServlet(name = "accountant/TakeAttendanceServlet", value = "/accountant/takeattendance")
-public class TakeAttendanceServlet extends HttpServlet {
+@WebServlet(name = "accountant/TakeMyKeepServlet", value = "/accountant/takemykeep")
+public class TakeMyKeepServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class TakeAttendanceServlet extends HttpServlet {
         List<Personnel> personnel = personnelDAO.getPersonnelAttendance();
         request.setAttribute("date", dateString);
         request.setAttribute("personnel", personnel);
-        request.getRequestDispatcher("takeAttendance.jsp").forward(request, response);
+        request.getRequestDispatcher("takeTimeKeep.jsp").forward(request, response);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TakeAttendanceServlet extends HttpServlet {
         if (dayDAO.getDayByDate(dateString) == null) {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", "Đang trong kì nghỉ");
-            response.sendRedirect("takeattendance");
+            response.sendRedirect("takemykeep");
             return; 
         }
 
@@ -90,7 +90,7 @@ public class TakeAttendanceServlet extends HttpServlet {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", result);
         }
-        response.sendRedirect("takeattendance");
+        response.sendRedirect("takemykeep");
     }
 
 }

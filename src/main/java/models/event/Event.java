@@ -2,17 +2,29 @@ package models.event;
 
 import models.personnel.Personnel;
 
+import java.util.Date;
+
 public class Event {
     private String id;
     private Personnel createdBy;
     private String heading;
     private String details;
+    private Date date;
 
-    public Event(String id, Personnel createdBy, String heading, String details) {
+    public Event(String id, Personnel createdBy, String heading, String details, Date date) {
         this.id = id;
         this.createdBy = createdBy;
         this.heading = heading;
         this.details = details;
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Event() {

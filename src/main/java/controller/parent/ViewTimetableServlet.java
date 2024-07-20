@@ -53,7 +53,7 @@ public class ViewTimetableServlet extends HttpServlet {
             sltedw = weekDAO.getCurrentWeek(currentDate);
             sltedsy = weekDAO.getYearByWeek(sltedw);
         } else if (schoolYearDAO.getClosestSchoolYears() != null
-                && schoolYearDAO.CheckPupilInClassOfSchoolYear(
+                && schoolYearDAO.checkPupilInClassOfSchoolYear(
                         pupilDAO.getPupilByUserId(user.getId()).getId(),
                         schoolYearDAO.getClosestSchoolYears().getId())) {
             sltedsy = schoolYearDAO.getClosestSchoolYears().getId();

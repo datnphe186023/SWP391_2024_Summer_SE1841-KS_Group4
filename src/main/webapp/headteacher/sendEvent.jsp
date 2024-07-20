@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
+
     <title>Tạo sự kiện</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
@@ -89,6 +89,10 @@
                                         Phụ huynh
                                     </label>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <h4 class="h4 mb-2 text-gray-800">Ngày diễn ra<span class="text-danger">*</span></h4>
+                                <input type="date" class="form-control" style="width: 40%" name="date" required>
                             </div>
                             <div class="form-group">
                                 <h4 class="h4 mb-2 text-gray-800">Chi tiết <span class="text-danger">*</span></h4>

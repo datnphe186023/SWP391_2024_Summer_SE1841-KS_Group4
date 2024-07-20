@@ -27,36 +27,7 @@
         }
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                language: {
-                    sProcessing: "Đang xử lý...",
-                    sLengthMenu: "Xem _MENU_ mục",
-                    sZeroRecords: "Không tìm thấy dòng nào phù hợp",
-                    sInfo: "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
-                    sInfoEmpty: "Đang xem 0 đến 0 trong tổng số 0 mục",
-                    sInfoFiltered: "(được lọc từ _MAX_ mục)",
-                    sInfoPostFix: "",
-                    sSearch: "Tìm:",
-                    sUrl: "",
-                    sEmptyTable: "Không có dữ liệu trong bảng",
-                    sLoadingRecords: "Đang tải...",
-                    sInfoThousands: ",",
-                    oPaginate: {
-                        sFirst: "Đầu",
-                        sLast: "Cuối",
-                        sNext: "Tiếp",
-                        sPrevious: "Trước"
-                    },
-                    oAria: {
-                        sSortAscending: ": Sắp xếp thứ tự tăng dần",
-                        sSortDescending: ": Sắp xếp thứ tự giảm dần"
-                    }
-                }
-            });
-        });
-    </script>
+
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -257,26 +228,18 @@
                                             </div>
                                         </div>
                                         <div class="row">
+
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Chức vụ </label>
-                                                <select class="form-control" name="role" id="role" required>
-                                                    <option value="" hidden> Chọn chức vụ</option>
-                                                    <c:forEach items="${requestScope.roles}" var="r">
-                                                        <option ${requestScope.role eq r.getId() ? "selected" : ""}
-                                                                value="${r.getId()}">${r.getVNeseDescription()}</option>
-                                                    </c:forEach>
-                                                </select>
+                                                <label class="control-label">Họ</label>
+                                                <input class="form-control" type="text" id="lastname" name="lastname" value="${requestScope.lastname}"
+                                                       pattern="^[A-Za-z${vietnamesePattern}\s]{1,50}$" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Tên </label>
                                                 <input class="form-control" id="firstname" type="text" name="firstname" value="${requestScope.firstname}"
                                                        pattern="^[a-zA-Z${vietnamesePattern}\s]{1,20}$" required>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label class="control-label">Họ</label>
-                                                <input class="form-control" type="text" id="lastname" name="lastname" value="${requestScope.lastname}"
-                                                       pattern="^[A-Za-z${vietnamesePattern}\s]{1,50}$" required>
-                                            </div>
+
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">Giới tính </label>
                                                 <select class="form-control" name="gender" id="gender" required>
@@ -316,6 +279,16 @@
                                                        required>
 
 
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label">Chức vụ </label>
+                                                <select class="form-control" name="role" id="role" required>
+                                                    <option value="" hidden> Chọn chức vụ</option>
+                                                    <c:forEach items="${requestScope.roles}" var="r">
+                                                        <option ${requestScope.role eq r.getId() ? "selected" : ""}
+                                                                value="${r.getId()}">${r.getVNeseDescription()}</option>
+                                                    </c:forEach>
+                                                </select>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="imageUpload" class="form-label"

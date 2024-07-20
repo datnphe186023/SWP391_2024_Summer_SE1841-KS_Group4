@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +24,7 @@ public class EventDAO extends DBContext implements IEventDAO {
         event.setCreatedBy(personnelDAO.getPersonnel(resultSet.getString("created_by")));
         event.setHeading(resultSet.getString("heading"));
         event.setDetails(resultSet.getString("details"));
+        event.setDate(resultSet.getDate("date"));
         return event;
     }
 
@@ -53,7 +56,7 @@ public class EventDAO extends DBContext implements IEventDAO {
 
     @Override
     public String createEvent(Event event) {
-        String sql = "Insert into [Events] values (?,?,?,?)";
+        String sql = "Insert into [Events] values (?,?,?,?,?)";
         if(checkExistEvent(event.getHeading())) {
             return "Tạo thất bại! Sự kiện đã được tạo !";
         }
@@ -67,6 +70,7 @@ public class EventDAO extends DBContext implements IEventDAO {
             preparedStatement.setString(2,event.getCreatedBy().getId());
             preparedStatement.setString(3,event.getHeading());
             preparedStatement.setString(4,event.getDetails());
+            preparedStatement.setDate(5, new java.sql.Date(event.getDate().getTime()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

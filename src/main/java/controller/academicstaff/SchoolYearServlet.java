@@ -47,7 +47,7 @@ public class SchoolYearServlet extends HttpServlet {
             String action = request.getParameter("action");
             if (action == null){
                 response.sendRedirect("schoolyear");
-            } else if (action.equals("create")) {
+            } else {
                 String startDateRaw = request.getParameter("startDate");
                 String endDateRaw = request.getParameter("endDate");
                 String description = request.getParameter("description");
@@ -68,7 +68,13 @@ public class SchoolYearServlet extends HttpServlet {
                 IPersonnelDAO personnelDAO = new PersonnelDAO();
                 Personnel personnel = personnelDAO.getPersonnel(username);
                 schoolYear.setCreatedBy(personnel);
-                String result = schoolYearDAO.createNewSchoolYear(schoolYear);
+                String result = "";
+                if (action.equals("create")) {
+                    result = schoolYearDAO.createNewSchoolYear(schoolYear);
+                } else {
+                    schoolYear.setId(request.getParameter("schoolYearId"));
+                    result = schoolYearDAO.editSchoolYear(schoolYear);
+                }
                 if (result.equals("success")) {
                     session.setAttribute("toastType", "success");
                     session.setAttribute("toastMessage", "Thao tác thành công");

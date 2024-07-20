@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="../image/logo.png" />
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -77,6 +77,7 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Tên sự kiện</th>
+                                    <th>Ngày</th>
                                     <th>Người nhận</th>
                                     <th>Chi tiết</th>
                                 </tr>
@@ -86,6 +87,7 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${event.heading}</td>
+                                        <td>${event.date}</td>
                                         <jsp:useBean id="eventDao" class="models.event.EventDAO"/>
                                         <c:set var="index" value="1"/>
                                         <td>

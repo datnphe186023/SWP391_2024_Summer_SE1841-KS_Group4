@@ -24,38 +24,45 @@ import models.personnel.PersonnelDAO;
 public class TimeKeepServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //send list of school years
+        //list of school years
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
-        List<SchoolYear> schoolYears = schoolYearDAO.getAll();
-        request.setAttribute("schoolYears", schoolYears);
+        request.setAttribute("schoolYears", schoolYearDAO.getAll());
 
-        //send list of weeks
+        //get school year id from select box
         String schoolYearId = request.getParameter("schoolYearId");
-        IWeekDAO weekDAO = new WeekDAO();
-        if (schoolYearId == null) {
-            schoolYearId = schoolYearDAO.getLatest().getId();
+        if (schoolYearId == null){
+            if (schoolYearDAO.getLatest()!=null){
+                schoolYearId = schoolYearDAO.getLatest().getId();
+            }
         }
-        request.setAttribute("weeks", weekDAO.getWeeks(schoolYearId));
-        request.setAttribute("schoolYearId", schoolYearId);
+        if (schoolYearId != null) {
+            //get list of weeks for select box
+            IWeekDAO weekDAO = new WeekDAO();
+            request.setAttribute("weeks", weekDAO.getWeeks(schoolYearId));
+            request.setAttribute("schoolYearId", schoolYearId);
 
-        //get day list within that week
-        String weekId = request.getParameter("weekId");
-        if (weekId == null) {
-            weekId = weekDAO.getCurrentWeek(new Date());
+            String weekId = request.getParameter("weekId");
+            if (weekId == null) {
+                weekId = weekDAO.getCurrentWeek(new Date());
+            }
+            if (weekId == null) {
+                weekId = weekDAO.getfirstWeekOfClosestSchoolYear(schoolYearId).getId();
+            }
+            request.setAttribute("weekId", weekId);
+            IDayDAO dayDAO = new DayDAO();
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            request.setAttribute("personnelId", user.getUsername());
+            IPersonnelDAO personnelDAO = new PersonnelDAO();
+            Personnel personnel = personnelDAO.getPersonnel(user.getUsername());
+            request.setAttribute("personnelFullName", personnel.getLastName() + " " + personnel.getFirstName());
+            System.out.println(weekId);
+            List<Day> days = dayDAO.getDayByWeek(weekId);
+            request.setAttribute("days", days);
         }
-        request.setAttribute("weekId", weekId);
-        IDayDAO dayDAO = new DayDAO();
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        request.setAttribute("personnelId", user.getUsername());
-        IPersonnelDAO personnelDAO = new PersonnelDAO();
-        Personnel personnel = personnelDAO.getPersonnel(user.getUsername());
-        request.setAttribute("personnelFullName", personnel.getLastName()+" "+personnel.getFirstName());
-        List<Day> days = dayDAO.getDayByWeek(weekId);
-        request.setAttribute("days", days);
 
         //direct to jsp
-        request.getRequestDispatcher("viewAttendance.jsp").forward(request, response);
+        request.getRequestDispatcher("viewTimeKeep.jsp").forward(request, response);
 
     }
 

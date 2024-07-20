@@ -36,9 +36,7 @@ public class DashboardHeadTeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        IPupilDAO pupilDAO = new PupilDAO();
-        request.setAttribute("numOfPendingPupils",pupilDAO.getPupilByStatus("đang chờ xử lý").size());
-        request.getRequestDispatcher("navbar.jsp").forward(request, response);
+        request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 
 
     /** 

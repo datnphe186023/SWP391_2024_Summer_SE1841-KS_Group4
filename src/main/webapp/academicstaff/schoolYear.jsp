@@ -46,6 +46,7 @@
                                     <th>Ngày bắt đầu</th>
                                     <th>Ngày kết thúc</th>
                                     <th>Người tạo</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -56,7 +57,70 @@
                                         <td>${schoolYear.startDate}</td>
                                         <td>${schoolYear.endDate}</td>
                                         <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#editSchoolYearModal${schoolYear.id}">
+                                                Chỉnh Sửa
+                                            </button>
+                                        </td>
                                     </tr>
+                                    <!-- Edit School Year Modal -->
+                                    <div class="modal fade" id="editSchoolYearModal${schoolYear.id}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <form action="schoolyear?action=edit" method="POST">
+                                            <input name="schoolYearId" value="${schoolYear.id}" hidden="hidden">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <span class="thong-tin-thanh-toan">
+                                                                    <h5>Chỉnh Sửa Năm Học</h5>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6">
+                                                                <label class="control-label">Ngày bắt đầu</label>
+                                                                <input class="form-control" type="date" id="startDateEdit" value="${schoolYear.startDate}" name="startDate" required>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="control-label">Ngày kết thúc</label>
+                                                                <input class="form-control" type="date" id="endDateEdit" value="${schoolYear.endDate}" name="endDate" required>
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label class="control-label">Mô Tả</label>
+                                                                <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự"
+                                                                          name="description" rows="5" required maxlength="255">${schoolYear.description}</textarea>
+                                                                <p style="display: none" id="charCountEdit">255 characters remaining</p>
+                                                                <p style="display: none" class="alert-warning" id="warningEdit">Không được vượt quá 255 kí tự.</p>
+                                                            </div>
+                                                            <script>
+                                                                const textarea = document.querySelector('textarea[name="description"]');
+                                                                const charCount = document.getElementById('charCountEdit');
+                                                                const warning = document.getElementById('warningEdit');
+
+                                                                textarea.addEventListener('input', () => {
+                                                                    const remaining = 255 - textarea.value.length;
+                                                                    charCount.textContent = `${remaining} characters remaining`;
+
+                                                                    if (remaining <= 0) {
+                                                                        warning.style.display = 'block';
+                                                                    } else {
+                                                                        warning.style.display = 'none';
+                                                                    }
+                                                                });
+                                                            </script>
+                                                        </div>
+                                                        <br>
+                                                        <button class="btn btn-success" type="submit">Lưu lại</button>
+                                                        <a class="btn btn-danger" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+<%--                                    End Edit School Year--%>
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -84,25 +148,12 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Ngày bắt đầu</label>
-                                            <input class="form-control" type="date" name="startDate" required>
+                                            <input class="form-control" type="date" id="startDate" name="startDate" required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Ngày kết thúc</label>
-                                            <input class="form-control" type="date" name="endDate" required>
+                                            <input class="form-control" type="date" id="endDate" name="endDate" required>
                                         </div>
-<%--                                        //new school year must be created before start date 7 days--%>
-                                        <script>
-                                            // Get today's date
-                                            const today = new Date();
-                                            // Calculate the date 7 days from today
-                                            const sevenDaysFromToday = new Date(today);
-                                            sevenDaysFromToday.setDate(today.getDate() + 7);
-                                            // Format the date as YYYY-MM-DD
-                                            const minDate = sevenDaysFromToday.toISOString().split('T')[0];
-                                            // Set the min attribute of the date input to the date 7 days from today
-                                            document.getElementById('startDate').setAttribute('min', minDate);
-                                            document.getElementById('endDate').setAttribute('min', minDate);
-                                        </script>
                                         <div class="form-group col-md-12">
                                             <label class="control-label">Mô Tả</label>
                                             <textarea class="form-control" type="text" placeholder="Không được vượt quá 255 kí tự"
@@ -136,6 +187,8 @@
                         </div>
                     </form>
                 </div>
+
+
             </div>
         </div>
         <jsp:include page="../footer.jsp"/>

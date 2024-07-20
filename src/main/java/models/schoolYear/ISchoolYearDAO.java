@@ -14,6 +14,7 @@ public interface ISchoolYearDAO {
     List<SchoolYear> getListSchoolYearsByPupilID(String id);
 
     SchoolYear getClosestSchoolYears() ;
-    boolean CheckPupilInClassOfSchoolYear(String pupil_id, String school_year_id);
+    boolean checkPupilInClassOfSchoolYear(String pupil_id, String school_year_id);
+    String editSchoolYear(SchoolYear schoolYear);
 
 }
