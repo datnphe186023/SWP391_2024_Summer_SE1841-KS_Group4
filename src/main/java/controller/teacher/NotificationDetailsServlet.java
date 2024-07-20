@@ -59,14 +59,8 @@ public class NotificationDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        Notification notifi = new Notification();
-        NotificationDAO notificationDAO = new NotificationDAO();
-        notifi = notificationDAO.getNotificationById(id);
-        request.setAttribute("notifi", notifi);
-        request.getRequestDispatcher("notificationDetails.jsp").forward(request, response);
+
     }
-    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -79,7 +73,12 @@ public class NotificationDetailsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String id = request.getParameter("id");
+        Notification notifi = new Notification();
+        NotificationDAO notificationDAO = new NotificationDAO();
+        notifi = notificationDAO.getNotificationById(id);
+        request.setAttribute("notifi", notifi);
+        request.getRequestDispatcher("notificationDetails.jsp").forward(request, response);
     }
 
     /**

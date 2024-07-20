@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import models.classes.ClassDAO;
 import models.day.Day;
 import models.day.DayDAO;
 import models.day.IDayDAO;
+import models.personnel.Personnel;
 import models.schoolYear.SchoolYear;
 import models.schoolYear.SchoolYearDAO;
 import models.timeslot.ITimeslotDAO;
@@ -34,7 +36,9 @@ public class ViewTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+        HttpSession session = request.getSession();
+        Personnel personnel = (Personnel) session.getAttribute("personnel");
+        String id = personnel.getId();
         List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
         request.setAttribute("schoolYearList", schoolYearList);
         request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
@@ -43,7 +47,9 @@ public class ViewTimetableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+        HttpSession session = request.getSession();
+        Personnel personnel = (Personnel) session.getAttribute("personnel");
+        String id = personnel.getId();
         String classId = request.getParameter("classId");
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");

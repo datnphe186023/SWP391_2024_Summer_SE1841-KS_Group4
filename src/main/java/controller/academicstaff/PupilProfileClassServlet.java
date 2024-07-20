@@ -62,6 +62,27 @@ public class PupilProfileClassServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        String classId = request.getParameter("classId");
+        IPupilDAO pupilDAO = new PupilDAO();
+        Pupil pupil = pupilDAO.getPupilsById(id);
+        request.setAttribute("pupil", pupil);
+        request.setAttribute("classId", classId);
+        request.getRequestDispatcher("editInformationPupilsClass.jsp").forward(request, response);
+
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String id = request.getParameter("id");
         HttpSession session = request.getSession();
         String classId = "";
         classId = request.getParameter("classId");
@@ -83,26 +104,6 @@ public class PupilProfileClassServlet extends HttpServlet {
         }
         request.setAttribute("pupil", pupil);
         request.getRequestDispatcher("informationPupilsClass.jsp").forward(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String classId = request.getParameter("classId");
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.setAttribute("classId", classId);
-        request.getRequestDispatcher("editInformationPupilsClass.jsp").forward(request, response);
     }
 
     /**
