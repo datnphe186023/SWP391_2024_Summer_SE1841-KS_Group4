@@ -64,7 +64,7 @@ public class TakeMyKeepServlet extends HttpServlet {
         if (dayDAO.getDayByDate(dateString) == null) {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", "Đang trong kì nghỉ");
-            response.sendRedirect("takeattendance");
+            response.sendRedirect("takemykeep");
             return; 
         }
 
@@ -90,7 +90,7 @@ public class TakeMyKeepServlet extends HttpServlet {
             session.setAttribute("toastType", "error");
             session.setAttribute("toastMessage", result);
         }
-        response.sendRedirect("takeattendance");
+        response.sendRedirect("takemykeep");
     }
 
 }
