@@ -166,7 +166,7 @@
                         </div>
                         <style>
                             .custom-badge {
-                                width: 70%; /* Adjust the width as needed */
+                                width: 120%; /* Adjust the width as needed */
                                 height: 40px; /* Adjust the height as needed */
                                 display: flex;
                                 align-items: center;
