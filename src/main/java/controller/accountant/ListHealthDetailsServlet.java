@@ -61,7 +61,7 @@ public class ListHealthDetailsServlet extends HttpServlet {
         ISchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         SchoolYear schoolYear = schoolYearDAO.getSchoolYear(schoolYearId);
         IHealthCheckUpDAO healthCheckUpDAO = new HealthCheckUpDAO();
-        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getHealthCheckUpsByPupilAndSchoolYear(pupilId, schoolYearId);
+        List<HealthCheckUp> listHealthCheckUp = healthCheckUpDAO.getHealthCheckUpsByPupilAndSchoolYear(pupilId);
         request.setAttribute("listHealthCheckUp", listHealthCheckUp);
         request.setAttribute("pupil", pupil);
         request.setAttribute("schoolYear", schoolYear);

@@ -64,15 +64,15 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
     }
 
     @Override
-    public List<HealthCheckUp> getHealthCheckUpsByPupilAndSchoolYear(String pupilId, String schoolYearId) {
+    public List<HealthCheckUp> getHealthCheckUpsByPupilAndSchoolYear(String pupilId) {
         List<HealthCheckUp> healthCheckUps = new ArrayList<>();
-        String sql = "SELECT h.* FROM HealthCheckUps h "
-                + "JOIN SchoolYears s ON h.check_up_date BETWEEN s.start_date AND s.end_date "
-                + "WHERE s.id = ? AND h.pupil_id = ?";
+        String sql = "SELECT * FROM HealthCheckUps \n"
+                + "WHERE [pupil_id] = ? \n"
+                + "ORDER BY id DESC";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, schoolYearId);
-            preparedStatement.setString(2, pupilId);
+
+            preparedStatement.setString(1, pupilId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
