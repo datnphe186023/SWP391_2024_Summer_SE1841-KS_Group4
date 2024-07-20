@@ -217,7 +217,7 @@
                             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <form action="updatepupils" method="get" onsubmit="return validateForm()">
+                                        <form action="updatepupils" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
                                             <table>
                                                 <tbody>

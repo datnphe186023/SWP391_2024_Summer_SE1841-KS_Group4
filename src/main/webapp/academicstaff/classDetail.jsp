@@ -104,7 +104,7 @@
                 });
             });
 
-            function submit(formId){
+            function submit(formId) {
                 document.getElementById(formId).submit();
             }
         </script>
@@ -239,9 +239,11 @@
                                                     <td>${pupil.address}</td>
                                                     <td class="d-flex justify-content-center align-items-center"
                                                         style="height: 150px;">
-                                                        <a href="pupilprofileclass?id=${pupil.id}&classId=${sessionScope.classId}"
-                                                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
-                                                            tin chi tiết</a>
+                                                        <form method="post" action="pupilprofileclass">
+                                                            <input hidden="" value="${pupil.id}" name="id"/>
+                                                            <input hidden="" value="${sessionScope.classId}" name="classId"/>
+                                                            <button type="submit" class="btn btn-primary">   Thông tin chi tiết</button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -407,7 +409,7 @@
                                                         <label class="control-label" for="pupil">Mã - Tên giáo viên hiện tại<a style="color: red">*</a></label>
                                                         <input class="form-control" type="text" value="${requestScope.teacher.id} - ${requestScope.teacher.lastName} ${requestScope.teacher.firstName}">
                                                     </div>
-                                                        <%-- new teacher --%>
+                                                    <%-- new teacher --%>
                                                     <div class="form-group">
                                                         <label id="teacherLabel" class="control-label" for="pupil">Mã - Tên giáo viên mới<a style="color: red">*</a></label>
                                                         <select class="form-control" id="teacher" name="teacher" required>
@@ -416,11 +418,11 @@
                                                                 <option value="${teacher.id}" ${param.teacher eq teacher.id ? "selected":""}>${teacher.id} - ${teacher.lastName} ${teacher.firstName}</option>
                                                             </c:forEach>
                                                         </select>
-<%--                                                        class id--%>
+                                                        <%--                                                        class id--%>
                                                         <input hidden value="${requestScope.classes.id}" name="classId">
                                                     </div>
 
-<%--                                                        sub teacher--%>
+                                                    <%--                                                        sub teacher--%>
                                                     <div class="form-group">
                                                         <input type="checkbox" id="substituteCheckbox" name="substituteCheckbox">
                                                         <label for="substituteCheckbox">Phân công giáo viên dạy thay</label>
@@ -541,7 +543,7 @@
                 areChecked = !areChecked;
             }
 
-            document.getElementById('substituteCheckbox').addEventListener('change', function() {
+            document.getElementById('substituteCheckbox').addEventListener('change', function () {
                 var substituteTeacherDiv = document.getElementById('substituteTeacherDiv');
                 if (this.checked) {
                     substituteTeacherDiv.style.display = 'block';

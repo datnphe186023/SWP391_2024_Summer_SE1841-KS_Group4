@@ -76,7 +76,7 @@
             </li>
             <!-- Nav Item - Thời khóa biểu -->
             <li class="nav-item">
-                <a class="nav-link" href="view-timetable?id=${sessionScope.personnel.id}"> 
+                <a class="nav-link" href="view-timetable"> 
                     <i class='fas fa-fw fa-calendar-check'></i>
                     <span>Thời khóa biểu</span>
 
