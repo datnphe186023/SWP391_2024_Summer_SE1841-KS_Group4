@@ -186,17 +186,18 @@ public class ClassDAO extends DBContext implements IClassDAO {
 
     @Override
     public String reviewClass(String newStatus, String id) {
-        String sql = "update [Class] set [status]= ?, [teacher_id] = ? where [id] = ?";
+        StringBuilder sql = new StringBuilder("update [Class] set [status]= ");
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             if (newStatus.equals("accept")) {
                 newStatus = "đã được duyệt";
+                sql.append("N'").append(newStatus).append("' where [id] = '").append(id).append("'");
             } else {
                 newStatus = "không được duyệt";
+                sql.append("N'").append(newStatus).append("' , [teacher_id] = ").append("NULL").append(" where [id] = '").append(id).append("'");
             }
-            preparedStatement.setString(1, newStatus);
-            preparedStatement.setNull(2, Types.VARCHAR);
-            preparedStatement.setString(3, id);
+            System.out.println(sql.toString());
+            PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
