@@ -110,7 +110,7 @@
                                                             Nữ
                                                         </c:if>
                                                     </td>
-                                                    <td><fmt:formatDate value="${p.getBirthday()}" pattern="dd/MM/yyyy"/> </td>
+                                                    <td><fmt:formatDate value="${p.getBirthday()}" pattern="yyyy/MM/dd"/> </td>
                                                     <td>${evaluation.teacher.getLastName()} ${evaluation.teacher.getFirstName()}</td>
 
                                                     <td>

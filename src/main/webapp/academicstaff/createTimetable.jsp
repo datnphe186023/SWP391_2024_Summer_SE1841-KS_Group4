@@ -172,8 +172,8 @@
                                         <option>Chọn tuần</option>
                                         <c:forEach var="listWeek" items="${requestScope.listWeek}">
                                             <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>
-                                                <fmt:formatDate value="${listWeek.startDate}" pattern="dd/MM/yyyy" /> đến
-                                                <fmt:formatDate value="${listWeek.endDate}" pattern="dd/MM/yyyy" />
+                                                <fmt:formatDate value="${listWeek.startDate}" pattern="yyyy/MM/dd" /> đến
+                                                <fmt:formatDate value="${listWeek.endDate}" pattern="yyyy/MM/dd" />
                                             </option>
                                         </c:forEach>
                                     </select>
@@ -213,8 +213,8 @@
 
                             <c:if test="${not empty requestScope.dateWeek}">
                                 <div style="margin-top: 20px;">
-                                    <p>*Thời khóa biểu áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" />
-                                        đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
+                                    <p>*Thời khóa biểu áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="yyyy/MM/dd" />
+                                        đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="yyyy/MM/dd" /></p>
                                 </div>
                             </c:if>
 

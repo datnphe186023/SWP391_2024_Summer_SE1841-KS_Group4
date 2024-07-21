@@ -117,7 +117,7 @@
                                                     <th scope="row">${status.index + 1}</th>
                                                     <td>${pupil.id}</td>
                                                     <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy"/></td>
+                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd"/></td>
                                                     <c:set value="${pupil.status}" var="status"/>
                                                     <c:if test="${status eq 'đang theo học'}">
                                                         <td><span class="badge badge-success">${status}</span></td>

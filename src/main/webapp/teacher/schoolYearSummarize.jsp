@@ -90,7 +90,7 @@
                                                             Nữ
                                                         </c:if>
                                                     </td>
-                                                    <td><fmt:formatDate value="${pupil.getBirthday()}" pattern="dd/MM/yyyy"/>  </td>
+                                                    <td><fmt:formatDate value="${pupil.getBirthday()}" pattern="yyyy/MM/dd"/>  </td>
 
                                                     <c:if test="${pupil.isSummarized(requestScope.schoolYearId) eq true}">
                                                         <c:set value="${evaluationBean.getSchoolYearSummarize(pupil.id, requestScope.schoolYearId)}" var="evaluation"/>

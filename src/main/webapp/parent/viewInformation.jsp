@@ -118,7 +118,7 @@
                                                     <p><strong>Họ tên bé:</strong> ${pupil.lastName} ${pupil.firstName}</p>
                                                 </div>
                                                 <div>
-                                                    <p><strong>Ngày sinh của bé:</strong> <fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy"/> </p>
+                                                    <p><strong>Ngày sinh của bé:</strong> <fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd"/> </p>
                                                 </div>
                                                 <div>
                                                     <p><strong>Email:</strong> ${pupil.email}</p>

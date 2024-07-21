@@ -88,9 +88,9 @@
                                                         <td>${listTimetable.aClass.name}</td>
                                                         <td>${listTimetable.createdBy.lastName} ${listTimetable.createdBy.firstName}</td>
                                                         <td>
-                                                            <fmt:formatDate value="${listTimetable.startDate}" pattern="dd/MM/yyyy"/> 
+                                                            <fmt:formatDate value="${listTimetable.startDate}" pattern="yyyy/MM/dd"/>
                                                             đến
-                                                            <fmt:formatDate value="${listTimetable.endDate}" pattern="dd/MM/yyyy"/>
+                                                            <fmt:formatDate value="${listTimetable.endDate}" pattern="yyyy/MM/dd"/>
                                                         </td>
                                                         <c:set value="${listTimetable.status}" var="status"/>
                                                         <c:if test="${status eq 'đã được duyệt'}">
