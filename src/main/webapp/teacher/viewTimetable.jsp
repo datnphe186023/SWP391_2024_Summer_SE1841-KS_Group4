@@ -189,7 +189,7 @@
                                                         <c:when test="${not empty requestScope.timetable}">
                                                             <c:forEach var="timetable" items="${requestScope.timetable}">
                                                                 <c:if test="${timetable.timeslot.id eq timeslot.id && timetable.day.id eq day.id}">
-                                                                    ${timetable.subject.name}
+                                                                    ${timetable.subject.name} - ${timetable.aClass.name}
                                                                 </c:if>
                                                             </c:forEach>
                                                         </c:when>

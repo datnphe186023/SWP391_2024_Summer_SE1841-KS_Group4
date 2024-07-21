@@ -283,7 +283,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
     @Override
     public List<Class> getClassesByGradeAndSchoolYear(String classId, String gradeId, String schoolYearId) {
         List<Class> list = new ArrayList<>();
-        String sql = " select * from class where school_year_id= ? and grade_id= ? and status= N'đã được duyệt' order by id desc";
+        String sql = " select * from class where school_year_id= ? and grade_id= ? and status= N'đã được duyệt'";
         if (classId != null) {
             sql += " and id != '" + classId + "'";
         }
