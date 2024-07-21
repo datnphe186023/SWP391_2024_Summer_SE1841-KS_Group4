@@ -41,7 +41,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
     @Override
     public List<Class> getBySchoolYear(String schoolYearId) {
         List<Class> classes = new ArrayList<>();
-        String sql = "select * from Class where school_year_id = ?";
+        String sql = "select * from Class where school_year_id = ? order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, schoolYearId);
@@ -185,7 +185,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
 
     @Override
     public List<Class> getByStatus(String status, String schoolYearId) {
-        String sql = " Select * from Class where [status] = N'" + status + "'  and school_year_id = ?";
+        String sql = " Select * from Class where [status] = N'" + status + "'  and school_year_id = ? order by id desc";
         try {
             List<Class> classes = new ArrayList<>();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -227,7 +227,7 @@ public class ClassDAO extends DBContext implements IClassDAO {
     @Override
     public List<Class> getClassByGradeId(String gradeId) {
         List<Class> classes = new ArrayList<>();
-        String sql = "SELECT * FROM [BoNo_Kindergarten].[dbo].[Class] WHERE grade_id = ?";
+        String sql = "SELECT * FROM [BoNo_Kindergarten].[dbo].[Class] WHERE grade_id = ? order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, gradeId);

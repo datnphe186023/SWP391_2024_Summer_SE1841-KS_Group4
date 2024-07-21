@@ -97,7 +97,7 @@ public class EventDAO extends DBContext implements IEventDAO {
     @Override
     public List<Event> getAllEvent() {
         List<Event> list = new ArrayList<>();
-        String sql="Select * from Events order by id desc";
+        String sql="Select * from Events order by date desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -114,7 +114,7 @@ public class EventDAO extends DBContext implements IEventDAO {
     public List<Event> getEventByRole(int roleId) {
         List<Event> list = new ArrayList<>();
         String sql="select * from Events e join eventDetails ed on e.id = ed.event_id \n" +
-                     "where participant = ? order by e.id desc";
+                     "where participant = ? order by e.date desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,roleId);
@@ -183,7 +183,7 @@ public class EventDAO extends DBContext implements IEventDAO {
     public List<Event> getFutureEvent(int role) {
         List<Event> events = new ArrayList<>();
         String sql = "select * from [Events] join dbo.eventDetails eD on Events.id = eD.event_id\n" +
-                "         where date > GETDATE() and eD.participant = ?";
+                "         where date > GETDATE() and eD.participant = ? order by date desc";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, role);
@@ -201,7 +201,7 @@ public class EventDAO extends DBContext implements IEventDAO {
     public List<Event> getFutureEvent() {
         List<Event> events = new ArrayList<>();
         String sql = "select * from [Events]\n" +
-                "         where date > GETDATE()";
+                "         where date > GETDATE() order by date desc";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
