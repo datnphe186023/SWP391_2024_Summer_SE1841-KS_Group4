@@ -58,7 +58,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
 
     public List<FoodMenu> getAllFoodMenuDESC(String exception) {
         List<FoodMenu> foodMenus = new ArrayList<>();
-        String sql = "select * from FoodMenus where not id = ? order by id desc";
+        String sql = "select * from FoodMenus where not id = ? and status = N'đang chờ xử lý' order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, exception);
