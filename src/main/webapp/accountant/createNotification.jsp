@@ -102,7 +102,7 @@
                             <form id="myForm" action="createnotifi" method="post" onsubmit="return validateForm()">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <h4 class="form-group h4 mb-2 text-gray-800" for="heading">TIÊU ĐỀ :</h4>
+                                        <h4 class="form-group h4 mb-2 text-gray-800" for="heading">TIÊU ĐỀ<span class="text-danger">*</span></h4>
                                         <input type="text" id="heading" name="heading" class="form-control" maxlength="50" placeholder="Tiêu đề không nhập quá 50 kí tự" required>
                                     </div>
                                     <h4 class="form-group h4 mb-2 text-gray-800">NGƯỜI NHẬN<span class="text-danger">*</span></h4>
@@ -116,7 +116,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <h4 class="form-group h4 mb-2 text-gray-800" style="padding-top: 10px">NỘI DUNG :</h4>
+                                        <h4 class="form-group h4 mb-2 text-gray-800" style="padding-top: 10px">NỘI DUNG<span class="text-danger">*</span></h4>
                                         <textarea id="content" name="content" class="form-control" rows="10" maxlength="2000" placeholder="Nội dung không nhập quá 2000 kí tự" required></textarea>
                                     </div>
                                 </div>
