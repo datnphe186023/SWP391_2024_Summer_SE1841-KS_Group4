@@ -20,7 +20,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Trường Mầm Non BoNo</title>
+        <title>Chi tiết lớp học</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -206,9 +206,9 @@
                                         </h6>
                                     </c:otherwise>
                                 </c:choose>
-                                <h6 class="m-0 font-weight-bold text-primary">Lớp : <a
+                                <h6 class="m-0 font-weight-bold text-primary">Lớp: <a
                                         style="margin-right: 60px;">${classes.name}</a></h6>
-                                <h6 class="m-0 font-weight-bold text-primary">Khối : <a
+                                <h6 class="m-0 font-weight-bold text-primary">Khối: <a
                                         >${classes.grade.name}</a></h6>
                             </div>
                             <div class="card-body">
@@ -279,7 +279,6 @@
                                         <form method="post" action="classdetail?action=addPupil" id="accept-form">
                                             <input hidden="" value="${classes.id}" name="classId">
                                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                <h6 class="m-0 font-weight-bold text-primary">Danh Sách Lớp Học</h6>
                                                 <button id="add-button" type="button" class="btn btn-outline-success"
                                                         onclick="confirmAccept('accept-form', 'Bạn có chắc chắn muốn thêm những học sinh này vào lớp?')">
                                                     <i class="fas fa-plus"></i> Thêm học sinh

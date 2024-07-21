@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Điểm danh học sinh</title>
     <script>
         function submitForm(formId) {
             document.getElementById(formId).submit();
