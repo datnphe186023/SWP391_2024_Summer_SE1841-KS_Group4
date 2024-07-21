@@ -32,7 +32,7 @@
                                 if (details != null) {
                                     details = details.replace("\r\n", "<br/>").replace("\n", "<br/>");
                                 }
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                              String eventDate = dateFormat.format(event.getDate());
 
                             %>
