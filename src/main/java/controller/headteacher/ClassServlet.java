@@ -27,8 +27,15 @@ public class ClassServlet extends HttpServlet {
                 SchoolYear latestSchoolYear = schoolYearDAO.getLatest();
                 schoolYearId = latestSchoolYear.getId();
             }
-            List<Class> classes = classDAO.getByStatus("đã được duyệt", schoolYearId);
-            classes.addAll(classDAO.getByStatus("không được duyệt", schoolYearId));
+            String status = request.getParameter("status");
+            List<Class> classes;
+            if (status!=null && !status.equals("all") && !status.equals("đang chờ xử lý")){
+                classes = classDAO.getByStatus(status, schoolYearId);
+            } else {
+                status = "all";
+                classes = classDAO.getBySchoolYear(schoolYearId);
+            }
+            request.setAttribute("status", status);
             request.setAttribute("selectedSchoolYearId", schoolYearId);
             request.setAttribute("classes", classes);
             request.getRequestDispatcher("class.jsp").forward(request, response);
