@@ -214,10 +214,8 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
 
     @Override
     public String editSubject(Subject subject){
-        if(checkSubjectExist(subject.getName(),subject.getGrade().getId())){
-            if (!getSubjectBySubjectId(subject.getId()).getName().equals(subject.getName())){
+        if(checkSubjectExist(subject.getName(),subject.getGrade().getId(), subject.getId())){
                 return "Chỉnh sửa thất bại!! Môn học đã tồn tại!";
-            }
         }
         String sql = "update [Subjects] set name = ?, grade_id = ?, description = ?, status = ? where id = ?";
         try{
@@ -233,5 +231,22 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
             return "Thao tác thất bại! Vui lòng thử lại sau";
         }
         return "success";
+    }
+
+    private boolean checkSubjectExist(String name, String gradeId, String id){
+        String sql="select * from Subjects where [name] = ? and grade_id= ? and (status =N'đang chờ xử lý' or status=N'đã được duyệt') and id != ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,gradeId);
+            preparedStatement.setString(3, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
