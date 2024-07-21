@@ -48,7 +48,15 @@ public class ClassServlet extends HttpServlet {
                     schoolYearId = latestSchoolYear.getId();
                 }
             }
-            List<Class> classes = classDAO.getBySchoolYear(schoolYearId);
+            String status = request.getParameter("status");
+            List<Class> classes;
+            if (status!=null && !status.equals("all")){
+                classes = classDAO.getByStatus(status, schoolYearId);
+            } else {
+                status = "all";
+                classes = classDAO.getBySchoolYear(schoolYearId);
+            }
+            request.setAttribute("status", status);
             request.setAttribute("classes", classes);
             List<SchoolYear> schoolYears = schoolYearDAO.getAll();
             request.setAttribute("schoolYears", schoolYears);

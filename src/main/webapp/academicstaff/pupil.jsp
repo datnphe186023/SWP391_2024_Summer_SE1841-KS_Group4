@@ -81,7 +81,7 @@
                                     <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
                                         <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
                                         <option  ${param.status eq 'pending'? "selected" :""} value="pending">Đang chờ xử lý</option>
-                                        <option ${param.status eq 'approve'? "selected" :""}  value="approve">Đã được duyệt</option>
+                                        <option ${param.status eq 'approve'? "selected" :""}  value="approve">Đang theo học</option>
                                         <option  ${param.status eq 'decline'? "selected" :""} value="decline">Không được duyệt</option>
                                         <option  ${param.status eq 'stop'? "selected" :""} value="stop">Đã thôi học</option>
                                     </select>
@@ -294,7 +294,7 @@
                                                                 </div>
                                                                 <div class="form-group col-md-6">
                                                                     <label for="parentNote">Ghi chú của phụ huynh<a
-                                                                            style="color: red">(*)</a></label>
+                                                                            style="color: red"></a></label>
                                                                     <textarea name="note" class="form-control" id="parentNote"
                                                                               rows="4" style="height: 60%"
                                                                               >${param.note}</textarea>

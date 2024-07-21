@@ -12,6 +12,7 @@
 <html lang="en">
 <head>
     <title>Đơn Từ</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
         function submitForm() {
