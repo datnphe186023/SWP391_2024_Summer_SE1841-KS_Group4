@@ -41,7 +41,8 @@
             function resetClassAndSubmitForm() {
                 document.getElementById("classes").selectedIndex = 0;
                 document.getElementById("myForm").submit();
-            }n
+            }
+            n
         </script>
     </head>
 
@@ -96,7 +97,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <h6 class="m-0 font-weight-bold text-primary">Lớp: <a
-                                            >${requestScope.grade}</a>
+                                                    >${requestScope.grade}</a>
                                             </h6>
                                         </c:otherwise>
                                     </c:choose>
@@ -113,7 +114,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <h6 class="m-0 font-weight-bold text-primary">Giáo viên: <a
-                                            >${requestScope.teacherName}</a>
+                                                    >${requestScope.teacherName}</a>
                                             </h6>
                                         </c:otherwise>
                                     </c:choose>
@@ -147,9 +148,12 @@
                                                 <td>${pupil.lastName} ${pupil.firstName}</td>
                                                 <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
                                                 <td>${pupil.address}</td>
-                                                <td><a href="pupilprofile?id=${pupil.id}" 
-                                                       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
-                                                        tin chi tiết</a></td>
+                                                <td>
+                                                    <form action="pupilprofile" method="post">
+                                                        <input name="id" value="${pupil.id}" hidden/>
+                                                        <button type="submit" class="btn btn-primary">Thông tin chi tiết</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
