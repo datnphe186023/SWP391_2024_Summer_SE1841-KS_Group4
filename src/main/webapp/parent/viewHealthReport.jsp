@@ -66,22 +66,18 @@
                             </c:if>
                             <c:if test="${requestScope.healthCheckUpList.size() == 0 }">
                                 <div class="class-form" >
-                                    <label> Thời gian kiểm tra
-                                        <select name="time" onchange="this.form.submit()" class="custom-select" style="width:74%;" disabled >
-                                            <option value="" hidden> Ngày kiểm tra </option>
-                                            <c:forEach items="${requestScope.healthCheckUpList}" var="check">
-                                                <option ${sltedtime eq check.getCheckUpDate() ? "selected" : ""}
-                                                        value="${check.getCheckUpDate()}">${check.getCheckUpDate()} </option>
-                                            </c:forEach>
-                                        </select>
-                                    </label>
+                                    <label> Thời gian kiểm tra</label>
+                                    <br>
+
+                                       <input disabled name="time" value="Không có dữ liệu" class="form-control" style="width: 162px">
+
                                 </div>
                             </c:if>
                         </c:if>
                         <style>
                             .fake-select {
                                 display: inline-block;
-                                width: 75%;
+                                width: 245px;
                                 height: 70%;
                                 padding: .375rem 1.75rem .375rem .75rem;
                                 font-size: 1rem;
