@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Login Page</title>
+        <title>Đăng nhập</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,49 +17,45 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <style>
-            /* CSS for circular image */
-            .logo img {
-                border-radius: 50%;
-                width: 180px;
-                height: 180px;
-                position: absolute;
-                top: 30px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-        </style>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+        <!-- FontAwesome CSS -->
+        <link rel="stylesheet" href="./assets/css/all.min.css">
+        <link rel="stylesheet" href="./assets/css/uf-style.css">
+        
     </head>
 
-    <body class="app sidebar-mini rtl">
+    <body>
 
-        <div class="logo">
-            <a href="#">
-                <img src="image/logo.png" alt="" />
-            </a>
-        </div>
-        <div class="login-container">
-            <div class="login-box">
-                <h2>Đăng nhập</h2>
-                <form action="login" method="POST">
-                    <div class="input-box">
-                        <i class="bx bx-user"></i>
-                        <input type="text" id="username" name="username" required>
-                        <label>Tài khoản</label>
-                    </div>
-                    <div class="input-box">
-                        <i class="bx bx-lock"></i>
-                        <input type="password" id="password" name="password" required>
-                        <label>Mật khẩu</label>
-                    </div>
-                    <button type="submit" class="btn">Đăng nhập</button>
-                    <span  style="color:red;display: block; margin: 10px">${error}</span>
-                    <p class="forgot-password"><a href="forgotPassword">Quên mật khẩu?</a></p>
-                </form>
+
+        <div class="uf-form-signin">
+            <div class="text-center" >
+                <img src="./assets/img/logoVIP.png" alt="" width="200" height="200" class="rounded-image">
             </div>
-        </div>
+            <form action="login" method="POST" class="mt-4">
 
+                <div class="input-group uf-input-group input-group-lg mb-3">
+                    <span class="input-group-text fa fa-user"></span>
+                    <input type="text" class="form-control" name="username" placeholder="Tài khoản" required>
+                </div>
+                <div class="input-group uf-input-group input-group-lg mb-3">
+                    <span class="input-group-text fa fa-lock"></span>
+                    <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required>
+                </div>
+                <div class="d-flex mb-3 justify-content-between">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input uf-form-check-input" id="exampleCheck1">
+                        <label class="form-check-label text-white" for="exampleCheck1">Remember Me</label>
+                    </div>
+                    <a href="forgotPassword">Quên mật khẩu ?</a>
+                </div>
+                <div class="d-grid mb-4">
+                    <button type="submit" class="btn uf-btn-primary btn-lg">Đăng nhập</button>
+                    <span  style="color:red; display: block; margin: 10px">${error}</span>
+                </div>
+
+            </form>
+        </div>
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/popper.min.js"></script>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>

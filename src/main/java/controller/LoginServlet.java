@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
+
 
 import models.personnel.IPersonnelDAO;
 import models.personnel.Personnel;
@@ -17,7 +17,7 @@ import models.pupil.PupilDAO;
 import models.user.IUserDAO;
 import models.user.User;
 import models.user.UserDAO;
-import utils.PasswordUtil;
+
 
 public class LoginServlet extends HttpServlet {
 
@@ -99,7 +99,7 @@ public class LoginServlet extends HttpServlet {
             }
         } else {
             // Nếu thông tin đăng nhập không chính xác, hiển thị thông báo lỗi trên trang đăng nhập
-            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu !");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
