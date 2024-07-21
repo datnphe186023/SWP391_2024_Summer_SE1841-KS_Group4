@@ -21,7 +21,7 @@ public class ListSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ISubjectDAO subjectDAO = new SubjectDAO();
-        request.setAttribute("listSubject",subjectDAO.getAll());
+        request.setAttribute("listSubject",subjectDAO.getSubjectsByStatus("Đã được duyệt"));
         request.getRequestDispatcher("listSubject.jsp").forward(request,response);
     }
 
@@ -31,10 +31,6 @@ public class ListSubjectServlet extends HttpServlet {
         String status = request.getParameter("status");
         List<Subject> subjectList = new ArrayList<>();
         switch (status){
-            case "all" : subjectList = subjectDAO.getAll();
-                        break;
-            case "pending": subjectList = subjectDAO.getSubjectsByStatus("Đang chờ xử lý");
-                        break;
             case "approve": subjectList = subjectDAO.getSubjectsByStatus("Đã được duyệt");
                 break;
             case "decline": subjectList = subjectDAO.getSubjectsByStatus("Không được duyệt");

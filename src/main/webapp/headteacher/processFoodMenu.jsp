@@ -109,8 +109,8 @@
 
                                                     <div class="d-flex flex-column align-items-center">
 
-                                                            <button type="submit" class="btn btn-sm btn-success shadow-sm btn-custom-width" style="width: 100%" name="action" value="accept">Chấp nhận</button>
-                                                            <button type="submit"  class="btn btn-sm btn-danger shadow-sm btn-custom-width" style="width: 100%" name="action" value="deny">Từ chối</button>
+                                                            <button type="submit" class="btn btn-success mb-2" style="width: 70%" name="action" value="accept">Chấp nhận</button>
+                                                            <button type="submit"  class="btn btn-danger" style="width: 70%" name="action" value="deny">Từ chối</button>
 
                                                         </div>
 
