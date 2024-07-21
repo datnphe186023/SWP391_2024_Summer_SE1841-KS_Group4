@@ -4,89 +4,58 @@
 
 <html>
     <head>
-        <meta charset='utf-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
         <title>Đổi mật khẩu</title>
-        <link
-            href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
-            rel='stylesheet'>
-        <link
-            href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'
-            rel='stylesheet'>
-        <script type='text/javascript'
-        src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-        <style>
-            .placeicon {
-                font-family: fontawesome
-            }
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Style CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style-login.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+        <!-- FontAwesome CSS -->
+        <link rel="stylesheet" href="./assets/css/all.min.css">
+        <link rel="stylesheet" href="./assets/css/uf-style.css">
 
-            .custom-control-label::before {
-                background-color: #dee2e6;
-                border: #dee2e6
-            }
-        </style>
     </head>
-    <body oncontextmenu='return false' class='snippet-body bg-info'>
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
-        <div>
-            <!-- Container containing all contents -->
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-9 col-lg-7 col-xl-6 mt-5">
-                        <!-- White Container -->
-                        <div class="container bg-white rounded mt-2 mb-2 px-0">
-                            <!-- Test Heading -->
-                            <div class="row justify-content-center align-items-center pt-3">
-                                <h1>
-                                    <strong>Đổi mật khẩu</strong>
-                                </h1>
-                            </div>
-                            <div class="pt-3 pb-3">
-                                <form class="form-horizontal" action="newPassword" method="POST">
-                                    <!-- User Name Input -->
-                                    <div class="form-group row justify-content-center px-3">
-                                        <div class="col-9 px-0">
-                                            <input type="password" name="password" placeholder="&#xf084; &nbsp; Nhập mật khẩu mới"
-                                                   class="form-control border-info placeicon" pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
-                                        </div>
-                                    </div>
-                                    <!-- Password Input -->
-                                    <div class="form-group row justify-content-center px-3">
-                                        <div class="col-9 px-0">
-                                            <input type="password" name="confPassword" placeholder="&#xf084; &nbsp; Nhập lại mật khẩu mới"
-                                                   class="form-control border-info placeicon" pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
-                                        </div>
-                                    </div>
+    <body >
 
-                                    <!-- Log in Button -->
-                                    <div class="form-group row justify-content-center">
-                                        <div class="col-3 px-3 mt-3">
-                                            <input type="submit" value="Lưu" class="btn btn-block btn-info">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- Alternative Login -->
-                            <div class="mx-0 px-0 bg-light">
-
-                                <!-- Horizontal Line -->
-                                <div class="px-4 pt-5">
-                                    <hr>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="uf-form-signin">
+            <div class="text-center" >
+                <img src="./assets/img/logoVIP.png" alt="" width="150" height="150" class="rounded-image">
+                <h4 style="color: #e2dcdc">Đổi mật khẩu</h4>
             </div>
+            <form class="form-horizontal" action="newPassword" method="POST">
+
+                <div class="input-group uf-input-group input-group-lg mb-3">
+                    <span class="input-group-text fa fa-key"></span>
+                    <input class="form-control" type="password" name="password" placeholder="Nhập mật khẩu mới"
+                           pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
+                </div>
+                <div class="input-group uf-input-group input-group-lg mb-3">
+                    <span class="input-group-text fa fa-key"></span>
+                    <input class="form-control" type="password" name="confPassword" placeholder="Nhập lại mật khẩu mới"
+                           pattern=".{8,12}" required title="Mật khẩu phải từ 8 đến 12 ký tự">
+                </div>
+
+                <div class="d-grid mb-4">
+                    <button type="submit" class="btn uf-btn-primary btn-lg">Lưu mật khẩu</button>
+                </div>
+
+            </form>
         </div>
-        <script type='text/javascript'
-        src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/plugins/pace.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        <!-- Display error message -->
+
+
         <script>
             <c:if test="${not empty err}">
             swal({

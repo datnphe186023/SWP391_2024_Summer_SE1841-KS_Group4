@@ -1,16 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.Properties;
-import java.util.Random;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -40,7 +30,7 @@ public class ForgotPasswordServlet extends HttpServlet {
         IUserDAO userDAO = new UserDAO();
         User user = userDAO.getByUsernameOrEmail(key);
         if(user == null){
-            request.setAttribute("error", "Email bạn nhập không tồn tại vui lòng nhập lại!");
+            request.setAttribute("error", "Email hoặc tài khoản bạn nhập không tồn tại vui lòng nhập lại!");
             request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
         }
         else if (key != null || !key.equals("")) {
@@ -48,7 +38,7 @@ public class ForgotPasswordServlet extends HttpServlet {
             userDAO.resetPassword(key);
             session.setAttribute("username", user.getUsername());
             dispatcher = request.getRequestDispatcher("enterNewPassword.jsp");
-            request.setAttribute("message", "Mật khẩu đã được gửi đến bạn, vui lòng kiểm tra email");
+            request.setAttribute("message", "Mật khẩu đã được gửi đến bạn, vui lòng kiểm tra email !");
             dispatcher.forward(request, response);
         }
 

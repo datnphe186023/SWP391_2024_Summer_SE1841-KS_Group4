@@ -2,56 +2,47 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <!------ Include the above in your HEAD tag ---------->
+        <title>Nhập mật khẩu mới </title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Style CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style-login.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+        <!-- FontAwesome CSS -->
+        <link rel="stylesheet" href="./assets/css/all.min.css">
+        <link rel="stylesheet" href="./assets/css/uf-style.css">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
-        <style type="text/css">
-            .form-gap {
-                padding-top: 70px;
-            }
-        </style>
     </head>
 
     <body>
-        <div class="form-gap"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <h3>
-                                    <i class="fa fa-lock fa-4x"></i>
-                                </h3>
-                                <h2 class="text-center">Nhập mật khẩu</h2>
-                                <% if (request.getAttribute("message") != null) { 
-                                    out.print("<p class='text-danger ml-1'>" + request.getAttribute("message") + "</p>"); 
-                                } %>
-
-                                <div class="panel-body">
-                                    <form id="register-form" action="ValidatePassword" role="form" autocomplete="off" class="form" method="post">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                                <input id="otp" name="currentPassword" placeholder="Nhập mật khẩu" class="form-control" type="password" required="required">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="submitBtn" name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Đổi mật khẩu" type="submit">
-                                        </div>
-                                        <input type="hidden" class="hide" name="token" id="token" value="">
-                                    </form>
-                                    <p id="countdown" class="text-danger"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        
+        <div class="uf-form-signin">
+            <div class="text-center" >
+                <img src="./assets/img/logoVIP.png" alt="" width="150" height="150" class="rounded-image">
+                <h4 style="color: #e2dcdc">Nhập mật khẩu</h4>
+                
             </div>
+            <form class="mt-4" id="register-form" action="ValidatePassword" role="form" autocomplete="off" method="post">
+                <div class="input-group uf-input-group input-group-lg mb-3">
+                    <span class="input-group-text fa fa-key"></span>
+                    <input type="password" class="form-control" id="otp" name="currentPassword" placeholder="Nhập mật khẩu" type="password" required>
+                </div>
+                <span  style="color:black; display: block; margin: 10px">${message}</span>
+                <span  style="color:red; display: block; margin: 10px">${error}</span>
+                <div class="d-grid mb-4">
+                    <button type="submit" class="btn uf-btn-primary btn-lg">Đổi mật khẩu</button>
+                </div>
+            </form>
         </div>
+        <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
