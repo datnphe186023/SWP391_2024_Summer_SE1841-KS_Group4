@@ -97,7 +97,7 @@ public class CreateTimetableServlet extends HttpServlet {
             classSelected = classDAO.getClassById(classId);
         }
         // get list school year
-        List<SchoolYear> listSchoolYears = schoolyearDAO.getAll();
+        List<SchoolYear> listSchoolYears = schoolyearDAO.getFutureSchoolYears();
 
         // get timeslot
         List<Timeslot> listTimeslot = timeslotDAO.getTimeslotsForTimetable();

@@ -2,9 +2,7 @@ package models.day;
 
 import models.week.Week;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Calendar;
 import java.util.Date;
 
