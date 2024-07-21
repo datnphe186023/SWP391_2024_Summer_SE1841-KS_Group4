@@ -127,13 +127,15 @@ public class ViewTimeTableClassServlet extends HttpServlet {
         List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
         IDayDAO dayDAO = new DayDAO();
         List<Day> dayList = dayDAO.getDayByWeek(week);
+        if (dayList.size() > 0) {
+            request.setAttribute("timeslotList", timeslotList);
+        }
         if (classId != null && week != null && schoolyear != null) {
             timetable = new TimetableDAO().getTimetableByClassAndWeek(classId, week, "đã được duyệt");
         }
         request.setAttribute("listClass", listClass);
         request.setAttribute("timetable", timetable);
         request.setAttribute("classselect", classId);
-        request.setAttribute("timeslotList", timeslotList);
         request.setAttribute("sltedsy", schoolyear);
         request.setAttribute("sltedw", week);
         request.setAttribute("schoolYearList", schoolYearList);

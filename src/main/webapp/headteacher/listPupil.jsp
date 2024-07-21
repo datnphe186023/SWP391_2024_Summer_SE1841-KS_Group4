@@ -20,7 +20,7 @@
         <meta name="author" content="">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-        <title>Trường Mầm Non BoNo</title>
+        <title>Danh sách học sinh</title>
 
         <!-- Custom fonts for this template-->
         <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

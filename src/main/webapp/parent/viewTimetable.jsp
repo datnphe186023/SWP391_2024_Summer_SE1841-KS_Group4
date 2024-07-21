@@ -164,12 +164,22 @@
                                 </div>
                                 <thead>
                                     <tr class="bg-light-gray">
-                                        <th class="text-uppercase">Thời gian</th>
-                                        <th class="text-uppercase">Thứ hai</th>
-                                        <th class="text-uppercase">Thứ ba</th>
-                                        <th class="text-uppercase">Thứ tư</th>
-                                        <th class="text-uppercase">Thứ năm</th>
-                                        <th class="text-uppercase">Thứ sáu</th>
+                                        <c:if test="${not empty requestScope.dayList}">
+                                            <th class="text-uppercase">Thời gian</th>
+                                            </c:if>
+                                            <c:forEach var="day" items="${requestScope.dayList}" varStatus="status">
+                                            <th class="text-uppercase">
+                                                <c:choose>
+                                                    <c:when test="${status.index == 0}">Thứ hai</c:when>
+                                                    <c:when test="${status.index == 1}">Thứ ba</c:when>
+                                                    <c:when test="${status.index == 2}">Thứ tư</c:when>
+                                                    <c:when test="${status.index == 3}">Thứ năm</c:when>
+                                                    <c:when test="${status.index == 4}">Thứ sáu</c:when>
+                                                </c:choose>
+                                                <br>
+                                                ( <fmt:formatDate value="${day.date}" pattern="dd-MM-yyyy"/>)
+                                                </td>
+                                            </c:forEach>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -182,7 +192,7 @@
                                                         <c:when test="${not empty requestScope.timetable}">
                                                             <c:forEach var="timetable" items="${requestScope.timetable}">
                                                                 <c:if test="${timetable.timeslot.id eq timeslot.id && timetable.day.id eq day.id}">
-                                                                    ${timetable.subject.name}
+                                                                    ${timetable.subject.name} - ${timetable.teacher.lastName} ${timetable.teacher.firstName}
                                                                 </c:if>
                                                             </c:forEach>
                                                         </c:when>

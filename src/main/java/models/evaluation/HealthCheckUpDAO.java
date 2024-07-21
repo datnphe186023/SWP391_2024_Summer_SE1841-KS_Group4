@@ -34,7 +34,7 @@ public class HealthCheckUpDAO extends DBContext implements IHealthCheckUpDAO {
     @Override
     public List<HealthCheckUp> getAllHealthCheckUps() {
         List<HealthCheckUp> healthCheckUps = new ArrayList<>();
-        String sql = "SELECT * FROM HealthCheckUps";
+        String sql = "SELECT * FROM HealthCheckUps order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();

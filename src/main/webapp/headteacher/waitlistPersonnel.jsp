@@ -14,7 +14,7 @@
 <html>
     <head>
 
-        <title>Quản lý học sinh</title>
+        <title>Danh sách nhân viên chờ phê duyệt</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -55,19 +55,13 @@
             <%--End : title    --%>
 
                 
-            <div class="row" style="text-align: center; align-content: center">
-                                                        <div class="col-lg-3"></div>
-                                                    
-                                                        <div class="col-lg-3"></div>
-                                                        
-                                                        <div class="col-lg-3"></div>                                                 
-                                                    
-                                                        <div class="col-lg-3" style="display: flex; justify-content: end">
-                                                            <button class="btn btn-primary">
-                                                            <a onclick="redirect()">Danh sách nhân viên</a>
-                                                            </button>
-                                                        </div>
-                                                </div>
+            <div class="row">
+                <div class="col-lg-3 float-left mb-4">
+                    <button class="btn btn-primary">
+                        <a onclick="redirect()">Danh sách nhân viên</a>
+                    </button>
+                </div>
+            </div>
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">

@@ -94,7 +94,7 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
     @Override
     public List<Subject> getAll() {
         List<Subject> subjects = new ArrayList<>();
-        String sql = "Select * from Subjects";
+        String sql = "Select * from Subjects order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
@@ -111,7 +111,7 @@ public class SubjectDAO extends DBContext implements ISubjectDAO{
     @Override
     public List<Subject> getSubjectsByStatus(String status){
         List<Subject> subjectList = new ArrayList<>();
-        String sql="select * from Subjects where status = ?";
+        String sql="select * from Subjects where status = ? order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,status);

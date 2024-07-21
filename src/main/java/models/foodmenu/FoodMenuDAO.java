@@ -38,7 +38,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
     @Override
     public List<FoodMenu> getAllFoodMenu() {
         List<FoodMenu> foodMenus = new ArrayList<>();
-        String sql = "select * from FoodMenus";
+        String sql = "select * from FoodMenus order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -79,7 +79,7 @@ public class FoodMenuDAO extends DBContext implements IFoodMenuDAO {
     @Override
     public List<FoodMenu> getFoodMenuWithStatus(String status) {
         List<FoodMenu> foodMenus = new ArrayList<>();
-        String sql = "select * from FoodMenus where status = ?";
+        String sql = "select * from FoodMenus where status = ? order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, status);

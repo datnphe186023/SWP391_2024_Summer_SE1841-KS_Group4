@@ -38,7 +38,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO {
     @Override
     // Get all personnel infomation
     public List<Personnel> getAllPersonnels() {
-        String sql = "select * from [Personnels] ";
+        String sql = "select * from [Personnels] order by id desc";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO {
 
     @Override
     public List<Personnel> getPersonnelByRole(int role) {
-        String sql = "select * from [Personnels] where role_id = ?";
+        String sql = "select * from [Personnels] where role_id = ? order by id desc";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -292,7 +292,7 @@ public class PersonnelDAO extends DBContext implements IPersonnelDAO {
 
     @Override
     public List<Personnel> getPersonnelByStatus(String status) {
-        String sql = " Select * from Personnels where [status] = N'" + status + "'";
+        String sql = " Select * from Personnels where [status] = N'" + status + "' order by id desc";
         List<Personnel> persons = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);

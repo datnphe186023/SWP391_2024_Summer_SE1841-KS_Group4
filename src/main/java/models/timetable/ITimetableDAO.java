@@ -20,4 +20,5 @@ public interface ITimetableDAO {
     String getTeacherByDayId(String dayId);
     String getLatestTimetableId();
     String updateTimetableOfClass(String teacherId, String classId, String dayId);
+    List<Timetable> getTeacherTimetable(String teacherId, String weekId);
 }

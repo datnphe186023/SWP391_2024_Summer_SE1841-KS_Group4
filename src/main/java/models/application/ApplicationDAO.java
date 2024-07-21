@@ -104,7 +104,7 @@ public class ApplicationDAO extends DBContext implements IApplicationDAO{
     @Override
     public Application getApplicationById(String id){
         Application app = new Application();
-        String sql = "select * from [Applications] where id = ?";
+        String sql = "select * from [Applications] where id = ? order by id desc";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
