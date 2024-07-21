@@ -57,8 +57,11 @@
                                                     <c:when test="${requestScope.takeAttendance eq 'Đang không trong năm học'}">
                                                         <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Đang không trong năm học</div>
                                                     </c:when>
-                                                    <c:otherwise>
+                                                    <c:when test="${requestScope.takeAttendance eq 'present' || requestScope.takeAttendance eq 'absent'}">
                                                         <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.takeAttendance eq 'present' ? "Có mặt" : "Vắng"}</div>
+                                                   </c:when>
+                                                    <c:otherwise>
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Chưa cập nhật</div>
                                                     </c:otherwise>
                                                 </c:choose>
 
