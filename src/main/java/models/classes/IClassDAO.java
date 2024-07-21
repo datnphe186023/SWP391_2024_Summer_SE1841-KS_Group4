@@ -5,6 +5,8 @@ import java.util.List;
 public interface IClassDAO {
 
     List<Class> getBySchoolYear(String schoolYearId);
+    
+    List<Class> getBySchoolYearandStatus(String schoolYearId);
 
     Class getClassById(String id);
 
