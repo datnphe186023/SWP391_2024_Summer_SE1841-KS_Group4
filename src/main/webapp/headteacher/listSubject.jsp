@@ -52,8 +52,6 @@
                     <div class="col-lg-3 mb-4">
                         <label for="selectStatus">Chọn trạng thái</label>
                         <select class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
-                            <option ${param.status eq 'all'? "selected" :""} value="all">Tất cả</option>
-                            <option  ${param.status eq 'pending'? "selected" :""} value="pending">Đang chờ xử lý</option>
                             <option ${param.status eq 'approve'? "selected" :""}  value="approve">Đã được duyệt</option>
                             <option  ${param.status eq 'decline'? "selected" :""} value="decline">Không được duyệt</option>
                         </select>
