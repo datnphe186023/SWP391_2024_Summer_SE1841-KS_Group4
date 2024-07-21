@@ -106,7 +106,7 @@ public class ViewTimeTableClassServlet extends HttpServlet {
         models.classes.Class aclass = new ClassDAO().getClassById(classId);
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
-        List<models.classes.Class> listClass = new ClassDAO().getBySchoolYear(schoolyear);
+        List<models.classes.Class> listClass = new ClassDAO().getBySchoolYearandStatus(schoolyear);
         if (listClass.isEmpty()) {
             HttpSession session = request.getSession();
             session.setAttribute("toastType", "error");

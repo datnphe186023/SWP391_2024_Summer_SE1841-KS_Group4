@@ -57,6 +57,24 @@ public class ClassDAO extends DBContext implements IClassDAO {
     }
 
     @Override
+    public List<Class> getBySchoolYearandStatus(String schoolYearId) {
+        List<Class> classes = new ArrayList<>();
+        String sql = "select * from Class where school_year_id = ? and status = N'đã được duyệt'";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, schoolYearId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Class c = createClass(resultSet);
+                classes.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return classes;
+    }
+
+    @Override
     public Class getClassById(String id) {
         String sql = "select * from [Class] where id = ?";
         try {
@@ -336,13 +354,13 @@ public class ClassDAO extends DBContext implements IClassDAO {
         }
         return null;
     }
-    
+
     @Override
     public Class getClassNameByTeacher(String teacherId) {
-        String sql = "SELECT *\n" +
-"                FROM Class\n" +
-"                WHERE teacher_id = ?";
-                
+        String sql = "SELECT *\n"
+                + "                FROM Class\n"
+                + "                WHERE teacher_id = ?";
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teacherId);
