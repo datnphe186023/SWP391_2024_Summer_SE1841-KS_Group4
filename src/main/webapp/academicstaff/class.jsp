@@ -49,6 +49,13 @@
                                             <option ${requestScope.selectedSchoolYear.id eq year.id ? "selected" : ""} value="${year.id}">${year.name}</option>
                                         </c:forEach>
                                     </select>
+                                    <label for="selectStatus">Chọn trạng thái</label>
+                                    <select style="width: 25%" class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                                        <option ${requestScope.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                                        <option  ${requestScope.status eq 'đang chờ xử lý'? "selected" :""} value="đang chờ xử lý">Đang chờ xử lý</option>
+                                        <option ${requestScope.status eq 'đã được duyệt'? "selected" :""}  value="đã được duyệt">Đã được duyệt</option>
+                                        <option  ${requestScope.status eq 'không được duyệt'? "selected" :""} value="không được duyệt">Không được duyệt</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
@@ -132,7 +139,8 @@
                                            value="ĐđaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴ"/>
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label class="control-label">Tên Lớp</label>
+                                            <label class="control-label">Tên Lớp<a
+                                                    style="color: red">(*)</a></label>
                                             <input class="form-control" type="text" placeholder="Tối đa 50 kí tự"
                                                    name="name" pattern="^[a-zA-Z0-9${vietnamesePattern}\s]{1,50}$"
                                                    title="Tên không được chứa kí tự đặc biệt (Tối đa 50 kí tự)"
@@ -162,7 +170,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="gradeSelect">Khối</label>
+                                            <label for="gradeSelect">Khối<a
+                                                    style="color: red">(*)</a></label>
                                             <select class="form-control" id="gradeSelect" name="grade" required>
                                                 <option value="">-- Chọn Khối --</option>
                                                 <c:forEach var="grade" items="${requestScope.grades}">

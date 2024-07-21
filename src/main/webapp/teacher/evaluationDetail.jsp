@@ -39,8 +39,8 @@
                     <div class="row">
                         <!-- Dropdown Chọn Năm Học -->
                         <div class="col-lg-6 mb-4">
-                            <h4>Tuần từ: <fmt:formatDate value="${requestScope.week.startDate}" pattern="dd/MM/yyyy" /> đến
-                                <fmt:formatDate value="${requestScope.week.endDate}" pattern="dd/MM/yyyy" /></h4>
+                            <h4>Tuần từ: <fmt:formatDate value="${requestScope.week.startDate}" pattern="yyyy/MM/dd" /> đến
+                                <fmt:formatDate value="${requestScope.week.endDate}" pattern="yyyy/MM/dd" /></h4>
                         </div>
                     </div>
                 <div class="card shadow mb-4">

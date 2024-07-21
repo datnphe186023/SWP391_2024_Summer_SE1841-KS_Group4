@@ -12,6 +12,7 @@
 <html lang="en">
 <head>
     <title>Đơn Từ</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
         function submitForm() {
@@ -71,10 +72,10 @@
                                         <td>
                                             <c:choose>
                                                 <c:when test="${application.startDate eq application.endDate}">
-                                                    <fmt:formatDate value="${application.startDate}" pattern="dd/MM/yyyy"/>
+                                                    <fmt:formatDate value="${application.startDate}" pattern="yyyy/MM/dd"/>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <fmt:formatDate value="${application.startDate}" pattern="dd/MM/yyyy"/> đến <fmt:formatDate value="${application.endDate}" pattern="dd/MM/yyyy"/>
+                                                    <fmt:formatDate value="${application.startDate}" pattern="yyyy/MM/dd"/> đến <fmt:formatDate value="${application.endDate}" pattern="yyyy/MM/dd"/>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

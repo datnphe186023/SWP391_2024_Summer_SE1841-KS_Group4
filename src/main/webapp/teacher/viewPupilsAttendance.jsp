@@ -74,7 +74,7 @@
                                     <th>Họ và tên</th>
                                     <c:forEach var="day" items="${requestScope.days}">
                                         <th>
-                                            <fmt:formatDate value="${day.date}" pattern="EEEE" /> - <fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" />
+                                            <fmt:formatDate value="${day.date}" pattern="EEEE" /> - <fmt:formatDate value="${day.date}" pattern="yyyy/MM/dd" />
                                         </th>
                                     </c:forEach>
                                 </tr>

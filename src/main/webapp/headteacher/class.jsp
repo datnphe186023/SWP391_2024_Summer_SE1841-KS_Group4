@@ -40,6 +40,12 @@
                                                 value="${year.id}">${year.name}</option>
                                     </c:forEach>
                                 </select>
+                                <label for="selectStatus">Chọn trạng thái</label>
+                                <select style="width: 25%" class="custom-select" id="selectStatus" aria-label="Default select example" onchange="submitForm()" name="status">
+                                    <option ${requestScope.status eq 'all'? "selected" :""} value="all">Tất cả</option>
+                                    <option ${requestScope.status eq 'đã được duyệt'? "selected" :""}  value="đã được duyệt">Đã được duyệt</option>
+                                    <option  ${requestScope.status eq 'không được duyệt'? "selected" :""} value="không được duyệt">Không được duyệt</option>
+                                </select>
                             </div>
                         </form>
                     </div>

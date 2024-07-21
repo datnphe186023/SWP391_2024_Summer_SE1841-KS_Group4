@@ -55,8 +55,8 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${schoolYear.name}</td>
-                                        <td><fmt:formatDate value="${schoolYear.startDate}" pattern="dd/MM/yyyy"/> </td>
-                                        <td><fmt:formatDate value="${schoolYear.endDate}" pattern="dd/MM/yyyy"/> </td>
+                                        <td><fmt:formatDate value="${schoolYear.startDate}" pattern="yyyy/MM/dd"/> </td>
+                                        <td><fmt:formatDate value="${schoolYear.endDate}" pattern="yyyy/MM/dd"/> </td>
                                         <td>${schoolYear.createdBy.lastName} ${schoolYear.createdBy.firstName}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary" data-toggle="modal"

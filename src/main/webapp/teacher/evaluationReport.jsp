@@ -56,8 +56,8 @@
                                 <option value="">Chọn tuần</option>
                                 <c:forEach var="listWeek" items="${requestScope.listWeeks}">
                                     <option value="${listWeek.id}" <c:if test="${weekId == listWeek.id}">selected</c:if>>
-                                        <fmt:formatDate value="${listWeek.startDate}" pattern="dd/MM/yyyy" /> đến
-                                        <fmt:formatDate value="${listWeek.endDate}" pattern="dd/MM/yyyy" />
+                                        <fmt:formatDate value="${listWeek.startDate}" pattern="yyyy/MM/dd" /> đến
+                                        <fmt:formatDate value="${listWeek.endDate}" pattern="yyyy/MM/dd" />
                                     </option>
                                 </c:forEach>
                             </select>
@@ -132,7 +132,7 @@
                                                  style="width:100px; height:100px; object-fit: cover;">
                                         </td>
                                         <td>${pupil.lastName} ${pupil.firstName}</td>
-                                        <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                                        <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
                                         <td class="text-center align-middle">${evaluationDAO.getNumberOfStatus('Nghỉ học',pupil.id,weekId)}</td>
                                         <td class="text-center align-middle">${evaluationDAO.getNumberOfStatus('Ngoan',pupil.id,weekId)}</td>
                                     </tr>

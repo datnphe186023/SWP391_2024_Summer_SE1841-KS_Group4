@@ -55,18 +55,18 @@ a:hover{
     background: #ffffff;
 }
 .uf-btn-primary {
-    background: #222084;
+    background: #4255ff;
     color: #fff;
 }
 
 .uf-btn-primary:hover {
-    background: #935258;
+    background: #2b3fff;
     color: #fff;
 }
 
 .uf-form-check-input:checked {
-    background-color: #935258;
-    border-color: #935258;
+    background-color: #5281ff;
+    border-color: #5281ff;
 }
 
 .uf-social-login .uf-social-ic+.uf-social-ic{

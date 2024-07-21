@@ -95,7 +95,7 @@
                                             <tr>
                                                 <th scope="row">${status.index + 1}</th>
                                                 <td>${pupilHealth.id}</td>
-                                                <td><fmt:formatDate value="${pupilHealth.checkUpDate}" pattern="dd/MM/yyyy"/> </td>
+                                                <td><fmt:formatDate value="${pupilHealth.checkUpDate}" pattern="yyyy/MM/dd"/> </td>
                                                 <td><a href="viewHealthCheckUp?healthId=${pupilHealth.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Chi tiết</a></td>
                                             </tr>
                                         </c:forEach>

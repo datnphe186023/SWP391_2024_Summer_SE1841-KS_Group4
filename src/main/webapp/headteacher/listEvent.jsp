@@ -88,7 +88,7 @@
                                     <tr>
                                         <th scope="row">${status.index + 1}</th>
                                         <td>${event.heading}</td>
-                                        <td><fmt:formatDate value="${event.date}" pattern="dd/MM/yyyy"/> </td>
+                                        <td><fmt:formatDate value="${event.date}" pattern="yyyy/MM/dd"/> </td>
                                         <jsp:useBean id="eventDao" class="models.event.EventDAO"/>
                                         <c:set var="index" value="1"/>
                                         <td>

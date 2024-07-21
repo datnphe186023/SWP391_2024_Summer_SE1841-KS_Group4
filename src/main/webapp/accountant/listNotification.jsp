@@ -65,7 +65,7 @@
                                                 <tr>
                                                     <th scope="row">${status.index + 1}</th>
                                                     <td>${notifi.getHeading()}</td>
-                                                    <td><fmt:formatDate value="${notifi.getCreatedAt()}" pattern="dd/MM/yyyy"/> </td>
+                                                    <td><fmt:formatDate value="${notifi.getCreatedAt()}" pattern="yyyy/MM/dd"/> </td>
                                                     <td>
                                                         <form action="notificationdetails" method="Post">
                                                             <input hidden value="${notifi.getId()}" name="id"/>

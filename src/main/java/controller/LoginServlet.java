@@ -24,6 +24,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("error") != null) {
+            String error = (String) session.getAttribute("error");
+            request.setAttribute("error", error);
+            session.removeAttribute("error");
+        }
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
@@ -99,8 +105,9 @@ public class LoginServlet extends HttpServlet {
             }
         } else {
             // Nếu thông tin đăng nhập không chính xác, hiển thị thông báo lỗi trên trang đăng nhập
-            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu !");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu !");
+            response.sendRedirect("login");
         }
     }
 

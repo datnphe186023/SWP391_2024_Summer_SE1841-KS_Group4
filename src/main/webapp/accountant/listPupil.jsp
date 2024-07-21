@@ -18,6 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         <title>Trường Mầm Non BoNo</title>
 
@@ -139,7 +140,7 @@
                                                          style="width:100px; height:100px; object-fit: cover;">
                                                 </td>
                                                 <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                                                <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
                                                 <td>${pupil.address}</td>
                                                 <td><a href="health-details?pupilid=${pupil.id}&schoolyear=${requestScope.schoolYearSelect}"
                                                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông

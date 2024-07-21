@@ -172,8 +172,8 @@
                                         <option>Chọn tuần</option>
                                         <c:forEach var="listWeek" items="${requestScope.listWeek}">
                                             <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>
-                                                <fmt:formatDate value="${listWeek.startDate}" pattern="dd/MM/yyyy" /> đến
-                                                <fmt:formatDate value="${listWeek.endDate}" pattern="dd/MM/yyyy" />
+                                                <fmt:formatDate value="${listWeek.startDate}" pattern="yyyy/MM/dd" /> đến
+                                                <fmt:formatDate value="${listWeek.endDate}" pattern="yyyy/MM/dd" />
                                             </option>
                                         </c:forEach>
                                     </select>
@@ -210,7 +210,6 @@
                                 <input type="hidden" name="weekId" value="${requestScope.dateWeek.id}">
                                 <input type="hidden" name="classId" value="${requestScope.classSelected.id}">
                             </div>
-
 
 
                             <table class="timetable-table table table-bordered text-center">

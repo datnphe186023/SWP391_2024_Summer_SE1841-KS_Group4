@@ -19,7 +19,7 @@ import models.pupil.PupilDAO;
  *
  * @author TuyenCute
  */
-@WebServlet(name = "/headteacher/PupilsProfileServlet" , value = "/headteacher/pupilprofile")
+@WebServlet(name = "/headteacher/PupilsProfileServlet", value = "/headteacher/pupilprofile")
 public class PulpilsProfileServlet extends HttpServlet {
 
     /**
@@ -60,11 +60,7 @@ public class PulpilsProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        IPupilDAO pupilDAO = new PupilDAO();
-        Pupil pupil = pupilDAO.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.getRequestDispatcher("/headteacher/informationPupils.jsp").forward(request, response);
+
     }
 
     /**
