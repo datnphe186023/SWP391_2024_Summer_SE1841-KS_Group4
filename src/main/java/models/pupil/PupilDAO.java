@@ -99,7 +99,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
 
     @Override
     public List<Pupil> getAllPupils() {
-        String sql = "select * from Pupils";
+        String sql = "select * from Pupils order by id desc";
         List<Pupil> listPupil = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -274,7 +274,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
 
     @Override
     public List<Pupil> getPupilByStatus(String status) {
-        String sql = " Select * from Pupils where [status] = N'" + status + "'";
+        String sql = " Select * from Pupils where [status] = N'" + status + "' order by id desc";
         List<Pupil> listPupils = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -443,7 +443,7 @@ public class PupilDAO extends DBContext implements IPupilDAO {
     @Override
     public List<Pupil> getPupilNonUserId() {
         List<Pupil> list = new ArrayList<>();
-        String sql = "SELECT * FROM Pupils WHERE user_id IS NULL AND status = N'đang theo học'";
+        String sql = "SELECT * FROM Pupils WHERE user_id IS NULL AND status = N'đang theo học' order by id desc";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
