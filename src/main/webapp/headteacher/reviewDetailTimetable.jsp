@@ -135,9 +135,9 @@
                                 </br>
                                 <h5 class="row justify-content-center">
                                     Thời khóa biểu áp dụng từ ngày
-                                    <fmt:formatDate value="${requestScope.week.startDate}" pattern="dd/MM/yyyy" />
+                                    <fmt:formatDate value="${requestScope.week.startDate}" pattern="yyyy/MM/dd" />
                                     đến ngày
-                                    <fmt:formatDate value="${requestScope.week.endDate}" pattern="dd/MM/yyyy" />
+                                    <fmt:formatDate value="${requestScope.week.endDate}" pattern="yyyy/MM/dd" />
                                 </h5>
                             </div>
                         </div>

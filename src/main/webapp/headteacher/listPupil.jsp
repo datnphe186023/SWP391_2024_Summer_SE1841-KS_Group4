@@ -145,7 +145,7 @@
                                                          style="width:100px; height:100px; object-fit: cover;">
                                                 </td>
                                                 <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy" /></td>
+                                                <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
                                                 <td>${pupil.address}</td>
                                                 <td><a href="pupilprofile?id=${pupil.id}" 
                                                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông

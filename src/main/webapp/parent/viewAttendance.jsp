@@ -67,7 +67,7 @@
                                     <tr>
                                         <fmt:setLocale value="vi_VN" />
                                         <td>
-                                            <fmt:formatDate value="${day.date}" pattern="EEEE" /> - <fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" />
+                                            <fmt:formatDate value="${day.date}" pattern="EEEE" /> - <fmt:formatDate value="${day.date}" pattern="yyyy/MM/dd" />
                                         </td>
                                         <td>
                                             ${personneBean.getPersonnel(timetableBean.getTeacherByDayId(day.id)).lastName} ${personneBean.getPersonnel(timetableBean.getTeacherByDayId(day.id)).firstName}

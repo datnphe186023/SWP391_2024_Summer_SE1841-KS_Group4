@@ -87,7 +87,7 @@
                                             <br/>
                                             <p><strong>Giới tính:</strong> ${personnel.gender ? 'Nam' : 'Nữ'}</p>
                                             <br/>
-                                            <p><strong>Ngày sinh:</strong> <fmt:formatDate value="${personnel.birthday}" pattern="dd/MM/yyyy"/> </p>
+                                            <p><strong>Ngày sinh:</strong> <fmt:formatDate value="${personnel.birthday}" pattern="yyyy/MM/dd"/> </p>
                                             <br/>
                                             <p><strong>Địa chỉ</strong> ${personnel.address}</p>
                                             <br/>

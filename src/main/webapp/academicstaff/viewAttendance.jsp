@@ -68,7 +68,7 @@
                                                         <fmt:formatDate value="${day.date}" pattern="EEEE" />
                                                     </th>
                                                     <td>
-                                                        <fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" />
+                                                        <fmt:formatDate value="${day.date}" pattern="yyyy/MM/dd" />
                                                     </td>
                                                     <c:set var="attendance" value="${personnelAttendanceBean.getAttendanceByPersonnelAndDay(requestScope.personnelId, day.id)}"/>
                                                     <c:set value="${attendance.status}" var="s"/>

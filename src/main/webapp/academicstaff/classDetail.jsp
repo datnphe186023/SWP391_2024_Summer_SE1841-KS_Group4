@@ -235,7 +235,7 @@
                                                                                  style="width:100px; height:100px; object-fit: cover;">
                                                     </td>
                                                     <td>${pupil.lastName} ${pupil.firstName}</td>
-                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="dd/MM/yyyy"/></td>
+                                                    <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd"/></td>
                                                     <td>${pupil.address}</td>
                                                     <td class="d-flex justify-content-center align-items-center"
                                                         style="height: 150px;">
@@ -314,7 +314,7 @@
                                                                     </td>
                                                                     <td>${pupil.lastName} ${pupil.firstName}</td>
                                                                     <td><fmt:formatDate value="${pupil.birthday}"
-                                                                                    pattern="dd/MM/yyyy"/></td>
+                                                                                    pattern="yyyy/MM/dd"/></td>
                                                                     <td class="align-middle text-center">
                                                                         <div class="form-check custom-checkbox d-flex justify-content-center align-items-center">
                                                                             <input style="cursor: pointer;" class="form-check-input"

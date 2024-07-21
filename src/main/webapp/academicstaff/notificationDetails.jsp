@@ -69,7 +69,7 @@
                                 <div class="row mb-3">
                                     <div class="col-sm-3 font-weight-bold">Thời gian gửi:</div>
                                     <div class="col-sm-9" id="createdAt">
-                                        <fmt:formatDate value="${notifi.createdAt}" pattern="dd/MM/yyyy"/>
+                                        <fmt:formatDate value="${notifi.createdAt}" pattern="yyyy/MM/dd"/>
                                     </div>
                                 </div>
                             </div>

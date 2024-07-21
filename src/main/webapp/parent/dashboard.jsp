@@ -148,7 +148,7 @@
                                                     <tr>
                                                         <th scope="row">${status.index + 1}</th>
                                                         <td>${event.heading}</td>
-                                                        <td><fmt:formatDate value="${event.date}" pattern="dd/MM/yyyy"/></td>
+                                                        <td><fmt:formatDate value="${event.date}" pattern="yyyy/MM/dd"/></td>
                                                         <td>
                                                                 ${event.createdBy.lastName} ${event.createdBy.firstName}
                                                         </td>

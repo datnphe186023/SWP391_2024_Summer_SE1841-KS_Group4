@@ -154,7 +154,7 @@
                                                             <tr>
                                                                 <th style="text-align: left;">Ngày sinh</th>
 
-                                                                <td style="text-align: left;"><fmt:formatDate value="${p.getBirthday()}" pattern="dd/MM/yyyy"/> </td>
+                                                                <td style="text-align: left;"><fmt:formatDate value="${p.getBirthday()}" pattern="yyyy/MM/dd"/> </td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="text-align: left;">Tình trạng công tác</th>
