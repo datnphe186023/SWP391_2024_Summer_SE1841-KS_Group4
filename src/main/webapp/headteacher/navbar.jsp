@@ -13,6 +13,8 @@
 <%@ page import="models.classes.Class" %>
 <%@ page import="models.personnel.IPersonnelDAO" %>
 <%@ page import="models.personnel.PersonnelDAO" %>
+<%@ page import="models.foodmenu.IFoodMenuDAO" %>
+<%@ page import="models.foodmenu.FoodMenuDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -191,8 +193,17 @@
                 <div id="collapseMealTimetable" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="viewmealtimetable">Xem thực đơn</a>
-                        <a class="collapse-item" href="waitlistmealtimetable">Phê duyệt thực đơn</a>
-                        <a class="collapse-item" href="processfoodmenu">Phê duyệt suất ăn</a>
+                        <% IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
+                            ISchoolYearDAO yearDAO = new SchoolYearDAO();
+                            int count = -1;
+                            if(yearDAO.getClosestSchoolYears() == null){
+                                count =0;
+                            }else{
+                                count = foodMenuDAO.getMenuDetailsforProcess(yearDAO.getClosestSchoolYears().getId()).size();
+                            }
+                        %>
+                        <a class="collapse-item" href="waitlistmealtimetable">Phê duyệt thực đơn(<%=count%>)</a>
+                        <a class="collapse-item" href="processfoodmenu">Phê duyệt suất ăn(<%=foodMenuDAO.getAllFoodMenuDESC("FM000000").size()%>)</a>
                     </div>
                 </div>
             </li>

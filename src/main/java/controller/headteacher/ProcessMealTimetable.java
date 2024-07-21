@@ -48,9 +48,6 @@ public class ProcessMealTimetable extends HttpServlet {
         request.setAttribute("toastType", toastType);
         request.setAttribute("toastMessage", toastMessage);
 
-        System.out.println(weekId);
-        System.out.println(schoolyearId);
-        System.out.println(gradeId);
         IFoodMenuDAO foodMenuDAO = new FoodMenuDAO();
         List<MenuDetail>  menuDetails = new ArrayList<>();
         if(enable == true){
