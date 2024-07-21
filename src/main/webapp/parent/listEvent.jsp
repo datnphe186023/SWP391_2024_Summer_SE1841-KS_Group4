@@ -43,6 +43,7 @@
                                             <tr>
                                                 <th>STT</th>
                                                 <th>Tên sự kiện</th>
+                                                <th>Ngày</th>
                                                 <th>Người gửi</th>
                                                 <th>Chi tiết</th>
                                             </tr>

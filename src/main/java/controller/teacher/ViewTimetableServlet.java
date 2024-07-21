@@ -23,6 +23,7 @@ import models.timeslot.Timeslot;
 import models.timeslot.TimeslotDAO;
 import models.timetable.Timetable;
 import models.timetable.TimetableDAO;
+import models.user.User;
 import models.week.Week;
 import models.week.WeekDAO;
 
@@ -65,12 +66,14 @@ public class ViewTimetableServlet extends HttpServlet {
             SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
             List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
             List<Week> weekList = weekDAO.getWeeks(schoolyear);
-            List<Timetable> timetable = new ArrayList<>();
+            List<Timetable> timetable;
             ITimeslotDAO timeslotDAO = new TimeslotDAO();
             List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
             IDayDAO dayDAO = new DayDAO();
             List<Day> dayList = dayDAO.getDayByWeek(week);
-            timetable = new TimetableDAO().getTimetableByClassAndWeek(classId, week, "đã được duyệt");
+            User user = (User) session.getAttribute("user");
+            timetable = new TimetableDAO().getTeacherTimetable(user.getUsername(), week);
+//            timetable = new TimetableDAO().getTimetableByClassAndWeek(classId, week, "đã được duyệt");
             request.setAttribute("timetable", timetable);
             request.setAttribute("timeslotList", timeslotList);
             request.setAttribute("sltedsy", schoolyear);

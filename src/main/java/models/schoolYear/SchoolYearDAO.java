@@ -40,7 +40,7 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
     @Override
     public List<SchoolYear> getAll() {
         List<SchoolYear> schoolYears = new ArrayList<SchoolYear>();
-        String sql = "select * from schoolYears";
+        String sql = "select * from schoolYears order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();

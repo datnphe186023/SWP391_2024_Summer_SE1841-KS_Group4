@@ -201,7 +201,7 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
     public List<HealthCheckUp> getHealthCheckUpById(String pupil_id) {
         IPupilDAO pupilDAO = new PupilDAO();
         List<HealthCheckUp> list = new ArrayList<>();
-        String sql = "select * from HealthCheckUps where pupil_id = ?";
+        String sql = "select * from HealthCheckUps where pupil_id = ? order by id desc";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, pupil_id);
