@@ -95,9 +95,13 @@
                                                 <td>${pupil.lastName} ${pupil.firstName}</td>
                                                 <td><fmt:formatDate value="${pupil.birthday}" pattern="yyyy/MM/dd" /></td>
                                                 <td>${pupil.address}</td>
-                                                <td><a href="pupilprofile?id=${pupil.id}"
-                                                       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Thông
-                                                        tin chi tiết</a></td>
+                                                <td>
+                                                    <form action="pupilprofile" method="Post">
+                                                        <input hidden value="view" name="action">
+                                                        <input hidden value="${pupil.id}" name="id"/>
+                                                        <button type="submit" class="btn btn-primary">Thông tin chi tiết</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

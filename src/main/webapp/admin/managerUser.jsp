@@ -81,7 +81,12 @@
                                                     <td>${u.getEmail()}</td>
                                                     <td>${roleMap[u.getRoleId()]}</td>
                                                     <td>
+                                                        <c:if test="${roleDis[u.getIsDisabled()] eq 'HOẠT ĐỘNG'}">
                                                         <label class="badge badge-success">${roleDis[u.getIsDisabled()]}</label>
+                                                        </c:if>
+                                                        <c:if test="${roleDis[u.getIsDisabled()] eq 'KHÔNG HOẠT ĐỘNG'}">
+                                                        <label class="badge badge-danger">${roleDis[u.getIsDisabled()]}</label>
+                                                        </c:if>
                                                     </td>
                                                     <td>
                                                         <form action="edituser" method="post" style="display: inline;">
