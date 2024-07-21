@@ -70,13 +70,6 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item -->
-            <li class="nav-item">
-                <a class="nav-link" href="sendfee">
-                    <i class="fas fa-fw fa-solid fa-money-bill"></i>
-                    <span>Học Phí</span></a>
-            </li>
             <!-- Nav Item - Timekeeping -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimekeeping" aria-expanded="true" aria-controls="collapseTimekeeping">
