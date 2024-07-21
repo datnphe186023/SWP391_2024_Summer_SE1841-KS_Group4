@@ -37,9 +37,9 @@ public class LoginServlet extends HttpServlet {
         // Check data login
         IUserDAO userDAO = new UserDAO();
 
-        User user = userDAO.getUserByUsernamePassword(username, password);;
+        User user = userDAO.getUserByUsernamePassword(username, password);
 
-        if (user != null) {
+        if (user != null && user.getIsDisabled() != 1) {
 
             // Lấy thông tin personnel tương ứng với user id
             IPersonnelDAO personnelDAO = new PersonnelDAO();

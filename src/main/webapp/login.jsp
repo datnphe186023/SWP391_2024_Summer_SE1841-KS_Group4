@@ -44,8 +44,7 @@
                 </div>
                 <div class="d-flex mb-3 justify-content-between">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input uf-form-check-input" id="exampleCheck1">
-                        <label class="form-check-label text-white" for="exampleCheck1">Remember Me</label>
+                        
                     </div>
                     <a href="forgotPassword">Quên mật khẩu ?</a>
                 </div>

@@ -166,7 +166,7 @@
                                             <div class="row gutters">
                                                 <div class="button-container">
                                                     <div>
-                                                        <button type="button" class="btn btn-primary" onclick="history.back()">Quay lại</button>
+                                                         <a href="view-information" class="btn btn-primary">Quay lại</a>
                                                     </div>
                                                     <div>
                                                         <button type="button" class="btn btn-danger" onclick="resetForm()">Hủy</button>

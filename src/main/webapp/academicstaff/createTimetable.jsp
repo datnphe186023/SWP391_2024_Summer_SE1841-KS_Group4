@@ -168,7 +168,7 @@
 
                                 <div class="form-group col-md-3" style="padding-left: 0px; width: 80%;">
                                     <label for="selectWeek">Chọn tuần:</label>
-                                        <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()">
+                                    <select class="form-control" id="selectWeek" name="weekId" onchange="submitForms()">
                                         <option>Chọn tuần</option>
                                         <c:forEach var="listWeek" items="${requestScope.listWeek}">
                                             <option value="${listWeek.id}" <c:if test="${param.weekId == listWeek.id}">selected</c:if>>
@@ -180,7 +180,7 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="selectGrade">Chọn khối:</label>
-                                        <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 87%">
+                                    <select class="form-control" id="selectGrade" name="gradeId" onchange="submitForms()" style="width: 87%">
                                         <option>Chọn khối</option>
                                         <c:forEach var="listGrade" items="${requestScope.listGrade}">
                                             <option value="${listGrade.id}" <c:if test="${param.gradeId == listGrade.id}">selected</c:if>>${listGrade.name}</option>
@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="selectClass">Chọn lớp:</label>
-                                        <select class="form-control" id="selectClass" name="classId" onchange="submitForms()" style="width: 80%;">
+                                    <select class="form-control" id="selectClass" name="classId" onchange="submitForms()" style="width: 80%;">
                                         <option>Chọn lớp</option>
                                         <c:if test="${ not empty requestScope.classList}">
                                             <c:forEach var="classList" items="${requestScope.classList}">
@@ -211,12 +211,7 @@
                                 <input type="hidden" name="classId" value="${requestScope.classSelected.id}">
                             </div>
 
-                            <c:if test="${not empty requestScope.dateWeek}">
-                                <div style="margin-top: 20px;">
-                                    <p>*Thời khóa biểu áp dụng từ ngày: <fmt:formatDate value="${requestScope.dateWeek.startDate}" pattern="dd/MM/yyyy" />
-                                        đến ngày: <fmt:formatDate value="${requestScope.dateWeek.endDate}" pattern="dd/MM/yyyy" /></p>
-                                </div>
-                            </c:if>
+
 
                             <table class="timetable-table table table-bordered text-center">
                                 <thead>
@@ -231,9 +226,18 @@
                                 </thead>
                                 <tbody>
                                     <c:if test="${not empty requestScope.dayList}">
+
+                                        <tr>
+                                            <td></td>
+                                            <c:forEach var="day" items="${requestScope.dayList}">
+                                                <td><fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" /></td>
+                                            </c:forEach>
+                                        </tr>
+                                    </c:if>
+                                    <c:if test="${not empty requestScope.dayList}">
                                         <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
                                             <tr>
-                                                <td class="align-middle">${timeslot.id}(${timeslot.startTime} - ${timeslot.endTime})</td>
+                                                <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
                                                 <c:forEach var="day" items="${requestScope.dayList}">
                                                     <td>
                                                         <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}">
@@ -266,7 +270,6 @@
 
                             <div class="btn-container">
                                 <div class="d-flex justify-content-end">
-                                    <p>Ghi chú*: (-) không có dữ liệu</p>
                                 </div>
                                 <div class="btn-group-right">
                                     <button type="submit" class="btn btn-success" style="width: 100px">Lưu</button>
