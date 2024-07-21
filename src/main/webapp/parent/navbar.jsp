@@ -88,7 +88,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" href="view-timetable?id=${sessionScope.pupil.id}">
+                <a class="nav-link" href="view-timetable">
                     <i class="fas fa-fw fa-calendar"></i>
                     <span>Thời khoá biểu</span></a>
             </li>

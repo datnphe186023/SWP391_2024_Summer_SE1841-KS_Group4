@@ -39,8 +39,6 @@ public class ViewTimetableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        TimetableDAO timetableDAO = new TimetableDAO();
         SchoolYearDAO schoolYearDAO = new SchoolYearDAO();
         HttpSession session = request.getSession();
         IWeekDAO weekDAO = new WeekDAO();
@@ -69,8 +67,10 @@ public class ViewTimetableServlet extends HttpServlet {
         List<Timeslot> timeslotList = timeslotDAO.getTimeslotsForTimetable();
         IDayDAO dayDAO = new DayDAO();
         List<Day> dayList = dayDAO.getDayByWeek(sltedw);
-        models.classes.Class aclass = new ClassDAO().getClassByPupilIdAndSchoolYear(id, sltedsy);
-        timetable = new TimetableDAO().getTimetableByClassAndWeek(aclass.getId(), sltedw, "đã được duyệt");
+        models.classes.Class aclass = new ClassDAO().getClassByPupilIdAndSchoolYear(user.getUsername(), sltedsy);
+        if (aclass != null){
+            timetable = new TimetableDAO().getTimetableByClassAndWeek(aclass.getId(), sltedw, "đã được duyệt");
+        }
         request.setAttribute("aClass", aclass);
         request.setAttribute("schoolYearList", schoolYearList);
         request.setAttribute("weekList", weekList);
@@ -85,15 +85,17 @@ public class ViewTimetableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         String week = request.getParameter("week");
         String schoolyear = request.getParameter("schoolyear");
-        models.classes.Class aclass = new ClassDAO().getClassByPupilIdAndSchoolYear(id, schoolyear);
+        models.classes.Class aclass = new ClassDAO().getClassByPupilIdAndSchoolYear(user.getUsername(), schoolyear);
         if (aclass == null) {
             List<SchoolYear> schoolYearList = new SchoolYearDAO().getAll();
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Bạn chưa được phân công năm này hãy chọn lại");
+            request.setAttribute("toastMessage", "Bạn chưa được xếp lớp năm này hãy chọn lại");
             request.setAttribute("schoolYearList", schoolYearList);
+            request.setAttribute("sltedsy", schoolyear);
             request.getRequestDispatcher("viewTimetable.jsp").forward(request, response);
         } else {
             WeekDAO weekDAO = new WeekDAO();

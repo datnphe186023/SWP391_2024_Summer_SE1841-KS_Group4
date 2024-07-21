@@ -38,7 +38,7 @@
                                     </c:forEach>
                                 </select>
                                 <label class="ml-1">Chọn tuần</label>
-                                <select class="custom-select" style="width: 15%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="weekId">
+                                <select class="custom-select" style="width: 25%" aria-label="Default select example" onchange="submitForm('mergedForm')" name="weekId">
                                     <c:forEach items="${requestScope.weeks}" var="week">
                                         <option ${requestScope.weekId eq week.id ? "selected" : ""} value="${week.id}">${week.getStartDatetoEndDate()}</option>
                                     </c:forEach>
