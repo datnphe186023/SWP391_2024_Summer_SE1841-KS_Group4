@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import models.pupil.IPupilDAO;
 import models.pupil.Pupil;
 import models.pupil.PupilDAO;
@@ -61,25 +63,8 @@ public class UpdatePupilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Pupil pupil = new Pupil();
         String schoolYear = request.getParameter("schoolYear");
-        pupil.setId(request.getParameter("id").trim());
-        pupil.setfirstGuardianName(request.getParameter("first_guardian_name").trim());
-        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber").trim());
-        pupil.setsecondGuardianName(request.getParameter("second_guardian_name").trim());
-        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber").trim());
-        pupil.setAddress(request.getParameter("address").trim());
-        pupil.setParentSpecialNote(request.getParameter("note").trim());
-        IPupilDAO pupilDAO = new PupilDAO();
-        boolean p = pupilDAO.updatePupilForTeacher(pupil);
-        HttpSession session = request.getSession();
-        if (p == true) {
-            session.setAttribute("success", "success");
-        } else {
-            session.setAttribute("error", "error");
-        }
         request.setAttribute("schoolYear", schoolYear);
-        request.getRequestDispatcher("pupilprofile").forward(request, response);
     }
 
     /**
@@ -93,13 +78,42 @@ public class UpdatePupilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String schoolYear = request.getParameter("schoolYear");
-        String id = request.getParameter("id");
-        PupilDAO pupildao = new PupilDAO();
-        Pupil pupil = pupildao.getPupilsById(id);
-        request.setAttribute("pupil", pupil);
-        request.setAttribute("schoolYear", schoolYear);
-        request.getRequestDispatcher("editInformationPupil.jsp").forward(request, response);
+        Pupil pupil = new Pupil();
+        pupil.setId(request.getParameter("id").trim());
+        pupil.setLastName(request.getParameter("lastName").trim());
+        pupil.setFirstName(request.getParameter("firstName").trim());
+        pupil.setfirstGuardianName(request.getParameter("first_guardian_name").trim());
+        pupil.setfirstGuardianPhoneNumber(request.getParameter("firstGuardianPhoneNumber").trim());
+        pupil.setsecondGuardianName(request.getParameter("second_guardian_name").trim());
+        pupil.setsecondGuardianPhoneNumber(request.getParameter("secondGuardianPhoneNumber").trim());
+        pupil.setAddress(request.getParameter("address").trim());
+        pupil.setParentSpecialNote(request.getParameter("note").trim());
+        pupil.setEmail(request.getParameter("email").trim());
+        String birthdayStr = request.getParameter("birthday");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthday = null;
+        String avatar = request.getParameter("image");
+        String currentAvatar = request.getParameter("currentAvatar");
+        if (avatar.isEmpty() || avatar.isBlank()) {
+            pupil.setAvatar(currentAvatar);
+        } else {
+            pupil.setAvatar(avatar);
+        }
+        try {
+            birthday = formatter.parse(birthdayStr);
+            pupil.setBirthday(birthday);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        IPupilDAO pupilDAO = new PupilDAO();
+        boolean p = pupilDAO.updatePupil(pupil);
+        HttpSession session = request.getSession();
+        if (p == true) {
+            session.setAttribute("success", "success");
+        } else {
+            session.setAttribute("error", "error");
+        }
+        request.getRequestDispatcher("pupilprofile").forward(request, response);
     }
 
     /**

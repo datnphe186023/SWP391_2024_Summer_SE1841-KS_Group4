@@ -206,7 +206,7 @@
                                         <div class="account-settings">
                                             <div class="user-profile">
                                                 <div class="user-avatar">
-                                                    <img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${pupil.avatar}" >
+                                                    <label for="customFile"><img class="app-sidebar__user-avatar" id="avatarDisplay" src="../images/${pupil.avatar}" ></label> 
                                                 </div>
                                                 <h5 class="user-name">${pupil.lastName} ${pupil.firstName}</h5>
                                             </div>
@@ -217,77 +217,78 @@
                             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <form action="updatepupil?schoolYear=${requestScope.schoolYear}" method="get" onsubmit="return validateForm()">
+                                        <form action="updatepupil" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" value="${personnel.userId}"/>
                                             <input type="hidden" name="schoolYear" value="${requestScope.schoolYear}"/>
+                                            <input type="hidden" name="action" value="doneedit"/>
+                                            <input hidden name="currentAvatar" value="${pupil.avatar}"/>
+                                            <input class="custom-file-input" id="customFile" type="file" name="image"/>
                                             <table>
                                                 <tbody>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>ID Người Dùng :</h5><input class="form-control-sm" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" type="text" name="userId" readonly=""/>
+                                                                <h5>ID Người Dùng:</h5><input class="form-control-sm" value="${pupil.userId!=null?pupil.userId:"Chưa có tài khoản"}" type="text" name="userId" readonly=""/>
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>ID : </h5> <input class="form-control-sm" value="${pupil.id}" type="text" name="id" readonly=""/><br />
+                                                                <h5>ID: </h5> <input class="form-control-sm" value="${pupil.id}" type="text" name="id" readonly=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ nhất<a style="color: red">(*)</a>  : </h5> 
+                                                                <h5>Họ Tên Người Giám Hộ Thứ Nhất:</h5> 
                                                                 <input class="form-control form-control-sm" type="text" name="first_guardian_name" value="${pupil.firstGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
 
-                                                                <h5>Số điện thoại người giám hộ thứ nhất<a style="color: red">(*)</a>  :</h5> 
+                                                                <h5>Số Điện Thoại Người Giám Hộ Thứ Nhất<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="text" name="firstGuardianPhoneNumber" value="${pupil.firstGuardianPhoneNumber}" pattern="[0-9]+" minlength="10" maxlength="10" title="Chỉ nhập số" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Họ tên người giám hộ thứ hai<a style="color: red">(*)</a>  : </h5> 
+                                                                <h5>Họ Tên Người Giám Hộ Thứ Hai<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="text" name="second_guardian_name" value="${pupil.secondGuardianName}" maxlength="25" title="Nhập tối da 25 kí tự"/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Số điện thoại người giám hộ thứ hai<a style="color: red">(*)</a>  :</h5> 
+                                                                <h5>Số Điện Thoại Người Giám Hộ Thứ Hai<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="text" name="secondGuardianPhoneNumber" value="${pupil.secondGuardianPhoneNumber}" maxlength="10" minlength="10" pattern="[0-9]+" title="Chỉ nhập số"/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             <div class="form-group col-md-8">
-                                                                <h5>Họ của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <h5>Họ Của Bé<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="text" name="lastName" value="${pupil.lastName}" required="">
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group col-md-8">
-                                                                <h5>Tên của bé<a style="color: red">(*)</a> :</h5> 
+                                                                <h5>Tên Của Bé<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="text" name="firstName" value="${pupil.firstName}" required="">
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Ngày sinh của bé<a style="color: red">(*)</a> : </h5> 
+                                                                <h5>Ngày Sinh Của Bé<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="date" name="birthday" value="${pupil.birthday}" title="Ngày sinh của bé" required=""/><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-8">
-                                                                <h5>Email<a style="color: red">(*)</a> : </h5> 
+                                                                <h5>Email<a style="color: red">(*)</a>:</h5> 
                                                                 <input class="form-control form-control-sm" type="email" name="email" value="${pupil.email}" title="email" required=""/><br />
                                                             </div></td>
                                                     </tr>
                                                     <tr>
                                                         <td><div class="form-group col-md-6">
-                                                                <h5>Địa chỉ<a style="color: red">(*)</a>  : </h5> 
+                                                                <h5>Địa Chỉ<a style="color: red">(*)</a>:</h5> 
                                                                 <textarea class="form-control form-control-sm" type="text" name="address" value="${pupil.address}" style="width: 200%" title="Tối đa 50 kí tự" required="" maxlength="50">${pupil.address}</textarea><br />
                                                             </div></td>
                                                         <td><div class="form-group col-md-6">
-                                                                <h5>Ghi chú<a style="color: red">(*)</a>  :</h5> 
+                                                                <h5>Ghi Chú<a style="color: red">(*)</a>:</h5> 
                                                                 <textarea class="form-control form-control-sm" type="text" name="note" style="width: 200%" value="${pupil.parentSpecialNote}" title="Tối đa 500 kí tự" maxlength="500"></textarea><br/>
                                                             </div></td>
                                                     </tr>
-                                                    <tr>
-                                                <p>Chú ý : Những Tiêu Đề Có Dấu (*) Là Những Tiêu Đề Được Chỉnh Sửa.</p>
-                                                </tr>
+                                                <p>Chú ý : Những Tiêu Đề Có Dấu (*) Là Những Tiêu Đề Được Chỉnh Sửa. Nhấn Vào Ảnh Để Thay Đổi.</p>
                                                 </tbody>
                                             </table>
                                             <div class="d-flex justify-content-end">
@@ -310,7 +311,7 @@
         </div>
         <script>
             function redirectToPreviousPage() {
-                window.location.href = 'pupilprofile?id=${pupil.id}';
+                window.history.back();
             }
         </script>
     </body>
