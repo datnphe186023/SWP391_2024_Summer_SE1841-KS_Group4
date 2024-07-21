@@ -213,10 +213,21 @@
                                                         <div >
 
                                                             <div class="row text-center align-content-center my-3">
+                                                                <form action="viewpersonnel" method="post" id="changeQuitStatus">
+                                                                    <input type="hidden" name="id" value="${p.getId()}">
+                                                                </form>
 
+                                                                <div class="col-lg-4"></div>
+                                                                <c:if test="${p.getStatus() eq 'đang làm việc'}">
+                                                                <div class="col-lg-4">
+                                                                    <button class="btn btn-primary w-100" onclick="document.getElementById('changeQuitStatus').submit()">Dừng công tác</button>
+                                                                </div>
+                                                                </c:if>
+                                                                <c:if test="${p.getStatus() ne 'đang làm việc'}">
+                                                                    <div class="col-lg-4">
 
-                                                                    <div class="col-lg-4"></div>
-                                                                    <div class="col-lg-4"></div>
+                                                                    </div>
+                                                                </c:if>
 
                                                                 <div class="col-lg-4">
                                                                     <button class="btn btn-info w-100" onclick="redirect()">Danh sách nhân viên</button>

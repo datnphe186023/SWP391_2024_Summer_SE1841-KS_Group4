@@ -225,24 +225,29 @@
                                             <div class="form-group col-md-12">
                                         <span class="thong-tin-thanh-toan">
                                             <h5>Tạo Nhân Viên Mới</h5>
+                                            <p>Các mục có <a
+                                                    style="color: red">(*)</a> là các mục bắt buộc</p>
                                         </span>
                                             </div>
                                         </div>
                                         <div class="row">
 
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Họ</label>
+                                                <label class="control-label">Họ<a
+                                                        style="color: red">(*)</a></label>
                                                 <input class="form-control" type="text" id="lastname" name="lastname" value="${requestScope.lastname}"
                                                        pattern="^[A-Za-z${vietnamesePattern}\s]{1,50}$" required>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Tên </label>
+                                                <label class="control-label">Tên<a
+                                                        style="color: red">(*)</a> </label>
                                                 <input class="form-control" id="firstname" type="text" name="firstname" value="${requestScope.firstname}"
                                                        pattern="^[a-zA-Z${vietnamesePattern}\s]{1,20}$" required>
                                             </div>
 
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Giới tính </label>
+                                                <label class="control-label">Giới tính<a
+                                                        style="color: red">(*)</a> </label>
                                                 <select class="form-control" name="gender" id="gender" required>
                                                     <option value="" hidden selected>Chọn giới tính</option>
                                                     <c:choose>
@@ -262,27 +267,32 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Ngày sinh</label>
+                                                <label class="control-label">Ngày sinh<a
+                                                        style="color: red">(*)</a></label>
                                                 <input class="form-control" id="birthday" type="date" name="birthday" value="${requestScope.birthday}" required>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Địa chỉ</label>
+                                                <label class="control-label">Địa chỉ<a
+                                                        style="color: red">(*)</a></label>
                                                 <input class="form-control" type="text" id="address" name="address" value="${requestScope.address}"
                                                        pattern="^[A-Za-z1-9,${vietnamesePattern}\s]{1,300}$" required>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Email</label>
+                                                <label class="control-label">Email<a
+                                                        style="color: red">(*)</a></label>
                                                 <input class="form-control" type="email" id="email" name="email" value="${requestScope.email}" required>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Số điện thoại</label>
+                                                <label class="control-label">Số điện thoại<a
+                                                        style="color: red">(*)</a></label>
                                                 <input class="form-control" type="text" id="phone" pattern="^(0[23578]|09)\d{8}$" name="phone" value="${requestScope.phone}"
                                                        required>
 
 
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Chức vụ </label>
+                                                <label class="control-label" >Chức vụ<a
+                                                        style="color: red">(*)</a> </label>
                                                 <select class="form-control" name="role" id="role" required>
                                                     <option value="" hidden> Chọn chức vụ</option>
                                                     <c:forEach items="${requestScope.roles}" var="r">

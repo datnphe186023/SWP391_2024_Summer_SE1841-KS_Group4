@@ -76,13 +76,10 @@ public class ViewPersonnelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String xid = request.getParameter("id");
-
-        Personnel person ;
+        String id = request.getParameter("id");
         IPersonnelDAO personnelDAO = new PersonnelDAO();
-       person = personnelDAO.getPersonnel(xid);
-       request.setAttribute("person", person);
-        request.getRequestDispatcher("viewPersonnelInfomation.jsp").forward(request, response);
+        personnelDAO.updatePersonnelStatus(id,"đã nghỉ việc");
+        response.sendRedirect("viewpersonnel?id="+id);
     }
 
     /** 
