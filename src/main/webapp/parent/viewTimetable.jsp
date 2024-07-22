@@ -41,11 +41,6 @@
                 document.getElementById("week").selectedIndex = 0;
                 document.getElementById("schoolYearForm").submit();
             }
-
-            window.onload = function () {
-                enableSchoolYear();
-                enableWeek();
-            }
         </script>
         <style>
             #selectWeek {
@@ -169,8 +164,8 @@
                                                 </c:choose>
                                                 <br>
                                                 (<fmt:formatDate value="${day.date}" pattern="dd-MM-yyyy"/>)
-                                                </th>
-                                            </c:forEach>
+                                            </th>
+                                        </c:forEach>
                                     </tr>
                                 </thead>
                                 <tbody>

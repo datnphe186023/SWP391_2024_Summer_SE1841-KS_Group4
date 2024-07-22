@@ -36,21 +36,9 @@
                     }
                 }
             });
-
-            function enableWeek() {
-                var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
-                var weekSelect = document.querySelector('select[name="week"]');
-
-                if (schoolYearSelect.value !== "") {
-                    weekSelect.disabled = false;
-                } else {
-                    weekSelect.disabled = true;
-                }
-            }
-
-            window.onload = function () {
-                enableSchoolYear();
-                enableWeek();
+            function resetWeekAndSubmitForm() {
+                document.getElementById("week").selectedIndex = 0;
+                document.getElementById("schoolYearForm").submit();
             }
         </script>
         <style>
@@ -147,7 +135,7 @@
                                 <div class="d-flex justify-content-lg-start">
                                     <div class="class-form m-2">
                                         <label>Năm học
-                                            <select name="schoolyear" onchange="enableWeek();
+                                            <select name="schoolyear" onchange="resetWeekAndSubmitForm();
                                                     this.form.submit();" class="custom-select">
                                                 <option value="" hidden>Năm học</option>
                                                 <c:forEach items="${requestScope.schoolYearList}" var="sy">
@@ -159,7 +147,7 @@
                                     </div>
                                     <div class="class-form m-2">
                                         <label>Tuần học
-                                            <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
+                                            <select id="week" name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
                                                 <option value="" hidden>Tuần học</option>
                                                 <c:forEach items="${requestScope.weekList}" var="w">
                                                     <option ${sltedw eq w.getId() ? "selected" : ""}
