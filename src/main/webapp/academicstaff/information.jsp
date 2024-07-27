@@ -34,10 +34,15 @@
 
         <script>
             function submitForm() {
+                var oldPassword = document.getElementById("oldPassword").value;
                 var newPassword = document.getElementById("newPassword").value;
                 var confirmPassword = document.getElementById("confirmPassword").value;
 
-                if (newPassword !== confirmPassword) {
+                if (!oldPassword || !newPassword || !confirmPassword) {
+                    toastr.error('Vui lòng điền tất cả các trường.');
+                } else if (newPassword.length < 8 || newPassword.length > 12) {
+                    toastr.error('Mật khẩu mới phải từ 8 đến 12 ký tự.');
+                } else if (newPassword !== confirmPassword) {
                     toastr.error('Mật khẩu không trùng khớp.');
                 } else {
                     document.getElementById("changePasswordForm").submit();
