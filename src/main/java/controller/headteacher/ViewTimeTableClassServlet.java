@@ -114,12 +114,6 @@ public class ViewTimeTableClassServlet extends HttpServlet {
             response.sendRedirect("viewtimetableclass");
             return;
         }
-        if (schoolyear == null) {
-            schoolyear = schoolYearDAO.getLatest().getId();
-        }
-        if (week == null) {
-            week = weekDAO.getCurrentWeek(new Date());
-        }
         List<SchoolYear> schoolYearList = schoolYearDAO.getAll();
         List<Week> weekList = weekDAO.getWeeks(schoolyear);
         List<Timetable> timetable = new ArrayList<>();
