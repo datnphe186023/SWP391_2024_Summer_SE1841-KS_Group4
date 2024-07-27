@@ -77,6 +77,10 @@ public class PupilSchoolYearSummarizeServlet extends HttpServlet {
                     request.setAttribute("error", "Bạn không có lớp trong thời gian này");
                 }
             }
+            if (currentDate.after(schoolYear.getEndDate())) {
+                request.setAttribute("expired", "true");
+                System.out.println("true");
+            }
         }
         request.setAttribute("display", display);
 
