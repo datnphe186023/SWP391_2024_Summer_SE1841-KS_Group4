@@ -368,25 +368,49 @@ public class EvaluationDAO extends DBContext implements IEvaluationDAO {
     public String PupilReportYearly(String pupil_id,String school_year_id) {
         IWeekDAO weekDAO = new WeekDAO();
         String data ="";
-        String sql = "With T as(\n" +
-                "    select  school_year_id,week_id,count(evaluation) as good_day from Evaluations\n" +
-                "                                               join dbo.Days D on D.id = Evaluations.date_id\n" +
-                "                                               join dbo.Weeks W on W.id = D.week_id\n" +
-                "    where school_year_id=? and pupil_id=? and Evaluations.evaluation = 'Ngoan'\n" +
-                "    group by school_year_id,week_id\n" +
-                "),\n" +
-                "    N as (\n" +
-                "        select school_year_id,count(id) as week from Weeks\n" +
-                "        group by school_year_id\n" +
-                "    )\n" +
-                "select T.school_year_id,N.week,count(T.good_day)as good_ticket from T join N on t.school_year_id = N.school_year_id\n" +
-                "                                      where good_day>=3\n" +
-                "group by T.school_year_id,N.week";
+        String sql = "               WITH T AS (\n" +
+                "                    SELECT\n" +
+                "                    W.school_year_id,\n" +
+                "                    W.id AS week_id,\n" +
+                "                    ISNULL(COUNT(E.evaluation), 0) AS good_day\n" +
+                "                    FROM\n" +
+                "                    dbo.Weeks W\n" +
+                "                    LEFT JOIN\n" +
+                "                    dbo.Days D ON W.id = D.week_id\n" +
+                "                    LEFT JOIN\n" +
+                "                    Evaluations E ON D.id = E.date_id\n" +
+                "                    AND school_year_id = ?\n" +
+                "                    AND E.pupil_id = ?\n" +
+                "                    AND E.evaluation = 'Ngoan'\n" +
+                "                    WHERE\n" +
+                "                    W.school_year_id = ?\n" +
+                "                    GROUP BY\n" +
+                "                    W.school_year_id, W.id\n" +
+                "                    ),\n" +
+                "                    N AS (\n" +
+                "                    SELECT\n" +
+                "                    school_year_id,\n" +
+                "                    COUNT(id) AS week\n" +
+                "                    FROM\n" +
+                "                    Weeks\n" +
+                "                    GROUP BY\n" +
+                "                    school_year_id\n" +
+                "                    )\n" +
+                "SELECT\n" +
+                "    T.school_year_id,\n" +
+                "    N.week,\n" +
+                "    COUNT(CASE WHEN T.good_day >= 3 THEN 1 ELSE NULL END) AS good_ticket\n" +
+                "FROM\n" +
+                "    T\n" +
+                "        JOIN\n" +
+                "    N ON T.school_year_id = N.school_year_id\n" +
+                "GROUP BY\n" +
+                "    T.school_year_id, N.week;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, school_year_id);
             statement.setString(2, pupil_id);
-
+            statement.setString(3, school_year_id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                  data = resultSet.getString("school_year_id")+"-"+resultSet.getInt("good_ticket")+"-"+resultSet.getInt("week");
