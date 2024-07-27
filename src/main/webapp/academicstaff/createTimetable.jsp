@@ -212,60 +212,60 @@
                             </div>
 
 
-                            <table class="timetable-table table table-bordered text-center">
-                                <thead>
-                                    <tr class="bg-light-gray">
-                                        <th class="text-uppercase">Thời gian</th>
-                                        <th class="text-uppercase">Thứ hai</th>
-                                        <th class="text-uppercase">Thứ ba</th>
-                                        <th class="text-uppercase">Thứ tư</th>
-                                        <th class="text-uppercase">Thứ năm</th>
-                                        <th class="text-uppercase">Thứ sáu</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:if test="${not empty requestScope.dayList}">
-
-                                        <tr>
-                                            <td></td>
-                                            <c:forEach var="day" items="${requestScope.dayList}">
-                                                <td><fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" /></td>
-                                            </c:forEach>
+                                <table class="timetable-table table table-bordered text-center">
+                                    <thead>
+                                        <tr class="bg-light-gray">
+                                            <th class="text-uppercase">Thời gian</th>
+                                            <th class="text-uppercase">Thứ hai</th>
+                                            <th class="text-uppercase">Thứ ba</th>
+                                            <th class="text-uppercase">Thứ tư</th>
+                                            <th class="text-uppercase">Thứ năm</th>
+                                            <th class="text-uppercase">Thứ sáu</th>
                                         </tr>
-                                    </c:if>
-                                    <c:if test="${not empty requestScope.dayList}">
-                                        <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                    </thead>
+                                    <tbody>
+                                        <c:if test="${not empty requestScope.dayList}">
+
                                             <tr>
-                                                <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
+                                                <td></td>
                                                 <c:forEach var="day" items="${requestScope.dayList}">
-                                                    <td>
-                                                        <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}">
-                                                            <option value="">Chọn môn học</option>
-                                                            <c:forEach var="subject" items="${requestScope.subList}">
-                                                                <option value="${subject.id}" name="subjectId_${day.id}_${timeslot.id}_${subject.id}">${subject.name}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </td>
+                                                    <td><fmt:formatDate value="${day.date}" pattern="dd/MM/yyyy" /></td>
                                                 </c:forEach>
                                             </tr>
-                                        </c:forEach>
-                                    </c:if>
-                                    <c:if test="${empty requestScope.dayList}">
-                                        <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
-                                            <tr>
-                                                <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
-                                                <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri']}">
-                                                    <td>
-                                                        <select class="form-control" name="${day}">
-                                                            <option value="">-</option>
-                                                        </select>
-                                                    </td>
-                                                </c:forEach>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
-                                </tbody>
-                            </table>
+                                        </c:if>
+                                        <c:if test="${not empty requestScope.dayList}">
+                                            <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                                <tr>
+                                                    <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
+                                                    <c:forEach var="day" items="${requestScope.dayList}">
+                                                        <td>
+                                                            <select class="form-control" name="timeslotId_${day.id}_${timeslot.id}">
+                                                                <option value="">Chọn môn học</option>
+                                                                <c:forEach var="subject" items="${requestScope.subList}">
+                                                                    <option value="${subject.id}" name="subjectId_${day.id}_${timeslot.id}_${subject.id}">${subject.name}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </td>
+                                                    </c:forEach>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${empty requestScope.dayList}">
+                                            <c:forEach var="timeslot" items="${requestScope.listTimeslot}">
+                                                <tr>
+                                                    <td class="align-middle">${timeslot.startTime} - ${timeslot.endTime}</td>
+                                                    <c:forEach var="day" items="${['mon', 'tue', 'wed', 'thu', 'fri']}">
+                                                        <td>
+                                                            <select class="form-control" name="${day}">
+                                                                <option value="">-</option>
+                                                            </select>
+                                                        </td>
+                                                    </c:forEach>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                    </tbody>
+                                </table>
 
                             <div class="btn-container">
                                 <div class="d-flex justify-content-end">
