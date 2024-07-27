@@ -300,6 +300,23 @@ public class SchoolYearDAO extends DBContext implements ISchoolYearDAO {
         return updateSchoolYear(schoolYear);
     }
 
+    @Override
+    public List<SchoolYear> getSchoolYears() {
+        String sql = "select * from schoolYears where end_date > CAST(GETDATE() AS DATE)";
+        List<SchoolYear> schoolYears = new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                SchoolYear schoolYear = createNewSchoolYear(resultSet);
+                schoolYears.add(schoolYear);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return schoolYears;
+    }
+
     private String updateSchoolYear(SchoolYear schoolYear){
         String sql = "insert into SchoolYears values(?,?,?,?,?,?)";
         try {

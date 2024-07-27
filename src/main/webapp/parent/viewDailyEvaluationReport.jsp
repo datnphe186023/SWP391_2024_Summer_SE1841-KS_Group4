@@ -198,7 +198,7 @@
                                         <th>STT</th>
                                         <th>Năm học</th>
                                         <th>Số đánh giá trẻ Ngoan </th>
-                                        <th>Danh hiêu Cháu Ngoan Bác Hồ</th>
+                                        <th>Danh hiệu Cháu Ngoan Bác Hồ</th>
 
 
                                     </tr>

@@ -108,6 +108,11 @@
                 document.getElementById(formId).submit();
             }
         </script>
+        <script>
+            function back(){
+                window.location.href = "class";
+            }
+        </script>
         <!-- Custom fonts for this template-->
         <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
@@ -251,8 +256,9 @@
                                         </tbody>
                                     </table>
                                     <div class="btn-group-right float-right">
-                                        <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
+                                        <button type="button" class="btn btn-primary" onclick="back()"  style="width: 100px">Quay lại</button>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

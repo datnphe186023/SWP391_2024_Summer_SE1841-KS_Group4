@@ -45,7 +45,7 @@ public class ListPupilServlet extends HttpServlet {
             }
 
         List<Pupil> listPupils = pupilDAO.getPupilByClass(classesSelect);
-        List<Class> listClass = classDAO.getBySchoolYear(schoolYearSelect);
+        List<Class> listClass = classDAO.getByStatus("đã được duyệt",schoolYearSelect);
 
         request.setAttribute("classSelect",classesSelect);
         request.setAttribute("listPupil",listPupils);
