@@ -29,6 +29,19 @@
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var toastMessage = '<%= request.getAttribute("toastMessage") %>';
+            var toastType = '<%= request.getAttribute("toastType") %>';
+            if (toastMessage) {
+                if (toastType === 'success') {
+                    toastr.success(toastMessage);
+                } else if (toastType === 'error') {
+                    toastr.error(toastMessage);
+                }
+            }
+        });
+    </script>
 </head>
 <body id="page-top">
 <div id="wrapper">
