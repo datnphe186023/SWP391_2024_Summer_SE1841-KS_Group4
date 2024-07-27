@@ -185,6 +185,7 @@ public class Pupil {
         IEvaluationDAO dao = new EvaluationDAO();
         IWeekDAO weekDAO = new WeekDAO();
         String evaluation = dao.PupilReportYearly(this.id,School_year_id);
+        System.out.println(evaluation);
         String result="";
             String[] cut = evaluation.split("-");
             if(School_year_id.equals(cut[0])){
