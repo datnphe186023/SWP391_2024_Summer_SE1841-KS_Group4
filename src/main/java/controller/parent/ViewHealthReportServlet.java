@@ -33,6 +33,7 @@ public class ViewHealthReportServlet extends HttpServlet {
         String sltedw = "";
         String sltedy = "";
         IWeekDAO weekDAO = new WeekDAO();
+        IEvaluationDAO evaluationDAO = new EvaluationDAO();
         Date currentDate = Date.from(Instant.now());
         if(weekDAO.getCurrentWeek(currentDate)!=null){
             sltedw = weekDAO.getCurrentWeek(currentDate);
@@ -46,6 +47,8 @@ public class ViewHealthReportServlet extends HttpServlet {
             sltedy = weekDAO.getYearByWeek(sltedw);
         }
         List<SchoolYear> schoolYears = schoolYearDAO.getListSchoolYearsByPupilID(pupilDAO.getPupilByUserId(user.getId()).getId());
+        List<HealthCheckUp> healthCheckUpList  = evaluationDAO.getHealthCheckUpByIdandSchoolYearId(pupilDAO.getPupilByUserId(user.getId()).getId(), sltedy);
+        request.setAttribute("healthCheckUpList", healthCheckUpList);
         request.setAttribute("schoolYearList", schoolYears);
         request.setAttribute("selectedReport", "overall");
         request.setAttribute("sltedsy", sltedy);
