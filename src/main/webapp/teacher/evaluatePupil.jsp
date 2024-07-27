@@ -142,7 +142,7 @@
 
 
                                         <td class="text-center">
-                                            <textarea class="mt-2" rows="3" name="notes-${pupil.id}">${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).notes}</textarea>
+                                            <textarea class="mt-2 form-control" rows="3" name="notes-${pupil.id}">${evaluation.getEvaluationByPupilIdAndDay(pupil.id,dateId).notes}</textarea>
                                         </td>
                                     </tr>
                                 </c:forEach>
