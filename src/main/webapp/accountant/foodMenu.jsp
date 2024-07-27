@@ -71,7 +71,7 @@
         <div id="content">
             <jsp:include page="../header.jsp"/>
             <div class="container-fluid">
-                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Các Thực Đơn</h1>
+                <h1 class="h3 mb-4 text-gray-800 text-center">Danh Sách Các Món Ăn</h1>
                 <form action="foodmenus" id="myForm">
                     <div class="row">
                         <div class="col-lg-2 mb-4">
@@ -87,10 +87,10 @@
                 </form>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Các Thực Đơn</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Các Món Ăn</h6>
                         <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                 data-target=".create-food-menu">
-                            <i class="fas fa-upload"></i> Thêm Thực Đơn
+                            <i class="fas fa-upload"></i> Thêm Món Ăn
                         </button>
                     </div>
                     <div class="card-body">
@@ -99,7 +99,7 @@
                                 <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Chi tiết thực đơn</th>
+                                    <th>Chi tiết Món Ăn</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
