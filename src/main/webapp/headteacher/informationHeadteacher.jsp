@@ -53,30 +53,7 @@
                 document.getElementById('informationUpdate').reset();
             }
         </script>
-        <script>
-            function validateForm() {
-                const oldPassword = document.getElementById("oldPassword").value;
-                const newPassword = document.getElementById("newPassword").value;
-                const confirmPassword = document.getElementById("confirmPassword").value;
-
-                if (!oldPassword || !newPassword || !confirmPassword) {
-                    alert("Vui lòng điền tất cả các trường.");
-                    return false;
-                }
-
-                if (newPassword.length < 8 || newPassword.length > 12) {
-                    alert("Mật khẩu mới phải có từ 8 đến 12 ký tự.");
-                    return false;
-                }
-
-                if (newPassword !== confirmPassword) {
-                    alert("Xác nhận mật khẩu không khớp.");
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
+        
         <style>
             .button-container {
                 display: flex;
