@@ -77,10 +77,12 @@ public class PupilProfileClassServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equalsIgnoreCase("edit")) {
             String id = request.getParameter("id");
+            String classId = request.getParameter("classId");
             IPupilDAO pupilDAO = new PupilDAO();
             Pupil pupil = pupilDAO.getPupilsById(id);
+            request.setAttribute("classId", classId);
             request.setAttribute("pupil", pupil);
-            request.getRequestDispatcher("editInformationPupil.jsp").forward(request, response);
+            request.getRequestDispatcher("editInformationPupilsClass.jsp").forward(request, response);
         } else {
             String id = request.getParameter("id");
             HttpSession session = request.getSession();
