@@ -104,8 +104,9 @@
                                 </div>
                             </div>
                         </div>
+                                        
                         <div class="btn-group-right float-right">
-                            <button type="button" class="btn btn-primary" onclick="history.back()"  style="width: 100px">Quay lại</button>
+                            <a href="list-pupil" class="btn btn-primary">Quay lại</a>
                         </div>
                     </div>
                     <!-- Health Report Modal -->
