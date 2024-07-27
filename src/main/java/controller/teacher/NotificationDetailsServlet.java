@@ -11,6 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import models.notification.Notification;
 import models.notification.NotificationDAO;
 
@@ -73,10 +75,18 @@ public class NotificationDetailsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Map<Integer, String> roleMap = new HashMap<>();
+        roleMap.put(0, "NHÂN VIÊN IT");
+        roleMap.put(1, "HIỆU TRƯỞNG");
+        roleMap.put(2, "GIÁO VỤ");
+        roleMap.put(3, "KẾ TOÁN");
+        roleMap.put(4, "GIÁO VIÊN");
+        roleMap.put(5, "PHỤ HUYNH");
         String id = request.getParameter("id");
         Notification notifi = new Notification();
         NotificationDAO notificationDAO = new NotificationDAO();
         notifi = notificationDAO.getNotificationById(id);
+        request.setAttribute("roleMap", roleMap);
         request.setAttribute("notifi", notifi);
         request.getRequestDispatcher("notificationDetails.jsp").forward(request, response);
     }

@@ -37,32 +37,10 @@
                 }
             });
 
-            function enableClass() {
-                var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
-                var classSelect = document.querySelector('select[name="class"]');
-
-                if (schoolYearSelect.value !== "") {
-                    classSelect.disabled = false;
-                } else {
-                    classSelect.disabled = true;
-                    document.querySelector('select[name="week"]').disabled = true;
-                }
-            }
-
-            function enableWeek() {
-                var classSelect = document.querySelector('select[name="class"]');
-                var weekSelect = document.querySelector('select[name="week"]');
-
-                if (classSelect.value !== "") {
-                    weekSelect.disabled = false;
-                } else {
-                    weekSelect.disabled = true;
-                }
-            }
-
-            window.onload = function () {
-                enableClass();
-                enableWeek();
+            function resetWeekAndSubmitForm() {
+                document.getElementById("week").selectedIndex = 0;
+                document.getElementById("class").selectedIndex = 0;
+                document.getElementById("schoolYearForm").submit();
             }
         </script>
         <style>
@@ -159,7 +137,7 @@
                                 <div class="d-flex justify-content-lg-start">
                                     <div class="class-form m-2">
                                         <label>Năm học
-                                            <select name="schoolyear" onchange="enableClass();
+                                            <select name="schoolyear" onchange="resetWeekAndSubmitForm();
                                                     this.form.submit();" class="custom-select">
                                                 <option value="" hidden>Năm học</option>
                                                 <c:forEach items="${requestScope.schoolYearList}" var="sy">
@@ -171,8 +149,7 @@
                                     </div>
                                     <div class="class-form m-2">
                                         <label>Lớp
-                                            <select name="class" onchange="enableWeek();
-                                                    this.form.submit();" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
+                                            <select id="class" name="class" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
                                                 <option value="" hidden>Lớp</option>
                                                 <c:forEach items="${requestScope.listClass}" var="lc">
                                                     <option ${classselect eq lc.getId() ? "selected" : ""}
@@ -183,7 +160,7 @@
                                     </div>
                                     <div class="class-form m-2">
                                         <label>Tuần học
-                                            <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty classselect ? '' : 'disabled'}>
+                                            <select id="week" name="week" onchange="this.form.submit()" class="custom-select" ${not empty classselect ? '' : 'disabled'}>
                                                 <option value="" hidden>Tuần học</option>
                                                 <c:forEach items="${requestScope.weekList}" var="w">
                                                     <option ${sltedw eq w.getId() ? "selected" : ""}
@@ -208,7 +185,7 @@
                                                     <c:when test="${status.index == 4}">Thứ sáu</c:when>
                                                 </c:choose>
                                                 <br>
-                                                ( <fmt:formatDate value="${day.date}" pattern="dd-MM-yyyy"/>)
+                                                (<fmt:formatDate value="${day.date}" pattern="dd-MM-yyyy"/>)
                                                 </td>
                                             </c:forEach>
                                     </tr>
@@ -223,7 +200,7 @@
                                                         <c:when test="${not empty requestScope.timetable}">
                                                             <c:forEach var="timetable" items="${requestScope.timetable}">
                                                                 <c:if test="${timetable.timeslot.id eq timeslot.id && timetable.day.id eq day.id}">
-                                                                    ${timetable.subject.name}
+                                                                    ${timetable.subject.name} - ${timetable.teacher.lastName} ${timetable.teacher.firstName}
                                                                 </c:if>
                                                             </c:forEach>
                                                         </c:when>

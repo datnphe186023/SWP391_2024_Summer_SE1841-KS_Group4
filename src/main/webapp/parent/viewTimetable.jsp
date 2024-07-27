@@ -37,20 +37,9 @@
                 }
             });
 
-            function enableWeek() {
-                var schoolYearSelect = document.querySelector('select[name="schoolyear"]');
-                var weekSelect = document.querySelector('select[name="week"]');
-
-                if (schoolYearSelect.value !== "") {
-                    weekSelect.disabled = false;
-                } else {
-                    weekSelect.disabled = true;
-                }
-            }
-
-            window.onload = function () {
-                enableSchoolYear();
-                enableWeek();
+            function resetWeekAndSubmitForm() {
+                document.getElementById("week").selectedIndex = 0;
+                document.getElementById("schoolYearForm").submit();
             }
         </script>
         <style>
@@ -133,14 +122,11 @@
                             </div>
                         </div>
                         <form id="schoolYearForm" method="post" action="view-timetable">
-                            <input type="hidden" name="pid" value="${sessionScope.personnel.id}"/>
-                            <input type="hidden" name="id" value="${param.id}"/>
-                            <input type="hidden" name="classId" value="${requestScope.aClass.id}"/>
                             <table class="timetable-table table table-bordered text-center">
                                 <div class="d-flex justify-content-lg-start">
                                     <div class="class-form m-2">
                                         <label>Năm học
-                                            <select name="schoolyear" onchange="enableWeek();
+                                            <select name="schoolyear" onchange="resetWeekAndSubmitForm();
                                                     this.form.submit();" class="custom-select">
                                                 <option value="" hidden>Năm học</option>
                                                 <c:forEach items="${requestScope.schoolYearList}" var="sy">
@@ -152,7 +138,7 @@
                                     </div>
                                     <div class="class-form m-2">
                                         <label>Tuần học
-                                            <select name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
+                                            <select id="week" name="week" onchange="this.form.submit()" class="custom-select" ${not empty sltedsy ? '' : 'disabled'}>
                                                 <option value="" hidden>Tuần học</option>
                                                 <c:forEach items="${requestScope.weekList}" var="w">
                                                     <option ${sltedw eq w.getId() ? "selected" : ""}
@@ -177,9 +163,9 @@
                                                     <c:when test="${status.index == 4}">Thứ sáu</c:when>
                                                 </c:choose>
                                                 <br>
-                                                ( <fmt:formatDate value="${day.date}" pattern="dd-MM-yyyy"/>)
-                                                </td>
-                                            </c:forEach>
+                                                (<fmt:formatDate value="${day.date}" pattern="dd-MM-yyyy"/>)
+                                            </th>
+                                        </c:forEach>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -62,7 +62,7 @@ public class CreateUserServlet extends HttpServlet {
             throws ServletException, IOException {
         Map<Integer, String> roleMap = new HashMap<>();
 
-        roleMap.put(0, "QUẢN TRỊ VIÊN");
+        roleMap.put(0, "NHÂN VIÊN IT");
         roleMap.put(1, "HIỆU TRƯỞNG");
         roleMap.put(2, "GIÁO VỤ");
         roleMap.put(3, "KẾ TOÁN");
@@ -83,7 +83,7 @@ public class CreateUserServlet extends HttpServlet {
             session.removeAttribute("success");
         } else if (errors != null) {
             request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Tạo tài khoản mới thất bại.");
+            request.setAttribute("toastMessage", "Tạo tài khoản mới thất bại. Email đã được đăng ký!");
             session.removeAttribute("errors");
         }
         request.setAttribute("listPupils", new PupilDAO().getPupilNonUserId());
