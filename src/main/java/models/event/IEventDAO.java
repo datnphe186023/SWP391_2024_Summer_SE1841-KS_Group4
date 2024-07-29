@@ -12,5 +12,6 @@ public interface IEventDAO {
     List<String> getReceiver(String eventId);
     Event getLastest();
     boolean checkExistEvent(String heading);
+    List<Event> getFutureEvent(int role);
 
 }

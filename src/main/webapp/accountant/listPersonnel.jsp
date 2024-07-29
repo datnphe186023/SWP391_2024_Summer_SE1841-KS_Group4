@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -158,7 +159,7 @@
                                                         Nữ
                                                     </c:if>
                                                 </td>
-                                                <td>${p.getBirthday()} </td>
+                                                <td><fmt:formatDate value="${p.getBirthday()}" pattern="dd/MM/yyyy"/> </td>
                                                 <td>
                                                     <c:if test="${p.getRoleId()== 0}">
                                                         Nhân viên IT

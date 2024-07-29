@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,10 +71,10 @@
                                         <td>
                                             <c:choose>
                                                 <c:when test="${application.startDate eq application.endDate}">
-                                                    ${application.startDate}
+                                                    <fmt:formatDate value="${application.startDate}" pattern="dd/MM/yyyy"/>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${application.startDate} đến ${application.endDate}
+                                                    <fmt:formatDate value="${application.startDate}" pattern="dd/MM/yyyy"/> đến <fmt:formatDate value="${application.endDate}" pattern="dd/MM/yyyy"/>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

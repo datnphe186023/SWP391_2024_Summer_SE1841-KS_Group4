@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,7 +153,7 @@
                                                                     <tr>
                                                                         <th style="text-align: left;">Ngày sinh</th>
 
-                                                                        <td style="text-align: left;">${p.getBirthday()}</td>
+                                                                        <td style="text-align: left;"><fmt:formatDate value="${p.getBirthday()}" pattern="dd/MM/yyyy"/> </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th style="text-align: left;">Tình trạng công tác</th>
