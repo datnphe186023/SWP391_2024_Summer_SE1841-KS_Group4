@@ -23,7 +23,7 @@ public class ForgotPasswordServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        System.out.println("heelo");
         String key = request.getParameter("email");
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
